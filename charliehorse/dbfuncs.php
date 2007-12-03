@@ -1,4 +1,4 @@
-<?php
+<G?php
 
 
 function init_db( ) {    
@@ -6,6 +6,14 @@ function init_db( ) {
         or die("MySQL connect failed! error = " . mysql_error( ));
     mysql_select_db("signage_hardware")
         or die("MySQL select database failed: " . mysql_error( ));
+}
+
+function validate_mac($mac) {
+    if (preg_match('/^[0-9A-Fa-f]{12}$/', $mac)) {
+        return 1;
+    } else {
+        return 0;
+    }
 }
 
 class HardwareClass {
@@ -70,7 +78,7 @@ class HardwareClass {
         // also this will remove it from any other class
         $id = $this->id;
         # match against a regex
-        if (!preg_match("/^[0-9a-fA-F]{12}$/", $mac)) {
+        if (!validate_mac($mac)) {
             die("Error: input is not a valid MAC address");
         }
         $mac = mysql_escape_string($mac);
@@ -106,6 +114,18 @@ class HardwareClass {
             or die("query to delete class $id failed: " . mysql_error( ));
     }
 
+    public function remove_member($mac) {
+        $id = $this->id;
+        if (!validate_mac($mac)) {
+            die("invalid MAC passed to HardwareClass::remove_member");
+        }
+        $mac = mysql_escape_string($mac);
+
+        mysql_query("delete from class_map where class_id=$id and mac='$mac'")
+            or die("query to delete member $mac from class $id failed:"
+                . mysql_error( ));
+    }
+
     public function get_id( ) {
         return $this->id;
     }
@@ -113,10 +133,23 @@ class HardwareClass {
         return $this->name;
     }
 
+    public function add_override($path) {
+        
+    }
+
+    public function remove_override($path) {
+
+    }
+
+    public function edit_override($path, $new_text) {
+
+    }
+
     private $id;
     private $name;
-}
 
+
+}
 
 ?>
 

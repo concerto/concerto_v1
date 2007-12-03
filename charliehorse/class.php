@@ -22,6 +22,18 @@ function do_delete($class_obj) {
     $class_obj->remove( );
 }
 
+function do_delete_members($class_obj) {
+    if (!array_key_exists("selection", $_REQUEST)) {
+        die("go away loser (0)");
+    }
+    if (!is_array($_REQUEST["selection"])) {
+        die("go away loser (1)");
+    }
+    foreach ($_REQUEST["selection"] as $mac) {
+        $class_obj->remove_member($mac);
+    }
+}
+
 
 $class_id = $_REQUEST["class"];
 if (!is_numeric($class_id)) {
@@ -42,6 +54,9 @@ if (array_key_exists("action", $_REQUEST)) {
         case "add_member":
             do_add_mem($class_obj);
             break;
+        case "remove_members":
+            do_delete_members($class_obj);
+            break;
     }
 }
 
@@ -61,7 +76,7 @@ if (array_key_exists("action", $_REQUEST)) {
             <p>
                 Rename To: <input type="text" name="new_name" />
                 <input type="hidden" name="action" value="rename" />
-                <input type="hidden" name="class" value="<?=$class_id ?>">
+                <input type="hidden" name="class" value="<?=$class_id ?>" />
                 <input type="submit" value="Go!" />
             </p>
         </form>
@@ -72,13 +87,22 @@ if (array_key_exists("action", $_REQUEST)) {
     $members = $class_obj->get_member_list( );
     if (count($members) > 0) {
         // print table header
-        print "<table border=1><th><td>MAC Address</td></th>";
+        print '<form action="'.$_SERVER['PHP_SELF'].'" method="post">';
+        print "<table border=1>";
+        print "<tr><td><b>Select</b></td>";
+        print "<td><b>MAC Address</b></td></tr>";
         // print some entries
         foreach ($members as $mac) {
-            print "<tr><td>$mac</td></tr>";
+            print "<tr><td>";
+            print "<input type=\"checkbox\" name=\"selection[]\" value=\"$mac\" />";
+            print "</td><td>$mac</td></tr>";
         }
         // print table footer
         print "</table>";
+        print '<input type="hidden" name="class" value="'.$class_id.'" />';
+        print '<input type="hidden" name="action" value="remove_members" />';
+        print '<input type="submit" value="Remove Members" />';
+        print "</form>";
     } else {
         print "<p>No Members</p>";
     }
