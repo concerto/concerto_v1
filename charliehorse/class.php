@@ -24,14 +24,28 @@ function do_delete($class_obj) {
 
 function do_delete_members($class_obj) {
     if (!array_key_exists("selection", $_REQUEST)) {
-        die("go away loser (0)");
+        die("go away loser");
     }
     if (!is_array($_REQUEST["selection"])) {
-        die("go away loser (1)");
+        die("go away loser");
     }
     foreach ($_REQUEST["selection"] as $mac) {
         $class_obj->remove_member($mac);
     }
+}
+
+function do_delete_override($class_obj) {
+    if (!array_key_exists("path", $_REQUEST)) {
+        die("go away loser");
+    }
+    $class_obj->remove_override($_REQUEST["path"]);
+}
+
+function do_create_override($class_obj) {
+    if (!array_key_exists("path", $_REQUEST)) {
+        die("go away loser");
+    }
+    $class_obj->add_override($_REQUEST["path"]);
 }
 
 
@@ -56,6 +70,12 @@ if (array_key_exists("action", $_REQUEST)) {
             break;
         case "remove_members":
             do_delete_members($class_obj);
+            break;
+        case "delete_over":
+            do_delete_override($class_obj);
+            break;
+        case "create_over":
+            do_create_override($class_obj);
             break;
     }
 }
@@ -116,6 +136,35 @@ if (array_key_exists("action", $_REQUEST)) {
                 <input type="submit" value="Add Member!" />
         </p>
         </form>
+        <hr />
+        <h2>Configuration Overrides</h2>
+<?php
+    $overrides = $class_obj->list_overrides( );
+    //$overrides = array("/etc/X11/xorg.conf", "/etc/resolv.conf");
+    if (count($overrides) > 0) {
+        foreach ($overrides as $path) {
+            $pathhtml = htmlspecialchars($path);
+            $pathurl = urlencode($path);
+            print "<p>$path: ";
+            print "<a href=\"override.php?class=" . $class_obj->get_id( ) 
+                . "&path=" . $pathurl . "&action=edit\">Edit</a> | ";
+            print "<a href=\"class.php?class=" . $class_obj->get_id( ) 
+                . "&path=" . $pathurl . "&action=delete_over\">Delete</a>";
+            print "</p>";
+        }
+    } else {
+        print "<p>No Overrides</p>";
+    }
+?>
+    <form action="class.php" method="post">
+    <p>
+        Create New Override for file: <input type="text" name="path" />
+        <input type="hidden" name="class" 
+            value="<?php print $class_obj->get_id( ); ?>" />
+        <input type="hidden" name="action" value="create_over" />
+        <input type="submit" value="Go!" />
+    </p>
+    </form>
     </body>
 </html>
 
