@@ -37,10 +37,10 @@ sub install_config {
     my $file_data = shift;
     my $target = shift;
     my $outfile;
-    #unless (open $outfile, ">", $target) {
-    #    print "warning: failed to write config to $target\n";
-    #    return;
-    #}
+    unless (open $outfile, ">", $target) {
+        print "warning: failed to write config to $target\n";
+        return;
+    }
 
     #print $outfile $file_data;
     #close $outfile;
