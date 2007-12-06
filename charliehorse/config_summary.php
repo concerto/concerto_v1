@@ -21,6 +21,10 @@ if (!array_key_exists("mac", $_REQUEST)) {
 
 $mac = $_REQUEST["mac"];
 
+if (($mac = validate_mac($mac)) === 0) {
+    die("invalid MAC address");
+}
+
 if (($class = HardwareClass::find_from_mac($mac)) == 0) {
     print "system_mac:$mac\n";
     print "system_unregistered\n";

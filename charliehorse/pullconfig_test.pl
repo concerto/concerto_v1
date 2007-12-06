@@ -16,7 +16,7 @@ sub get_summary {
 
 sub load_key {
     local $/ = undef;
-    open my $keyfile, "<", "ds-dev-public.key"
+    open my $keyfile, "<", "ds-public.key"
         or die("failed to open public key for signature verification");
 
     my $keystr = <$keyfile>;
