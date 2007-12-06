@@ -78,9 +78,9 @@ function list_content($stype, $id = 0){
 	echo '<table class="edit_win" cellpadding="6" cellspacing="0">';
 	while ($row = mysql_fetch_assoc($res)){
      if($row['is_live']){
-       $stat = $_SERVER['DOCUMENT.ROOT'] . "/admin_beta/images/sign_live.gif";  // for live case
+       $stat = $admin_url.'/images/sign_live.gif';  // for live case
      } else{
-       $stat = $_SERVER['DOCUMENT.ROOT'] . "/admin_beta/images/sign_notlive.gif";  // for Not Live case
+       $stat = $admin_url . '/images/sign_notlive.gif';  // for Not Live case
      }
      echo '<tr>';
      echo "<td><a href=\"index.php?edit_id=" . $row['id'] . "\" >" . preview($row['id'] , "../upload/") . "</a></td>";

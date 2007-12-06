@@ -1,6 +1,6 @@
 <? include("../includes/pageheader.php"); ?>
-<link rel="stylesheet" type="text/css" href="<?php $_SERVER['DOCUMENT.ROOT'] ?>/admin_beta/ajaxtabs/ajaxtabs.css" />
-<script type="text/javascript" src="<?php #_SERVER['DOCUMENT.ROOT'] ?>/admin_beta/ajaxtabs/ajaxtabs.js"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo $admin_url ?>/ajaxtabs/ajaxtabs.css" />
+<script type="text/javascript" src="<?php echo $admin_url ?>/ajaxtabs/ajaxtabs.js"></script>
 </head>
 <body>
   <div id="header">
