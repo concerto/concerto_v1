@@ -12,8 +12,6 @@
   </div>
   <div id="maincontent">
     <img src="images/ds_welcome.png" alt="" />
-    <? //processAction();
-    //processBodyAction(); ?>
   </div>
 
   <!-- BEGIN Sidebar -->
