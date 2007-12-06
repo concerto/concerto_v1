@@ -1,11 +1,11 @@
-package Configurator;
+package RPIDS::Configurator;
 
 use strict;
 use warnings;
 
 require Exporter;
 
-use MACFinder;
+use RPIDS::MACFinder;
 use LWP::Simple( ); # don't import anything
 use Crypt::OpenSSL::RSA; # for signature verification
 use MIME::Base64;
@@ -21,7 +21,7 @@ sub get_summary {
 
 sub load_key {
     local $/ = undef;
-    open my $keyfile, "<", "ds-dev-public.key"
+    open my $keyfile, "<", "/ds-public.key"
         or die("failed to open public key for signature verification");
 
     my $keystr = <$keyfile>;
@@ -37,13 +37,13 @@ sub install_config {
     my $file_data = shift;
     my $target = shift;
     my $outfile;
-    unless (open $outfile, ">", $target) {
-        print "warning: failed to write config to $target\n";
-        return;
-    }
+    #unless (open $outfile, ">", $target) {
+    #    print "warning: failed to write config to $target\n";
+    #    return;
+    #}
 
-    print $outfile $file_data;
-    close $outfile;
+    #print $outfile $file_data;
+    #close $outfile;
 }
 
 sub find_configs {

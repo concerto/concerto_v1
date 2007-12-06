@@ -1,4 +1,4 @@
-package MACFinder;
+package RPIDS::MACFinder;
 
 use strict;
 use warnings;
