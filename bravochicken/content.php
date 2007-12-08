@@ -1,14 +1,16 @@
 <?php
 session_start();
 
-$_SESSION['count']=(int)rand()*3;
-
-if($_SESSION['count']%3==0)
+if($_GET['id']==1) {
 	$var['content']="Ballz";
-elseif($_SESSION['count']%3==1)
+	$var['mime-type']="text/plain";
+} elseif($_GET['id']==2) {
 	$var['content']="Titties";
-else
-	$var['content']="Saggy Titties";
+	$var['mime-type']="text/plain";
+} else {
+	$var['content']="images/turkey.jpg";
+	$var['mime-type']="image/jpeg";
+}
 	
 $var['duration']=3000;
 	
