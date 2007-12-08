@@ -5,33 +5,69 @@
 <title>Digital Signage</title>
 <script src="jquery.js" type="text/javascript"></script>
 <script type="text/javascript"><!--
+//Set MAC Address to 1 for testing purposes
 var mac = 1;
 
+//When DOM is ready start executing Javascript
 $(document).ready(init);
 
 function init(){
-	$.getJSON("fields.php", {'mac': mac}, function(json) {
-		var screen = json['screen'];
-		$.each(json['fields'], get);
-	});
+
+	//AJAX JSON Request to get information about this screen
+	$.ajax({type: "GET",
+			url: "fields.php",
+			data: {"mac": mac},
+			success: function(json){
+					//for each field, start a new load function
+					$.each(json["fields"], function(id, field){
+						load(json["screen"], id, field);
+					});
+				},
+			error: function(){
+				//try again in 1 second
+				setTimeout(init, 1000);
+			},
+			dataType: "json"
+		});
 }
 
-function get(i, n, prevdiv){
-	var div = $("<div style='position: absolute; z-index: 1'></div>");
-	$.getJSON('content.php', {'id': i}, function(json) {
-		if(prevdiv != undefined) prevdiv.fadeOut('slow', function(){$(this).remove();});
-		if(json['mime-type'].match(/text/)) {
-			div.append(json['content']);
-		} else if(json['mime-type'].match(/image/)) {
-			$('<img>').attr('src', json['content']).attr('alt','').appendTo(div);
-		} else {
-			div.append("Unknown MIME Type");
-		}
-		div.hide()
-			.appendTo($(n + ':first'))
-			.fadeIn('slow')
-			.animate({opacity: 1.0}, json['duration'], function(){/*get(i , n, div);*/});
-	});
+function load(screen, id, field, prevdiv){
+	$.ajax({type: "GET",
+			url: "content.php",
+			data: {"screen": screen, "id": id},
+			success: function(json){
+				//if there a previous div, we need to fade it out
+				if(prevdiv != undefined)
+					prevdiv.fadeOut("slow", function(){$(this).remove();});
+					
+				//create the absolute position div
+				var div = $("<div style='position: absolute;'></div>");
+				
+				//based on the mime-type of the content, handle it accordingly
+				if(json["mime-type"].match(/text/)) {
+					div.append(json["content"]);
+				} else if(json["mime-type"].match(/image/)) {
+					$("<img>").attr("src", json["content"]).attr("alt","").appendTo(div);
+				} else {
+					div.append("Unknown MIME Type");
+				}
+				
+				//hides the div, adds it to the DOM, fades in and recursively calls load function
+				div.hide()
+					.appendTo($(field + ":first"))
+					.fadeIn("slow")
+					.animate({opacity: 1.0}, json["duration"], function(){
+						load(screen, id , field, div);
+					});
+			},
+			error: function(){
+				//try again in 1 second
+				setTimeout(function(){
+						load(screen, id , field, prevdiv);
+					}, 1000);
+			},
+			dataType: "json"
+		});
 }
 
 //--></script>
