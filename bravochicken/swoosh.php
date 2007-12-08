@@ -10,25 +10,23 @@ var mac = 1;
 $(document).ready(init);
 
 function init(){
-	$.getJSON("fields.php", function(json) {
+	$.getJSON("fields.php", {'mac': mac}, function(json) {
 		var screen = json['screen'];
 		$.each(json['fields'], get);
 	});
 }
 
-function get(i, n){
+function get(i, n, prevdiv){
 	var div = $("<div style='position: absolute; z-index: 1'></div>");
-	$.getJSON("content.php", {id: i}, function(json) {
-		div.append(json['content']);
-		$(n+":first div:first").click();
-		div.hide()
-			.appendTo($(n+":first"))
+	$.getJSON('content.php', {'id': i}, function(json) {
+		if(prevdiv != undefined) prevdiv.trigger('disappear');
+		div.append(json['content'])
+			.hide()
+			.appendTo($(n + ':first'))
 			.fadeIn('slow')
-			.animate({opacity: 1.0}, json['duration'], function() { get(i , n)})
-			.click(function(){
-				$(this).fadeOut('slow', function() {
-					$(this).remove();
-				});
+			.animate({opacity: 1.0}, json['duration'], function(){get(i , n, div);})
+			.bind('disappear', function(){
+				$(this).fadeOut('slow', function(){$(this).remove();});
 			});
 	});
 }
