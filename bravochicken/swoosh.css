@@ -1,0 +1,29 @@
+/* 
+   DS Bravochicken alpha CSS
+   br|z|
+ */
+
+body { margin:0; padding:0; }
+#wrap { background:#FFF url(images/bg_banner.png) top center repeat-x; color:#000; font-family:Calibri, Arial, sans-serif; font-size:small; height:900px; min-width:880px; text-align:left; }
+#top_frame { border-top:solid 10px #000033; width:100%; }
+#datetime { background:#000033; float:left; height:117px; width:40%; }
+#datetime_padding { background:#000033; padding:0 0 0 10px; }
+#datetime_left { background:#000033; float:left; width:25%; }
+#datetime_left_padding { background:#000033; padding:0 12% 0 12%; }
+#datetime_right { float:right; font-size:1.7em; width:75%; }
+#datetime_right_padding { padding:0 0 0 8%; }
+
+#ticker { background:#336699 url(images/swoosh_top.gif) center left no-repeat; float:right; height:117px; width:60%; }
+#ticker_padding { padding:0px 25px 0px 240px; }
+#ticker h1 { vertical-align:middle; }
+
+#outer { height:100px; overflow: hidden; }
+#outer[id] { display: table; position: static; }
+#middle[id] { display: table-cell; vertical-align: middle; position: static; }
+
+#swoosh_bottom { background:#000033 url(images/swoosh_bottom.gif) center right no-repeat; float:left; height:20px; width:40%; }
+#mainpane { background:url(images/mp_bg.gif) bottom left no-repeat; clear:both; width:100%; height:50%; }
+#mainpane_padding { padding:35px 25px 35px 35px; height:100%; }
+#tp1_cal { float:left; width:38%; }
+#tp1_cal_padding { padding-right:10%; }
+#tp1_graphic { background:gray; border:solid 5px #cccccc; float:right; width:61%; height:100%; }

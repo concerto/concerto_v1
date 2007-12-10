@@ -8,11 +8,11 @@ if($_GET['id']==1) {
 	$var['content']="Titties";
 	$var['mime-type']="text/plain";
 } else {
-	$var['content']="images/turkey.jpg";
+	$var['content']="images/verynice.jpg";
 	$var['mime-type']="image/jpeg";
 }
 	
-$var['duration']=3000;
+$var['duration']=5000;
 	
 echo json_encode($var);
 ?>
