@@ -3,93 +3,116 @@ jQuery.fn.extend({
 		//if there a previous div, we need to fade it out
 		if(prevdiv != undefined)
 			prevdiv.fadeOut("slow", function(){$(this).remove();});
-
-		//hides the div, adds it to the DOM, fades in and recursively calls load function
-		return $(this).fadeIn("slow").animate({opacity: 1.0}, duration/*, callback*/);
+		//fades the new div in waits the duration and calls the callback function
+		$(this).fadeIn("slow");
+		setTimeout(callback, duration);
+		return $(this);
 	},
 	
 	fitBox: function(){
+		//make sure the this div is absolute and the parent is block
 		if($(this).css("position") != "absolute" || $(this).parent().css("display") != "block") return;
+		//get current font size
 		var size = $(this).css("font-size").replace("px","");
-		while($(this).height() < $(this).parent().height() && size < 50) {
+		//if the div is smaller than the parent, then increase font size
+		while($(this).height() < $(this).parent().height() && size++ < 50) {
 			$(this).css("font-size", ++size);
 		}
-		while($(this).height() > $(this).parent().height() && size > 5) {
+		//if the div is bigger than the parent, then decrease font size
+		while($(this).height() > $(this).parent().height() && size-- > 5) {
 			$(this).css("font-size", --size);
 		}
+		//return current div
 		return $(this);
 	},
 });
 
-function init(height, mac){
-	$("#container").height(height);
-	//AJAX JSON Request to get information about this screen
+function init(mac){
+	//ajax json request to get information about this screen
 	$.ajax({type: "GET",
-			url: "fields.php",
+			url: "content.php",
 			data: {"mac": mac},
 			success: function(json){
-					//for each field, start a new load function
-					$.each(json["fields"], function(id, field){
-						load(json["screen"], id, field);
-					});
-				},
+				//set the main container to a specific height
+				if(json["height"] != undefined) $("#container").height(json["height"]);
+				//for each field, start a new load function
+				$.each(json["fields"], function(id, field){
+					load(json["screen"], id, field);
+				});
+			},
 			error: function(){
 				//try again in 1 second
-				setTimeout(init, 1000);
+				setTimeout(function(){
+					init(height, mac);
+				}, 1000);
 			},
 			dataType: "json"
 	});
 }
 
-function load(screen, id, field, prevdiv){
+function load(screenId, fieldId, field, prevdiv){
+	//ajax json request to get each field's content
 	$.ajax({type: "GET",
 			url: "content.php",
-			data: {"screen": screen, "id": id},
+			data: {"screen_id": screenId, "field_id": fieldId},
 			success: function(json){
-				//create the absolute position div
+				//if(
+				//create the absolute position div, hides it, and adds it to the DOM
 				var div = $("<div>").css({"position": "absolute", "overflow": "hidden"}).hide().appendTo($(field + ":first"));
-				
 				//based on the mime-type of the content, handle it accordingly
-				if(json["mime-type"].match(/text/)) {
+				if(json["mime_type"].match(/text/)) {
+					//add the content, fit the content in the Box, and fade it in
 					div.append(json["content"]).fitBox().fadeGlobal(json["duration"], prevdiv, function(){
-						load(screen, id, field, div);
+						load(screenId, fieldId, field, div);
 					});
-				} else if(json["mime-type"].match(/image/)) {
+				} else if(json["mime_type"].match(/image/)) {
+					//load the image to cache
 					var img = new Image();
 					img.src = json["content"];
+					//wait for it to load
 					img.onload = function(){
+						//create the image tag and add it to the DOM
 						var imgTag = $("<img>").attr({"src": json["content"],
 													  "alt": ""
 						}).appendTo(div);
+						//set the created div to parent's dimensions
 						div.height(div.parent().height()).width(div.parent().width());
+						//get the ratio of width to height
 						var ratio = img.width / img.height;
+						//if height is larger
 						if(ratio < 1)
+							//set height to driving dimension
 							imgTag.css({"position": "relative",
 									    "height": div.height(),
 									    "left": (div.width() - div.height() * ratio) / 2
 							});
+						//if width is larger
 						else
+							//set width to driving dimension
 							imgTag.css({"position": "relative",
 									    "width": div.width(),
 									    "top": (div.height() - div.width() / ratio) / 2
 							});
+						//fade in the div
 						div.fadeGlobal(json["duration"], prevdiv, function(){
-							load(screen, id, field, div);
+							load(screenId, fieldId, field, div);
 						});
 					};
+					//if error then try again with another image
 					img.error = function(){
-						load(screen, id, field);
+						load(screenId, fieldId, field);
 					}
 				} else {
+					//unknown MIME type
 					div.append("Unknown MIME Type").fadeGlobal(json["duration"], prevdiv, function(){
-						load(screen, id, field, div);
+						load(screenId, fieldId, field, div);
 					});
 				}
 			},
 			error: function(){
 				//try again in 1 second
 				setTimeout(function(){
-					load(screen, id , field, prevdiv);
+					load(screenId, fieldId , field, prevdiv);
 				}, 1000);
 			},
 			dataType: "json"

@@ -21,8 +21,8 @@ $(document).ready(function(){init(900, 1)});//--></script>
 				</div>
 				<div id="datetime_right">
 					<div id="datetime_right_padding">
-						<h1><?= date('l m\/d') ?></h1>
-						<h2><?= date('h:i A') ?></h2>
+						<h1>Tuesday</h1>
+						<h2>Late</h2>
 					</div>
 				</div>
 			</div>
