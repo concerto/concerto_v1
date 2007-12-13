@@ -10,8 +10,8 @@ jQuery.fn.extend({
 	},
 	
 	fitBox: function(){
-		//make sure the this div is absolute and the parent is block
-		if($(this).css("position") != "absolute" || $(this).parent().css("display") != "block") return;
+		//make sure the this div is absolute and the parent is block and relative
+		if($(this).css("position") != "absolute" || $(this).parent().css("position") != "relative" || $(this).parent().css("display") != "block") return;
 		//get current font size
 		var size = $(this).css("font-size").replace("px","");
 		//if the div is smaller than the parent, then increase font size
@@ -22,6 +22,8 @@ jQuery.fn.extend({
 		while($(this).height() > $(this).parent().height() && size-- > 5) {
 			$(this).css("font-size", --size);
 		}
+		//center the div
+		$(this).css("top", ($(this).parent().height() - $(this).height()) / 2);
 		//return current div
 		return $(this);
 	},
@@ -46,6 +48,7 @@ function init(mac){
 					init(height, mac);
 				}, 1000);
 			},
+			timeout: 5000,
 			dataType: "json"
 	});
 }
@@ -56,7 +59,6 @@ function load(screenId, fieldId, field, prevdiv){
 			url: "content.php",
 			data: {"screen_id": screenId, "field_id": fieldId},
 			success: function(json){
-				//if(
 				//create the absolute position div, hides it, and adds it to the DOM
 				var div = $("<div>").css({"position": "absolute", "overflow": "hidden"}).hide().appendTo($(field + ":first"));
 				//based on the mime-type of the content, handle it accordingly
@@ -115,6 +117,7 @@ function load(screenId, fieldId, field, prevdiv){
 					load(screenId, fieldId , field, prevdiv);
 				}, 1000);
 			},
+			timeout: 5000,
 			dataType: "json"
 	});
 }

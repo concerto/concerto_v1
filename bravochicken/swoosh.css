@@ -84,6 +84,7 @@ body {
 }
 
 #ticker_padding {
+	position : relative;
 	display : block;
 	height : 100%;
 }
