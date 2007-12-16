@@ -10,7 +10,7 @@ if(isset($_GET['mac'])) {
 		$i = 0;
 		while($row = sql_row($res,$i++)){
 			$json['screen'] = $row[0];
-			$json['height'] = $row[1];
+			$json['height'] = 1500;//$row[1];
 			$json['template'] = $row[2];
 			$json['stylesheet'] = $row[3];
 			$json['fields'][$row[4]] = $row[5];

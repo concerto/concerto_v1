@@ -3,24 +3,31 @@ jQuery.fn.extend({
 		//if there a previous div, we need to fade it out
 		if(prevdiv != undefined)
 			prevdiv.fadeOut("slow", function(){$(this).remove();});
+			//prevdiv.remove();
 		//fades the new div in waits the duration and calls the callback function
-		$(this).fadeIn("slow");
-		setTimeout(callback, duration);
+		$(this).fadeIn("slow", function() {
+			//setTimeout(callback, duration);
+		});
 		return $(this);
 	},
 	
 	fitBox: function(){
 		//make sure the this div is absolute and the parent is block and relative
 		if($(this).css("position") != "absolute" || $(this).parent().css("position") != "relative" || $(this).parent().css("display") != "block") return;
-		//get current font size
-		var size = $(this).css("font-size").replace("px","");
-		//if the div is smaller than the parent, then increase font size
-		while($(this).height() < $(this).parent().height() && size++ < 50) {
-			$(this).css("font-size", ++size);
-		}
-		//if the div is bigger than the parent, then decrease font size
-		while($(this).height() > $(this).parent().height() && size-- > 5) {
-			$(this).css("font-size", --size);
+		//define high and low bound for the font sizing
+		var high = 50;
+		var low = 5;
+		//while the difference is larger than a constant pixelage
+		while(high - low > 3) {
+			//find the middle point of the font size
+			var middle = parseInt((high + low) / 2)
+			$(this).css("font-size", middle);
+			//if the DOM is still too big then set the middle point as the high bound
+			if($(this).height() > $(this).parent().height())
+				high = middle;
+			//otherwise the low bound
+			else
+				low = middle;
 		}
 		//center the div
 		$(this).css("top", ($(this).parent().height() - $(this).height()) / 2);
