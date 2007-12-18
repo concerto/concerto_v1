@@ -20,7 +20,7 @@ jQuery.fn.extend({
 		//while the difference is larger than a constant pixelage
 		while(high - low > 3) {
 			//find the middle point of the font size
-			var middle = parseInt((high + low) / 2)
+			var middle = parseInt((high + low) / 2);
 			$(this).css("font-size", middle);
 			//if the DOM is still too big then set the middle point as the high bound
 			if($(this).height() > $(this).parent().height())
@@ -77,8 +77,7 @@ function load(screenId, fieldId, field, prevdiv){
 				} else if(json["mime_type"].match(/image/)) {
 					//load the image to cache
 					var img = new Image();
-					img.src = json["content"];
-					//wait for it to load
+					//set onload event handler
 					img.onload = function(){
 						//create the image tag and add it to the DOM
 						var imgTag = $("<img>").attr({"src": json["content"],
@@ -109,8 +108,10 @@ function load(screenId, fieldId, field, prevdiv){
 					};
 					//if error then try again with another image
 					img.error = function(){
-						load(screenId, fieldId, field);
+						div.remove();
+						load(screenId, fieldId, field, prevdiv);
 					}
+					img.src = json["content"];
 				} else {
 					//unknown MIME type
 					div.append("Unknown MIME Type").fadeGlobal(json["duration"], prevdiv, function(){
