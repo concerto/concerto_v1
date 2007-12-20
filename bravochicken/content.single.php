@@ -4,15 +4,15 @@ session_start();
 include("mysql.inc");
 
 if(isset($_GET['mac'])) {
- 	$sql = "SELECT s.id, s.vertical, t.filename, t.stylesheet, f.id, f.tag FROM screen s LEFT JOIN template t ON s.template_id = t.id LEFT JOIN field f ON f.template_id = t.id WHERE s.mac_address = {$_GET['mac']} GROUP BY f.id;";
+ 	$sql = "SELECT s.id, t.filename, t.stylesheet, s.vertical FROM screen s LEFT JOIN template t ON s.template_id = t.id LEFT JOIN field f ON f.template_id = t.id WHERE s.mac_address = {$_GET['mac']} GROUP BY f.id;";
 	$res = sql_query($sql);
 	if($res) {
 		$i = 0;
 		while($row = sql_row($res,$i++)){
 			$json['screen'] = $row[0];
-			$json['height'] = $row[1];
-			$json['template'] = $row[2];
-			$json['stylesheet'] = $row[3];
+			$json['template'] = $row[1];
+			$json['attr']['stylesheet'] = $row[2];
+			$json['attr']['height'] = $row[3];
 		}
 	}
 } elseif(isset($_GET['screen_id'])) {

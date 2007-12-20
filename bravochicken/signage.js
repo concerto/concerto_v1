@@ -1,12 +1,13 @@
 jQuery.fn.extend({
-	fadeGlobal: function(duration, prevdiv, callback){
-		//if there a previous div, we need to fade it out
-		if(prevdiv != undefined)
-			prevdiv.fadeOut("slow", function(){$(this).remove();});
-			//prevdiv.remove();
+	fadeGlobal: function(duration, callback){
+		$(this).siblings().each(function(){
+			$(this).fadeOut("slow", function(){
+				$(this).remove();
+			});
+		});
 		//fades the new div in waits the duration and calls the callback function
-		$(this).fadeIn("slow", function() {
-			//setTimeout(callback, duration);
+		$(this).fadeIn("slow", function(){
+			setTimeout(callback, duration);
 		});
 		return $(this);
 	},
@@ -18,7 +19,7 @@ jQuery.fn.extend({
 		var high = 50;
 		var low = 5;
 		//while the difference is larger than a constant pixelage
-		while(high - low > 3) {
+		while(high - low > 3){
 			//find the middle point of the font size
 			var middle = parseInt((high + low) / 2);
 			$(this).css("font-size", middle);
@@ -42,17 +43,12 @@ function init(mac){
 			url: "content.php",
 			data: {"mac": mac},
 			success: function(json){
-				//set the main container to a specific height
-				if(json["height"] != undefined) $("#container").height(json["height"]);
-				//for each field, start a new load function
-				$.each(json["fields"], function(id, field){
-					load(json["screen"], id, field);
-				});
+				load(json["screen"], json["template"], json["attr"], json["fields"]);
 			},
 			error: function(){
 				//try again in 1 second
 				setTimeout(function(){
-					init(height, mac);
+					init(mac);
 				}, 1000);
 			},
 			timeout: 5000,
@@ -60,7 +56,39 @@ function init(mac){
 	});
 }
 
-function load(screenId, fieldId, field, prevdiv){
+function load(screenId, template, attr, fields){
+	if(attr != undefined){
+		if(attr["height"] != undefined)
+			$("#container").height(attr["height"]);
+		if(attr["stylesheet"] != undefined){
+			$("head link").remove();
+			$("head").append($("<link>").attr({"href": attr["stylesheet"],
+												"media": "all",
+												"rel": "stylesheet",
+												"type": "text/css"}));
+		}
+	}
+	$.ajax({type: "GET",
+			url: template,
+			success: function(html){
+				$("#container").html(html);
+				$.each(fields, function(id, field){
+					fetch(screenId, id, field);
+				});
+			},
+			error: function(){
+				//try again in 1 second
+				setTimeout(function(){
+					load(screenId, template, attr, fields);
+				}, 1000);
+			},
+			cache: false,
+			timeout: 5000,
+			dataType: "html"
+	});
+}
+
+function fetch(screenId, fieldId, field){
 	//ajax json request to get each field's content
 	$.ajax({type: "GET",
 			url: "content.php",
@@ -69,12 +97,12 @@ function load(screenId, fieldId, field, prevdiv){
 				//create the absolute position div, hides it, and adds it to the DOM
 				var div = $("<div>").css({"position": "absolute", "overflow": "hidden"}).hide().appendTo($(field + ":first"));
 				//based on the mime-type of the content, handle it accordingly
-				if(json["mime_type"].match(/text/)) {
+				if(json["mime_type"].match(/text/)){
 					//add the content, fit the content in the Box, and fade it in
-					div.append(json["content"]).fitBox().fadeGlobal(json["duration"], prevdiv, function(){
-						load(screenId, fieldId, field, div);
+					div.append(json["content"]).fitBox().fadeGlobal(json["duration"], function(){
+						fetch(screenId, fieldId, field);
 					});
-				} else if(json["mime_type"].match(/image/)) {
+				} else if(json["mime_type"].match(/image/)){
 					//load the image to cache
 					var img = new Image();
 					//set onload event handler
@@ -102,27 +130,27 @@ function load(screenId, fieldId, field, prevdiv){
 									    "top": (div.height() - div.width() / ratio) / 2
 							});
 						//fade in the div
-						div.fadeGlobal(json["duration"], prevdiv, function(){
-							load(screenId, fieldId, field, div);
+						div.fadeGlobal(json["duration"], function(){
+							fetch(screenId, fieldId, field, div);
 						});
 					};
 					//if error then try again with another image
 					img.error = function(){
 						div.remove();
-						load(screenId, fieldId, field, prevdiv);
+						fetch(screenId, fieldId, field);
 					}
 					img.src = json["content"];
 				} else {
 					//unknown MIME type
-					div.append("Unknown MIME Type").fadeGlobal(json["duration"], prevdiv, function(){
-						load(screenId, fieldId, field, div);
+					div.append("Unknown MIME Type").fadeGlobal(json["duration"], function(){
+						fetch(screenId, fieldId, field);
 					});
 				}
 			},
 			error: function(){
 				//try again in 1 second
 				setTimeout(function(){
-					load(screenId, fieldId , field, prevdiv);
+					fetch(screenId, fieldId , field);
 				}, 1000);
 			},
 			timeout: 5000,

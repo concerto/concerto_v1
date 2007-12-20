@@ -7,7 +7,7 @@
 <script src="jquery.js" type="text/javascript"></script>
 <script src="signage.js" type="text/javascript"></script>
 <script type="text/javascript"><!--
-$(document).ready(function(){init(900, 1)});//--></script>
+$(document).ready(function(){init(1)});//--></script>
 </head>
 <body>
 <div id="container">

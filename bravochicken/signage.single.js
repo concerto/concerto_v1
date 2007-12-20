@@ -15,7 +15,7 @@ jQuery.fn.extend({
 		var high = 50;
 		var low = 5;
 		//while the difference is larger than a constant pixelage
-		while(high - low > 3) {
+		while(high - low > 3){
 			//find the middle point of the font size
 			var middle = parseInt((high + low) / 2);
 			$(this).css("font-size", middle);
@@ -39,14 +39,12 @@ function init(mac){
 			url: "content.single.php",
 			data: {"mac": mac},
 			success: function(json){
-				//set the main container to a specific height
-				if(json["height"] != undefined) $("#container").height(json["height"]);
-				load(json["screen"]);
+				load(json["screen"], json["template"], json["attr"]);
 			},
 			error: function(){
 				//try again in 1 second
 				setTimeout(function(){
-					init(height, mac);
+					init(mac);
 				}, 1000);
 			},
 			timeout: 5000,
@@ -54,21 +52,51 @@ function init(mac){
 	});
 }
 
-function load(screenId){
+function load(screenId, template, attr){
+	if(attr != undefined){
+		if(attr["height"] != undefined)
+			$("#container").height(attr["height"]);
+		if(attr["stylesheet"] != undefined){
+			$("head link").remove();
+			$("head").append($("<link>").attr({"href": attr["stylesheet"],
+												"media": "all",
+												"rel": "stylesheet",
+												"type": "text/css"}));
+		}
+	}
+	$.ajax({type: "GET",
+			url: template,
+			success: function(html){
+				$("#container").html(html);
+				fetch(screenId);
+			},
+			error: function(){
+				//try again in 1 second
+				setTimeout(function(){
+					load(screenId, template, attr);
+				}, 1000);
+			},
+			cache: false,
+			timeout: 5000,
+			dataType: "html"
+	});
+}
+
+function fetch(screenId){
 	//ajax json request to get each field's content
 	$.ajax({type: "GET",
 			url: "content.single.php",
 			data: {"screen_id": screenId},
 			success: function(json){
-				if(json != null) {
+				if(json != null){
 					$.each(json, function(field, data){
 						//create the absolute position div, hides it, and adds it to the DOM
 						var div = $("<div>").css({"position": "absolute", "overflow": "hidden"}).hide().appendTo($(field + ":last"));
 						//based on the mime-type of the content, handle it accordingly
-						if(data["mime_type"].match(/text/)) {
+						if(data["mime_type"].match(/text/)){
 							//add the content, fit the content in the Box, and fade it in
 							div.append(data["content"]).fitBox().fadeGlobal();
-						} else if(data["mime_type"].match(/image/)) {
+						} else if(data["mime_type"].match(/image/)){
 							//load the image to cache
 							var img = new Image();
 							img.src = data["content"];
@@ -109,18 +137,12 @@ function load(screenId){
 						}
 					});
 				}
-				setTimeout(function(){
-					//load(screenId);
-				}, 1000);
-			},
-			error: function(){
-				//try again in 1 second
-				setTimeout(function(){
-					load(screenId);
-				}, 1000);
 			},
 			timeout: 5000,
 			dataType: "json"
 	});
+	setTimeout(function(){
+		fetch(screenId);
+	}, 1000);
 }
 
