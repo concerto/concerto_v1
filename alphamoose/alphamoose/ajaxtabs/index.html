@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Dynamic Drive DHTML Scripts- Ajax Tabs Content script</title>
+<link rel="stylesheet" type="text/css" href="ajaxtabs.css" />
+
+<script type="text/javascript" src="ajaxtabs.js">
+
+/***********************************************
+* Ajax Tabs Content script- © Dynamic Drive DHTML code library (www.dynamicdrive.com)
+* This notice MUST stay intact for legal use
+* Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
+***********************************************/
+
+</script>
+</head>
+
+<body>
+
+<p><b>Documentation:</b> <a href="http://www.dynamicdrive.com/dynamicindex17/ajaxtabscontent/">http://www.dynamicdrive.com/dynamicindex17/ajaxtabscontent/</a></p>
+
+<br />
+
+<ul id="maintab" class="shadetabs">
+<li class="selected"><a href="#default" rel="ajaxcontentarea">Intro</a></li>
+<li><a href="ext1.html" rel="ajaxcontentarea">Bird</a></li>
+<li><a href="ext2.html" rel="ajaxcontentarea">Dog</a></li>
+<li><a href="ext3.html" rel="ajaxcontentarea">Cat</a></li>
+<li><a href="ext4.html" rel="ajaxcontentarea">Sea Otter</a></li>
+</ul>
+
+<div id="ajaxcontentarea" class="contentstyle">
+<p>This is some default tab content, embedded directly inside this space and not via Ajax. It can be shown when no tabs are automatically selected, or associated with a certain tab, in this case, the first tab.</p>
+
+<p><b><a href="javascript: expandtab('maintab', 2)">Select 3rd tab of "maintab"</a></b></p>
+</div>
+
+<script type="text/javascript">
+//Start Ajax tabs script for UL with id="maintab" Separate multiple ids each with a comma.
+startajaxtabs("maintab")
+</script>
+
+</body>
+
+</html>
