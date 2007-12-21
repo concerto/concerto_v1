@@ -1,6 +1,4 @@
 <?
-//this should update all clinet-side links + includes
-$admin_url = "http://ds.rpitv.org/mike_admin";
 include_once("/var/www/ds/config/config.php"); 
 include_once("/var/www/ds/login.php");
 include_once("/var/www/ds/data.php");
@@ -14,14 +12,14 @@ include_once("/var/www/ds/upload/upload.php");
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <title>DS Admin v2.0 - <? actiontitle(); ?></title>
-<link rel="stylesheet" type="text/css" href="<?php echo $admin_url ?>/css/admin_new.css" />
-<link rel="stylesheet" type="text/css" href="<?php echo $admin_url ?>/css/menu_tabs.css" />
+<link rel="stylesheet" type="text/css" href="<?php $_SERVER['DOCUMENT.ROOT'] ?>/admin_beta/css/admin_new.css" />
+<link rel="stylesheet" type="text/css" href="<?php $_SERVER['DOCUMENT.ROOT'] ?>/admin_beta/css/menu_tabs.css" />
 
 <!--[if lt IE 7.]>
-<script defer type="text/javascript" src="<?php echo $admin_url ?>/includes/pngfix.js"></script>
+<script defer type="text/javascript" src="<?php $_SERVER['DOCUMENT.ROOT'] ?>/admin_beta/includes/pngfix.js"></script>
 <![endif]-->
 
-<script type="text/javascript" src="<?php echo $admin_url ?>/niftycube.js"></script>
+<script type="text/javascript" src="http://signage.union.rpi.edu/admin_beta/niftycube.js"></script>
 <script type="text/javascript">
 window.onload=function(){
 Nifty("div.logo_box", "bottom");

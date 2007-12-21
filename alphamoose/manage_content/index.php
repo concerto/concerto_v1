@@ -78,9 +78,9 @@ function list_content($stype, $id = 0){
 	echo '<table class="edit_win" cellpadding="6" cellspacing="0">';
 	while ($row = mysql_fetch_assoc($res)){
      if($row['is_live']){
-       $stat = $admin_url.'/images/sign_live.gif';  // for live case
+       $stat = $_SERVER['DOCUMENT.ROOT'] . "/admin_beta/images/sign_live.gif";  // for live case
      } else{
-       $stat = $admin_url . '/images/sign_notlive.gif';  // for Not Live case
+       $stat = $_SERVER['DOCUMENT.ROOT'] . "/admin_beta/images/sign_notlive.gif";  // for Not Live case
      }
      echo '<tr>';
      echo "<td><a href=\"index.php?edit_id=" . $row['id'] . "\" >" . preview($row['id'] , "../upload/") . "</a></td>";
@@ -120,16 +120,17 @@ function edit_content($id) {
 	
 	//This code is similiar to the code used for the upload form with default values
 	
-	$cal = "<script language=\"javascript\" type=\"text/javascript\" src=\"./js/datetimepicker.js\">";
+	$cal = "<script language=\"javascript\" type=\"text/javascript\" src=\"http://signage.union.rpi.edu/admin_beta/js/datetimepicker.js\" ></script>";
+	//$cal = "";
 	
 	echo 
 	 $cal . startUploadForm("Edit") . 
 	"<table class='edit_win' cellpadding='6' cellspacing='0'><tr><td class='firstrow'>" . 
 	"<h5>Content Title</h5></td><td class='edit_col firstrow'>" . textBox("title", $row['title']) . "</td></tr><tr><td>" . 
 	"<h5>Start Date</h5></td><td>" . textBox("start_date", $row['start_date']) . "&nbsp;&nbsp;" .
-	"<a href = \"javascript:NewCal('start_date','ddmmmyyyy',true,24)\"><img alt=\"Pick a date\" src=\"./images/cal.gif\" border=\"0\" width=\"16\" height=\"16\"></a>" . "</td></tr><tr><td>" . 
+	"<a href = \"javascript:NewCal('start_date','ddmmmyyyy',true,24)\"><img alt=\"Pick a date\" src=\"../images/cal.gif\" border=\"0\" width=\"16\" height=\"16\"></a> " . "</td></tr><tr><td>" . 
 	"<h5>End Date</h5></td><td>" . textBox("end_date", $row['end_date']) . "&nbsp;&nbsp;" .
-	"<a href = \"javascript:NewCal('end_date','ddmmmyyyy',true,24)\"><img alt=\"Pick a date\" src=\"./images/cal.gif\" border=\"0\" width=\"16\" height=\"16\"></a>" . "</td></tr><tr><td>" .
+	"<a href = \"javascript:NewCal('end_date','ddmmmyyyy',true,24)\"><img alt=\"Pick a date\" src=\"../images/cal.gif\" border=\"0\" width=\"16\" height=\"16\"></a>" . "</td></tr><tr><td>" .
 	"<h5>Content Type</h5></td><td>" . listDatas("data_id", $row['data_type']) . "</td></tr><tr><td>" . 
 	"<h5>Feed ID</h5></td><td>" . listFeeds("feed_id", $row['feed_id']) . "</td></tr><tr><td>" .
 	"<h5>Content ID</h5></td><td>" . $row['id'] . "</td></tr><tr><td>" .
@@ -144,8 +145,8 @@ function edit_content($id) {
 function process_edit_content(){
 	$id = escape($_POST['id']);
 	$title = escape($_POST['title']);
-	$start_date = date("m-d-Y H:i:s", strtotime($_POST['start_date']));
-	$end_date = date("m-d-Y H:i:s", strtotime($_POST['end_date']));
+	$start_date = date("Y-m-d H:i:s", strtotime($_POST['start_date']));
+	$end_date = date("Y-m-d H:i:s", strtotime($_POST['end_date']));
 	$feed_id = escape($_POST['feed_id']);
 	$data_type=escape($_POST['data_id']);
 	$is_live = escape($_POST['is_live']);
@@ -153,6 +154,7 @@ function process_edit_content(){
 	$query = "UPDATE content SET title = '$title', start_date = '$start_date', end_date = '$end_date',			
 			 feed_id = '$feed_id', data_type = '$data_type', is_live = '$is_live' WHERE id = '$id'";
 	
+	//echo $query;
 	mysql_query($query) or die ("Error updating content db");
 	
 	echo "Content Updated";
@@ -172,6 +174,9 @@ function delete_content($id){
 		unlink($target_path);
 	}
 	$query = "DELETE FROM content WHERE id = '$id'";
+	mysql_query($query);
+
+	$query = "DELETE FROM content_feed WHERE content_id = '$id'";
 	mysql_query($query);
 	 return "Content removed";
  }
