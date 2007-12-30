@@ -1989,6 +1989,10 @@ class CASClient
 	  // remove the ticket if present in the CGI parameters
 	  $cgi_params = preg_replace('/&ticket=[^&]*/','',$cgi_params);
 	  $cgi_params = preg_replace('/\?ticket=[^&;]*/','?',$cgi_params);
+	//Mike DiTore wants to get rid of the ?login flag if present
+	  $cgi_params = preg_replace('/&login[^&]*/','',$cgi_params);
+	  $cgi_params = preg_replace('/\?login[^&;]*/','?',$cgi_params);
+	//end mike
 	  $cgi_params = preg_replace('/\?%26/','?',$cgi_params);
 	  $cgi_params = preg_replace('/\?&/','?',$cgi_params);
 	  $cgi_params = preg_replace('/\?$/','',$cgi_params);

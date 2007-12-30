@@ -2,24 +2,57 @@
    /*Mike DiTore's CAS Login stuff
     *This allows CAS login functionality and is where all client interaction
     *takes place as far as login/logout/access control is concerned.
+    *It should be included in every page that uses login.
     *
-    *Most logic has not been updated, only the login method as of yet
+    *Nearing full functionality when used with the framework.
     *
-    *This is not currently a replacement for ds's original login.php,
-    *though that is what I'm aiming for eventually
-    *
-    *last edited by mike, during the hour of 2007-11-04 0200
+    *last edited by mike, during the hour of 2007-12-29 1500
     */
-   include("/var/www/ds/config/config.php");
+//   include('mysql.inc');
    include('CAS/CAS.php');
    phpCAS::client(CAS_VERSION_2_0,'login.rpi.edu',443,'/cas');
-   /*
-    potential params
-    ?logout
-    ?denied
-   */
-   
-   if(isset($_REQUEST['logout']))
+
+   if( isset($_GET['login']) || (!isLoggedIn()&&phpCAS::checkAuthentication()) )
+   {
+     login_login();     
+   }
+
+   function requireLoggedIn()
+   {
+     if($_SESSION['LOGGED_IN']) {
+       return true;
+     } else {
+       global $sess;
+       $sess['messages'][] = array('warn','You must be logged in to view this page.');
+       $sess['messages'][] = array('info','<a href="?login">Log in</a> or <a href= "'.
+       ADMIN_BASE_URL.'/help">visit the help pages</a> to learn more.');
+       setView('frontpage','denied');
+     }
+   }
+
+   function isLoggedIn()
+   {
+     if($_SESSION['LOGGED_IN']==1) return true;
+     return false;
+   }
+
+   function isAdmin()
+   {
+     if($_SESSION['IS_ADMIN']==1) return true;
+     return false;
+   }
+
+   function firstName()
+   {
+	$nm=split(" ",$_SESSION["FULL_NAME"]);
+	return $nm[0];
+   }
+
+   function userName()
+   {  
+     return $_SESSION['RCSID'];
+   }
+/*   if(isset($_REQUEST['logout']))
    {
       login_logout();
    } 
@@ -36,7 +69,7 @@
       login_login();
    }
 
-
+*/
    function login_logout()
    {
       $_SESSION = array();
@@ -65,27 +98,17 @@
 
      //clearly, the following is from the old login.  I may change this yet.
                 $query = "SELECT * FROM user WHERE username='$rcsid'";
-                $res = mysql_query($query);
+                $res = sql_query($query);
 
-                if ( $row = mysql_fetch_assoc($res) ) {
-                        if ( $row['active'] == 1 ) {
-                                $_SESSION['LOGGED_IN'] = 1;
-                                $_SESSION['LOGIN_ATTEMPTS'] = 0;
-                                $_SESSION['USERNAME'] = $row['username'];
-                                $_SESSION['ID'] = $row['id'];
-                                $_SESSION['PRIV_LEVEL'] = $row['priv_code'];
-
-      header("Location: ../"); //go to frontpage
-
-
-                        } else {
-                                //error(WARNING,"Account not yet activated.");
-                                echo "Account not yet acivated.";
-                                //return loginForm();
-                        }
+                if ( $row = sql_row_keyed($res,0) ) {
+                   $_SESSION['LOGGED_IN'] = 1;
+                   $_SESSION['IS_ADMIN'] = $row['admin_privileges'];
+                   $_SESSION['RCSID'] = $row['username'];
+                   $_SESSION['FULL_NAME'] = $row['name'];
                 } else {
-                        login_denied();
-                }
-                
-                
+                        //login_denied();
+                        echo "You don't have an account yet.  A form is coming 
+soon.";
+                        exit();
+                }                
    }

@@ -22,7 +22,7 @@ body,html { background:#FFF; border:0;color:#000;font-family:Arial, sans-serif;f
 #left_bg { float:left;width:200px; }
 
 #menuframe { color:#FFF;left:20px;position:absolute;top:0;width:140px; }
-div.menu_box { background:url(../images/menu_bg.gif) repeat;border-left:solid 1px #FFF;border-right:solid 1px #FFF;border-bottom:solid 1px #FFF;border-top:0;margin-bottom:2px; }
+div.menu_box { background:url(../images/menu_bg.gif) repeat;border-left:solid 1px #FFF;border-right:solid 1px #FFF;border-bottom:solid 1px #FFF;border-top:0;margin-bottom:2px; text-align:center; }
 div.menu_box img { text-align:center; }
 div.menu_box_content h2 a:link, .menu_box_content h2 a:visited, .menu_box_content h2 a:hover { font-size:100%; }
 div.menu_box h3 { font-size:120%;margin:0 0 4px;padding:0; }
