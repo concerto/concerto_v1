@@ -24,6 +24,14 @@ Functionality:
 						for only that field	
 	
 	list_fields			Lists all fields a screen has, based on template
+	
+	status_update		Sets the screen update time to now, should be called
+						whenever that screen refreshes content
+						
+	status				Queries the status of a screen, returning the last time
+						the screen was updated.  Passing it a 0 will return a raw
+						sql timestamp, and a 1 [default] will return a pretty string.
+						
 Comments:
 
 */
@@ -59,6 +67,7 @@ class Screen{
 			return false; //Unable to find a screen
 		}
 	}
+	
 	//Sets the properties into the database that are currently stored in the class
 	//You'll likely want to call this after you change 
 	//anything if you expect those changes to stick around
