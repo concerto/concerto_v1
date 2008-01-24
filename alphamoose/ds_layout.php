@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 	<title><?php echo join(' - ',array(
 		'Digital Signage Admin v0.2b',
-		$sess['pagetitle']));?></title>
+		$pageTitle));?></title>
 <link rel="stylesheet" type="text/css" href="<? echo ADMIN_BASE_URL 
 ?>/css/admin_new.css" />
 <link rel="stylesheet" type="text/css" href="<? echo ADMIN_BASE_URL 
@@ -16,7 +16,7 @@
 echo $admin_base_url ?>/js/pngfix.js"></script>
 <![endif]-->
 
-<?php renderHeadExtras() ?>
+<?php //renderHeadExtras() ?>
 </head>
 
 
@@ -28,13 +28,13 @@ echo $admin_base_url ?>/js/pngfix.js"></script>
   </div>
 
 <div id="content_header">
-  <h2><?php echo join(' :: ',$sess['breadcrumbs'])?></h2>
-  <h1><?php echo $sess['pagetitle'];?></h1>
+  <h2><?php echo join(' :: ',$breadcrumbs)?></h2>
+  <h1><?php echo $pageTitle;?></h1>
 </div>
 
 <div id="maincontent">
-<?php renderMessages() ?>
-<?php renderAction() ?>
+<?php //renderMessages() ?>
+<?php $this->render();//renderAction() ?>
 </div>
 
 <!-- BEGIN Sidebar -->

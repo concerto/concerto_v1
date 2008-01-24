@@ -49,7 +49,8 @@ class Screen{
 	 //The default constructor takes a screen ID and pulls all of the data out for quick and easy access
 	 function __construct($macid){
 	 	//Returns true for sucess, false for failure
-	 	$sql = "SELECT * from screen WHERE mac_address = $screenid LIMIT 1";
+	 	$sql = "SELECT * from screen WHERE mac_address = $macid 
+LIMIT 1";
 		$res = sql_query($sql);
 		if($res != 0){
 			$data = (sql_row_keyed($res,0));

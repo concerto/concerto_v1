@@ -1,25 +1,32 @@
 <?php
 class frontpageController extends Controller
 {
-	function getName()
+	public $actionNames = Array( 'index'=> "Front page", 
+'stupid'=>'Stupid Page');
+
+	function setup()
 	{
-		return "Home";
+		$this->setName("Home");
 	}
 
-	function index()
+	function indexAction()
 	{
-		global $sess;
-		$sess['pagetitle'] = 'Digital Signage Interface';
-		self::renderView('frontpage');
+		$this->setTitle("Digital Signage Interface");
 	}
-	function login()
+
+	function stupidAction()
+	{
+		$this->setTitle("Frontpage");
+	}
+
+	function loginAction()
 	{
 		global $sess;
 		$sess['breadcrumbs'][] = '<a href="#">Random Authed Page</a>';
-		requireLoggedIn();
+		if(!requireLoggedIn()) return true;
 		self::renderView('frontpage');
 	}
-	function logout()
+	function logoutAction()
 	{
 		global $sess;
 		login_logout();

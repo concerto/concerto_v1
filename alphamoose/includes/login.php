@@ -17,19 +17,6 @@
      login_login();     
    }
 
-   function requireLoggedIn()
-   {
-     if($_SESSION['LOGGED_IN']) {
-       return true;
-     } else {
-       global $sess;
-       $sess['messages'][] = array('warn','You must be logged in to view this page.');
-       $sess['messages'][] = array('info','<a href="?login">Log in</a> or <a href= "'.
-       ADMIN_BASE_URL.'/help">visit the help pages</a> to learn more.');
-       setView('frontpage','denied');
-     }
-   }
-
    function isLoggedIn()
    {
      if($_SESSION['LOGGED_IN']==1) return true;
@@ -79,11 +66,6 @@
       phpCAS::logout();
    }
 
-   function login_denied()
-   {
-      echo "<h1>ACCESS DENIED.</h1>\n";
-   }
-   
    function login_login()
    {
      // force CAS authentication

@@ -9,6 +9,6 @@
 
 $db_host = 'studentsenate.rpi.edu';
 $db_login = 'signage';
-$db_password = '216719';
+$db_password = '8r8hedac';
 $db_database = 'ds_temp';
 ?>
