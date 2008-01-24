@@ -1,9 +1,18 @@
 <?
 /*
 Class: User
-Status: New
-Functionality:
+Status: Mild, like salsa
+Functionality:  Create users, allows access to user properties, group stuff, etc
 Comments: 
+        create_user         	Creates a new user
+
+        set_properties         	Writes user properties back to the database
+
+        add_to_group	        Adds current user to a group
+
+        remove_from_group       Removes the user from a group
+
+        in_group		Tests to see if a user is in a group
 
 */
 class User{
@@ -12,6 +21,8 @@ class User{
 	var $name;
 	var $email;
 	var $admin_privileges;
+	
+	var $groups;
 	
 	var $set;
 		
@@ -26,7 +37,18 @@ class User{
 				$this->name = $data['name'];
 				$this->email = $data['email'];
 				$this->admin_privileges = $data['admin_privileges'];
-				print_r($data);
+				
+				//Find groups the user belongs to
+				$sql1 = "SELECT group_id FROM user_group WHERE user_id = $userid";
+				$res1 = sql_query($sql1);
+				if($res1 != 0){
+					$i = 0;
+					while($row = sql_row_keyed($res1, $i)){
+						$this->groups[] = $row['group_id'];
+					}
+				}
+				//End group block
+				
 				$this->set = true;
 				return true;
 			} else {
@@ -39,6 +61,7 @@ class User{
 		}
 	}
 	
+	//Creates a user
 	function create_user($username_in, $name_in, $email_in, $admin_privileges_in){
 		if($set == true){
 			return false; //We already have a user object you idiot
@@ -64,6 +87,7 @@ class User{
 	
 	}
 	
+	//Sets their properties back to the database
 	function set_properties(){
 		$sql = "UPDATE user SET username = '$this->username', name = '$this->name', email = '$this->email', admin_privileges = '$this->admin_privileges' WHERE id = $this->id LIMIT 1";
 		$res = sql_query($sql);
@@ -74,8 +98,45 @@ class User{
 		}
 	
 	}
-
-
+	//Adds a person to a group
+	function add_to_group($group_id){
+		if(!in_array($group_id, $groups){
+			$sql = "INSERT INTO user_group (user_id, group_id) VALUES ($user_id, $group_id)";
+			$res = sql_query($sql);
+			if($res != 0){
+				$this->groups[] = $group_id;
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+	//Removes a person from a group
+	function remove_from_group($group_id){
+		if(in_array($group_id, $this->groups){
+			$sql = "DELETE FROM user_group WHERE user_id = $user_id AND group_id = $group_id LIMIT 1";
+			$res = sql_query($sql);
+			if($res != 0){
+				unset($this->groups[$group_id]);
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return true;
+		}
+	}
+	
+	//Tests to see if a person is part of a group
+	function in_group($group_id){
+		if(inarray($group_id, $this->groups){
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 }
 ?>
