@@ -41,8 +41,8 @@ class Screen{
 	 var $group_id;
 	 var $location;
 	 var $mac_address;
-	 var $horizontal;
-	 var $vertical;
+	 var $width;
+	 var $height;
 	 var $template_id;
 	 var $last_updated;
 	 
@@ -58,8 +58,8 @@ class Screen{
 			$this->group_id = $data['group_id'];
 			$this->location = $data['location'];
 			$this->mac_address = $data['mac_address'];
-			$this->horizontal = $data['horizontal'];
-			$this->vertical = $data['vertical'];
+			$this->width = $data['width'];
+			$this->height = $data['height'];
 			$this->template_id = $data['template_id'];
 			$this->last_updated = $data['last_updated'];
 			return true;
@@ -74,7 +74,7 @@ class Screen{
 	//YOU CANNOT USE THIS TO SET LAST_UPDATED for logical reasons I do not care to share
 	function set_properties(){
 		//Returns true for sucess, false for failure
-		$sql = "UPDATE screen SET name = '$this->name',  group_id = '$this->group_id', location = '$this->location', mac_address = '$this->mac_address', horizontal = '$this->horizontal', vertical = '$this->vertical, template_id = $this->template_id' WHERE id = $this->id LIMIT 1";
+		$sql = "UPDATE screen SET name = '$this->name',  group_id = '$this->group_id', location = '$this->location', mac_address = '$this->mac_address', width = '$this->width', height = '$this->height, template_id = $this->template_id' WHERE id = $this->id LIMIT 1";
 		echo $sql;
 		$res = sql_query($sql);
 		if($res != 0){
