@@ -3,8 +3,7 @@
 Class: User
 Status: Mild, like salsa
 Functionality:  Create users, allows access to user properties, group stuff, etc
-Comments: 
-        create_user         	Creates a new user
+      create_user         	Creates a new user
 
         set_properties         	Writes user properties back to the database
 
@@ -13,7 +12,12 @@ Comments:
         remove_from_group       Removes the user from a group
 
         in_group		Tests to see if a user is in a group
+		
+        can_write		Tests to see if a user can write to an object (essentially a permission check)
 
+Comments: 
+	can_write is my basic implementation of 'privledges', essentially it combines owner + group to test if the user is an owner who can write
+  
 */
 class User{
 	var $id;
@@ -118,7 +122,7 @@ class User{
 		if(in_array($group_id, $this->groups){
 			$sql = "DELETE FROM user_group WHERE user_id = $user_id AND group_id = $group_id LIMIT 1";
 			$res = sql_query($sql);
-			if($res != 0){
+			if($res != 0){
 				unset($this->groups[$group_id]);
 				return true;
 			} else {
@@ -135,6 +139,48 @@ class User{
 			return true;
 		} else {
 			return false;
+		}
+	}
+	
+	//Checks if a user should have access to write/modify an existing object
+	function can_write($type, $item_id){
+		//Feed Test
+		if($type == 'feed'){
+			$sql = "SELECT group_id FROM feed WHERE id = $item_id";
+			$res = sql_query($sql);
+			if($res != 0){
+				$data = (sql_row_keyed($res,0));
+				$group_id = $data['group_id'];
+				return $this->in_group($group_id);
+			} else {
+				return false;
+			}
+		//Content Test
+		} else if($type == 'content'){
+			$sql = "SELECT user_id FROM content WHERE id = $item_id";
+			$res = sql_query($sql);
+			if($res != 0){
+				$data = (sql_row_keyed($res,0));
+				$user_id = $data['user_id'];
+				if($this->id == $user_id){
+					return true;
+				} else {
+					return false;
+				}
+			} else {
+				return false;
+			}
+		//Screen Test
+		} else if($type == 'screen'){
+			$sql = "SELECT group_id FROM screen WHERE id = $item_id";
+			$res = sql_query($sql);
+			if($res != 0){
+				$data = (sql_row_keyed($res,0));
+				$group_id = $data['group_id'];
+				return $this->in_group($group_id);
+			} else {
+				return false;
+			}
 		}
 	}
 

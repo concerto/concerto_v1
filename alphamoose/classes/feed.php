@@ -1,16 +1,16 @@
 <?
 /*
 Class: Feed
-Status: Getting there....
+Status: Done maybe
 Functionality:  
-Comments:
         create_feed             Creates a new feed
         set_properties	Sets any properties back to the db
         content_add		Adds content to the feed, based on the content_id and an optional moderation flag
         coontent_count	Counts all the content in a feed that match an optional mod flag
         content_list		Lists all the content in a feed, again with the mod flag junk
         content_mod		Moderates content in a feed, requires content ID and mod flag
-		
+        list_all			Lists all the feeds in the system, optional WHERE syntax
+Comments:		
 
 */
 class Feed{
@@ -64,7 +64,7 @@ class Feed{
 
                 }
         }
-
+	//Sets the properties back to the database
 	function set_properties(){
 		$sql = "UPDATE feed SET name = '$this->name', group_id = '$this->group_id' WHERE id = $this->id LIMIT 1";
 		$res = sql_query($sql);
@@ -75,7 +75,7 @@ class Feed{
                 }
 
         }
-
+	//Add a content to a feed
 	function content_add($content_in, $mod_in = ''){
 		if($mod_in != 0 || $mod_in != 1 || $mod_in != ''){ //Don't let a stupid value in
 			$mod_in = '';
@@ -89,13 +89,14 @@ class Feed{
                 }
         }
 	}
-	
+	//Count # of content in a feed based on moderation status
 	function content_count($mod_flag="*"){
 		$sql = "SELECT COUNT(content_id) FROM feed_content WHERE moderation_flag = '$mod_flag'";
 		$res = sql_query($sql);
 		$data = (sql_row_keyed($res,0));
 		return $data['COUNT(content_id)'];
 	}
+	//List all content in a feed based on moderation status
 	function content_list($mod_flag="*"){
 		$sql = "SELECT * FROM feed_content WHERE moderation_flag = '$mod_flag'";
 		$res = sql_query($sql);
@@ -107,6 +108,7 @@ class Feed{
 		}
 		return $data;
 	}
+	//Moderate content: Approve or deny
 	function content_mod($cid, $mod_flag=' '){
 		$sql = "UPDATE feed_content SET moderation_flag = $mod_flag WHERE feed_id = $this->id AND content_id = '$mod_flag' LIMIT 1";
 		$res = sql_query($sql);
@@ -116,6 +118,20 @@ class Feed{
 			return false;
 		}		
 	}
+	//List all feeds, optional WHERE syntax
+	function list_all($where = ''){
+		$sql = "SELECT * FROM feed $where";
+		$res = sql_query($sql);
+		$i=0;
+		while($row = sql_row_keyed($res,$i)){
+		    $data[$i]['id'] = $row['id'];
+			$data[$i]['name'] = $row['name'];
+			$data[$i]['group_id'] = $row['group_id'];
+		    $i++;
+		}
+		return $data;
+	}
+		
 }
 
 ?>

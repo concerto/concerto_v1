@@ -1,36 +1,38 @@
 <?
 /*
 Class: Screen
-Status: Mild, like salsa
+Status: Done maybe?
 Functionality:
 	set_properties		Writes all data back the the screen table
 	
 	add_position		Creates a "position" mapping a feed_id and 
-						a field_id for that screen ensuring the link
-						does not already exist
+					a field_id for that screen ensuring the link
+					does not already exist
 						
 	remove_position		Removes a "position" based on its identifier.
-						Performs basic check to ensure the identifier
-						belongs to this screen
+					Performs basic check to ensure the identifier
+					belongs to this screen
 						
 	list_position		Rerutns an array of all the joins that occur
-						between fields and feeds for said screen.  
-						Optionally takes a field id and lists the feeds
-						for only that field						
+					between fields and feeds for said screen.  
+					Optionally takes a field id and lists the feeds
+					for only that field						
 	
 	avail_positions		Returns an array of all potential joins that can
-						occur, essentially the inverse of list_position.
-						Optionally takes a field id and lists the feeds
-						for only that field	
+					occur, essentially the inverse of list_position.
+					Optionally takes a field id and lists the feeds
+					for only that field	
 	
 	list_fields			Lists all fields a screen has, based on template
 	
 	status_update		Sets the screen update time to now, should be called
-						whenever that screen refreshes content
+					whenever that screen refreshes content
 						
-	status				Queries the status of a screen, returning the last time
-						the screen was updated.  Passing it a 0 will return a raw
-						sql timestamp, and a 1 [default] will return a pretty string.
+	status			Queries the status of a screen, returning the last time
+					the screen was updated.  Passing it a 0 will return a raw
+					sql timestamp, and a 1 [default] will return a pretty string.
+						
+	list_all			Lists all screens, optional where syntax
 						
 Comments:
 
@@ -189,6 +191,21 @@ class Screen{
 			}
 			return $retval;
 		}
+	}
+	
+	//List all screens, optional WHERE syntax
+	function list_all($where = ''){
+		$sql = "SELECT * FROM screen $where";
+		$res = sql_query($sql);
+		$i=0;
+		while($row = sql_row_keyed($res,$i)){
+		    $data[$i]['id'] = $row['id'];
+			$data[$i]['name'] = $row['name'];
+			$data[$i]['group_id'] = $row['group_id'];
+			$data[$i]['location'] = $row['location'];
+		    $i++;
+		}
+		return $data;
 	}
 }
 ?>
