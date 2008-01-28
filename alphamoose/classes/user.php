@@ -29,9 +29,9 @@ class User{
 	var $groups = array();
 	var $set;
 		
-	function __construct($userid = ''){
-		if($userid != ''){
-			$sql = "SELECT * FROM user WHERE id = $userid LIMIT 1";
+	function __construct($username_in = ''){
+		if($username_in != ''){
+			$sql = "SELECT * FROM user WHERE username = $username_in LIMIT 1";
 			$res = sql_query($sql);
 			if($res != 0){
 				$data = (sql_row_keyed($res,0));
