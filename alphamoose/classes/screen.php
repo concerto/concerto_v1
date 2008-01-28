@@ -13,7 +13,7 @@ Functionality:
 					Performs basic check to ensure the identifier
 					belongs to this screen
 						
-	list_position		Rerutns an array of all the joins that occur
+	list_positions		Rerutns an array of all the joins that occur
 					between fields and feeds for said screen.  
 					Optionally takes a field id and lists the feeds
 					for only that field						
@@ -95,9 +95,14 @@ class Screen{
 		if(sql_count(sql_query($sql)) > 0){
 			return false; //Someone can't read
 		} else {
-			$sql = "INSERT INTO position (screen_id, feed_id, field_id) VALUES ($this->id, $feed_id, $field_id)";
-			sql_query($sql);
-			return true;
+			$sql1 = "INSERT INTO position (screen_id, feed_id, field_id) VALUES ($this->id, $feed_id, $field_id)";
+			$res = sql_query($sql1);
+                	if($res != 0){
+                        	return true;
+                	} else {
+                        	return false;
+                	}
+
 		}
 	}
 	
@@ -106,7 +111,12 @@ class Screen{
 	function remove_position($position_id){
 		//Returns true for sucess, false for failure
 		$sql = "DELETE FROM position WHERE id = $position_id AND screen_id = $this->id";
-		return true;
+		$res = sql_query($sql);
+                if($res != 0){
+                        return true;
+                } else {
+                        return false;
+                }
 	}
 	
 	//Finds all the positions and returns a pretty array sorted by field, then by feed

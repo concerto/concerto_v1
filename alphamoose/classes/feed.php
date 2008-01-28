@@ -68,19 +68,19 @@ class Feed{
 	function set_properties(){
 		$sql = "UPDATE feed SET name = '$this->name', group_id = '$this->group_id' WHERE id = $this->id LIMIT 1";
 		$res = sql_query($sql);
-                if($res){
-                        return true;
-                } else {
-                        return false;
-                }
-
+            if($res){
+                return true;
+            } else {
+                return false;
+            }
         }
 	//Add a content to a feed
-	function content_add($content_in, $mod_in = ''){
-		if($mod_in != 0 || $mod_in != 1 || $mod_in != ''){ //Don't let a stupid value in
+	function content_add($content_in, $mod_in = '0'){
+		if($mod_in != 0 && $mod_in != 1){ //Don't let a stupid value in
 			$mod_in = '';
 		}
-		$sql = "INSERT INTO feed_content (feed_id, content_id, moderation_flag) VALUES ($this->id, $content_in, $mod_in)";
+		$sql = "INSERT INTO feed_content (feed_id, content_id, moderation_flag) VALUES ( $this->id, $content_in, $mod_in)";
+		echo $sql;
 		$res = sql_query($sql);
 		if($res){
                         return true;
@@ -88,29 +88,29 @@ class Feed{
                         return false;
                 }
         }
-	}
+
 	//Count # of content in a feed based on moderation status
-	function content_count($mod_flag="*"){
-		$sql = "SELECT COUNT(content_id) FROM feed_content WHERE moderation_flag = '$mod_flag'";
+	function content_count($mod_flag="%"){
+		$sql = "SELECT COUNT(content_id) FROM feed_content WHERE moderation_flag LIKE '$mod_flag' AND feed_id = $this->id";
 		$res = sql_query($sql);
 		$data = (sql_row_keyed($res,0));
 		return $data['COUNT(content_id)'];
 	}
 	//List all content in a feed based on moderation status
-	function content_list($mod_flag="*"){
-		$sql = "SELECT * FROM feed_content WHERE moderation_flag = '$mod_flag'";
+	function content_list($mod_flag="%"){
+		$sql = "SELECT * FROM feed_content WHERE moderation_flag LIKE '$mod_flag' AND feed_id = $this->id";
 		$res = sql_query($sql);
 		$i=0;
 		while($row = sql_row_keyed($res,$i)){
 		    $data[$i]['content_id'] = $row['content_id'];
-			$data[$i]['moderation_flag'] = $row['moderation_flag'];
+		    $data[$i]['moderation_flag'] = $row['moderation_flag'];
 		    $i++;
 		}
 		return $data;
 	}
 	//Moderate content: Approve or deny
 	function content_mod($cid, $mod_flag=' '){
-		$sql = "UPDATE feed_content SET moderation_flag = $mod_flag WHERE feed_id = $this->id AND content_id = '$mod_flag' LIMIT 1";
+		$sql = "UPDATE feed_content SET moderation_flag = $mod_flag WHERE feed_id = $this->id AND content_id = '$cid' LIMIT 1";
 		$res = sql_query($sql);
 		if($res){
 			return true;

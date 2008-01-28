@@ -26,8 +26,7 @@ class User{
 	var $email;
 	var $admin_privileges;
 	
-	var $groups;
-	
+	var $groups = array();
 	var $set;
 		
 	function __construct($userid = ''){
@@ -43,12 +42,13 @@ class User{
 				$this->admin_privileges = $data['admin_privileges'];
 				
 				//Find groups the user belongs to
-				$sql1 = "SELECT group_id FROM user_group WHERE user_id = $userid";
+				$sql1 = "SELECT group_id FROM user_group WHERE user_id = $this->id";
 				$res1 = sql_query($sql1);
 				if($res1 != 0){
 					$i = 0;
 					while($row = sql_row_keyed($res1, $i)){
 						$this->groups[] = $row['group_id'];
+						$i++;
 					}
 				}
 				//End group block
@@ -104,8 +104,8 @@ class User{
 	}
 	//Adds a person to a group
 	function add_to_group($group_id){
-		if(!in_array($group_id, $groups){
-			$sql = "INSERT INTO user_group (user_id, group_id) VALUES ($user_id, $group_id)";
+		if(!in_array($group_id, $this->groups)){
+			$sql = "INSERT INTO user_group (user_id, group_id) VALUES ($this->id, $group_id)";
 			$res = sql_query($sql);
 			if($res != 0){
 				$this->groups[] = $group_id;
@@ -119,11 +119,12 @@ class User{
 	}
 	//Removes a person from a group
 	function remove_from_group($group_id){
-		if(in_array($group_id, $this->groups){
-			$sql = "DELETE FROM user_group WHERE user_id = $user_id AND group_id = $group_id LIMIT 1";
+		if(in_array($group_id, $this->groups)){
+			$sql = "DELETE FROM user_group WHERE user_id = $this->id AND group_id = $group_id LIMIT 1";
 			$res = sql_query($sql);
 			if($res != 0){
-				unset($this->groups[$group_id]);
+				$key = array_search($group_id, $this->groups);
+				unset($this->groups[$key]);
 				return true;
 			} else {
 				return false;
@@ -135,7 +136,7 @@ class User{
 	
 	//Tests to see if a person is part of a group
 	function in_group($group_id){
-		if(inarray($group_id, $this->groups){
+		if(in_array($group_id, $this->groups)){
 			return true;
 		} else {
 			return false;
