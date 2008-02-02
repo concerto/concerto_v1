@@ -3,7 +3,7 @@
 Class: Content
 Status: In Progress
 Functionality:
-Comments: Starting to get some work
+Comments: Starting to get some work... I'd rather wait to have a content upload form sketched out before I go too far.
 */
 class Content{
 	var $id;
