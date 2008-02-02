@@ -107,7 +107,8 @@ function denied($reason=0)
 
     $sess['messages'][] = array('warn',$rtexto);
     if($reason == 'login')
-      $sess['messages'][] = array('info','<a href="?login">Log in</a> or <a href= "'.
+      $sess['messages'][] = array('info','<a href="?login">Log in</a> or 
+<a href= "'.
     ADMIN_BASE_URL.'/help">visit the help pages</a> to learn more.');
     setView('frontpage','denied');
    }
@@ -122,9 +123,11 @@ class Controller
 	protected $defaultTemplate = DEFAULT_TEMPLATE;
 	protected $templates = array();
 	protected $controller;
+	protected $args;
 	function __construct()
 	{
-		$this->controller = ereg_replace('Controller','',get_class($this));
+		$this->controller = 
+ereg_replace('Controller','',get_class($this));
 		$this->setup();
 	}
 
@@ -136,35 +139,34 @@ class Controller
 	function execute($args)
 	{
 		$breadcrumbs[]='<a href="'.HOMEPAGE_URL.'">'.HOMEPAGE.'</a>';
-		$breadcrumbs[]='<a href="'.ADMIN_URL.'/'.$controller.'">'.
+		$breadcrumbs[]='<a href="'.ADMIN_URL.'/'.$this->controller.'">'.
 			$this->getName().'</a>';
-	
+
 		if(method_exists($this,$args[0].'Action'))
 			$action = $args[0];
 		else if(method_exists($this, $this->defaultAction.'Action'))
 			$action = $this->defaultAction;
-		else
-			notFound();
-	
+		else{echo "NOT FOUND";
+			notFound();}
+		
+		//save arguments for controller use
+		$this->args=$args;
+
 		//save information about view to display
 		//(may be modified by action)
-		$this->view[controller]=$this->controller;
-		$this->view[view]=$action;
-	
+		$this->renderView($action);
+
 		//find the action's name
 		if($action != $this->defaultAction) {
 			$actionName = $this->actionNames[$action];
 			if(!isset($actionName)) $actionName = $action;
 			$breadcrumbs[]='<a 
-href="'.ADMIN_URL.'/'.$controller.'/'.$action.'">'.
+href="'.ADMIN_URL.'/'.$this->controller.'/'.$action.'">'.
 			$actionName.'</a>';
 		}	
 
 		//run the action
-		
-//call_user_func(array(get_class($this),$action.'Action'));
-		
-call_user_func(array($this,$action.'Action'));
+		call_user_func(array($this,$action.'Action'));
 
 		//Deal with the page's title
 		$pageTitle = $this->getTitle();
@@ -203,8 +205,8 @@ call_user_func(array($this,$action.'Action'));
 	{
 		if(isset($this->pageTitle))
 			return $this->pageTitle;
-		if(isset($this->actionName[$this->view[view]]))
-			return $this->actionName[$this->view[view]];
+		if(isset($this->actionNames[$this->view[view]]))
+			return $this->actionNames[$this->view[view]];
 		if(isset($this->controller))
 			return $this->controller;
 	}
@@ -236,20 +238,32 @@ call_user_func(array($this,$action.'Action'));
 		return $this->defaultAction;
 	}
 
-	function renderView($a1, $a2=-1)
+	function renderView($controller, $view=null)
 	{
-		global $sess;
-		if ($a2==-1)
+		if($view==null)
 		{
-			global $controller;
-			$view = $a1;
+			$view = $controller;
+			$controller = $this->controller;
 		}
-		else
-		{
-			$controller = $a1;
-			$view = $a2;
-		}
-		//setView($controller, $view);
+		$this->view[controller]=$controller;
+		$this->view[view]=$view;
 	}
+}
+
+
+function sql_select($table, $fields="", $conditions="")
+{
+	if($fields && !is_array($fields) )
+		$fields = Array($fields);
+	$query = 'SELECT '.($fields?join(", ",$fields):'*')." FROM $table";
+	if($conditions)
+		$query .= " WHERE $conditions ";
+	$res=sql_query($query);
+	$rows= array();
+	$i=0;
+	echo mysql_error();
+	while($row = sql_row_keyed($res,$i++))
+		$rows[]=$row;
+	return $rows;	
 }
 ?>

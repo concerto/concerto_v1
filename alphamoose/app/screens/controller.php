@@ -1,23 +1,32 @@
 <?php
 class screensController extends Controller
 {
-	function getName()
+	public $actionNames = Array( 'list'=> 'Screens Listing', 'show'=>'Details');
+
+	function setup()
 	{
-		return "Screens";
+		$this->setName("Screens");
 	}
 
-	function index()
+	function indexAction()
 	{
+		$this->listAction();
+		$this->renderView("screens", "list");
+	}
 
-/*		global $sess;
-		$sess['breadcrumbs'][]='<a href="#">List</a>';
-		$sess['pagetitle'] = 'Screen Management';
-		$res = sql_query("SELECT mac_address FROM screen");
-		$i=0;
-		while($row=sql_row_keyed($res, $i++)) 
-			$sess['screens'][]=new Screen($row[mac_address]);
-		self::renderView('list');
-*/
+	function listAction()
+	{
+		$screenids = sql_select("screen","mac_address");
+		$this->screens=Array();
+		if(is_array($screenids))
+			foreach($screenids as $screen)
+				$this->screens[] = new Screen($screen[mac_address]); 
+	}
+
+	function showAction()
+	{
+		$this->screen = new Screen($this->args[1]);
+		$this->setTitle($this->screen->name);
 	}
 }
 ?>

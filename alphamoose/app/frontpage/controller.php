@@ -16,7 +16,7 @@ class frontpageController extends Controller
 
 	function stupidAction()
 	{
-		$this->setTitle("Frontpage");
+		$this->setTitle("Idiot.");
 	}
 
 	function loginAction()
