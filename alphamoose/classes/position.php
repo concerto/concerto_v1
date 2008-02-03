@@ -18,7 +18,9 @@ class Position{
 	var $range_l;
 	var $range_h;
 	
-	vat $set;
+	var $weight;
+	
+	var $set;
 	
 	function __construct($id_in = ''){
 		if($id_in != ''){
@@ -32,6 +34,8 @@ class Position{
 				$this->fiend_id = $data['field_id'];
 				$this->range_l = $data['range_l'];
 				$this->range_h = $data['range_h'];
+			
+				$this->weight = $this->range_h - $this->range_l;
 			
 				$this->set = true;
 				return true;
@@ -66,6 +70,8 @@ class Position{
 					$this->field_id = $field_id_in;
 					$this->range_l= $range_l_in;
 					$this->range_h = $range_h_in;
+					
+					$this->weight = $this->range_h - $this->range_l;
 				
 					$this->set = true;
 					return true;
@@ -79,6 +85,7 @@ class Position{
 	//Updates ranges ONLY!
 	function set_properties(){
 		$sql = "UPDATE position SET range_l = '$this->range_l', range_h = '$this->range_h' WHERE id = $this->id LIMIT 1";
+		$this->weight = $this->range_h - $this->range_l;
 		$res = sql_query($sql);
 		if($res != 0){
 			return true;
