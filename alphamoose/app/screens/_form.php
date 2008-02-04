@@ -1,21 +1,21 @@
-//assuming $this->screen is null or the screen we want to edit
 <!-- Beginning Screen Form -->
 <?php
-	$screen = $this->screen;
-	if($screen[width]/$screen[height]==(16/9)) 
-	{
-		$scrimg="screen_169.png";
-                $ratio ="16:9";
-        }else{
-                        $scrimg="screen_43.png";
-                        $ratio ="4:3";
-                }
-        ?>
+   //assuming $this->screen is null or the screen we want to edit
+   $screen = $this->screen;
+   if($screen->width/$screen->height==(16/9)) 
+   {
+      $scrimg="screen_169.png";
+      $ratio ="16:9";
+   }else{
+      $scrimg="screen_43.png";
+      $ratio ="4:3";
+   }
+?>
 
    <form action="#" method="POST">
 	<h3>General Screen Settings</h3>
 	<div style="float:left">
-        <img src="../images/<?echo $scrimg?>" alt="" />
+     <img src="../images/<?echo $scrimg?>" alt="" />
 	</div>
 	<div style="clear:none">
      <table style="clear:none" class='edit_win' cellpadding='6' cellspacing='0'>
@@ -75,13 +75,13 @@ each area.</p>
 	  <td class='firstrow'><h5><a name="area1" />Area 1</h5></td>
           <td class='firstrow edit_col'>Draw ticker content from:
 <?php
-        $query = "SELECT feed.id, feed.name FROM feed WHERE feed.id >= 0";
-        $feeds = mysql_query($query);        
-	while($feed = mysql_fetch_assoc($feeds))
-	{
-		echo '<br /><input type="checkbox" name="feed[1][]" value="'.$feed[id].'" checked />';
-		echo '<label>'.$feed[name].'</label>';
-	}
+   $query = "SELECT feed.id, feed.name FROM feed WHERE feed.id >= 0";
+   $feeds = mysql_query($query);        
+   while($feed = mysql_fetch_assoc($feeds))
+   {
+      echo '<br /><input type="checkbox" name="feed[1][]" value="'.$feed[id].'" checked />';
+      echo '<label>'.$feed[name].'</label>';
+   }
 ?>
           </td>
 	</tr>
@@ -96,14 +96,14 @@ each area.</p>
 	  <td><h5><a name="area3" />Area 3</h5></td>
           <td>Draw graphics content from:
 <?php
-        $query = "SELECT feed.id, feed.name FROM feed WHERE feed.id >= 0";
-        $feeds = mysql_query($query);        
+   $query = "SELECT feed.id, feed.name FROM feed WHERE feed.id >= 0";
+   $feeds = mysql_query($query);        
 	while($feed = mysql_fetch_assoc($feeds))
 	{
 		$checked="";
 		$query = "SELECT feed_screen.screen_id FROM feed_screen WHERE feed_screen.feed_id=".$feed[id].' AND 
 feed_screen.screen_id = '.$id.' ';
-$res  = mysql_query($query);
+      $res  = mysql_query($query);
 		if($item=mysql_fetch_assoc($res))
 		{
 			$checked="checked";
