@@ -31,7 +31,7 @@ class User{
 		
 	function __construct($username_in = ''){
 		if($username_in != ''){
-			$sql = "SELECT * FROM user WHERE username = $username_in LIMIT 1";
+			$sql = "SELECT * FROM user WHERE username = '$username_in' LIMIT 1";
 			$res = sql_query($sql);
 			if($res != 0){
 				$data = (sql_row_keyed($res,0));
@@ -145,6 +145,10 @@ class User{
 	
 	//Checks if a user should have access to write/modify an existing object
 	function can_write($type, $item_id){
+		//The admin override
+		if($this->admin_privileges){
+			return true;
+		}
 		//Feed Test
 		if($type == 'feed'){
 			$sql = "SELECT group_id FROM feed WHERE id = $item_id";
