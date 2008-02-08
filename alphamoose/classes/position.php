@@ -6,7 +6,8 @@ Functionality:
 	create_position		Creates a new position
 	set_properties		Updates the range for a position, thats all
 Comments: 
-	Hasn't been tested, but looks cool
+	Tested and working.
+	Do not play with range_l and range_h unless you know what you're doing.  You're better off using rebalancer in field
 
 */
 
@@ -77,6 +78,7 @@ class Position{
 					return true;
 				} else {
 					return false;
+				}
 			}
         }
 	
@@ -92,7 +94,6 @@ class Position{
 		} else {
 			return false;
 		}
-	
 	}
 }
 

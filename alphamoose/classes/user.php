@@ -177,7 +177,7 @@ class User{
 			}
 		//Screen Test
 		} else if($type == 'screen'){
-			$sql = "SELECT group_id FROM screen WHERE id = $item_id";
+			$sql = "SELECT group_id FROM screen WHERE mac_address = $item_id";
 			$res = sql_query($sql);
 			if($res != 0){
 				$data = (sql_row_keyed($res,0));
