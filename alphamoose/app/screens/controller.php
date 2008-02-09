@@ -53,11 +53,28 @@ class screensController extends Controller
 
    function updateAction()
    {
+     $screen = new screen($this->args[1]);
+     $dat = $_POST['screen'];
+     $screen->name = $dat['name'];
+     $screen->group_id = $dat['group'];
+     $screen->location = $dat['location'];
+     $screen->mac_address = $dat['mac_address'];
+     $screen->width = $dat['width'];
+     $screen->height = $dat['height'];
+     $screen->template_id = $dat['template'];
+
+     if($screen->set_properties()) {
+        $_SESSION['flash'][]=Array('info', 'Screen Updated Successfully');
+        redirect_to(ADMIN_URL.'/screens/show/'.$screen->mac_address);
+     } else {
+        $_SESSION['flash'][]=Array('error', 'Your submission was not valid. Please try again.');
+        redirect_to(ADMIN_URL.'/screens/show/'.$this->args[1]);
+     }
+     print_r($screen);
    }
 
    function destroyAction()
    {
-   }
-   
+   }   
 }
 ?>

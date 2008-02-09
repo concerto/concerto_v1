@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 	<title><?php echo join(' - ',array(
-		'Digital Signage Admin v0.2b',
+		'Concerto Interface v0.3 (dev)',
 		$pageTitle));?></title>
 <link rel="stylesheet" type="text/css" href="<? echo ADMIN_BASE_URL 
 ?>/css/admin_new.css" />
@@ -23,7 +23,7 @@ echo $admin_base_url ?>/js/pngfix.js"></script>
 <body>
   <div id="header">
     <div id="header_padding">
-      <? //include("includes/menu_tabs.php"); ?>
+      <? include("includes/menu_tabs.php"); ?>
     </div>
   </div>
 
@@ -33,7 +33,7 @@ echo $admin_base_url ?>/js/pngfix.js"></script>
 </div>
 
 <div id="maincontent">
-<?php //renderMessages() ?>
+<?php renderMessages() ?>
 <?php $this->render();//renderAction() ?>
 </div>
 
@@ -50,7 +50,7 @@ function renderMessage($type, $msg)
 {
 	switch($type)
 	{
-		case "err": $col='red'; break;
+		case "error": $col='red'; break;
 		case "warn": $col='yellow'; break;
 		case "stat": $col='green'; break;
 		case "info": default: $col=blue; break;

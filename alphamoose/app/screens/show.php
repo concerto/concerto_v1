@@ -1,6 +1,6 @@
 <p><a href="<?echo ADMIN_URL ?>/screens">Back to Screens Listing</a>
 <?php if ($this->canEdit) {?>
- | <a href="<?echo ADMIN_URL ?>/screens/edit/<?echo $this->screen->id ?>"> Edit Screen 
+ | <a href="<?echo ADMIN_URL ?>/screens/edit/<?echo $this->screen->mac_address ?>"> Edit Screen 
 </a>
 <?php } ?>
 </p>

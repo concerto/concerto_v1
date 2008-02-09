@@ -14,7 +14,7 @@ class frontpageController extends Controller
 
 	function indexAction()
 	{
-		$this->setTitle("Digital Signage Interface");
+		$this->setTitle("Concerto Front Page");
 	}
 
 	function stupidAction()

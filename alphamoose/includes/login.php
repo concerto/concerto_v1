@@ -40,6 +40,9 @@ function require_action_auth($callback)
    $target = $callback->controller;
    $id=$callback->currId;
 
+   if($target=='screens') $target='screen';
+   if($target=='feeds') $target='feed';
+
    if($_SESSION['user']->can_write($target,$id)) return true;
    else {
       $_SESSION[flash][] = Array('error',"Sorry, you don't have permission to access $target $id");

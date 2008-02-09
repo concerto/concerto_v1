@@ -19,7 +19,7 @@ define('ADMIN_URL','/mike_admin/index.php'); //URL that can access this page (ma
                                              //  ADMIN_BASE_URL if mod_rewrite configured)
 define('DEFAULT_CONTROLLER','frontpage');    //Controller to use when none is specified
 define('DEFAULT_TEMPLATE','ds_layout');      //Layout file for actions with none specified
-define('HOMEPAGE','Signage Interface');      //Name of the homepage
+define('HOMEPAGE','Concerto Interface');     //Name of the homepage
 define('HOMEPAGE_URL', ADMIN_URL);           //relative URL to reach the frontpage
 define('APP_PATH','app');
 
@@ -75,10 +75,10 @@ if(!file_exists(APP_PATH.'/'.$controller.'/controller.php')) {
 //print out the statuse messages saved in $sess
 function renderMessages()
 {
-  global $sess;
-  if(is_array($sess[messages]))
-     foreach($sess[messages] as $msg)
+  if(is_array($_SESSION['flash']))
+     foreach($_SESSION['flash'] as $msg)
         echo renderMessage($msg[0], $msg[1]);
+  $_SESSION['flash']=array();
 }
 
 function notFound()
@@ -116,6 +116,7 @@ function denied($reason=0)
 function redirect_to($url)
 {
    header("Location: $url",TRUE,307);
+   exit();
 }
 
 /*
@@ -161,7 +162,7 @@ class Controller
       
       //save arguments for controller use
       $this->args=$args;
-      $this->currId=$args[0];
+      $this->currId=$args[1];
       //save information about the view we want to display
       //by default we use the view with the name of the action
       //(may be modified by action)
@@ -282,7 +283,7 @@ function sql_select($table, $fields="", $conditions="")
 {
 	if($fields && !is_array($fields) )
 		$fields = Array($fields);
-	$query = 'SELECT '.($fields?join(", ",$fields):'*')." FROM $table";
+	$query = 'SELECT '.($fields?join(", ",$fields):'*')." FROM `$table`";
 	if($conditions)
 		$query .= " WHERE $conditions ";
 	$res=sql_query($query);

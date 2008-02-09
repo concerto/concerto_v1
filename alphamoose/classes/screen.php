@@ -77,7 +77,7 @@ class Screen{
 	function set_properties(){
 		//Returns true for sucess, false for failure
 		$sql = "UPDATE screen SET name = '$this->name',  group_id = '$this->group_id', location = '$this->location', mac_address = '$this->mac_address', width = '$this->width', height = '$this->height, template_id = $this->template_id' WHERE id = $this->id LIMIT 1";
-		echo $sql;
+		//echo $sql;
 		$res = sql_query($sql);
 		if($res != 0){
 			return true;
