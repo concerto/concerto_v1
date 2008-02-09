@@ -3,8 +3,7 @@
     <div class="logo_box">
 	   <div class="logo_box_padding">
 	     <center><a href="<?php echo ADMIN_BASE_URL ?>/index.php"><img 
-src="<?php echo ADMIN_BASE_URL?>/images/ds_logo.jpg" style="" width="112" 
-height="112" border="0" /></a></center>
+src="<?php echo ADMIN_BASE_URL?>/images/conc_bluebg.gif" style="" border="0" /></a></center>
 	   </div>
 	 </div>
     <div class="menu_box">
