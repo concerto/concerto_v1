@@ -1,6 +1,9 @@
-<p><a href="<?echo ADMIN_URL ?>/screens">Back to Screens Listing</a> | 
-  <a href="<?echo ADMIN_URL ?>/screens/edit/<?echo $this->screen->id ?>"> Edit Screen 
-</a></p>
+<p><a href="<?echo ADMIN_URL ?>/screens">Back to Screens Listing</a>
+<?php if ($this->canEdit) {?>
+ | <a href="<?echo ADMIN_URL ?>/screens/edit/<?echo $this->screen->id ?>"> Edit Screen 
+</a>
+<?php } ?>
+</p>
 <?php
   if($this->screen->width/$this->screen->height==(16/9)){
     $scrimg="screen_169.png";

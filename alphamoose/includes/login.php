@@ -7,9 +7,10 @@
  *
  *Nearing full functionality when used with the framework.
  *
- *last edited by mike, during the hour of 2007-12-29 1500
+ *last edited by mike, probably recently.
  */
 
+//Get and setup the CAS client
 include('CAS/CAS.php');
 phpCAS::client(CAS_VERSION_2_0,'login.rpi.edu',443,'/cas');
 
@@ -33,60 +34,47 @@ function require_login()
    return false;
 }
 
-function require_rights($subject, $id=-1)
+function require_action_auth($callback)
 {
    check_login();
+   $target = $callback->controller;
+   $id=$callback->currId;
+
+   if($_SESSION['user']->can_write($target,$id)) return true;
+   else {
+      $_SESSION[flash][] = Array('error',"Sorry, you don't have permission to access $target $id");
+      redirect_to(ADMIN_URL."/screens");
+   }
+
    return true;
 }
-     
-/*
-   if( isset($_GET['login']) || (!isLoggedIn()&&phpCAS::checkAuthentication()) )
-   {
-     login_login();     
-   }
-*/
 
+//these methods are interfaces to logon information.
 function isLoggedIn()
 {
-   if($_SESSION['LOGGED_IN']==1) return true;
+   if(strlen($_SESSION['user']->username)>1) return true;
    return false;
 }
 
 function isAdmin()
 {
-   if($_SESSION['IS_ADMIN']==1) return true;
+   if($_SESSION['user']->admin_privileges) return true;
    return false;
 }
 
 function firstName()
 {
-   $nm=split(" ",$_SESSION["FULL_NAME"]);
+   $nm=split(" ",$_SESSION['user']->username);
    return $nm[0];
 }
 
 function userName()
 {  
-     return $_SESSION['RCSID'];
+   return $_SESSION['user']->username;
 }
 
-/*   if(isset($_REQUEST['logout']))
-   {
-      login_logout();
-   } 
-   else if($_REQUEST['denied'])
-   {
-      login_denied();
-   }
-   else if($_SESSION['LOGGED_IN'] == 1) //we're logged in
-   {
-      header("Location: ../"); //go to frontpage
-   }
-   else
-   {
-      login_login();
-   }
+//login/out functionality
 
-*/
 function login_logout()
 {
    $_SESSION = array();
@@ -100,27 +88,15 @@ function login_login()
 {
    // force CAS authentication
    phpCAS::forceAuthentication();
-   
-     // at this step, the user has been authenticated by the CAS server
-     // and the user's login name can be read with phpCAS::getUser().
-   
-     // get the username
+
+   // at this step, the user has been authenticated by the CAS server
+   // and the user's login name can be read with phpCAS::getUser().   
    $rcsid = phpCAS::getUser();
    $rcsid=mysql_escape_string($rcsid);
-   
-   //clearly, the following is from the old login.  I may change this yet.
-   $query = "SELECT * FROM user WHERE username='$rcsid'";
-   $res = sql_query($query);
-
-   if ( $row = sql_row_keyed($res,0) ) {
-      $_SESSION['LOGGED_IN'] = 1;
-      $_SESSION['IS_ADMIN'] = $row['admin_privileges'];
-      $_SESSION['RCSID'] = $row['username'];
-      $_SESSION['FULL_NAME'] = $row['name'];
-   } else {
-      //login_denied();
-      echo "You don't have an account yet.  A form is coming 
-soon.";
+   $_SESSION['user'] = new user($rcsid);
+//   print_r($_SESSION['user']);
+   if($_SESSION['user'] === false){
+      echo "You don't have an account yet.  A form is coming soon.";
       exit();
-   }                
+   }
 }

@@ -1,15 +1,28 @@
 <?php
-include('includes/mysql.inc');
-include('includes/login.php');
-include('classes/screen.php');
+/*
+File: index.php
+Status: Functional (there are still features to implement)
+History: Blame Mike D
+Functionality: Sets up for output, parses URL, and dispatches controllers
+                to preform requested actions.  Also includes base class
+                Controller.
+*/
 
-define('ADMIN_BASE_URL','/mike_admin');
-define('ADMIN_URL','/mike_admin/index.php');
-define('DEFAULT_CONTROLLER','frontpage');
-define('DEFAULT_TEMPLATE','ds_layout');
-define('HOMEPAGE','Signage Interface');
-define('HOMEPAGE_URL', ADMIN_URL);
+include('includes/mysql.inc');  //Tom's sql library interface + db connection settings
+include('classes/user.php');    //Class to represent a site user
+include('includes/login.php');  //Functionality for CAS, logins, and page authorization
+include('classes/screen.php');  //Class to represent a screen in the system
+include('classes/feed.php');    //Class to represent a content feed
+
+define('ADMIN_BASE_URL','/mike_admin');      //base directory on server for images, css, etc.
+define('ADMIN_URL','/mike_admin/index.php'); //URL that can access this page (may be same as
+                                             //  ADMIN_BASE_URL if mod_rewrite configured)
+define('DEFAULT_CONTROLLER','frontpage');    //Controller to use when none is specified
+define('DEFAULT_TEMPLATE','ds_layout');      //Layout file for actions with none specified
+define('HOMEPAGE','Signage Interface');      //Name of the homepage
+define('HOMEPAGE_URL', ADMIN_URL);           //relative URL to reach the frontpage
 define('APP_PATH','app');
+
 //session variables visible to both controller and view
 //global $sess;
 global $rddesp;
@@ -59,20 +72,6 @@ if(!file_exists(APP_PATH.'/'.$controller.'/controller.php')) {
 	break;
 }*/
 
-//layout the page.  This will call renderAction when
-//  it is time to render the view.
-//if(file_exists($sess[pageTemplate].'.php'))
-//	include ($sess[pageTemplate].'.php');
-//else
-//	renderAction(); //failsafe
-
-//to be called by layout, this renders the main content of the page
-function renderAction()
-{
-   global $qview, $sess;
-   $file = APP_PATH.'/'.$qview[0].'/'.$qview[1].'.php';
-}
-
 //print out the statuse messages saved in $sess
 function renderMessages()
 {
@@ -114,8 +113,16 @@ function denied($reason=0)
    setView('frontpage','denied');
 }
 
+function redirect_to($url)
+{
+   header("Location: $url",TRUE,307);
+}
 
-//ancestor for all controllers
+/*
+Class: Controller
+Status: Stable
+Functionality: Ancestor for all controllers
+*/
 class Controller
 {
    protected $defaultAction = 'index';
@@ -123,8 +130,9 @@ class Controller
    protected $after_execs = array();
    protected $defaultTemplate = DEFAULT_TEMPLATE;
    protected $templates = array();
-   protected $controller;
    protected $args;
+   public $controller;
+   public $currId;
    function __construct()
    {
       $this->controller = 
@@ -153,7 +161,7 @@ class Controller
       
       //save arguments for controller use
       $this->args=$args;
-      
+      $this->currId=$args[0];
       //save information about the view we want to display
       //by default we use the view with the name of the action
       //(may be modified by action)
@@ -235,7 +243,7 @@ class Controller
          return true;
       foreach ($this->require as $method => $actions) {
          if( $actions == 1 || ( is_array($actions) && in_array($action, $actions) ))
-            call_user_func($method);
+            call_user_func($method, $this);
       }
    }
 
@@ -269,7 +277,7 @@ class Controller
    }
 }
 
-
+//Utility function that I wrote
 function sql_select($table, $fields="", $conditions="")
 {
 	if($fields && !is_array($fields) )

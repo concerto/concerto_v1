@@ -12,19 +12,19 @@ height="112" border="0" /></a></center>
         <div class="menu_box_padding">
         <? 
          if (!isLoggedIn()) { ?>
-         <h2><a href="?login">Login</a></h2>        
+         <h2><a href="<?= ADMIN_URL ?>/frontpage/login">Login</a></h2>        
 	<? } else {
          ?>
 	   <?
            if ( isAdmin() ) { ?>
-         <img src="<?php echo ADMIN_BASE_URL ?>/images/user_admin.gif" /><br /><br />
+         <img src="<?=ADMIN_BASE_URL ?>/images/user_admin.gif" /><br /><br />
            <? } else { ?>
-         <img src="<?php echo ADMIN_BASE_URL ?>/images/user_basic.gif" /><br /><br /> 
+         <img src="<?= ADMIN_BASE_URL ?>/images/user_basic.gif" /><br /><br /> 
            <? } //This closes the non admin or moderator stuff 
            echo "Welcome, " . firstName() . "!";
            ?>
            <br /><br />
-           <h3><a href="<?php echo ADMIN_URL ?>/frontpage/logout">Logout</a></h3>
+           <h3><a href="<?= ADMIN_URL ?>/frontpage/logout">Logout</a></h3>
         <?
           }
         ?>
