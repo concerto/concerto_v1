@@ -1,10 +1,11 @@
 <?
 /*
 Class: Position
-Status: Done.  You can't write a class that fast can you?
+Status: Done.  
 Functionality:
 	create_position		Creates a new position
 	set_properties		Updates the range for a position, thats all
+	delete_me			Removes the position
 Comments: 
 	Tested and working.
 	Do not play with range_l and range_h unless you know what you're doing.  You're better off using rebalancer in field
@@ -95,6 +96,30 @@ class Position{
 			return false;
 		}
 	}
+	
+	function delete_me(){
+		if($this->set){
+			$sql = "DELETE FROM position WHERE id = '$this->id' LIMIT 1";
+			$res = sql_query($sql);
+			if($res != 0){
+				$this->id = '';
+				$this->screen_id = '';
+				$this->feed_id = '';
+				$this->field_id = '';
+				$this->range_l= '';
+				$this->range_h = '';
+					
+				$this->weight = '';
+				
+				$this->set = false;
+				return true;
+			} else {
+				return false;
+			}
+		
+		} else {
+			return true;
+		}
 }
 
 ?>

@@ -139,7 +139,6 @@ class Screen{
 		}
 		return $data;
 	}
-	
 	//Finds the positions that can be mapped, kinda the opposite of list_functions
 	function avail_positions($field_in = ''){
 		//Returns a 2d Array of field id and feed ids that they can be joined to
@@ -173,6 +172,7 @@ class Screen{
 		$i = 0;
 		while($field_row = sql_row_keyed($res, $i)){
 			$data[$i] = $field_row['id'];
+			//$data[$i]  = new Field($field_row['id'], $this->id); //V2
 			$i++;
 		}
 		return $data;
