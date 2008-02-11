@@ -14,7 +14,7 @@ Comments:
 
 class Position{
 	var $id;
-	var $screenid;
+	var $screen_id;
 	var $feed_id;
 	var $field_id;
 	var $range_l;
@@ -51,7 +51,7 @@ class Position{
 	}
 
 	//Creates a posotion, yea..
-	function create_position($screen_id_in, $feed_id_in, $field_in_id, $range_l_in = 0, $range_h_in = 0){
+	function create_position($screen_id_in, $feed_id_in, $field_id_in, $range_l_in = 0, $range_h_in = 0){
 		if($this->set){
 			return true; //You've already got an object!
 		} else {
@@ -120,6 +120,7 @@ class Position{
 		} else {
 			return true;
 		}
+	}
 }
 
 ?>

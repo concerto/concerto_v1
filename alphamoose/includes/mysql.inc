@@ -91,7 +91,7 @@ function sql_count($r) {
 
 # Return the value of an autoincrement field from the last insert.
 # Must be called right after an insert on that table!
-function sql_insert_id($table, $field) {
+function sql_insert_id( ) {
 	return mysql_insert_id();
 }
 
