@@ -3,7 +3,7 @@
 Class: Content
 Status: In Progress
 Functionality:
-Comments: Starting to get some work... I'd rather wait to have a content upload form sketched out before I go too far.
+Comments: More progress made...
 */
 class Content{
 	var $id;
@@ -44,7 +44,7 @@ class Content{
 			$this->set = false;
 			return 1;
 	}
-	
+	//Creates content, assumes it has already been handled by uploader
 	function create_content($name_in, $user_id_in, $content_in, $mime-type_in, $type_id_in, $duration_in, $start_time_in, $end_time_in){
 		if($this->set == true){
 			return false;
@@ -74,16 +74,17 @@ class Content{
             }
 		}
 	}
+	//Sets properties back to database, will NOT moderate content or change some constant values
 	function set_properties(){
 		$sql = "UPDATE content SET name = '$this->name', duration = '$this->duration', start_time = '$this->start_time', end_time = '$this->end_time' WHERE id = $this->id LIMIT 1";
 		$res = sql_query($sql);
-            if($res){
-                return true;
-            } else {
-                return false;
-            }
-	
+        if($res){
+            return true;
+        } else {
+            return false;
+        }
 	}
+	//Checks to  see if a content is live based on date, for a per feed check use list_feeds
 	function is_live(){
 		$start = strtotime($this->start_date);
 		$end = strtotime($this->end_date);
@@ -94,24 +95,25 @@ class Content{
 			return false;
 		}
 	}
+	//Lists all feeds a content has been submitted to, as well as their moderation status
 	function list_feeds(){
 		$sql = "SELECT feed_id, moderation_flag FROM feed_content WHERE content_id = $this->id";
 		$res = sql_query($sql);
 		$i = 0;
 		while($row = sql_row_keyed($res,$i)){
-			$data[$i]['feed_id'] = $row['feed_id'];
+			$data[$i]['feed'] = new Feed($row['feed_id']);
 			$data[$i]['moderation_flag'] = $row['moderation_flag'];
 		    $i++;
 		}
 		return $data;
 	}
+	//Lists all feeds content has not been submitted to
 	function avail_feeds(){
-		$sql2 = "SELECT * FROM feed WHERE id NOT IN (SELECT feed_id FROM feed_content WHERE content_id = $this->id) ORDER BY id ASC";
+		$sql2 = "SELECT id FROM feed WHERE id NOT IN (SELECT feed_id FROM feed_content WHERE content_id = $this->id) ORDER BY id ASC";
 		$res = sql_query($sql2);
 		$i=0;
 		while($row = sql_row_keyed($res, $i){
-			$data[$i]['id'] = $row['id'];
-			$data[$i']['name'] = $row['name'];
+			$data[$i] = new Feed($row['id']);
 			$i++;
 		}
 		return $data
