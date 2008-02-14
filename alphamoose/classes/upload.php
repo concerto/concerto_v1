@@ -23,7 +23,7 @@ class Uploader{
 	var $duration; //UC
 	var $content_i; //U
 	var $content_o; //C
-	var $mime-type; //C
+	var $mime_type; //C
 	var $user_id; //UC
 	
 	var $ctype; //UI
@@ -38,7 +38,7 @@ class Uploader{
 		$this->ctype = $ctype_in;
 		$this->user_id = $user_id_in;
 		
-		$this->feeds = split(',' $feeds_in);
+		$this->feeds = split(",",$feeds_in);
 		
 		$this->auto = $auto_in; //This field specificies if the uploader should run in automatic mode or manual processing.  I like auto mode, but thats just me
 
@@ -50,13 +50,13 @@ class Uploader{
 	}
 	//Determines which steps need to be applied to the content
 	function filer(){
-		if($ctype == 'text'){
+		if($this->ctype == 'text'){
 			//Awsome, this is easy to handle!
 			$this->content_o = $this->content_i;
-			$this->mime-type = 'text/plain';
+			$this->mime_type = 'text/plain';
 			$this->type_id = 2; //SELF: THIS IS BAD AND DUMB AND STUPID
 			$content = new Content();
-			if($content->create_content($this->name, $this->user_id, $this->content_o, $this->mime-type, $this->type_id, $this->duration, $this->start_time, $this->end_time)){
+			if($content->create_content($this->name, $this->user_id, $this->content_o, $this->mime_type, $this->type_id, $this->duration, $this->start_time, $this->end_time)){
 				$cid = $content->id;
 				foreach($feeds as $fid){
 					$f = new Feed($fid);
@@ -67,15 +67,62 @@ class Uploader{
 				return false; //Failure making a content isn't a good thing
 			}
 		
-		} elseif($ctype == 'file'){
+		} elseif($this->ctype == 'html'){
+			//Awsome, this is easy to handle!
+			$this->content_o = $this->content_i;
+			$this->mime_type = 'text/html';
+			$this->type_id = 2; //SELF: THIS IS BAD AND DUMB AND STUPID
+			$content = new Content();
+			if($content->create_content($this->name, $this->user_id, $this->content_o, $this->mime_type, $this->type_id, $this->duration, $this->start_time, $this->end_time)){
+				$cid = $content->id;
+				foreach($feeds as $fid){
+					$f = new Feed($fid);
+					$f->content_add($cid);
+				}
+				return true; //The content is finished uploading
+			} else {
+				return false; //Failure making a content isn't a good thing
+			}
+		} elseif($this->ctype == 'file'){
 			if($this->content_i['error'] == 0 && is_uploaded_file($this->content_i['tmp_name'])){
 				$pre_type = $this->typer();
+				if($pre_type == 'image/jpeg' || $pre_type == "image/pjpeg" || $pre_type == "image/jpg"){
+					$this->jpeg_cleaner();
+				} elseif ($pre_type == 'image/png'){
+					$this->png_cleaner();
+				} elseif ($pre_type == 'application/pdf'){
+					$this->pdf_cleaner(); 
+				} else {
+					return false; //Unknown filetype
+				}
 			} else {
 				return false;
 			}
 		} else {
 			//Unknown ctype == bad
 		}
+	}
+	function typer(){
+		echo $this->content_i['type'];
+		return $this->content_i['type'];
+	}
+	function jpeg_cleaner(){
+		$temp_dir = "/tmp/";
+		$temp_name = $this->user_id . "-" . time() . ".jpg";
+		$temp_dest = $temp_dir . $temp_name;
+		if(move_uploaded_file($this->content_i["tmp_name"], $temp_dest)){
+			chmod($temp_dest, 0644);
+			echo $temp_dest;
+			return true;
+		} else {
+			return false;
+		}
+	}
+	function png_cleaner(){
+
+	}
+	function pdf_cleaner(){
+
 	}
 }
 ?>

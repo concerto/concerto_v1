@@ -10,7 +10,7 @@ class Content{
 	var $name;
 	var $user_id;
 	var $content;
-	var $mime-type;
+	var $mime_type;
 	var $type_id;
 	var $duration;
 	var $start_time;
@@ -29,7 +29,7 @@ class Content{
 				$this->name = $data['name'];
 				$this->user_id = $data['user_id'];
 				$this->content = $data['content'];
-				$this->mime-type = $data['mime-type'];
+				$this->mime_type = $data['mime-type'];
 				$this->type_id = $data['type_id'];
 				$this->duration = $data['duration'];
 				$this->start_time = $data['start_time'];
@@ -43,46 +43,47 @@ class Content{
 		} else {
 			$this->set = false;
 			return 1;
+		}
 	}
 	//Creates content, assumes it has already been handled by uploader
-	function create_content($name_in, $user_id_in, $content_in, $mime-type_in, $type_id_in, $duration_in, $start_time_in, $end_time_in){
+	function create_content($name_in, $user_id_in, $content_in, $mime_type_in, $type_id_in, $duration_in, $start_time_in, $end_time_in){
 		if($this->set == true){
 			return false;
 		} else {
 			$sql = "INSERT INTO content 
 			(name, user_id, content, mime-type, type_id, duration, start_time, end_time, duration)
 			VALUES
-			($name_in, $user_id_in, $content_in, $mime-type_in, $type_id_in, $duration_in, $start_time_in, $end_time_in, NOW())";
+			($name_in, $user_id_in, $content_in, $mime_type_in, $type_id_in, $duration_in, $start_time_in, $end_time_in, NOW())";
 			$res = sql_query($sql);
-            if($res){
-                $sql_id = sql_insert_id();
+            		if($res){
+                		$sql_id = sql_insert_id();
 
-                $this->id = $sql_id;
-                $this->name = $name_in;
-                $this->content = $content_in;
-                $this->mime-type = $mime-type_in;
-                $this->type_id = $type_id_in;
-                $this->duration = $duration_in;
-                $this->start_time = $start_time_in;
-                $this->end_time = $end_time_in;
-                $this->submitted = date("Y:m:d H:i:s", time());
+                		$this->id = $sql_id;
+                		$this->name = $name_in;
+                		$this->content = $content_in;
+                		$this->mime_type = $mime_type_in;
+                		$this->type_id = $type_id_in;
+                		$this->duration = $duration_in;
+                		$this->start_time = $start_time_in;
+                		$this->end_time = $end_time_in;
+                		$this->submitted = date("Y:m:d H:i:s", time());
 				
-                $this->set = true;
-                return true;
-            } else {
-                return false;
-            }
+                		$this->set = true;
+                		return true;
+           		} else {
+                		return false;
+            		}
 		}
 	}
 	//Sets properties back to database, will NOT moderate content or change some constant values
 	function set_properties(){
 		$sql = "UPDATE content SET name = '$this->name', duration = '$this->duration', start_time = '$this->start_time', end_time = '$this->end_time' WHERE id = $this->id LIMIT 1";
 		$res = sql_query($sql);
-        if($res){
-            return true;
-        } else {
-            return false;
-        }
+        	if($res){
+            		return true;
+        	} else {
+            		return false;
+        	}
 	}
 	//Checks to  see if a content is live based on date, for a per feed check use list_feeds
 	function is_live(){
@@ -103,7 +104,7 @@ class Content{
 		while($row = sql_row_keyed($res,$i)){
 			$data[$i]['feed'] = new Feed($row['feed_id']);
 			$data[$i]['moderation_flag'] = $row['moderation_flag'];
-		    $i++;
+		    	$i++;
 		}
 		return $data;
 	}
@@ -112,11 +113,11 @@ class Content{
 		$sql2 = "SELECT id FROM feed WHERE id NOT IN (SELECT feed_id FROM feed_content WHERE content_id = $this->id) ORDER BY id ASC";
 		$res = sql_query($sql2);
 		$i=0;
-		while($row = sql_row_keyed($res, $i){
+		while($row = sql_row_keyed($res, $i)){
 			$data[$i] = new Feed($row['id']);
 			$i++;
 		}
-		return $data
+		return $data;
 	}
-	
+}	
 ?>
