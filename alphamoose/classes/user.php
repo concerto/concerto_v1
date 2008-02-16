@@ -67,10 +67,11 @@ class User{
 	
 	//Creates a user
 	function create_user($username_in, $name_in, $email_in, $admin_privileges_in){
-		if($set == true){
+		if($this->set == true){
 			return false; //We already have a user object you idiot
 		} else {
-			$sql = "INSERT INTO user (username, name, email, admin_privileges) VALUES ($username_in,$name_in, $email_in, $admin_privileges_in)";
+			$sql = "INSERT INTO user (username, name, email, admin_privileges) VALUES ('$username_in', '$name_in', '$email_in', $admin_privileges_in)";
+			
 			$res = sql_query($sql);
 			if($res){
 				$sql_id = sql_insert_id();
