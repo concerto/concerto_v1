@@ -53,9 +53,9 @@ function renderMessage($type, $msg)
 		case "error": $col='red'; break;
 		case "warn": $col='yellow'; break;
 		case "stat": $col='green'; break;
-		case "info": default: $col=blue; break;
+		case "info": default: $col='#069';$text='white'; break;
 	}
-	return '<div style="width:100%;background-color:'.$col.'"><h3>'.
-		$msg."</h3></div>\n";
+	return '<div style="width:100%;background-color:'.$col.';color:'.$text.'"><p style="padding:3px">'.
+		$msg."</p></div>\n";
 }
 ?>

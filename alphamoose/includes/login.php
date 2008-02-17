@@ -18,10 +18,18 @@ phpCAS::client(CAS_VERSION_2_0,'login.rpi.edu',443,'/cas');
 //they are designed for use as "requirements" of site actions
 //should return true, or perform some action before returning;
 //false indicates an error.
-function check_login()
+function check_login($callback)
 {
    if(isLoggedIn())
       return true;
+
+   if($callback->controller == 'users' && $callback->action == 'create')
+      return true;
+
+   //   if(phpCAS::isAuthenticated()) {
+   //    login_login();
+   //}
+
    if(phpCAS::checkAuthentication())
       login_login();
 }
@@ -29,24 +37,20 @@ function check_login()
 function require_login()
 {
    phpCAS::forceAuthentication();
-   if(isLoggedIn())
-      return true;
-   return false;
+   if(!isLoggedIn())
+      login_login();
+   return true;
 }
 
 function require_action_auth($callback)
 {
-   check_login();
+   check_login($callback);
    $target = $callback->controller;
    $id=$callback->currId;
 
-   if($target=='screens') $target='screen';
-   if($target=='feeds') $target='feed';
-
-   if($_SESSION['user']->can_write($target,$id)) return true;
-   else {
-      $_SESSION[flash][] = Array('error',"Sorry, you don't have permission to access $target $id");
-      redirect_to(ADMIN_URL."/screens");
+   if(!has_action_auth($target, $id)) {
+      $_SESSION[flash][] = Array('error',"Sorry, you don't have permission to edit $target $id");
+      redirect_to(ADMIN_URL.'/'.$callback->controller);
    }
 
    return true;
@@ -67,13 +71,30 @@ function isAdmin()
 
 function firstName()
 {
-   $nm=split(" ",$_SESSION['user']->username);
-   return $nm[0];
+   return $_SESSION['user']->firstname;
 }
 
 function userName()
 {  
    return $_SESSION['user']->username;
+}
+
+function has_action_auth($target, $id)
+{
+   if(!isLoggedIn()) return false;
+   $grant=false;
+
+   if($target=='users') {
+      $target='user';
+      $grant=(isAdmin() || 
+              (phpCAS::isAuthenticated() && $id==phpCAS::getUser()));
+   } else {
+      if($target=='screens') $target='screen';
+      elseif($target=='feeds') $target='feed';
+      if($_SESSION['user']->can_write($target,$id)) 
+         $grant=true;
+   }
+   return $grant;
 }
 
 //login/out functionality
@@ -97,9 +118,8 @@ function login_login()
    $rcsid = phpCAS::getUser();
    $rcsid=mysql_escape_string($rcsid);
    $_SESSION['user'] = new user($rcsid);
-//   print_r($_SESSION['user']);
-   if($_SESSION['user'] === false){
-      echo "You don't have an account yet.  A form is coming soon.";
+   if($_SESSION['user']->username != $rcsid){
+      redirect_to(ADMIN_URL.'/users/signup');
       exit();
    }
 }

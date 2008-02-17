@@ -1,4 +1,4 @@
-<?php
+<?Php
 class frontpageController extends Controller
 {
 	public $actionNames = Array( 'index'=> "Front page", 
@@ -24,9 +24,7 @@ class frontpageController extends Controller
 
 	function loginAction()
 	{
-		global $sess;
-		$_SESSION['flash'][] = '<a href="#">Random Authed Page</a>';
-		self::renderView('frontpage');
+      redirect_to(ADMIN_URL."/frontpage");
 	}
 
 	function logoutAction()

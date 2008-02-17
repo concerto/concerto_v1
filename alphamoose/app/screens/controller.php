@@ -4,8 +4,7 @@ class screensController extends Controller
    public $actionNames = Array( 'list'=> 'Screens Listing', 'show'=>'Details',
                                 'edit'=> 'Edit');
 
-   public $require = Array( 'check_login'=>1,
-                            'require_login'=>1,
+   public $require = Array( 'require_login'=>1,
                             'require_action_auth'=>Array('edit','create',
                                                          'new', 'update' ) );
 

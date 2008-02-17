@@ -23,6 +23,7 @@ class User{
 	var $id;
 	var $username;
 	var $name;
+   var $firstname;
 	var $email;
 	var $admin_privileges;
 	
@@ -41,6 +42,10 @@ class User{
 				$this->email = $data['email'];
 				$this->admin_privileges = $data['admin_privileges'];
 				
+            //Get firstname for aesthetic output
+            $namesplit = split(" ",$this->name);
+            $this->firstname = $namesplit[0]; 
+
 				//Find groups the user belongs to
 				$sql1 = "SELECT group_id FROM user_group WHERE user_id = $this->id";
 				$res1 = sql_query($sql1);

@@ -3,7 +3,8 @@
     <div class="logo_box">
 	   <div class="logo_box_padding">
 	     <center><a href="<?php echo ADMIN_BASE_URL ?>/index.php"><img 
-src="<?php echo ADMIN_BASE_URL?>/images/conc_bluebg.gif" style="" border="0" /></a></center>
+src="<?php echo ADMIN_BASE_URL?>/images/conc_bluebg.gif" alt="Concerto" style="" border="0" 
+/></a></center>
 	   </div>
 	 </div>
     <div class="menu_box">

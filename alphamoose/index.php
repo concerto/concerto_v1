@@ -13,6 +13,7 @@ include('classes/user.php');    //Class to represent a site user
 include('includes/login.php');  //Functionality for CAS, logins, and page authorization
 include('classes/screen.php');  //Class to represent a screen in the system
 include('classes/feed.php');    //Class to represent a content feed
+include('classes/field.php');   //Class to represent a field
 
 define('ADMIN_BASE_URL','/mike_admin');      //base directory on server for images, css, etc.
 define('ADMIN_URL','/mike_admin/index.php'); //URL that can access this page (may be same as
@@ -115,7 +116,7 @@ function denied($reason=0)
 
 function redirect_to($url)
 {
-   header("Location: $url",TRUE,307);
+   header("Location: $url",TRUE,302);
    exit();
 }
 
@@ -133,6 +134,7 @@ class Controller
    protected $templates = array();
    protected $args;
    public $controller;
+   public $action;
    public $currId;
    function __construct()
    {
@@ -163,6 +165,8 @@ class Controller
       //save arguments for controller use
       $this->args=$args;
       $this->currId=$args[1];
+      $this->action=$action;
+
       //save information about the view we want to display
       //by default we use the view with the name of the action
       //(may be modified by action)
