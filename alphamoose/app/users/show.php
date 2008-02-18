@@ -8,4 +8,3 @@
   <p><? echo $this->user->username?></p>
 <h3>Contact:</h3>
   <p><a href="mailto:<?php echo $this->user->email?>"><?php echo $this->user->email?></a></p>
-<h3>Groups:</h3>a

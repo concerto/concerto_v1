@@ -13,7 +13,9 @@ include('classes/user.php');    //Class to represent a site user
 include('includes/login.php');  //Functionality for CAS, logins, and page authorization
 include('classes/screen.php');  //Class to represent a screen in the system
 include('classes/feed.php');    //Class to represent a content feed
-include('classes/field.php');   //Class to represent a field
+include('classes/field.php');   //Class to represent a field in a template
+include('classes/position.php');//Class to represent a postion relationship
+
 
 define('ADMIN_BASE_URL','/mike_admin');      //base directory on server for images, css, etc.
 define('ADMIN_URL','/mike_admin/index.php'); //URL that can access this page (may be same as

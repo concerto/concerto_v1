@@ -1,5 +1,5 @@
 <?php if(isAdmin()) { ?>
-<p></p>
+<p><a href="<?=ADMIN_URL.'/users/new'?>">Add new user</a></p>
 <? } ?>
 <h2>Click on a user to view thier profile.</h2>
 <table class="edit_win" cellpadding="6" cellspacing="0">

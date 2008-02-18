@@ -70,12 +70,12 @@ class usersController extends Controller
       }
       if(isAdmin()) {
          if($user->create_user($dat['username'],$dat['name'],
-                               $dat['email'],$dat['admin_privileges'])) {
+                               $dat['email'],$dat['admin_privileges']=='admin'?1:0)) {
             $_SESSION['flash'][]=Array('info', 'User profile created successfully.');
             redirect_to(ADMIN_URL.'/users/show/'.$user->username);
          } else {
             $_SESSION['flash'][]=Array('error', 'Your profile submission failed. '.
-                                       'Please check all fields and try again.');
+                                       'Please check all fields and try again.'.print_r($dat,true).mysql_error());
             redirect_to(ADMIN_URL.'/users/new');
          }
       } else {
@@ -102,13 +102,13 @@ class usersController extends Controller
       //of their own profiles
       if($_SESSION[user]->username != $user->username) {
          $user->username = $dat['username'];
-         $user->admin_privileges = $dat['admin'];
+         $user->admin_privileges = $dat['admin_privileges']=='admin'?1:0;
       }
       $user->name = $dat['name'];
       $user->email = $dat['email'];
    
       if($user->set_properties()) {
-         $_SESSION['flash'][]=Array('info', 'User Profile updated successfully.');
+         $_SESSION['flash'][]=Array('info', 'User profile updated successfully.');
          redirect_to(ADMIN_URL.'/users/show/'.$user->username);
       } else {
          $_SESSION['flash'][]=Array('error', 'Your submission failed. Please check all fields and try again.');

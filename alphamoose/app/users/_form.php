@@ -25,9 +25,9 @@
          </td>
        </tr>
        <tr>
-         <td><h5>Admin Priviges</h5></td>
+         <td><h5>Admin Privileges</h5></td>
          <td>
-           <input type="text" id="admin_privileges" name="user[admin_priveleges]"<? if($user->admin_privileges) echo " CHECKED"?>">
+           <input type="checkbox" id="admin_privileges" name="user[admin_privileges]"<? if($user->admin_privileges) echo " CHECKED"?>>
          </td>
        </tr>
        <? } else {?>
