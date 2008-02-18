@@ -3,17 +3,19 @@
 Class: User
 Status: Mild, like salsa
 Functionality:  Create users, allows access to user properties, group stuff, etc
-      create_user         	Creates a new user
+       create_user         		Creates a new user
 
         set_properties         	Writes user properties back to the database
 
-        add_to_group	        Adds current user to a group
+        add_to_group	        	Adds current user to a group
 
-        remove_from_group       Removes the user from a group
+        remove_from_group       	Removes the user from a group
 
-        in_group		Tests to see if a user is in a group
+        in_group			Tests to see if a user is in a group
 		
-        can_write		Tests to see if a user can write to an object (essentially a permission check)
+        list_groups			Lists all the groups a user is in		
+		
+        can_write			Tests to see if a user can write to an object (essentially a permission check)
 
 Comments: 
 	can_write is my basic implementation of 'privledges', essentially it combines owner + group to test if the user is an owner who can write
@@ -23,7 +25,7 @@ class User{
 	var $id;
 	var $username;
 	var $name;
-   var $firstname;
+	var $firstname;
 	var $email;
 	var $admin_privileges;
 	
@@ -42,9 +44,9 @@ class User{
 				$this->email = $data['email'];
 				$this->admin_privileges = $data['admin_privileges'];
 				
-            //Get firstname for aesthetic output
-            $namesplit = split(" ",$this->name);
-            $this->firstname = $namesplit[0]; 
+				//Get firstname for aesthetic output
+				$namesplit = split(" ",$this->name);
+				$this->firstname = $namesplit[0]; 
 
 				//Find groups the user belongs to
 				$sql1 = "SELECT group_id FROM user_group WHERE user_id = $this->id";
@@ -86,8 +88,12 @@ class User{
 				$this->name = $name_in;
 				$this->email = $email_in;
 				$this->admin_privileges = $admin_privileges_in;
-				$this->set = true;
 				
+				//Get firstname for aesthetic output
+				$namesplit = split(" ",$this->name);
+				$this->firstname = $namesplit[0]; 
+
+				$this->set = true;
 				return true;
 			} else {
 				return false;
@@ -147,6 +153,14 @@ class User{
 		} else {
 			return false;
 		}
+	}
+	
+	//Lists all the groups a user is in
+	function list_groups(){
+		foreach($this->groups as $group_id){
+			$data[] = new Group($group_id);
+		}
+		return $data;
 	}
 	
 	//Checks if a user should have access to write/modify an existing object
