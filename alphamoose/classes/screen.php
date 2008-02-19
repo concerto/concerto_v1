@@ -3,7 +3,6 @@
 Class: Screen
 Status: Done maybe?
 Functionality:
-	create_screen		Makes a screen, incase you want a new one
 	set_properties		Writes all data back the the screen table
 	
 	add_position		[[Depreciated]]  use field -> position link.						
@@ -41,7 +40,7 @@ class Screen{
 	 //The default constructor takes a screen ID and pulls all of the data out for quick and easy access
 	 function __construct($macid = ''){
 	 	//Returns true for sucess, false for failure
-		if($madid != ''){
+		if($macid != ''){
 			$sql = "SELECT * from screen WHERE mac_address = $macid LIMIT 1";
 			$res = sql_query($sql);
 			if($res != 0){
