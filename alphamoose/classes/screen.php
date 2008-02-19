@@ -3,6 +3,7 @@
 Class: Screen
 Status: Done maybe?
 Functionality:
+	create_screen		Makes a screen, incase you want a new one
 	set_properties		Writes all data back the the screen table
 	
 	add_position		[[Depreciated]]  use field -> position link.						
@@ -35,25 +36,61 @@ class Screen{
 	 var $template_id;
 	 var $last_updated;
 	 
+	 var $set;
+	 
 	 //The default constructor takes a screen ID and pulls all of the data out for quick and easy access
-	 function __construct($macid){
+	 function __construct($macid = ''){
 	 	//Returns true for sucess, false for failure
-	 	$sql = "SELECT * from screen WHERE mac_address = $macid LIMIT 1";
-		$res = sql_query($sql);
-		if($res != 0){
-			$data = (sql_row_keyed($res,0));
-			$this->id = $data['id'];
-			$this->name = $data['name'];
-			$this->group_id = $data['group_id'];
-			$this->location = $data['location'];
-			$this->mac_address = $data['mac_address'];
-			$this->width = $data['width'];
-			$this->height = $data['height'];
-			$this->template_id = $data['template_id'];
-			$this->last_updated = $data['last_updated'];
-			return true;
+		if($madid != ''){
+			$sql = "SELECT * from screen WHERE mac_address = $macid LIMIT 1";
+			$res = sql_query($sql);
+			if($res != 0){
+				$data = (sql_row_keyed($res,0));
+				$this->id = $data['id'];
+				$this->name = $data['name'];
+				$this->group_id = $data['group_id'];
+				$this->location = $data['location'];
+				$this->mac_address = $data['mac_address'];
+				$this->width = $data['width'];
+				$this->height = $data['height'];
+				$this->template_id = $data['template_id'];
+				$this->last_updated = $data['last_updated'];
+				
+				$this->set = true;
+				return true;
+			} else {
+				return false; //Unable to find a screen
+			}
 		} else {
-			return false; //Unable to find a screen
+			$this->set = false;
+			return true;
+		}
+	}
+	
+	function create_screen($name_in, $group_id_in, $location_in, $mac_address_in, $width_in='', $height_in='', $template_id_in=''){
+		if($this->set){
+			return false;
+		} else {
+			$sql = "INSERT INTO `screen` (name, group_id, location, mac_address, width, height, template_id) VALUES ('$name_in', $group_id_in, '$location_in', '$mac_address_in', $width_in, $height_in, $template_id_in)";
+			$res = sql_query($sql);
+			if($res){
+				$sql_id = sql_insert_id();
+				
+				$this->id = $sql_id;
+				$this->name = $name_in;
+				$this->group_id = $group_id_in;
+				$this->location = $location_in;
+				$this->mac_address = $mac_address_in;
+				$this->width = $width_in;
+				$this->height = $height_in;
+				$this->template_id = $template_id_in;
+				$this->last_updated = 0;
+				
+				$this->set = true;
+				return true;	
+			} else {
+				return false;
+			}
 		}
 	}
 	
