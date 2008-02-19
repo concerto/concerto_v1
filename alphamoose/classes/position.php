@@ -26,7 +26,7 @@ class Position{
 	
 	function __construct($id_in = ''){
 		if($id_in != ''){
-			$sql = "SELECT * FROM position WHERE id = $id_in LIMIT 1";
+			$sql = "SELECT * FROM `position` WHERE id = $id_in LIMIT 1";
 			$res = sql_query($sql);
 			if($res != 0){
 				$data = (sql_row_keyed($res,0));

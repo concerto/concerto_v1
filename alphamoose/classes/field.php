@@ -4,6 +4,7 @@ Class: Field
 Status: New
 Functionality:
 	set_properties		Writes and changes back to the database, includes all sub-positions
+	list_positions		Lists all the positions in a field
 	rebalance			Re-Weights all positions to have an equal weight (1/sum)
 	rebalance_byweight	Re-Weights all positions based what is set in their weight properties.
 	add_feed			Adds a feed mapping to the field.. aka creates a position
@@ -88,6 +89,17 @@ class Field{
 		}
 	
 	}
+	
+	//Lists all the positions in a field
+	function list_positions(){
+		if($this->screen_set){
+			$data = $this->screen_pos;
+			return $data;
+		} else {
+			return false;
+		}
+	}
+	
 	//Rebalances all positions to be equally liked
 	function rebalance(){
 		if($this->screen_set){
