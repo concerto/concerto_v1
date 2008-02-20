@@ -33,14 +33,17 @@ $scrimg?>" alt=""
       <h3 style="clear:left">Subscriptions</h3>
       <ul>
 	<? foreach ($this->screen->list_fields() as $field) { ?>
-	 <li>Position <? echo $field ?><ul>
+	 <li>Field <? echo $field->name ?><ul>
 	   <?php
-		$positions = $this->screen->list_positions($field) ;
-		if(sizeof($positions)) {
-		  foreach ($this->screen->list_positions($field) as $position) { 
+		$positions = $field->list_positions() ;
+      print_r($positions);
+		if($positions) {
+		  foreach($positions as $position) {
+          $field = new Field($position->field_id);
 	   ?>
-		  <li><? print_r( $position[feed_id] ); } ?></li>
+		  <li><?=$field->name?></li>
 	   <?php
+        }
 		} else echo "<li>(none)</li>";
 	   ?>
 	 </ul></li>
