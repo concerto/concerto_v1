@@ -74,6 +74,7 @@ class Uploader{
 					$f = new Feed($fid);
 					$f->content_add($cid);
 				}
+				$this->status = "";
 				return true; //The content is finished uploading
 			} else {
 				return false; //Failure making a content isn't a good thing
@@ -91,6 +92,7 @@ class Uploader{
 					$f = new Feed($fid);
 					$f->content_add($cid);
 				}
+				$this->status = "";
 				return true; //The content is finished uploading
 			} else {
 				return false; //Failure making a content isn't a good thing
@@ -292,6 +294,7 @@ class Uploader{
 				$f = new Feed($fid);
 				$f->content_add($cid);
 			}
+			$this->status = "";
 			return true; //The content is finished uploading
 		} else {
 			return false; //Failure making a content isn't a good thing
