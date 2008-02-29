@@ -29,7 +29,7 @@ class Content{
 				$this->name = $data['name'];
 				$this->user_id = $data['user_id'];
 				$this->content = $data['content'];
-				$this->mime_type = $data['mime-type'];
+				$this->mime_type = $data['mime_type'];
 				$this->type_id = $data['type_id'];
 				$this->duration = $data['duration'];
 				$this->start_time = $data['start_time'];
@@ -51,9 +51,10 @@ class Content{
 			return false;
 		} else {
 			$sql = "INSERT INTO content 
-			(name, user_id, content, mime-type, type_id, duration, start_time, end_time, duration)
+			(name, user_id, content, mime_type, type_id, duration, start_time, end_time, submitted)
 			VALUES
-			($name_in, $user_id_in, $content_in, $mime_type_in, $type_id_in, $duration_in, $start_time_in, $end_time_in, NOW())";
+			('$name_in', $user_id_in, '$content_in', '$mime_type_in', $type_id_in, $duration_in, '$start_time_in', '$end_time_in', NOW())";
+			echo $sql;
 			$res = sql_query($sql);
             		if($res){
                 		$sql_id = sql_insert_id();
@@ -77,7 +78,7 @@ class Content{
 	}
 	//Sets properties back to database, will NOT moderate content or change some constant values
 	function set_properties(){
-		$sql = "UPDATE content SET name = '$this->name', duration = '$this->duration', start_time = '$this->start_time', end_time = '$this->end_time' WHERE id = $this->id LIMIT 1";
+		$sql = "UPDATE content SET name = '$this->name', content = '$this->content', duration = '$this->duration', start_time = '$this->start_time', end_time = '$this->end_time' WHERE id = $this->id LIMIT 1";
 		$res = sql_query($sql);
         	if($res){
             		return true;
