@@ -1,7 +1,7 @@
 <?
 /*
 Class: Upload
-Status: Working, tested for PDF, PNG and JPEG
+Status: Yea right  
 Functionality:
 Comments: 
 	The goal of upload is to process/clean things up before sending them to Content to be created.
@@ -36,6 +36,7 @@ class Uploader{
 	
 	var $ctype; //UI
 	var $auto; //I
+	var $status;
 	
 	function __construct($name_in, $start_date_in, $end_date_in, $feeds_in, $duration_in, $content_i_in, $ctype_in, $user_id_in, $auto_in = 1){
 	
@@ -50,6 +51,8 @@ class Uploader{
 		$this->feeds = $feeds_in;
 		
 		$this->auto = $auto_in; //This field specificies if the uploader should run in automatic mode or manual processing.  I like auto mode, but thats just me
+		
+		$this->status = "Unknown error.";
 
 		if($this->auto){
 			$this->filer();
@@ -107,12 +110,14 @@ class Uploader{
 					$this->pdf_cleaner(); 
 				} else {
 					unlink($this->content_i['tmp_name']); //Delete it since its def a virus duh!
+					$this->status = "We could not recognize the type of file you submitted.";
 					return false; //Unknown filetype
 				}
 			} else {
 				return false;
 			}
 		} else {
+			$this->status = "We could not recognize the uploader used.";
 			//Unknown ctype == bad
 			return false;
 		}
@@ -136,7 +141,7 @@ class Uploader{
 			//echo "Source $width x $height";
 			if($width < MIN_W || $height < MIN_H){ //The image isn't big enough!
 				unlink($temp_dest);
-				//echo "Too Small!";
+				$this->status = "The image you submitted was too small.";
 				return false;
 			} elseif($width > MAX_W || $height > MAX_H){  //The image is too large, resize it!
 				//echo "Too large";
@@ -152,20 +157,29 @@ class Uploader{
 				$new_y = $height * $scale;
 				
 				$dest_img=ImageCreateTrueColor($new_x,$new_y);
-        			imagecopyresampled($dest_img,$src_img,0,0,0,0,$new_x,$new_y,$width,$height);
-        			imagejpeg($dest_img, $temp_dest, 90);
-        			imagedestroy($dest_img);
-        			imagedestroy($src_img);
+        		imagecopyresampled($dest_img,$src_img,0,0,0,0,$new_x,$new_y,$width,$height);
+        		imagejpeg($dest_img, $temp_dest, 90);
+        		imagedestroy($dest_img);
+        		imagedestroy($src_img);
         		
-        			$this->mime_type = 'image/jpeg';
-        			$this->type_id = 3; //SELF: THIS IS BAD AND DUMB AND STUPID
-        			//echo "But we shrunk it!";
+        		$this->mime_type = 'image/jpeg';
+        		$this->type_id = 3; //SELF: THIS IS BAD AND DUMB AND STUPID
+        		$this->status = "Your image was sucessfully resized.";
+        		//echo "But we shrunk it!";
+        		if($this->auto){
         			return $this->mover($temp_dest);
+        		} else {
+        			return true;
+        		}
 			} else {
 				$this->mime_type = 'image/jpeg';
-                        	$this->type_id = 3; //SELF: THIS IS BAD AND DUMB AND STUPID
+                $this->type_id = 3; //SELF: THIS IS BAD AND DUMB AND STUPID
 				//echo "Did not require resizing";
-				return $this->mover($temp_dest);
+				if($this->auto){
+        				return $this->mover($temp_dest);
+        		} else {
+        				return true;
+        		}
 			}
 
 		} else {
@@ -178,52 +192,61 @@ class Uploader{
 		$temp_name = $this->user_id . "-" . time() . ".png";
 		$temp_dest = $temp_dir . $temp_name;
 		if($loc != ''){
-			$temp_dir = $loc;
-		} 
-		if ($loc != '' || move_uploaded_file($this->content_i['tmp_name'], $temp_dest)){
-			chmod($temp_dest, 0644);
-			//Now that we have the file and we know where it is, lets mess it up
-			$src_img=imagecreatefrompng($temp_dest);
-
-			$width=imageSX($src_img);
-			$height=imageSY($src_img);
-			//echo "Source $width x $height";
-			if($width < MIN_W || $height < MIN_H){ //The image isn't big enough!
-				unlink($temp_dest);
-				//echo "Too Small!";
-				return false;
-			} elseif($width > MAX_W || $height > MAX_H){  //The image is too large, resize it!
-				//echo "Too large";
-				$scale_x = MAX_W / $width;
-				$scale_y = MAX_H / $height;
-				
-				if($scale_x >= $scale_y){ //Find the dimension that needs the most help
-					$scale = $scale_y;
-				} else {
-					$scale = $scale_x;
-				}
-				$new_x = $width * $scale;
-				$new_y = $height * $scale;
-				
-				$dest_img=ImageCreateTrueColor($new_x,$new_y);
-        			imagecopyresampled($dest_img,$src_img,0,0,0,0,$new_x,$new_y,$width,$height);
-        			imagepng($dest_img, $temp_dest, 90);
-        			imagedestroy($dest_img);
-        			imagedestroy($src_img);
-        		
-        			$this->mime_type = 'image/png';
-        			$this->type_id = 3; //SELF: THIS IS BAD AND DUMB AND STUPID
-        			//echo "But we shrunk it!";
-        			return $this->mover($temp_dest);
-			} else {
-				$this->mime_type = 'image/png';
-                        	$this->type_id = 3; //SELF: THIS IS BAD AND DUMB AND STUPID
-				//echo "Did not require resizing";
-				return $this->mover($temp_dest);
-			}
-
+			$temp_dest = $loc;
 		} else {
+			if(!move_uploaded_file($this->content_i['tmp_name'], $temp_dest)){
+				return false;
+			}
+		}
+		chmod($temp_dest, 0644);
+		//Now that we have the file and we know where it is, lets mess it up
+		$src_img=imagecreatefrompng($temp_dest);
+
+		$width=imageSX($src_img);
+		$height=imageSY($src_img);
+		//echo "Source $width x $height";
+		if($width < MIN_W || $height < MIN_H){ //The image isn't big enough!
+			unlink($temp_dest);
+			//echo "Too Small!";
+			$this->status = "The image you submitted was too small.";
 			return false;
+		} elseif($width > MAX_W || $height > MAX_H){  //The image is too large, resize it!
+			//echo "Too large";
+			$scale_x = MAX_W / $width;
+			$scale_y = MAX_H / $height;
+				
+			if($scale_x >= $scale_y){ //Find the dimension that needs the most help
+				$scale = $scale_y;
+			} else {
+				$scale = $scale_x;
+			}
+			$new_x = $width * $scale;
+			$new_y = $height * $scale;
+			
+			$dest_img=ImageCreateTrueColor($new_x,$new_y);
+        	imagecopyresampled($dest_img,$src_img,0,0,0,0,$new_x,$new_y,$width,$height);
+        	imagepng($dest_img, $temp_dest, 90);
+       		imagedestroy($dest_img);
+       		imagedestroy($src_img);
+       		
+       		$this->mime_type = 'image/png';
+       		$this->type_id = 3; //SELF: THIS IS BAD AND DUMB AND STUPID
+       		//echo "But we shrunk it!";
+       		$this->status = "Your image was sucessfully resized.";
+        	if($this->auto){
+       			return $this->mover($temp_dest);
+       		} else {
+       			return true;
+       		}
+		} else {
+			$this->mime_type = 'image/png';
+          	$this->type_id = 3; //SELF: THIS IS BAD AND DUMB AND STUPID
+			//echo "Did not require resizing";
+			if($this->auto){
+        		return $this->mover($temp_dest);
+        	} else {
+        		return true;
+        	}
 		}
 	}
 
@@ -235,12 +258,20 @@ class Uploader{
 			$source = $temp_dest;
 			$target = $temp_dir . $this->user_id . "-" . time() . ".png";
 			$command = "convert " . $source . " " . $target; //This command relies on Image Magick & GS to be installed
-			//echo $command;
-        		exec($command);
-        		unlink($source);
-			$this->content_i['tmp_name'] = $target;
+        	exec($command, $output, $return);
+        	unlink($source);
+        	if($return != 0){
+			$this->status = "Your PDF couldn't be converted to an image";
+			return false;
+		}
+			$this->content_i['temp_name'] = $target;
 			$this->content_i['type'] = "image/png";
-			$this->png_cleaner($target);
+			if($this->auto){
+        		$this->png_cleaner($target);
+        	} else {
+        		return true;
+        	}
+			
 		} else {
 		
 		}

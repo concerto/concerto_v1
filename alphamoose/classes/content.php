@@ -54,7 +54,6 @@ class Content{
 			(name, user_id, content, mime_type, type_id, duration, start_time, end_time, submitted)
 			VALUES
 			('$name_in', $user_id_in, '$content_in', '$mime_type_in', $type_id_in, $duration_in, '$start_time_in', '$end_time_in', NOW())";
-			echo $sql;
 			$res = sql_query($sql);
             		if($res){
                 		$sql_id = sql_insert_id();
