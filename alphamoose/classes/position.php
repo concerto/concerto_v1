@@ -33,7 +33,7 @@ class Position{
 				$this->id = $data['id'];
 				$this->screen_id = $data['screen_id'];
 				$this->feed_id = $data['feed_id'];
-				$this->fiend_id = $data['field_id'];
+				$this->field_id = $data['field_id'];
 				$this->range_l = $data['range_l'];
 				$this->range_h = $data['range_h'];
 			
