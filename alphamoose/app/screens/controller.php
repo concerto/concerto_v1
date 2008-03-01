@@ -23,7 +23,6 @@ class screensController extends Controller
    {
       $screenids = sql_select("screen","mac_address");
       $this->screens=Array();
-      print_r($screenids);
       if(is_array($screenids))
          foreach($screenids as $screen)
             $this->screens[] = new Screen($screen[mac_address]); 

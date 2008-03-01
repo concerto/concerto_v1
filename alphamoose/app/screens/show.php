@@ -35,13 +35,12 @@ $scrimg?>" alt=""
 	<? foreach ($this->screen->list_fields() as $field) { ?>
 	 <li>Field <? echo $field->name ?><ul>
 	   <?php
-		$positions = $field->list_positions() ;
-      print_r($positions);
+		$positions = $field->list_positions();
 		if($positions) {
 		  foreach($positions as $position) {
-          $field = new Field($position->field_id);
+          $feed = new Feed($position->feed_id);
 	   ?>
-		  <li><?=$field->name?></li>
+		  <li><?=$feed->name?></li>
 	   <?php
         }
 		} else echo "<li>(none)</li>";

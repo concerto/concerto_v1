@@ -18,3 +18,4 @@ foreach($this->users as $user){
 <?php
 }
 ?>
+</table>
