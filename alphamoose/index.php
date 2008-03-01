@@ -15,7 +15,7 @@ include('classes/screen.php');  //Class to represent a screen in the system
 include('classes/feed.php');    //Class to represent a content feed
 include('classes/field.php');   //Class to represent a field in a template
 include('classes/position.php');//Class to represent a postion relationship
-
+include('classes/content.php'); //Class to represent content items in the system
 
 define('ADMIN_BASE_URL','/mike_admin');      //base directory on server for images, css, etc.
 define('ADMIN_URL','/mike_admin/index.php'); //URL that can access this page (may be same as
@@ -25,6 +25,7 @@ define('DEFAULT_TEMPLATE','ds_layout');      //Layout file for actions with none
 define('HOMEPAGE','Concerto Interface');     //Name of the homepage
 define('HOMEPAGE_URL', ADMIN_URL);           //relative URL to reach the frontpage
 define('APP_PATH','app');
+define('CONTENT_DIR','/var/www/ds-dev/tom'); //server-side path to parent dir of 'images'
 
 //session variables visible to both controller and view
 //global $sess;
@@ -232,11 +233,11 @@ class Controller
          return $this->controller;
 	}
 
-	function setTemplate($template, $actions=0)
+	function setTemplate($template, $actions='0')
    {
-      if($actions == 0)
+      if($actions == '0')
          $this->defaultTemplate=$template;
-      else if(is_array($actions))
+      else if(is_array($actions)) 
          foreach ($actions as $action)
             $this->templates[$action] = $template;
       else
@@ -285,17 +286,19 @@ class Controller
 }
 
 //Utility function that I wrote
-function sql_select($table, $fields="", $conditions="")
+function sql_select($table, $fields="", $conditions="", $extra="")
 {
 	if($fields && !is_array($fields) )
 		$fields = Array($fields);
 	$query = 'SELECT '.($fields?join(", ",$fields):'*')." FROM `$table`";
 	if($conditions)
 		$query .= " WHERE $conditions ";
+   if($extra)
+      $query .= ' '.$extra;
 	$res=sql_query($query);
 	$rows= array();
 	$i=0;
-	echo mysql_error();
+	//echo mysql_error();
 	while($row = sql_row_keyed($res,$i++))
 		$rows[]=$row;
 	return $rows;	
