@@ -34,7 +34,10 @@ class User{
 		
 	function __construct($username_in = ''){
 		if($username_in != ''){
-			$sql = "SELECT * FROM user WHERE username = '$username_in' LIMIT 1";
+         if(is_numeric($username_in))
+            $sql = "SELECT * FROM user WHERE id = '$username_in' LIMIT 1";
+         else
+            $sql = "SELECT * FROM user WHERE username = '$username_in' LIMIT 1";
 			$res = sql_query($sql);
 			if($res != 0){
 				$data = (sql_row_keyed($res,0));
