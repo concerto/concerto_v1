@@ -19,6 +19,10 @@ class frontpageController extends Controller
 
 	function stupidAction()
 	{
+      $_SESSION['flash'][] = Array('error', "This is an error.");
+      $_SESSION['flash'][] = Array('warn', "This is a warning.");
+      $_SESSION['flash'][] = Array('info', "FYI");
+      $_SESSION['flash'][] = Array('stat', "status");
 		$this->setTitle("Idiot.");
 	}
 
