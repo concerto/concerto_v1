@@ -21,7 +21,7 @@ class Field{
 	var $name;
 	var $template_id;
 	var $type_id;
-	var $tag;
+	var $style;
 	var $left;
 	var $top;
 	var $width;
@@ -43,7 +43,7 @@ class Field{
 				$this->name = $data['name'];
 				$this->template_id = $data['template_id'];
 				$this->type_id = $data['type_id'];
-				$this->tag = $data['tag'];
+				$this->style = $data['style'];
 				$this->left = $data['left'];
 				$this->top = $data['top'];
 				$this->width = $data['width'];
@@ -76,7 +76,7 @@ class Field{
 	}
 	
 	function set_properties(){
-		$sql = "UPDATE `field` SET `name` = '$this->name', `template_id` = '$this->template_id', `type_id` = '$this->type_id', `tag` = '$this->tag', `left` = '$this->left', `top` = '$this->top', `width` = '$this->width', `height` = '$this->height' WHERE `id` = $this->id LIMIT 1";
+		$sql = "UPDATE `field` SET `name` = '$this->name', `template_id` = '$this->template_id', `type_id` = '$this->type_id', `style` = '$this->style', `left` = '$this->left', `top` = '$this->top', `width` = '$this->width', `height` = '$this->height' WHERE `id` = $this->id LIMIT 1";
 		$res = sql_query($sql);
 		if($res != 0){
 			$poss = 1;
