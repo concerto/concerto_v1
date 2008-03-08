@@ -1,12 +1,11 @@
 <?
 /*
 Class: Upload
-Status: Yea right  
+Status: Just about working wel
 Functionality:
 Comments: 
 	The goal of upload is to process/clean things up before sending them to Content to be created.
-	And then clean them up after content has had a chance to play
-
+	And then clean them up after content has had a chance to play.
 */
 define('CONTENT_STORE','/var/www/ds-dev/bam/content/'); //Where everything is stored
 //Reject Limits
@@ -36,7 +35,9 @@ class Uploader{
 	
 	var $ctype; //UI
 	var $auto; //I
-	var $status;
+	var $status; //I  //The status, any errors or messages we want to pass on to users
+	var $retval; //I  //Since a contructor can't return
+	var $cid; //I //The ID of the content created (if you get that far)
 	
 	function __construct($name_in, $start_date_in, $end_date_in, $feeds_in, $duration_in, $content_i_in, $ctype_in, $user_id_in, $auto_in = 1){
 	
@@ -57,6 +58,7 @@ class Uploader{
 		if($this->auto){
 			$this->filer();
 		} else {
+			$this->retval = true;
 			return true;
 		}
 	}
@@ -69,14 +71,17 @@ class Uploader{
 			$this->type_id = 2; //SELF: THIS IS BAD AND DUMB AND STUPID
 			$content = new Content();
 			if($content->create_content($this->name, $this->user_id, $this->content_o, $this->mime_type, $this->type_id, $this->duration, $this->start_date, $this->end_date)){
-				$cid = $content->id;
+
+				$this->cid = $content->id;
 				foreach($this->feeds as $fid){
 					$f = new Feed($fid);
-					$f->content_add($cid);
+					$f->content_add($this->cid);
 				}
 				$this->status = "";
+				$this->retval = true;
 				return true; //The content is finished uploading
 			} else {
+				$this->retval = false;
 				return false; //Failure making a content isn't a good thing
 			}
 		
@@ -87,14 +92,17 @@ class Uploader{
 			$this->type_id = 2; //SELF: THIS IS BAD AND DUMB AND STUPID
 			$content = new Content();
 			if($content->create_content($this->name, $this->user_id, $this->content_o, $this->mime_type, $this->type_id, $this->duration, $this->start_date, $this->end_date)){
-				$cid = $content->id;
+
+				$this->cid = $content->id;
 				foreach($this->feeds as $fid){
 					$f = new Feed($fid);
-					$f->content_add($cid);
+					$f->content_add($this->cid);
 				}
 				$this->status = "";
+				$this->retval = true;
 				return true; //The content is finished uploading
 			} else {
+				$this->retval = false;
 				return false; //Failure making a content isn't a good thing
 			}
 		} elseif($this->ctype == 'file'){
@@ -113,14 +121,17 @@ class Uploader{
 				} else {
 					unlink($this->content_i['tmp_name']); //Delete it since its def a virus duh!
 					$this->status = "We could not recognize the type of file you submitted.";
+					$this->retval = false;
 					return false; //Unknown filetype
 				}
 			} else {
+				$this->retval = false;
 				return false;
 			}
 		} else {
 			$this->status = "We could not recognize the uploader used.";
 			//Unknown ctype == bad
+			$this->retval = false;
 			return false;
 		}
 	}
@@ -144,6 +155,7 @@ class Uploader{
 			if($width < MIN_W || $height < MIN_H){ //The image isn't big enough!
 				unlink($temp_dest);
 				$this->status = "The image you submitted was too small.";
+				$this->retval = false;
 				return false;
 			} elseif($width > MAX_W || $height > MAX_H){  //The image is too large, resize it!
 				//echo "Too large";
@@ -171,6 +183,7 @@ class Uploader{
         		if($this->auto){
         			return $this->mover($temp_dest);
         		} else {
+					$this->retval = true;
         			return true;
         		}
 			} else {
@@ -180,11 +193,13 @@ class Uploader{
 				if($this->auto){
         				return $this->mover($temp_dest);
         		} else {
+						$this->retval = true;
         				return true;
         		}
 			}
 
 		} else {
+			$this->retval = false;
 			return false;
 		}
 	}
@@ -197,6 +212,7 @@ class Uploader{
 			$temp_dest = $loc;
 		} else {
 			if(!move_uploaded_file($this->content_i['tmp_name'], $temp_dest)){
+				$this->retval = false;
 				return false;
 			}
 		}
@@ -211,6 +227,7 @@ class Uploader{
 			unlink($temp_dest);
 			//echo "Too Small!";
 			$this->status = "The image you submitted was too small.";
+			$this->retval = false;
 			return false;
 		} elseif($width > MAX_W || $height > MAX_H){  //The image is too large, resize it!
 			//echo "Too large";
@@ -238,6 +255,7 @@ class Uploader{
         	if($this->auto){
        			return $this->mover($temp_dest);
        		} else {
+				$this->retval = true;
        			return true;
        		}
 		} else {
@@ -247,6 +265,7 @@ class Uploader{
 			if($this->auto){
         		return $this->mover($temp_dest);
         	} else {
+				$this->retval = true;
         		return true;
         	}
 		}
@@ -264,6 +283,7 @@ class Uploader{
         	unlink($source);
         	if($return != 0){
 			$this->status = "Your PDF couldn't be converted to an image";
+			$this->retval = false;
 			return false;
 		}
 			$this->content_i['temp_name'] = $target;
@@ -271,6 +291,7 @@ class Uploader{
 			if($this->auto){
         		$this->png_cleaner($target);
         	} else {
+				$this->retval = true;
         		return true;
         	}
 			
@@ -284,19 +305,21 @@ class Uploader{
 		$content = new Content();
 		//print_r($this);
 		if($content->create_content($this->name, $this->user_id, $this->content_o, $this->mime_type, $this->type_id, $this->duration, $this->start_date, $this->end_date)){
-			$cid = $content->id; 
+			$this->cid = $content->id;
 			
-			$target_loc = CONTENT_STORE . $cid . "." . $ext;
+			$target_loc = CONTENT_STORE . $this->cid . "." . $ext;
 			rename($current_loc, $target_loc);
-			$content->content = $cid . "." . $ext;
+			$content->content = $this->cid . "." . $ext;
 			$content->set_properties();
 			foreach($this->feeds as $fid){
 				$f = new Feed($fid);
-				$f->content_add($cid);
+				$f->content_add($this->cid);
 			}
 			$this->status = "";
+			$this->retval = true;
 			return true; //The content is finished uploading
 		} else {
+			$this->retval = false;
 			return false; //Failure making a content isn't a good thing
 		}
 	} 
