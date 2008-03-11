@@ -74,9 +74,9 @@ class Feed{
         }
     }
 	//Add a content to a feed
-	function content_add($content_in, $mod_in = '0'){
-		if($mod_in != 0 && $mod_in != 1){ //Don't let a stupid value in
-			$mod_in = '';
+	function content_add($content_in, $mod_in = 'NULL'){
+		if($mod_in != 0 || $mod_in != 1 || $mod_in != 'NULL'){ //Don't let a stupid value in
+			$mod_in = 'NULL';
 		}
 		$sql = "INSERT INTO feed_content (feed_id, content_id, moderation_flag) VALUES ($this->id, $content_in, $mod_in)";
 
