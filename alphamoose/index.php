@@ -16,6 +16,8 @@ include('classes/feed.php');    //Class to represent a content feed
 include('classes/field.php');   //Class to represent a field in a template
 include('classes/position.php');//Class to represent a postion relationship
 include('classes/content.php'); //Class to represent content items in the system
+include('classes/upload.php');//Helps uploading
+include('classes/group.php');
 
 define('ADMIN_BASE_URL','/mike_admin');      //base directory on server for images, css, etc.
 define('ADMIN_URL','/mike_admin/index.php'); //URL that can access this page (may be same as
@@ -26,6 +28,8 @@ define('HOMEPAGE','Concerto Interface');     //Name of the homepage
 define('HOMEPAGE_URL', ADMIN_URL);           //relative URL to reach the frontpage
 define('APP_PATH','app');
 define('CONTENT_DIR','/var/www/ds-dev/tom'); //server-side path to parent dir of 'images'
+
+define('DEFAULT_DURATION',7);   //Default content duration, in seconds
 
 //session variables visible to both controller and view
 //global $sess;
@@ -136,6 +140,7 @@ class Controller
    protected $defaultTemplate = DEFAULT_TEMPLATE;
    protected $templates = array();
    protected $args;
+   protected $breadcrumbs;
    public $controller;
    public $action;
    public $currId;
@@ -153,9 +158,8 @@ class Controller
    
    function execute($args)
    {
-      $breadcrumbs[]='<a href="'.HOMEPAGE_URL.'">'.HOMEPAGE.'</a>';
-      $breadcrumbs[]='<a href="'.ADMIN_URL.'/'.$this->controller.'">'.
-         $this->getName().'</a>';
+      $this->breadcrumb(HOMEPAGE, HOMEPAGE_URL);
+      $this->breadcrumb($this->getName(),ADMIN_URL.'/'.$this->controller);
       
       //figure out what action to use
       if(method_exists($this,$args[0].'Action'))
@@ -180,8 +184,7 @@ class Controller
         $actionName = $this->actionNames[$action];
         if(!isset($actionName)) 
            $actionName = $action;
-        $breadcrumbs[]='<a href="'.ADMIN_URL.'/'.
-           $this->controller.'/'.$action.'">'.$actionName.'</a>';
+        $this->breadcrumb($actionName,ADMIN_URL.'/'.$this->controller.'/'.$action);
       }	
     
       //take care of any requirements
@@ -189,9 +192,9 @@ class Controller
       
       //run the action
       call_user_func(array($this,$action.'Action'));
-      
-      //Deal with the page's title
-      $pageTitle = $this->getTitle();
+
+      //set breadcrumb
+      if($action != $this->defaultAction);
       
       //include the template, which will call back for view
       $template = $this->getTemplate($action);
@@ -282,6 +285,20 @@ class Controller
       }
       $this->view[controller]=$controller;
       $this->view[view]=$view;
+   }
+   
+   //display informational messages
+   function flash($msg, $type='info')
+   {
+      $_SESSION['flash'][]= Array($type, $msg);
+   }
+
+   function breadcrumb($item, $url="")
+   {
+      if($url="")
+         $this->breadcrumbs[]=$item;
+      else
+         $this->breadcrumbs[]="<a href=\"$url\">$item</a>";
    }
 }
 

@@ -63,10 +63,10 @@ class screensController extends Controller
      $screen->template_id = $dat['template'];
 
      if($screen->set_properties()) {
-        $_SESSION['flash'][]=Array('info', 'Screen Updated Successfully');
+        flash('Screen Updated Successfully');
         redirect_to(ADMIN_URL.'/screens/show/'.$screen->mac_address);
      } else {
-        $_SESSION['flash'][]=Array('error', 'Your submission was not valid. Please try again.');
+        flash('Your submission was not valid. Please try again.','error');
         redirect_to(ADMIN_URL.'/screens/show/'.$this->args[1]);
      }
      print_r($screen);
