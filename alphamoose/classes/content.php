@@ -1,8 +1,14 @@
 <?
 /*
 Class: Content
-Status: In Progress
+Status:Working
 Functionality:
+	create_content		Builds a content, designed to take stuff from an uploader
+	set_properties		Writes changes back to the table
+	is_live			Tests to see if a content is live or not
+	list_feeds			Returns an array of feed objects, as well as the moderation status
+	avail_feeds			Returns an array of feeds the content can be joined to
+	destroy			Deletes the content from the system, and all feeds its in.
 Comments: More progress made...
 */
 class Content{
@@ -35,6 +41,7 @@ class Content{
 				$this->start_time = $data['start_time'];
 				$this->end_time = $data['end_time'];
 				$this->submitted = $data['submitted'];
+
 				$this->set = true;
 				return 1;
 			} else {
@@ -106,7 +113,11 @@ class Content{
 			$data[$i]['moderation_flag'] = $row['moderation_flag'];
 		    	$i++;
 		}
-		return $data;
+		if(isset($data)){
+			return $data;
+		} else {
+			return false;
+		}
 	}
 	//Lists all feeds content has not been submitted to
 	function avail_feeds(){
@@ -118,6 +129,32 @@ class Content{
 			$i++;
 		}
 		return $data;
+	}
+	function destroy(){
+		$return = true;
+		if($data = $this->list_feeds()){ // To get all the feeds the content is in
+			foreach($data as $feed_row){
+				$return = $return * $feed_row['feed']->content_remove($this->id);
+			}
+		}
+		if(!$return){
+			return false; //Failure to remove the content from all the feeds it was in
+		}
+		if($this->mime_type != 'text/plain' && $this->mime_type != 'text/html'){
+			$path = CONTENT_STORE . $this->content;
+			echo $path;
+			unlink($path);
+		}
+		if(!$return){
+			return false;  //Failure to delete content
+		}
+		$sql = "DELETE FROM content WHERE id = $this->id";
+		$res = sql_query($sql);
+		if($res){
+			return true;
+		} else {
+			return false;
+		}
 	}
 }	
 ?>

@@ -6,6 +6,7 @@ Functionality:
         create_feed             Creates a new feed
         set_properties	Sets any properties back to the db
         content_add		Adds content to the feed, based on the content_id and an optional moderation flag
+        content_remove	Removes a piece of content from a feed
         coontent_count	Counts all the content in a feed that match an optional mod flag
         content_list		Lists all the content in a feed, again with the mod flag junk
         content_mod		Moderates content in a feed, requires content ID and mod flag
@@ -24,7 +25,7 @@ class Feed{
 		if($id != ''){
 			$sql = "SELECT * FROM feed WHERE id = $id LIMIT 1";
             $res = sql_query($sql);
-            if($res != 0){
+            if($res){
                 $data = (sql_row_keyed($res,0));
                 $this->id = $data['id'];
                 $this->name = $data['name'];
@@ -84,9 +85,16 @@ class Feed{
 		if($res){
            		return true;
         	} else {
-            		return false;
-        	}
-    	}
+            	return false;
+        }
+    }
+	
+	//Remove content from a feed
+	function content_remove($content_in){
+		$sql = "DELETE FROM feed_content WHERE feed_id = $this->id AND content_id = $content_in LIMIT 1";
+		sql_query($sql);
+		return true;
+	}
 
 	//Count # of content in a feed based on moderation status
 	function content_count($mod_flag="%"){

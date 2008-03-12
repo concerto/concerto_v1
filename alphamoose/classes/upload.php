@@ -7,7 +7,7 @@ Comments:
 	The goal of upload is to process/clean things up before sending them to Content to be created.
 	And then clean them up after content has had a chance to play.
 */
-define('CONTENT_STORE','/var/www/ds-dev/bam/content/'); //Where everything is stored
+define('CONTENT_STORE','/var/www/ds-dev/tom/'); //Where everything is stored
 //Reject Limits
 define('MIN_W','400'); //Min width before we reject an image
 define('MIN_H','400'); //Min height before we reject an image
