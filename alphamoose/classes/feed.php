@@ -138,7 +138,17 @@ class Feed{
 		}
 		return $data;
 	}
-		
+	//List all feeds, optional WHERE syntax
+	function get_all($where = ''){
+		$sql = "SELECT * FROM feed $where";
+		$res = sql_query($sql);
+		$i=0;
+		while($row = sql_row_keyed($res,$i)){
+		    $data[] = new Feed($row['id']);
+		    $i++;
+		}
+		return $data;
+	}
 }
 
 ?>
