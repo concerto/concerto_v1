@@ -47,10 +47,10 @@ class Feed{
 	}
 
 	function create_feed($name_in, $group_in){
-		if($set == true){
+		if($this->set == true){
 			return false; //We already have a feed established here
 		} else {
-			$sql = "INSERT INTO feed (name, group_id) VALUES ($name_in, $group_in)";
+			$sql = "INSERT INTO feed (name, group_id) VALUES ('$name_in', $group_in)";
             		$res = sql_query($sql);
                 	if($res){
                     		$sql_id = sql_insert_id();
