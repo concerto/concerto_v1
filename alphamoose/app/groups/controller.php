@@ -28,7 +28,8 @@ class groupsController extends Controller
          foreach($ids as $group) { 
             $group = new Group($group['id']);
             $this->groups[$group->id][name]=$group->name;
-            $this->groups[$group->id][members]=count($group->get_members());
+            $members = $group->get_members();
+            $this->groups[$group->id][members]=is_array($members)?count($members):0;
             $feeds_res = sql_query('SELECT COUNT(id) as feeds FROM `feed` WHERE `group_id` = '.$group->id);
             if($feeds_res) {
                $num_feeds = sql_row_keyed($feeds_res,0);
@@ -100,7 +101,7 @@ class groupsController extends Controller
 	$this->setTitle('Group Creation');
 	$group=new Group();
          if($group->create_group($_POST[group][name])) {
-            $this->flash('The {$group->name} was created successfully.');
+            $this->flash($group->name.' was created successfully.');
             redirect_to(ADMIN_URL.'/groups/show/'.$group->id);
          } else {
             $this->flash('Your group creation failed. '.

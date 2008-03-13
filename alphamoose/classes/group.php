@@ -134,6 +134,8 @@ class Group{
 		$this->id = '';
 		$this->name = '';
 		$this->set = false;
+
+      return true;
 	}
 }
 ?>
