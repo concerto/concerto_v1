@@ -212,9 +212,6 @@ class User{
 		} else if($type == 'group'){
             return $this->in_group($item_id);
       }
-
-
 	}
-
 }
 ?>

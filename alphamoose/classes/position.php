@@ -5,7 +5,8 @@ Status: Done.
 Functionality:
 	create_position		Creates a new position
 	set_properties		Updates the range for a position, thats all
-	delete_me			Removes the position
+	delete_me			[[Depreciated]] Use destroy
+	destroy			Removes a position
 Comments: 
 	Tested and working.
 	Do not play with range_l and range_h unless you know what you're doing.  You're better off using rebalancer in field
@@ -98,7 +99,10 @@ class Position{
 	}
 	
 	function delete_me(){
-		if($this->set){
+		return $this->destroy();
+	}
+	function destroy(){
+			if($this->set){
 			$sql = "DELETE FROM position WHERE id = '$this->id' LIMIT 1";
 			$res = sql_query($sql);
 			if($res != 0){

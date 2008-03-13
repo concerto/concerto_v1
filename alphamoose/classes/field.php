@@ -7,6 +7,7 @@ Functionality:
 	list_positions		Lists all the positions in a field
 	rebalance			Re-Weights all positions to have an equal weight (1/sum)
 	rebalance_byweight	Re-Weights all positions based what is set in their weight properties.
+	rebalance_scale		Re-Weights all positions by scaling them up... useful if you delete a position
 	add_feed			Adds a feed mapping to the field.. aka creates a position
 	delete_feed		Deletes a feed mapping.. aka removes a position
 	avail_feeds			List all the feeds that haven't been joined to a field
@@ -149,6 +150,23 @@ class Field{
 			return false; //See rebalance for comment
 		}
 	}
+	//Rebalances the weights so they sum to 1, helpful if you delete stuff
+	function rebalance_scale(){
+		if($this->screen_set){
+			$sum = 0;
+			foreach($this->screen_pos as $pos){
+				$sum += $pos->weight;
+			}
+			$scale = 1/$sum; //The amount each weight needs to grow by
+			foreach($this->screen_pos as $pos){
+				$pos->weight = $pos->weight * $scale;
+			}
+			return $this->rebalance_byweight();
+		} else {
+			return false;
+		}
+	}
+	
 	//Adds a feed to a field.. aka a position mapping.  Does not do any weighting, that must be done seperately
 	function add_feed($feed_id_in){
 		if($this->screen_set){

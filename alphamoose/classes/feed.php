@@ -11,6 +11,8 @@ Functionality:
         content_list		Lists all the content in a feed, again with the mod flag junk
         content_mod		Moderates content in a feed, requires content ID and mod flag
         list_all			Lists all the feeds in the system, optional WHERE syntax
+        get_all			Gets all the feeds in the system, optional WHERE syntax
+        destroy		Deletes a feed, all content mapped to the feed, and scales all the fields up appropriately
 Comments:		
 
 */
@@ -143,11 +145,48 @@ class Feed{
 		$sql = "SELECT * FROM feed $where";
 		$res = sql_query($sql);
 		$i=0;
+		$found = false;
 		while($row = sql_row_keyed($res,$i)){
+			$found = true;
 		    $data[] = new Feed($row['id']);
 		    $i++;
 		}
-		return $data;
+		if($found){
+			return $data;
+		} else {
+			return false;
+		}
+	}
+	function destroy(){
+		$sql = "DELETE FROM feed_content WHERE feed_id = $this->id";
+		$res = sql_query($sql);
+		if(!$res){
+			return false; //Error unmapping content!
+		}
+		$sql1 = "SELECT field_id, screen_id FROM position WHERE feed_id = $this->id";
+		$res1 = sql_query($sql1);
+		if(!$res1){
+			return false; //Error grabbing positions/fields
+		}
+		$i=0;
+		while($row = sql_row_keyed($res1,$i)){
+		    $field = new Field($row['field_id'],$row['screen_id']);
+			$field->delete_feed($this->id);
+			$field->rebalance_scale();
+		    $i++;
+		}
+		
+		$sql = "DELETE FROM feed WHERE id = $this->id";
+		$res = sql_query($sql);
+		if(!$res){
+			return false; //Error with the final delete!!!
+		}
+		//Then we just clear the variables
+		$this->id = '';
+		$this->name = '';
+		$this->group_id-'';
+		$this->set = false;
+		
 	}
 }
 

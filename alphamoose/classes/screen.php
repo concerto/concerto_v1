@@ -20,7 +20,8 @@ Functionality:
 					sql timestamp, and a 1 [default] will return a pretty string.
 						
 	list_all			Lists all screens, optional where syntax
-   get_all         same, returns objects instead of array						
+	get_all        			 same, returns objects instead of array
+	destroy			 destroys a screen
 Comments:
 
 */
@@ -162,16 +163,36 @@ class Screen{
 		return $data;
 	}
 
-   function get_all($where = ''){
-      $sql = "SELECT mac_address FROM screen $where";
-      $res = sql_query($sql);
-      $i=0;
-      while($row = sql_row_keyed($res,$i)){
-          $data[] = new Screen($row['mac_address']);
-          $i++;
-      }
-      return $data;
-   }
-
+	function get_all($where = ''){
+		$sql = "SELECT mac_address FROM screen $where";
+		$res = sql_query($sql);
+		$i=0;
+		$found = false;
+		while($row = sql_row_keyed($res,$i)){
+			$found = true;
+			$data[] = new Screen($row['mac_address']);
+			$i++;
+		}
+		if($found){
+			return $data;
+		} else {
+			return false;
+		}
+	}
+	function destroy(){
+		$sql = "DELETE FROM `position` WHERE screen_id = $this->id";
+		$res = sql_query($sql);
+		if(!$res){
+			return false;
+		}
+		
+		$sql = "DELETE FROM `screen` WHERE id = $this->id LIMIT 1";
+		$res = sql_query($sql);
+		if(!$res){
+			return false;
+		}
+		
+		return true;
+	}
 }
 ?>
