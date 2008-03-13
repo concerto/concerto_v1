@@ -48,90 +48,130 @@ class contentController extends Controller
    function showAction()
    {
       $this->content = new Content($this->args[1]);
+      if(!$this->content->id) {//not a real content
+         $this->flash('Error: The content you requested could not be found. '.
+                      'You may have found a bad link, or the content may have been removed. ',
+                      'error');
+         redirect_to(ADMIN_URL.'/content');
+      }
       $this->setTitle($this->content->name);
       $this->canEdit =$_SESSION['user']->can_write('content',$this->args[1]);
+      $this->submitter = new User($this->content->user_id);
+      $feeds = $this->content->list_feeds();
+      if(is_array($feeds)) {
+         foreach ($feeds as $feed) {
+            if($feed['moderation_flag']==1)
+               $this->act_feeds[]=$feed;
+            else if ($feed['moderation_flag']=='')
+               $this->wait_feeds[]=$feed;
+            else if ($feed['moderation_flag']==0)
+               $this->denied_feeds[]=$feed;
+         }
+      }
    }
-   //up to here   
+
    function editAction()
    {
-      $this->user = new User($this->args[1]);
-      $this->setTitle("Editing profile for ".$this->user->name);
+      $this->content = new Content($this->args[1]);
+      $this->setTitle("Editing Content: ".$this->content->name);
    }
    
-   function signupAction()
-   {
-      if(!phpCAS::isAuthenticated())
-         redirect_to(ADMIN_URL.'/frontpage/login');
-      if(isLoggedIn())
-         redirect_to(ADMIN_URL.'/users/');
-      $this->user = new User();
-      $this->user->username = phpCAS::getUser();
-   }
-
    function newAction()
    {
-      $this->setTitle("Create new user profile");
+      $this->setTitle("Add Content");
    }
 
+   function new_imageAction()
+   {
+      $this->readFeeds(Feed::get_all());
+   }
+
+   function new_textAction()
+   {
+      
+   }
+
+   //just a helper to store feeds for listing in form
+   function readFeeds($unsub_feeds, $sub_feeds="")
+   {
+      $this->feeds = Array();
+      if(is_array($unsub_feeds))
+         foreach ($unsub_feeds as $feed) 
+            $this->feeds[$feed->name]=Array($feed,0);
+      if(is_array($sub_feeds))
+         foreach ($sub_feeds as $feed)
+            $this->feeds[$feed->name]=Array($feed,1);
+
+      ksort($this->feeds); //sort all feeds by feed name
+   }
+
+   //up to here   
    function createAction()
    {
-      $dat = $_POST['user'];
-      $user = new User();
-      
-      if(!phpCAS::isAuthenticated()) {
-         redirect_to(ADMIN_URL.'/users/signup');
-         exit();
-      }
-      if(isAdmin()) {
-         if($user->create_user($dat['username'],$dat['name'],
-                               $dat['email'],$dat['admin_privileges']=='admin'?1:0)) {
-            $_SESSION['flash'][]=Array('info', 'User profile created successfully.');
-            redirect_to(ADMIN_URL.'/users/show/'.$user->username);
-         } else {
-            $_SESSION['flash'][]=Array('error', 'Your profile submission failed. '.
-                                       'Please check all fields and try again.'.print_r($dat,true).mysql_error());
-            redirect_to(ADMIN_URL.'/users/new');
-         }
+      $dat = $_POST['content'];
+      //print_r($dat);
+      // print_r($_FILES);
+      if($dat['upload_type']=='file')
+         $content_val = $_FILES['content_file'];
+      else
+         $content_val = $dat['content'];
+
+      if(is_array($dat['feeds'])) $feed_ids=array_keys($dat['feeds']);
+      else $feed_ids=Array();
+      //      print_r($feed_ids);
+
+      $uploader = new Uploader($dat['name'], $dat['start_time'],
+                               $dat['end_time'], $feed_ids, $dat['duration']*1000, 
+                               $content_val, $dat['upload_type'], $_SESSION[user]->id, 1);
+      //print_r($uploader);
+      if($uploader->retval) {
+         $this->flash('Your content was succesfully uploaded! It will be active on the '.
+                  'system as soon as it is approved for the feed(s) you chose. '.$uploader->status);
+            redirect_to(ADMIN_URL.'/content/show'.$uploader->cid);
       } else {
-         if($user->create_user(phpCAS::getUser(),$dat['name'],
-                               $dat['email'],0)) {
-            $_SESSION['flash'][]=
-               Array('info','Your profile was created successfully. Welcome to concerto!');
-            login_login();
-            redirect_to(ADMIN_URL);
-         } else {
-            $_SESSION['flash'][]=Array('error', 'Your profile submission failed. '.
-                                       'Please check all fields and try again.');
-            redirect_to(ADMIN_URL.'/users/signup');
-         }
+         $this->flash('Your content submission failed. '.
+                      'Please check all fields and try again. '.$uploader->status, 'error');
+         redirect_to(ADMIN_URL.'/content/new');
       }
    }
 
    function updateAction()
    {
-      $user = new User($this->args[1]);
-      $dat = $_POST['user'];
-
-      //We don't want anyone modifying these properties
-      //of their own profiles
-      if($_SESSION[user]->username != $user->username) {
-         $user->username = $dat['username'];
-         $user->admin_privileges = $dat['admin_privileges']=='admin'?1:0;
-      }
+      $Content = new Content($this->args[1]);
+      $dat = $_POST['content'];
+/*
       $user->name = $dat['name'];
       $user->email = $dat['email'];
       
       if($user->set_properties()) {
-         $_SESSION['flash'][]=Array('info', 'User profile updated successfully.');
+         $this->flash('User profile updated successfully.');
          redirect_to(ADMIN_URL.'/users/show/'.$user->username);
       } else {
-         $_SESSION['flash'][]=Array('error', 'Your submission failed. Please check all fields and try again.');
+         $this->flash('Your submission failed. Please check all fields and try again.','error');
          redirect_to(ADMIN_URL.'/users/show/'.$this->args[1]);
-      }
+      }*/
+   }
+
+   function removeAction()
+   {
+      $this->showAction();
+      $this->renderView('show');
+      $this->flash("Do you really want to remove <strong>{$this->content->name}</strong>? <br />".
+                   '<a href="'.ADMIN_URL.'/content/destroy/'.$this->content->id.'">Yes</a> | '.
+                   '<a href="'.ADMIN_URL.'/content/show/'.$this->content->id.'">No</a>','warn');
    }
 
    function destroyAction()
    {
+      $content=new Content($this->args[1]);
+      if($content->destroy()){
+         $this->flash('Content removed successfully.');
+         redirect_to(ADMIN_URL.'/content');
+      } else {
+         $this->flash('There was an error deleting the content.');
+         redirect_to(ADMIN_URL.'/content/show/'.$content->id);
+      }
+
    }   
 }
 ?>

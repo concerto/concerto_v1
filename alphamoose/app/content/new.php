@@ -1,9 +1,6 @@
-<p><a href="<?echo ADMIN_URL ?>/users">Back to Users Listing</a></p>
-<h3>Please fill out all fields to create a new user.<h3>
+<p><a href="<?= ADMIN_URL ?>/content">Back to Content Listing</a></p>
+<h3>Choose a content type to begin.<h3>
+<li><a href="<?=ADMIN_URL?>/content/new_image">Image</a></li>
+<li><a href="<?=ADMIN_URL?>/content/new_ticker">Ticker Text</li>
 
-<form method="POST" action="<?=ADMIN_URL?>/users/create">
-<?php 
-	include("_form.php");
-?>
-<input value="Save Changes" type="submit" name="submit" />
 </form>
