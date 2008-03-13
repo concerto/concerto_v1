@@ -91,6 +91,7 @@ function has_action_auth($target, $id)
    } else {
       if($target=='screens') $target='screen';
       elseif($target=='feeds') $target='feed';
+      elseif($target=='groups') $target='group';
       if($_SESSION['user']->can_write($target,$id)) 
          $grant=true;
    }

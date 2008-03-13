@@ -33,9 +33,21 @@ class usersController extends Controller
    {
       $this->user = new User($this->args[1]);
       if(strlen($this->user->username)<1)
+      {
+         $this->flash('The user you requested could not be found. '.
+                      'You may have found a bad link, or the user may no longer be in the system.',
+                      'error');
          redirect_to(ADMIN_URL.'/users');
+      }
       $this->setTitle($this->user->name);
       $this->canEdit =$_SESSION['user']->can_write('user',$this->args[1]);
+      $this->groups=array();
+      if($this->user->admin_privileges)
+         $this->groups[]= "<strong>Concerto Administrators</strong>";
+      $group_objs=$this->user->list_groups();
+      if(is_array($group_objs))
+         foreach($this->user->list_groups() as $group)
+            $this->groups[] = '<a href="'.ADMIN_URL."/groups/show/$group->id\">$group->name</a>";
    }
    
    function editAction()

@@ -142,7 +142,6 @@ class Content{
 		}
 		if($this->mime_type != 'text/plain' && $this->mime_type != 'text/html'){
 			$path = CONTENT_STORE . $this->content;
-			echo $path;
 			unlink($path);
 		}
 		if(!$return){

@@ -5,5 +5,5 @@
 <?php 
 	include("_form.php");
 ?>
-<input value="Save Changes" type="submit" name="submit" />
+<input value="Add User" type="submit" name="submit" />
 </form>
