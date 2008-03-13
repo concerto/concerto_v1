@@ -295,7 +295,7 @@ class Controller
 
    function breadcrumb($item, $url="")
    {
-      if($url="")
+      if($url=="")
          $this->breadcrumbs[]=$item;
       else
          $this->breadcrumbs[]="<a href=\"$url\">$item</a>";
