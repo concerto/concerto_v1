@@ -209,7 +209,11 @@ class User{
 			} else {
 				return false;
 			}
-		}
+		} else if($type == 'group'){
+            return $this->in_group($item_id);
+      }
+
+
 	}
 
 }

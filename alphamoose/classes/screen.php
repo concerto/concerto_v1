@@ -20,7 +20,7 @@ Functionality:
 					sql timestamp, and a 1 [default] will return a pretty string.
 						
 	list_all			Lists all screens, optional where syntax
-						
+   get_all         same, returns objects instead of array						
 Comments:
 
 */
@@ -161,5 +161,17 @@ class Screen{
 		}
 		return $data;
 	}
+
+   function get_all($where = ''){
+      $sql = "SELECT mac_address FROM screen $where";
+      $res = sql_query($sql);
+      $i=0;
+      while($row = sql_row_keyed($res,$i)){
+          $data[] = new Screen($row['mac_address']);
+          $i++;
+      }
+      return $data;
+   }
+
 }
 ?>

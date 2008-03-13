@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 	<title><?php echo join(' - ',array(
 		'Concerto Interface v0.3 (dev)',
-		$pageTitle));?></title>
+		$this->getTitle()));?></title>
 <link rel="stylesheet" type="text/css" href="<? echo ADMIN_BASE_URL 
 ?>/css/admin_new.css" />
 <link rel="stylesheet" type="text/css" href="<? echo ADMIN_BASE_URL 
@@ -28,8 +28,8 @@ echo $admin_base_url ?>/js/pngfix.js"></script>
   </div>
 
 <div id="content_header">
-  <h2><?php echo join(' :: ',$breadcrumbs)?></h2>
-  <h1><?php echo $pageTitle;?></h1>
+  <h2><?php echo join(' :: ',$this->breadcrumbs)?></h2>
+  <h1><?php echo $this->getTitle();?></h1>
 </div>
 
 <div id="maincontent">
