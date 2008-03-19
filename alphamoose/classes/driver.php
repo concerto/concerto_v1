@@ -1,9 +1,21 @@
 <?
 /*
 Class: Driver
-Status:
+Status: Working, with the time stuff
 Functionality:
-Comments: .
+	screen_details	returns an array of details describing the screen, fields, template, etc
+	get_feed		finds and stores the next feed needed in the $feed_id variable
+	get_content		finds and stores the next content in $content_id
+	content_details
+Comments:
+Usage might look something like this...
+$obj = new Driver(screen_id);
+echo json_encode($obj->screen_details());
+
+$obj2 = new Driver($screen_id, $field_id);
+$obj2->get_feed();
+$obj2->get_content();
+echo json_encode($obj2->content_details());
 */
 
 class Driver{
@@ -195,6 +207,10 @@ class Driver{
 			if($data['mime_type'] == 'application/x-php'){ //This executes php code, disable if you want to be secure
 				$data['mime_type'] = 'text/html';
 				$data['content'] = eval($data['content']);
+			}
+			if($data['mime_type'] == 'text/time'){ //This executes time code
+				$data['mime_type'] = 'text/html';
+				$data['content'] = date($data['content']);
 			}
 		
 			return $data;
