@@ -14,16 +14,20 @@ Functionality:
         get_all			Gets all the feeds in the system, optional WHERE syntax
         destroy		Deletes a feed, all content mapped to the feed, and scales all the fields up appropriately
 Comments:		
-
+	Working on adding the dynamic feeds, like RSS
 */
 class Feed{
     var $id;
     var $name;
     var $group_id;
+	
+	var $type; //Stores the type of the feed, basic or advanced
+	var $dyn_id; //Stores the id of the feed if has a reference in the dynamic feed table (for type == advanced)
+	var $dyn;	//Holds a Dynamic object if the feed is dynamic
         
 	var $set;
 
-    function __construct($id = ''){
+    function __construct($id = '', $dyn_allowed = true){
 		if($id != ''){
 			$sql = "SELECT * FROM feed WHERE id = $id LIMIT 1";
             $res = sql_query($sql);
@@ -32,6 +36,13 @@ class Feed{
                 $this->id = $data['id'];
                 $this->name = $data['name'];
 				$this->group_id = $data['group_id'];
+				$this->type = $data['type'];
+				if($this->type != 0){
+					$this->dyn_id = $data['dynamic_id'];
+					if($dyn_allowed){ //We do this to prevent a loop of feeds ->dynamic ->feeds->...
+						$this->dyn = new Dynamic($this->dyn_id, $this->id);
+					}
+				}
 
 				$this->set = true;
                 return true;
@@ -46,11 +57,11 @@ class Feed{
 
 	}
 
-	function create_feed($name_in, $group_in){
+	function create_feed($name_in, $group_in, $type_in = 0){
 		if($this->set == true){
 			return false; //We already have a feed established here
 		} else {
-			$sql = "INSERT INTO feed (name, group_id) VALUES ('$name_in', $group_in)";
+			$sql = "INSERT INTO feed (name, group_id, type) VALUES ('$name_in', $group_in, $type_in)";
             		$res = sql_query($sql);
                 	if($res){
                     		$sql_id = sql_insert_id();
@@ -58,6 +69,8 @@ class Feed{
                     		$this->id = $sql_id;
                     		$this->name = $name_in;
                     		$this->group_id = $group_in;
+							$this->type = $type_in;
+							
                     		$this->set = true;
 
                     		return true;
@@ -186,7 +199,7 @@ class Feed{
 		$this->name = '';
 		$this->group_id-'';
 		$this->set = false;
-		
+		return true;
 	}
 }
 
