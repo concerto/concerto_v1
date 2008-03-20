@@ -9,7 +9,8 @@ Functionality:
 	list_feeds			Returns an array of feed objects, as well as the moderation status
 	avail_feeds			Returns an array of feeds the content can be joined to
 	destroy			Deletes the content from the system, and all feeds its in.
-Comments: More progress made...
+Comments:
+Now will render date (mime_type = test/time)
 */
 class Content{
 	var $id;
@@ -36,6 +37,9 @@ class Content{
 				$this->user_id = $data['user_id'];
 				$this->content = $data['content'];
 				$this->mime_type = $data['mime_type'];
+				if($this->mime_type == 'text/time'){ //Patch to render time.
+					$this->content = date($this->content);
+				}
 				$this->type_id = $data['type_id'];
 				$this->duration = $data['duration'];
 				$this->start_time = $data['start_time'];
@@ -62,24 +66,24 @@ class Content{
 			VALUES
 			('$name_in', $user_id_in, '$content_in', '$mime_type_in', $type_id_in, $duration_in, '$start_time_in', '$end_time_in', NOW())";
 			$res = sql_query($sql);
-            		if($res){
-                		$sql_id = sql_insert_id();
+            	if($res){
+                	$sql_id = sql_insert_id();
 
-                		$this->id = $sql_id;
-                		$this->name = $name_in;
-                		$this->content = $content_in;
-                		$this->mime_type = $mime_type_in;
-                		$this->type_id = $type_id_in;
-                		$this->duration = $duration_in;
-                		$this->start_time = $start_time_in;
-                		$this->end_time = $end_time_in;
-                		$this->submitted = date("Y:m:d H:i:s", time());
+                	$this->id = $sql_id;
+                	$this->name = $name_in;
+                	$this->content = $content_in;
+                	$this->mime_type = $mime_type_in;
+                	$this->type_id = $type_id_in;
+                	$this->duration = $duration_in;
+                	$this->start_time = $start_time_in;
+                	$this->end_time = $end_time_in;
+                	$this->submitted = date("Y:m:d H:i:s", time());
 				
-                		$this->set = true;
-                		return true;
+                	$this->set = true;
+                	return true;
            		} else {
-                		return false;
-            		}
+                	return false;
+            	}
 		}
 	}
 	//Sets properties back to database, will NOT moderate content or change some constant values
@@ -140,7 +144,7 @@ class Content{
 		if(!$return){
 			return false; //Failure to remove the content from all the feeds it was in
 		}
-		if($this->mime_type != 'text/plain' && $this->mime_type != 'text/html'){
+		if($this->mime_type != 'text/plain' && $this->mime_type != 'text/html' && $this->mime_type != 'text/time'){
 			$path = CONTENT_STORE . $this->content;
 			unlink($path);
 		}

@@ -14,7 +14,8 @@ Functionality:
         get_all			Gets all the feeds in the system, optional WHERE syntax
         destroy		Deletes a feed, all content mapped to the feed, and scales all the fields up appropriately
 Comments:		
-	Working on adding the dynamic feeds, like RSS
+	Working on adding the dynamic feeds, like RSS.
+	AN URGENT PATCH WAS MADE TO CONTENT_LIST AND CONTENT_COUNT.  Please test all code accordingly!!!
 */
 class Feed{
     var $id;
@@ -91,11 +92,10 @@ class Feed{
     }
 	//Add a content to a feed
 	function content_add($content_in, $mod_in = 'NULL'){
-		if($mod_in != 0 || $mod_in != 1 || $mod_in != 'NULL'){ //Don't let a stupid value in
+		if($mod_in != 0 && $mod_in != 1 && $mod_in != 'NULL'){ //Don't let a stupid value in
 			$mod_in = 'NULL';
 		}
 		$sql = "INSERT INTO feed_content (feed_id, content_id, moderation_flag) VALUES ($this->id, $content_in, $mod_in)";
-
 		$res = sql_query($sql);
 		if($res){
            		return true;
@@ -112,15 +112,28 @@ class Feed{
 	}
 
 	//Count # of content in a feed based on moderation status
-	function content_count($mod_flag="%"){
-		$sql = "SELECT COUNT(content_id) FROM feed_content WHERE moderation_flag LIKE '$mod_flag' AND feed_id = $this->id";
-		$res = sql_query($sql);
-		$data = (sql_row_keyed($res,0));
-		return $data['COUNT(content_id)'];
+	function content_count($mod_flag=''){
+		if($mod_flag != ''){
+			$mod_where = "AND moderation flag LIKE '$mod_flag'";
+		} else {
+			$mod_where = "";
+		}
+		$sql = "SELECT COUNT(content_id) FROM feed_content WHERE feed_id = $this->id $mod_where";
+		if($res = sql_query($sql)){
+			$data = (sql_row_keyed($res,0));
+			return $data['COUNT(content_id)'];
+		} else {
+			return 0;
+		}
 	}
 	//List all content in a feed based on moderation status
-	function content_list($mod_flag="%"){
-		$sql = "SELECT * FROM feed_content WHERE moderation_flag LIKE '$mod_flag' AND feed_id = $this->id";
+	function content_list($mod_flag=''){
+		if($mod_flag != ''){
+			$mod_where = "AND moderation flag LIKE '$mod_flag'";
+		} else {
+			$mod_where = "";
+		}
+		$sql = "SELECT * FROM feed_content WHERE feed_id = $this->id $mod_where";
 		$res = sql_query($sql);
 		$i=0;
 		while($row = sql_row_keyed($res,$i)){
@@ -128,7 +141,11 @@ class Feed{
 		    $data[$i]['moderation_flag'] = $row['moderation_flag'];
 		    $i++;
 		}
-		return $data;
+		if(isset($data)){
+			return $data;
+		} else {
+			return false;
+		}
 	}
 	//Moderate content: Approve or deny
 	function content_mod($cid, $mod_flag=' '){
