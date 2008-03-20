@@ -209,4 +209,3 @@ if (!$db_c || !mysql_select_db($db_database)) {
 	exit;
 }
 ?>
-
