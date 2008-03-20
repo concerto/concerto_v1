@@ -13,6 +13,7 @@ class Dynamic{
 	var $path;
 	var $rules;
 	var $last_update;
+	
 	var $feed;
 	var $content; //An array of content we create from the RSS feed
 	var $items_per_content;
@@ -59,7 +60,13 @@ class Dynamic{
 			return false;
 		}
 		if($return){
-			return $this->add_content();
+			$ret_val = $this->add_content();
+			if($ret_val){
+				$this->log_update();
+				return true;
+			} else {
+				return false;
+			}
 		}
 	}
 	
@@ -157,7 +164,12 @@ class Dynamic{
 			$return = $return * $obj->destroy();
 		}
 		return $return;
-	}	
+	}
+	
+	function log_update(){
+		$sql = "UPDATE dynamic SET last_update = NOW() WHERE id = $this->id LIMIT 1";
+		sql_query($sql);
+	}
 	
 }
 ?>
