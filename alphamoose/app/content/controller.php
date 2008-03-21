@@ -2,7 +2,7 @@
 class contentController extends Controller
 {
    public $actionNames = Array( 'list'=> 'Content Listing', 'show'=>'Details',
-                                'edit'=> 'Edit');
+                                'edit'=> 'Edit', 'new'=>'Submit Content');
 
    public $require = Array( 'require_login'=>Array('index','list','show'),
                             'require_action_auth'=>Array('edit', 'new', 
@@ -83,12 +83,12 @@ class contentController extends Controller
 
    function new_imageAction()
    {
-      $this->readFeeds(Feed::get_all());
+      $this->readFeeds(Feed::get_all('WHERE type=0'));
    }
 
-   function new_textAction()
+   function new_tickerAction()
    {
-      
+      $this->readFeeds(Feed::get_all('WHERE type=0'));      
    }
 
    //just a helper to store feeds for listing in form
@@ -105,12 +105,10 @@ class contentController extends Controller
       ksort($this->feeds); //sort all feeds by feed name
    }
 
-   //up to here   
    function createAction()
    {
       $dat = $_POST['content'];
-      //print_r($dat);
-      // print_r($_FILES);
+
       if($dat['upload_type']=='file')
          $content_val = $_FILES['content_file'];
       else
@@ -118,12 +116,11 @@ class contentController extends Controller
 
       if(is_array($dat['feeds'])) $feed_ids=array_keys($dat['feeds']);
       else $feed_ids=Array();
-      //      print_r($feed_ids);
 
       $uploader = new Uploader($dat['name'], $dat['start_time'],
                                $dat['end_time'], $feed_ids, $dat['duration']*1000, 
                                $content_val, $dat['upload_type'], $_SESSION[user]->id, 1);
-      //print_r($uploader);
+                             
       if($uploader->retval) {
          $this->flash('Your content was succesfully uploaded! It will be active on the '.
                   'system as soon as it is approved for the feed(s) you chose. '.$uploader->status);

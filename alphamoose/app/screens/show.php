@@ -1,7 +1,7 @@
 <p><a href="<?echo ADMIN_URL ?>/screens">Back to Screens Listing</a>
 <?php if ($this->canEdit) {?>
- | <a href="<?echo ADMIN_URL ?>/screens/edit/<?echo $this->screen->mac_address ?>"> Edit Screen 
-</a>
+ | <a href="<?echo ADMIN_URL ?>/screens/edit/<?echo $this->screen->mac_address ?>">Edit Screen</a>
+ | <a href="<?echo ADMIN_URL ?>/screens/delete/<?echo $this->screen->mac_address ?>">Delete Screen</a>
 <?php } ?>
 </p>
 <?php
@@ -29,6 +29,11 @@ $scrimg?>" alt=""
       <?php } else { ?>
         <span style="color:red; font-weight:bold;">Offline</span>
       <?php } ?> (Last updated: <?php echo $this->screen->last_updated?>)
+      </p>
+      <h3>Group</h3>
+      <p>
+      <? $group = $this->screen->group_id ?>
+      <a href="<?= $this->screen->group
       </p>
       <h3 style="clear:left">Subscriptions</h3>
       <ul>

@@ -18,6 +18,7 @@ include('classes/position.php');//Class to represent a postion relationship
 include('classes/content.php'); //Class to represent content items in the system
 include('classes/upload.php');//Helps uploading
 include('classes/group.php');
+include('classes/dynamic.php');
 
 define('ADMIN_BASE_URL','/mike_admin');      //base directory on server for images, css, etc.
 define('ADMIN_URL','/mike_admin/index.php'); //URL that can access this page (may be same as

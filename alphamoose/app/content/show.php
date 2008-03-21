@@ -22,8 +22,8 @@ alt="Content Image" style="float:left; border:1px solid #aaa; margin-right:10px"
 ?>
 
 <h3>Run dates:</h3>
-<?=date("m/j/Y h:m",strtotime($this->content->start_time))?> - 
-<?=date("m/j/Y h:m",strtotime($this->content->end_time))?>
+<?=date("m/j/Y H:i",strtotime($this->content->start_time))?> - 
+<?=date("m/j/Y H:i",strtotime($this->content->end_time))?>
 
 <h3>Display duration:</h3>
 <p><?=$this->content->duration/1000?> seconds</p>

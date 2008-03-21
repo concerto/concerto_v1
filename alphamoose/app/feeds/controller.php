@@ -6,7 +6,8 @@ class feedsController extends Controller
 
    public $require = Array( 'require_login'=>1,
                             'require_action_auth'=>Array('edit','create',
-                                                         'new', 'update' ) );
+                                                         'new', 'update',
+                                                         'destroy' ) );
 
    function setup()
    {
@@ -31,13 +32,14 @@ class feedsController extends Controller
    function showAction()
    {
       $this->feed = new Feed($this->args[1]);
+      $this->group = new Group($this->feed->group_id);
       $this->setTitle($this->feed->name);
       $this->canEdit = $_SESSION['user']->can_write('feed',$this->args[1]);
    }
 
    function editAction()
    {
-      $this->feed = new Screen($this->args[1]);
+      $this->feed = new Feed($this->args[1]);
       $this->setTitle("Editing ".$this->feed->name);
    }
 
@@ -48,32 +50,45 @@ class feedsController extends Controller
 
    function createAction()
    {
+      $this->Settitle('Feed Creation');
+      $feed=new Feed();
+
+      if($feed->create_feed($_POST[feed][name],$_POST[feed][group])) {
+         $this->flash($feed->name.' was created successfully.');
+         redirect_to(ADMIN_URL.'/feeds/show/'.$feed->id);
+      } else {
+         $this->flash('Your feed creation failed. '.
+                      'Please check all fields and try again; contact an administrator if all else fails.','error');
+         redirect_to(ADMIN_URL.'/feeds/new');
+      }
    }
    //feeds up to here
    function updateAction()
    {
-     $screen = new Feed($this->args[1]);
-     $dat = $_POST['feed'];
-     $screen->name = $dat['name'];
-     $screen->group_id = $dat['group'];
-     $screen->location = $dat['location'];
-     $screen->mac_address = $dat['mac_address'];
-     $screen->width = $dat['width'];
-     $screen->height = $dat['height'];
-     $screen->template_id = $dat['template'];
+      $feed = new Feed($this->args[1]);
+      $dat = $_POST['feed'];
+      $feed->name = $dat['name'];
+      $feed->group_id = $dat['group'];
 
-     if($screen->set_properties()) {
-        $_SESSION['flash'][]=Array('info', 'Screen Updated Successfully');
-        redirect_to(ADMIN_URL.'/screens/show/'.$screen->mac_address);
-     } else {
-        $_SESSION['flash'][]=Array('error', 'Your submission was not valid. Please try again.');
-        redirect_to(ADMIN_URL.'/screens/show/'.$this->args[1]);
-     }
-     print_r($screen);
+      if($feed->set_properties()) {
+         $_SESSION['flash'][]=Array('info', 'Feed Updated Successfully');
+         redirect_to(ADMIN_URL.'/feeds/show/'.$feed->id);
+      } else {
+         $_SESSION['flash'][]=Array('error', 'Your submission was not valid. Please try again.');
+         redirect_to(ADMIN_URL.'/feeds/show/'.$this->args[1]);
+      }
    }
 
    function destroyAction()
    {
-   }   
+      $feed = new Feed($this->args[1]);
+      if($feed->destroy()) {
+         $this->flash('Feed destroyed successfuly');
+         redirect_to(ADMIN_URL.'/feeds');
+      } else {
+         $this->flash('There was an error removing the feed.','error');
+         redirect_to(ADMIN_URL.'/feeds/show/'.$this->args[1]);
+      }
+   }
 }
 ?>

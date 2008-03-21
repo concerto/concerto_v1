@@ -6,7 +6,8 @@ class screensController extends Controller
 
    public $require = Array( 'require_login'=>1,
                             'require_action_auth'=>Array('edit','create',
-                                                         'new', 'update' ) );
+                                                         'new', 'update',
+                                                         'delete','destroy') );
 
    function setup()
    {
@@ -63,17 +64,35 @@ class screensController extends Controller
      $screen->template_id = $dat['template'];
 
      if($screen->set_properties()) {
-        flash('Screen Updated Successfully');
+        $this->flash('Screen Updated Successfully');
         redirect_to(ADMIN_URL.'/screens/show/'.$screen->mac_address);
      } else {
-        flash('Your submission was not valid. Please try again.','error');
+        $this->flash('Your submission was not valid. Please try again.','error');
         redirect_to(ADMIN_URL.'/screens/show/'.$this->args[1]);
      }
      print_r($screen);
    }
 
+   function deleteAction()
+   {
+      $this->showAction();
+      $this->renderView('show');
+      $this->setTitle('Deleting '.$this->screen->name);
+      $this->flash("Do you really want to remove <strong>{$this->screen->name}</strong>? <br />".
+                   '<a href="'.ADMIN_URL.'/screens/destroy/'.$this->screen->mac_address.'">Yes</a> | '.
+                   '<a href="'.ADMIN_URL.'/screens/show/'.$this->screen->mac_address.'">No</a>','warn');
+   }
+
    function destroyAction()
    {
-   }   
+      $screen = new Screen($this->args[1]);
+      if($screen->destroy()) {
+         $this->flash('Screen removed successfuly');
+         redirect_to(ADMIN_URL.'/screens');
+      } else {
+         $this->flash('There was an error removing the screen.','error');
+         redirect_to(ADMIN_URL.'/screens/show/'.$this->args[1]);
+      }
+   }
 }
 ?>
