@@ -183,7 +183,9 @@ function sql_syntax_caseless_contains($fieldname, $s) {
 	$s = str_replace("'", "''", $s);
 	return " $fieldname LIKE '%$s%' ";
 }
-
+function escape($in){
+	return mysql_real_escape_string($in);
+}
 # Returns the name of a field.
 function sql_field_name($result, $index) {
 	return mysql_field_name($result, $index);

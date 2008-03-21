@@ -16,6 +16,7 @@ $obj2 = new Driver($screen_id, $field_id);
 $obj2->get_feed();
 $obj2->get_content();
 echo json_encode($obj2->content_details());
+Cleaned
 */
 
 class Driver{
@@ -203,6 +204,8 @@ class Driver{
 		$res = sql_query($sql);
 		if($res!=0){
 			$data = (sql_row_keyed($res,0));
+			$data['content'] = stripslashes($data['content']);
+			$data['mime_type'] = stripslashes($data['mime_type']);
 			
 			if($data['mime_type'] == 'application/x-php'){ //This executes php code, disable if you want to be secure
 				$data['mime_type'] = 'text/html';

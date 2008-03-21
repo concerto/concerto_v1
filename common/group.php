@@ -22,7 +22,7 @@ class Group{
 			if($res != 0){
 				$data = (sql_row_keyed($res,0));
 				$this->id = $data['id'];
-				$this->name = $data['name'];
+				$this->name = stripslashes($data['name']);
 				
 				$this->set = true;
 				return true;
@@ -39,13 +39,14 @@ class Group{
 		if($this->set == true){
 			return false; //Someone isn't wearing a seatbelt
 		} else {
+			$name_in = escape($name_in);
 			$sql = "INSERT INTO `group` (name) VALUES ('$name_in')";
 			$res = sql_query($sql);
 			if($res){
 				$sql_id = sql_insert_id();
 				
 				$this->id = $sql_id;
-				$this->name = $name_in;
+				$this->name = stripslashes($name_in);
 				
 				$this->set = true;
 				return true;

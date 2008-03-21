@@ -11,6 +11,7 @@ Functionality:
 	destroy			Deletes the content from the system, and all feeds its in.
 Comments:
 Now will render date (mime_type = test/time)
+Cleaned
 */
 class Content{
 	var $id;
@@ -24,6 +25,7 @@ class Content{
 	var $end_time;
 	var $submitted;
 	
+	var $status;
 	var $set;
 	
 	function __construct($contentid = ''){
@@ -33,10 +35,10 @@ class Content{
 			if($res != 0){
 				$data = (sql_row_keyed($res,0));
 				$this->id = $data['id'];
-				$this->name = $data['name'];
+				$this->name = stripslashes($data['name']);
 				$this->user_id = $data['user_id'];
-				$this->content = $data['content'];
-				$this->mime_type = $data['mime_type'];
+				$this->content = stripslashes($data['content']);
+				$this->mime_type = stripslashes($data['mime_type']);
 				if($this->mime_type == 'text/time'){ //Patch to render time.
 					$this->content = date($this->content);
 				}
@@ -61,17 +63,42 @@ class Content{
 		if($this->set == true){
 			return false;
 		} else {
+			//Begin testing/cleaning block
+			$name_in = escape($name_in);
+			$content_in = escape($content_in);
+			$mime_type_in = escape($mime_type_in);
+			if(!is_numeric($duration_in)){
+				$this->status = "Duration should be a number";
+				return false;
+			}
+			if(!($start_time_in=strtotime($start_time_in))){
+				$this->status = "Unable to understand start time";
+				return false;
+			}
+			$start_time_in = date("Y-m-d G:i:s", $start_time_in);
+			if(!($end_time_in=strtotime($end_time_in))){
+				$this->status = "Unable to understand end time";
+				return false;
+			}
+			$end_time_in = date("Y-m-d G:i:s", $end_time_in);
+			if(!is_numeric($user_id_in) || !is_numeric($type_id_in)){
+				$this->status = "Unknown Error"; //Aka they are playing with the post data!
+				return false;
+			}
+			//End testing/cleaning block
+			
 			$sql = "INSERT INTO content 
 			(name, user_id, content, mime_type, type_id, duration, start_time, end_time, submitted)
 			VALUES
 			('$name_in', $user_id_in, '$content_in', '$mime_type_in', $type_id_in, $duration_in, '$start_time_in', '$end_time_in', NOW())";
 			$res = sql_query($sql);
+			//echo $sql;
             	if($res){
                 	$sql_id = sql_insert_id();
 
                 	$this->id = $sql_id;
-                	$this->name = $name_in;
-                	$this->content = $content_in;
+                	$this->name = stripslashes($name_in);
+                	$this->content = stripslashes($content_in);
                 	$this->mime_type = $mime_type_in;
                 	$this->type_id = $type_id_in;
                 	$this->duration = $duration_in;
@@ -88,7 +115,26 @@ class Content{
 	}
 	//Sets properties back to database, will NOT moderate content or change some constant values
 	function set_properties(){
-		$sql = "UPDATE content SET name = '$this->name', content = '$this->content', duration = '$this->duration', start_time = '$this->start_time', end_time = '$this->end_time' WHERE id = $this->id LIMIT 1";
+		//Cleaning Block
+		$name_clean = escape($this->name);
+		$content_clean = escape($this->content);
+		if(!is_numeric($duration_in)){
+				$this->status = "Duration should be a number";
+				return false;
+			}
+			if(!($this->start_time=strtotime($this->start_time))){
+				$this->status = "Unable to understand start time";
+				return false;
+			}
+			$this->start_time = date("Y-m-d G:i:s", $this->start_time);
+			if(!($this->end_time=strtotime($this->end_time_in))){
+				$this->status = "Unable to understand end time";
+				return false;
+			}
+			$this->end_time = date("Y-m-d G:i:s", $this->end_time);
+			//End testing/cleaning block
+			
+		$sql = "UPDATE content SET name = '$name_clean', content = '$content_clean', duration = '$this->duration', start_time = '$this->start_time', end_time = '$this->end_time' WHERE id = $this->id LIMIT 1";
 		$res = sql_query($sql);
         	if($res){
             		return true;

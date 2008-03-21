@@ -8,9 +8,6 @@ Comments:
 	And then clean them up after content has had a chance to play.
 */
 
-define('CONTENT_STORE','/var/www/ds-dev/tom/'); //Where everything is stored
-define('CONTENT_SUBDIR','images/');
-
 //Reject Limits
 define('MIN_W','400'); //Min width before we reject an image
 define('MIN_H','400'); //Min height before we reject an image
@@ -310,9 +307,9 @@ class Uploader{
 		if($content->create_content($this->name, $this->user_id, $this->content_o, $this->mime_type, $this->type_id, $this->duration, $this->start_date, $this->end_date)){
 			$this->cid = $content->id;
 			
-			$target_loc = CONTENT_STORE . CONTENT_SUBDIR . $this->cid . "." . $ext;
+			$target_loc = CONTENT_DIR . $this->cid . "." . $ext;
 			rename($current_loc, $target_loc);
-			$content->content = CONTENT_SUBDIR . $this->cid . "." . $ext;
+			$content->content = $this->cid . "." . $ext;
 			$content->set_properties();
 			foreach($this->feeds as $fid){
 				$f = new Feed($fid);
@@ -322,6 +319,7 @@ class Uploader{
 			$this->retval = true;
 			return true; //The content is finished uploading
 		} else {
+			$this->status = "Error creating content entry";
 			$this->retval = false;
 			return false; //Failure making a content isn't a good thing
 		}
