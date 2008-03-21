@@ -118,19 +118,19 @@ class Content{
 		//Cleaning Block
 		$name_clean = escape($this->name);
 		$content_clean = escape($this->content);
-		if(!is_numeric($duration_in)){
-				$this->status = "Duration should be a number";
-				return false;
-			}
-			if(!($this->start_time=strtotime($this->start_time))){
-				$this->status = "Unable to understand start time";
-				return false;
-			}
-			$this->start_time = date("Y-m-d G:i:s", $this->start_time);
-			if(!($this->end_time=strtotime($this->end_time_in))){
-				$this->status = "Unable to understand end time";
-				return false;
-			}
+		if(!is_numeric($this->duration)){
+			$this->status = "Duration should be a number";
+			return false;
+		}
+		if(!($this->start_time=strtotime($this->start_time))){
+			$this->status = "Unable to understand start time";
+			return false;
+		}
+		$this->start_time = date("Y-m-d G:i:s", $this->start_time);
+		if(!($this->end_time=strtotime($this->end_time))){
+			$this->status = "Unable to understand end time";
+			return false;
+		}
 			$this->end_time = date("Y-m-d G:i:s", $this->end_time);
 			//End testing/cleaning block
 			
