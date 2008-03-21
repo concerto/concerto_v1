@@ -316,25 +316,53 @@ class HardwareClass {
         return $ret;
     }
 
-    public function add_file($file_id, $target_path) {
+    public function add_file($filename, $target_path) {
         $id = $this->id;
-        if (!is_numeric($file_id)) {
-            die("file_id must be numeric");
-        }
+       
+        # get the md5 hash of the file and sign it
+        $path = BASE_DIR."/flash/".$filename;
+        $md5 = md5_file($path);
+        $sig = generate_signature($md5);
         
-        $target_path=mysql_escape_string($target_path);
+        $filename = basename($filename);
+        if (!file_exists(BASE_DIR."/flash/$filename")) {
+            die("File does not exist!");
+        }
+        $url = BASE_URL."/flash/$filename";
 
-        mysql_query("insert into file_map (class_id, file_id, output_path) " .
-            "values($id, $file_id, \"$output_path\")") or die("failure to add file to class...");
+        $filename=mysql_escape_string($filename);
+        $url=mysql_escape_string($url);
+        $target_path=mysql_escape_string($target_path);
+        $md5=mysql_escape_string($md5);
+        $sig=mysql_escape_string($sig);
+
+        mysql_query("insert into file_map (class_id, filename, url, output_path, md5, sig) " .
+            "values($id, \"$filename\", \"$url\", \"$target_path\", \"$md5\", \"$sig\")") 
+            or die("failure to add file to class: ". mysql_error( ));
     }
 
-    public function remove_file($file_id) { 
-        if (!is_numeric($file_id)) {
-            die("file_id must be numeric");
-        }
+    public function remove_file($path) { 
+        $path=mysql_escape_string($path);
+        $id=$this->id;
 
-        mysql_query("delete from file_map where class_id=$id and file_id=$file_id")
+        mysql_query("delete from file_map where class_id=$id and output_path=\"$path\"")
             or die("failed to delete file...");
+    }
+
+    public function list_files( ) {
+        $id=$this->id;
+        $result = mysql_query("select filename, url, output_path, md5, sig from file_map where class_id=$id") or die("failed to list files: " . mysql_error( ));
+        $output = array();
+        while ($row = mysql_fetch_row($result)) {
+            $output[] = array(
+                name => $row[0],
+                path => $row[2],
+                url => $row[1],
+                md5 => $row[3],
+                sig => $row[4]
+            );
+        }
+        return $output;
     }
 
     private $id;

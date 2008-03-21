@@ -48,6 +48,19 @@ function do_create_override($class_obj) {
     $class_obj->add_override($_REQUEST["path"]);
 }
 
+function do_add_file($class_obj) {
+    if (!array_key_exists("name", $_REQUEST) || !array_key_exists("target_path", $_REQUEST)) {
+        die("parameters not good");
+    }
+    $class_obj->add_file($_REQUEST["name"], $_REQUEST["target_path"]);
+}
+
+function do_remove_file($class_obj) {
+    if (!array_key_exists("name", $_REQUEST)) {
+        die("bad parameters");
+    }
+    $class_obj->remove_file($_REQUEST["name"]);
+}
 
 $class_id = $_REQUEST["class"];
 if (!is_numeric($class_id)) {
@@ -76,6 +89,12 @@ if (array_key_exists("action", $_REQUEST)) {
             break;
         case "create_over":
             do_create_override($class_obj);
+            break;
+        case "add_file":
+            do_add_file($class_obj);
+            break;
+        case "delete_file":
+            do_remove_file($class_obj);
             break;
     }
 }
@@ -164,6 +183,38 @@ if (array_key_exists("action", $_REQUEST)) {
         <input type="hidden" name="action" value="create_over" />
         <input type="submit" value="Go!" />
     </p>
+    </form>
+    <hr />
+    <h2>Flash Files</h2>
+<?php
+    $files = $class_obj->list_files( );
+    foreach ($files as $file) {
+        $name = $file["name"];
+        $path = $file["path"];
+
+        print "<p>$name as $path: ";
+        print "<a href=\"class.php?class=".$class_obj->get_id( ).
+            "&name=" . $path . "&action=delete_file\">Delete</a>";
+        print "</p>";
+    }
+?>
+    <form action="class.php" method="post">
+    <p>
+        Send file:
+        <select name="name">
+<?php
+        $dh = opendir(BASE_DIR."/flash");
+        while (($filename = readdir($dh)) !== false) {
+            $path = BASE_DIR."/flash/$filename";
+            if (is_file($path)) {
+                print "<option value=\"$filename\">$filename</option>";
+            }
+        }
+?>
+        </select> as <input type="text" name="target_path" />: 
+        <input type="submit" value="Do It!" />
+        <input type="hidden" name="action" value="add_file">
+        <input type="hidden" name="class" value="<?=$class_obj->get_id( ); ?>"/>
     </form>
     </body>
 </html>
