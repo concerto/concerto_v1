@@ -7,30 +7,32 @@ Functionality: Sets up for output, parses URL, and dispatches controllers
                 to preform requested actions.  Also includes base class
                 Controller.
 */
+include('../config.inc.php');
 
-include('includes/mysql.inc');  //Tom's sql library interface + db connection settings
-include('classes/user.php');    //Class to represent a site user
+include(COMMON_DIR.'/mysql.inc.php');//Tom's sql library interface + db connection settings
+include(COMMON_DIR.'/user.php');     //Class to represent a site user
+include(COMMON_DIR.'/screen.php');   //Class to represent a screen in the system
+include(COMMON_DIR.'/feed.php');     //Class to represent a content feed
+include(COMMON_DIR.'/field.php');    //Class to represent a field in a template
+include(COMMON_DIR.'/position.php'); //Class to represent a postion relationship
+include(COMMON_DIR.'/content.php');  //Class to represent content items in the system
+include(COMMON_DIR.'/upload.php');   //Helps uploading
+include(COMMON_DIR.'/group.php');    //Class to represent user groups
+include(COMMON_DIR.'/dynamic.php');  //Functionality for dynamic content
+
 include('includes/login.php');  //Functionality for CAS, logins, and page authorization
-include('classes/screen.php');  //Class to represent a screen in the system
-include('classes/feed.php');    //Class to represent a content feed
-include('classes/field.php');   //Class to represent a field in a template
-include('classes/position.php');//Class to represent a postion relationship
-include('classes/content.php'); //Class to represent content items in the system
-include('classes/upload.php');//Helps uploading
-include('classes/group.php');
-include('classes/dynamic.php');
 
+/* THESE MUST BE DEFINED FOR THIS TO WORK!
 define('ADMIN_BASE_URL','/mike_admin');      //base directory on server for images, css, etc.
 define('ADMIN_URL','/mike_admin/index.php'); //URL that can access this page (may be same as
                                              //  ADMIN_BASE_URL if mod_rewrite configured)
+*/
 define('DEFAULT_CONTROLLER','frontpage');    //Controller to use when none is specified
 define('DEFAULT_TEMPLATE','ds_layout');      //Layout file for actions with none specified
 define('HOMEPAGE','Concerto Interface');     //Name of the homepage
 define('HOMEPAGE_URL', ADMIN_URL);           //relative URL to reach the frontpage
 define('APP_PATH','app');
-define('CONTENT_DIR','/var/www/ds-dev/tom'); //server-side path to parent dir of 'images'
 
-define('DEFAULT_DURATION',7);   //Default content duration, in seconds
 
 //session variables visible to both controller and view
 //global $sess;

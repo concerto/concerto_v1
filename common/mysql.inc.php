@@ -1,10 +1,15 @@
 <?php
-include("config.inc.php");
 
 /**
  * mysql.inc
  *
  * Handles all MySQL functions into one easy to use package!
+ *
+ * Expects the following config vars to be set
+ *  $db_host = '<hostname>';
+ *  $db_login = '<username>';
+ *  $db_password = '<pass>';
+ *  $db_database = '<db name>';
  */
 
 # Free a results handle. You need not call this if you call sql_row or
