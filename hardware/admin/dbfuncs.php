@@ -19,6 +19,65 @@ function validate_mac($mac) {
     }
 }
 
+class FlashFile {
+    private $id, $name, $md5, $sig, $url;
+
+    public function create_new($name, $location, $url) {
+        # compute md5 sum of the data file
+        $md5 = md5_file($location);
+        # sign the md5 hash
+        $sig = generate_signature($md5);
+        # insert into database
+        $name = mysql_escape_string($name);
+        mysql_query(
+            "insert into file (name, md5, sig, url) ".
+            "values(\"$name\", \"$md5\", \"$sig\", \"$url\")"
+        ) or die ("query to insert new file failed: " . mysql_error( ));
+
+        # return the object
+        $new_id = mysql_insert_id( );
+        return FlashFile::load_from_id($new_id);
+    }
+    public function load_from_id($id) {
+        $obj = new FlashFile( );
+        if (!is_numeric($id)) {
+            die("passed non-numeric ID to load_from_id");
+        }
+        $result = mysql_query("select name, md5, sig, url from file where file_id=$id") 
+            or die("query to load file object from DB failed: " . mysql_error( ));
+
+        if (!($row = mysql_fetch_row($result))) {
+            die("attempt to load file object with nonexistent ID\n");
+        } else {
+            $obj->id = $id;
+            $obj->name = $row[0];
+            $obj->md5 = $row[1];
+            $obj->sig = $row[2];
+            $obj->url = $row[3];
+        }
+    }
+    public function get_name( ) {
+        return $this->name;
+    }
+    public function get_url( ) {
+        return $this->url;
+    }
+    public function get_md5( ) {
+        return $this->md5;
+    }
+    public function get_sig( ) {
+        return $this->sig;
+    }
+    public function get_id( ) {
+        return $this->id;
+    }
+    public function delete( ) {
+        $id = $this->id;
+        mysql_query("delete from file where file_id=$id");
+        mysql_query("delete from file_map where file_id=$id");
+    }
+}
+
 class HardwareClass {
     public function create_new($name) {
         // create a new hardware class and return it.
@@ -41,7 +100,7 @@ class HardwareClass {
 
         return $objs;
     }
-
+    
     public function load_from_id($id) {
         // load a hardware class from the database given its ID
         $obj = new HardwareClass( );
@@ -255,6 +314,27 @@ class HardwareClass {
         }
 
         return $ret;
+    }
+
+    public function add_file($file_id, $target_path) {
+        $id = $this->id;
+        if (!is_numeric($file_id)) {
+            die("file_id must be numeric");
+        }
+        
+        $target_path=mysql_escape_string($target_path);
+
+        mysql_query("insert into file_map (class_id, file_id, output_path) " .
+            "values($id, $file_id, \"$output_path\")") or die("failure to add file to class...");
+    }
+
+    public function remove_file($file_id) { 
+        if (!is_numeric($file_id)) {
+            die("file_id must be numeric");
+        }
+
+        mysql_query("delete from file_map where class_id=$id and file_id=$file_id")
+            or die("failed to delete file...");
     }
 
     private $id;

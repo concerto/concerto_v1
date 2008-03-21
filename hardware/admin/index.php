@@ -4,6 +4,7 @@ require_once("dbfuncs.php");
 
 init_db( );
 
+
 function do_create( ) {
     if (!array_key_exists("name", $_REQUEST)) {
         print $_REQUEST;
@@ -23,6 +24,39 @@ function do_delete( ) {
     $class_obj->remove( );
 }
 
+function do_upload( ) {
+    if (!array_key_exists("name", $_REQUEST)) {
+        die("bad form input");
+    }
+    if (!array_key_exists("file", $_FILES)) {
+        die("bad file input");
+    }
+
+    $base_location = "/var/www/ds/hardware/flash";
+    $url_base = "http://signage.union.rpi.edu/hardware/flash";
+
+    # move the file to the correct location
+    $origfn = basename($_FILES["file"]["name"]);
+    if (file_exists("$base_location/$origfn")) {
+        $ext = 0;
+        while (file_exists("$base_location/$origfn.$ext")) {
+            ++$ext;
+        }
+        $fn_out = "$base_location/$origfn.$ext";
+        $url = "$url_base/$origfn.$ext";
+    } else {
+        $fn_out = "$base_location/$origfn";
+        $url = "$url_base/$origfn";
+    }
+    # print a data dump
+    var_dump($_FILES);
+    if (!move_uploaded_file($_FILES["file"]["tmp_name"], $fn_out)) {
+        die("bad file??");
+    }
+
+    FlashFile::create_new($_REQUEST["name"], $fn_out, $url);
+}
+
 if (array_key_exists("action", $_REQUEST)) {
     $action = $_REQUEST["action"];
     switch ($action) {
@@ -31,6 +65,9 @@ if (array_key_exists("action", $_REQUEST)) {
             break;
         case "delete":
             do_delete( );
+            break;
+        case "upload_file":
+            do_upload( );
             break;
     }
 }
@@ -77,6 +114,13 @@ if (array_key_exists("action", $_REQUEST)) {
                 <input type="submit" value="Create Class" />
         </p>
         </form>
+    <!--
+        <hr /><h2>FLASH File Upload</h2>
+        <form enctype="multipart/form-data" action="index.php" method="post">
+        <input type="hidden" name="action" value="upload_file" />
+        <p>Upload File: <input type="file" name="file" /> as <input type="text" name="name" /><input type="submit" value="Upload File"></p>
+        </form>
+    -->
     </body>
 </html>
 
