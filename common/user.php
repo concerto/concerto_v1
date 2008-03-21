@@ -80,6 +80,15 @@ class User{
 		if($this->set == true){
 			return false; //We already have a user object you idiot
 		} else {
+			//Cleaning Block
+			$username_in = escape($username_in);
+			$name_in = escape($name_in);
+			$email_in = escape($email_in);
+			if(!is_numeric($admin_privileges_in)){
+				return false;
+			}
+			//End testing/cleaning block
+			
 			$sql = "INSERT INTO user (username, name, email, admin_privileges) VALUES ('$username_in', '$name_in', '$email_in', $admin_privileges_in)";
 			
 			$res = sql_query($sql);
@@ -87,9 +96,9 @@ class User{
 				$sql_id = sql_insert_id();
 				
 				$this->id = $sql_id;
-				$this->username = $username_in;
-				$this->name = $name_in;
-				$this->email = $email_in;
+				$this->username = stripslashes($username_in);
+				$this->name = stripslashes($name_in);
+				$this->email = stripslashes($email_in);
 				$this->admin_privileges = $admin_privileges_in;
 				
 				//Get firstname for aesthetic output

@@ -16,6 +16,7 @@ Functionality:
 Comments:		
 	Working on adding the dynamic feeds, like RSS.
 	AN URGENT PATCH WAS MADE TO CONTENT_LIST AND CONTENT_COUNT.  Please test all code accordingly!!!
+	Cleaned
 */
 class Feed{
     var $id;
@@ -25,7 +26,8 @@ class Feed{
 	var $type; //Stores the type of the feed, basic or advanced
 	var $dyn_id; //Stores the id of the feed if has a reference in the dynamic feed table (for type == advanced)
 	var $dyn;	//Holds a Dynamic object if the feed is dynamic
-        
+    
+	var $status;
 	var $set;
 
     function __construct($id = '', $dyn_allowed = true){
@@ -62,6 +64,13 @@ class Feed{
 		if($this->set == true){
 			return false; //We already have a feed established here
 		} else {
+			//Begin testing/cleaning block
+			$name_in = escape($name_in);
+			if(!is_numeric($group_in) || !is_numeric($type_in)){
+				$this->status = "Unknown Error"; //Aka they are playing with the post data!
+				return false;
+			}
+			//End testing/cleaning block
 			$sql = "INSERT INTO feed (name, group_id, type) VALUES ('$name_in', $group_in, $type_in)";
             		$res = sql_query($sql);
                 	if($res){
@@ -82,7 +91,12 @@ class Feed{
     	}
 	//Sets the properties back to the database
 	function set_properties(){
-		$sql = "UPDATE feed SET name = '$this->name', group_id = '$this->group_id' WHERE id = $this->id LIMIT 1";
+		$name_clean = escape($this->name);
+		if(!is_numeric($this->group_id)){
+				$this->status = "Unknown Error"; //Aka they are playing with the post data!
+				return false;
+		}
+		$sql = "UPDATE feed SET name = '$name_clean', group_id = '$this->group_id' WHERE id = $this->id LIMIT 1";
 		$res = sql_query($sql);
         if($res){
             return true;
@@ -92,6 +106,10 @@ class Feed{
     }
 	//Add a content to a feed
 	function content_add($content_in, $mod_in = 'NULL'){
+		if(!is_numeric($content_in)){
+				$this->status = "Please send the content id"; //Aka they are playing with the post data!
+				return false;
+		}
 		if($mod_in != 0 && $mod_in != 1 && $mod_in != 'NULL'){ //Don't let a stupid value in
 			$mod_in = 'NULL';
 		}
@@ -148,8 +166,11 @@ class Feed{
 		}
 	}
 	//Moderate content: Approve or deny
-	function content_mod($cid, $mod_flag=' '){
-		$sql = "UPDATE feed_content SET moderation_flag = $mod_flag WHERE feed_id = $this->id AND content_id = '$cid' LIMIT 1";
+	function content_mod($cid, $mod_in='NULL'){
+		if($mod_in != 0 && $mod_in != 1 && $mod_in != 'NULL'){ //Don't let a stupid value in
+			$mod_in = 'NULL';
+		}
+		$sql = "UPDATE feed_content SET moderation_flag = $mod_in WHERE feed_id = $this->id AND content_id = '$cid' LIMIT 1";
 		$res = sql_query($sql);
 		if($res){
 			return true;

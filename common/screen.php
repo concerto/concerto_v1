@@ -71,15 +71,23 @@ class Screen{
 		if($this->set){
 			return false;
 		} else {
+			//Begin testing/cleaning block
+			$name_in = escape($name_in);
+			$location = escape($location_in);
+			
+			if(!is_numeric($group_id_in) || !is_numeric($width_in) || !is_numeric($height_in) || !is_numeric($template_id_in)){
+				return false;
+			}
+			//End testing/cleaning block
 			$sql = "INSERT INTO `screen` (name, group_id, location, mac_address, width, height, template_id) VALUES ('$name_in', $group_id_in, '$location_in', '$mac_address_in', $width_in, $height_in, $template_id_in)";
 			$res = sql_query($sql);
 			if($res){
 				$sql_id = sql_insert_id();
 				
 				$this->id = $sql_id;
-				$this->name = $name_in;
+				$this->name = stripslashes($name_in);
 				$this->group_id = $group_id_in;
-				$this->location = $location_in;
+				$this->location = stripslashes($location_in);
 				$this->mac_address = $mac_address_in;
 				$this->width = $width_in;
 				$this->height = $height_in;
@@ -100,7 +108,26 @@ class Screen{
 	//YOU CANNOT USE THIS TO SET LAST_UPDATED for logical reasons I do not care to share
 	function set_properties(){
 		//Returns true for sucess, false for failure
-		$sql = "UPDATE screen SET name = '$this->name',  group_id = '$this->group_id', location = '$this->location', mac_address = '$this->mac_address', width = '$this->width', height = '$this->height, template_id = $this->template_id' WHERE id = $this->id LIMIT 1";
+		
+		//Begin Cleaning/Test Block
+		$name_clean = escape($this->name);
+		$location_clean = escape($this->location);
+		if(!is_numeric($this->group_id)){
+				return false;
+		}
+		if(!is_numeric($this->width)){
+				return false;
+		}
+		if(!is_numeric($this->height)){
+				return false;
+		}
+		if(!is_numeric($this->template_id)){
+				return false;
+		}
+
+		//End Cleaning/Test Block
+		
+		$sql = "UPDATE screen SET name = '$name_clean',  group_id = '$this->group_id', location = '$location_clean', mac_address = '$this->mac_address', width = '$this->width', height = '$this->height, template_id = $this->template_id' WHERE id = $this->id LIMIT 1";
 		//echo $sql;
 		$res = sql_query($sql);
 		if($res != 0){

@@ -35,10 +35,10 @@ class Content{
 			if($res != 0){
 				$data = (sql_row_keyed($res,0));
 				$this->id = $data['id'];
-				$this->name = stripslashes($data['name']);
+				$this->name = $data['name'];
 				$this->user_id = $data['user_id'];
-				$this->content = stripslashes($data['content']);
-				$this->mime_type = stripslashes($data['mime_type']);
+				$this->content = $data['content'];
+				$this->mime_type = $data['mime_type'];
 				if($this->mime_type == 'text/time'){ //Patch to render time.
 					$this->content = date($this->content);
 				}
@@ -97,7 +97,7 @@ class Content{
                 	$sql_id = sql_insert_id();
 
                 	$this->id = $sql_id;
-                	$this->name = stripslashes($name_in);
+                	$this->name = stripslashes($name_in); //Since we aren't pulling them back via mysql, they will be escaped
                 	$this->content = stripslashes($content_in);
                 	$this->mime_type = $mime_type_in;
                 	$this->type_id = $type_id_in;

@@ -3,7 +3,7 @@
 Class: Dynamic
 Status: Just getting going
 Functionality:  
-        create_dynamic            Creates a new dynamic thing //NOT\\
+        update			updates a dynamic feed.  Gets new content, removes old content
 Comments:		
 
 */
@@ -16,7 +16,6 @@ class Dynamic{
 	
 	var $feed;
 	var $content; //An array of content we create from the RSS feed
-	var $items_per_content;
 	
 	var $feed_set;
 	var $set;
@@ -29,8 +28,8 @@ class Dynamic{
                 $data = (sql_row_keyed($res,0));
                 $this->id = $data['id'];
                 $this->type = $data['type'];
-				$this->path = $data['path'];
-				$this->rules = $data['rules'];
+				$this->path = stripslashes($data['path']);
+				$this->rules = unserialize($data['rules']);
 				$this->last_update = $data['last_update'];
 				
 				if($feed_id != ''){
@@ -54,7 +53,6 @@ class Dynamic{
 	function update(){
 		$return = true;
 		if($this->type == 1){
-			$this->items_per_content = 3;
 			$return = $this->rss_update();
 		} else {
 			return false;
@@ -72,30 +70,26 @@ class Dynamic{
 	
 	function rss_update(){
 		if($xml = simplexml_load_file($this->path)){
-		
-			$title = $xml->channel->title;
-	
-			$title = eregi_replace('\s*rensselaer\s*', '', $title);
-			$title = eregi_replace('\s*-+.*','',$title);
-		
-			$title = "<h1>$title</h1>";
+			
+			$title = $xml->xpath($this->rules['title']['path']);
+			$title = $title[$this->rules['title']['item_num']];
+			$title = $this->regex_engine($title, $this->rules['title']['regex']);
 
-			foreach ($xml->channel->item as $item){
-				$i_title = $item->title;
-				$i_sub = $item->description;	
+			foreach ($xml->xpath($this->rules['item']['path']) as $item){
+				$i_title = $item->xpath($this->rules['item']['title']['path']);
+				$i_title = $i_title[$this->rules['item']['title']['item_num']];
+				$i_sub = $item->xpath($this->rules['item']['sub']['path']);	
+				$i_sub = $i_sub[$this->rules['item']['sub']['item_num']];
 
-				$i_title = eregi_replace('\s*rensselaer\s*', '', $i_title);
-				$i_title = eregi_replace('( - )+.*','',$i_title);
+				$i_title = $this->regex_engine($i_title, $this->rules['item']['title']['regex']);
+				
+				$i_sub = $this->regex_engine($i_sub, $this->rules['item']['sub']['regex']);
 
-				$i_sub = eregi_replace('\s*rensselaer\s*', '', $i_sub);
-				$i_sub = eregi_replace('\s*\.+.*','',$i_sub);
-				$i_sub = eregi_replace('\(.*\)','',$i_sub);
-
-				$data[] = "<h2>$i_title</h2><h3>$i_sub</h3>";
+				$data[] = "$i_title $i_sub";
 			}
-			$content_count = floor((count($data) + ($this->items_per_content - 1)) / $this->items_per_content);
+			$content_count = floor((count($data) + ($this->rules['items_per_content'] - 1)) / $this->rules['items_per_content']);
 			foreach ($data as $key => $content_text){
-				$cur_count = floor($key / $this->items_per_content);
+				$cur_count = floor($key / $this->rules['items_per_content']);
 			
 				if(isset($this->content[$cur_count])){
 					$this->content[$cur_count] = $this->content[$cur_count] . $content_text;
@@ -115,8 +109,10 @@ class Dynamic{
 			$name = "Dynamic Content";
 		}
 		foreach($this->content as $key =>$item){
-			$upper = $key + $this->items_per_content;
-			$c_name = $name . " ($key-$upper)";
+			$lower = $key  * $this->rules['items_per_content'] + 1;
+			$upper = $lower + $this->rules['items_per_content'] - 1;
+			
+			$c_name = $name . " ($lower-$upper)";
 			$c_owner = 0; //Content is owned by the system
 			$mime_type = "text/html";
 			$type_id = 1;
@@ -169,6 +165,25 @@ class Dynamic{
 	function log_update(){
 		$sql = "UPDATE dynamic SET last_update = NOW() WHERE id = $this->id LIMIT 1";
 		sql_query($sql);
+	}
+	function regex_engine($var_in, $ruleset){
+		foreach($ruleset as $regex){
+			if($regex['search'] == '%t'){
+				$regex['search'] = $var_in;
+			}
+			if($regex['replace'] == '%t'){
+				$regex['replace'] = $var_in;
+			}
+			if($regex['on'] == '%t'){
+				$regex['on'] = $var_in;
+			}
+			//Actually process the regex
+			if($regex['type'] == 'eregi_replace'){
+				$var_in = eregi_replace($regex['search'], $regex['replace'], $regex['on']);
+			}
+		}
+		return $var_in;
+	
 	}
 	
 }

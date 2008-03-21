@@ -1,12 +1,14 @@
 <?
 /*
 Class: Upload
-Status: Just about working wel
-Functionality:
+Status: Good to go
+Functionality: Uploads content
 Comments: 
 	The goal of upload is to process/clean things up before sending them to Content to be created.
 	And then clean them up after content has had a chance to play.
+	Cleaned
 */
+
 
 //Reject Limits
 define('MIN_W','400'); //Min width before we reject an image
@@ -82,6 +84,7 @@ class Uploader{
 				return true; //The content is finished uploading
 			} else {
 				$this->retval = false;
+				$this->status = $content->status;
 				return false; //Failure making a content isn't a good thing
 			}
 		
@@ -103,6 +106,7 @@ class Uploader{
 				return true; //The content is finished uploading
 			} else {
 				$this->retval = false;
+				$this->status = $content->status;
 				return false; //Failure making a content isn't a good thing
 			}
 		} elseif($this->ctype == 'file'){
@@ -319,8 +323,8 @@ class Uploader{
 			$this->retval = true;
 			return true; //The content is finished uploading
 		} else {
-			$this->status = "Error creating content entry";
 			$this->retval = false;
+			$this->status = $content->status;
 			return false; //Failure making a content isn't a good thing
 		}
 	} 

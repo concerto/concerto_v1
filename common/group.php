@@ -22,7 +22,7 @@ class Group{
 			if($res != 0){
 				$data = (sql_row_keyed($res,0));
 				$this->id = $data['id'];
-				$this->name = stripslashes($data['name']);
+				$this->name = $data['name'];
 				
 				$this->set = true;
 				return true;
@@ -46,7 +46,7 @@ class Group{
 				$sql_id = sql_insert_id();
 				
 				$this->id = $sql_id;
-				$this->name = stripslashes($name_in);
+				$this->name = $name_in;
 				
 				$this->set = true;
 				return true;
