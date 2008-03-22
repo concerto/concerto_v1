@@ -44,7 +44,7 @@ class Driver{
 			$this->error = 0;
 			$this->set = true;
 		} else if(($data1_in != '') && ($data2_in == '')){ //For a mac call
-			$this->mac_id = $data1_in;
+			$this->screen_id = $data1_in;
 			$this->set = true;
 		} else {
 			$this->set = false;
@@ -52,28 +52,28 @@ class Driver{
 	}
 	
 	function screen_details(){
-		if(isset($this->mac_id)){
+		if(isset($this->screen_id)){
 			$sql = "SELECT screen.width, screen.height, template.id as template_id, template.filename FROM screen
 			LEFT JOIN template ON screen.template_id = template.id
-			WHERE screen.mac_address = '$this->mac_id' LIMIT 1";
+			WHERE screen.id = '$this->screen_id' LIMIT 1";
 			$res = sql_query($sql);
 			if($res != 0 && ($data = sql_row_keyed($res,0))){
-				$screen_details['width'] = $data['width'];
-				$screen_details['height'] = $data['height'];
-				$screen_details['filename'] = $data['filename'];
+				//$screen_details['screen']['width'] = $data['width'];
+				//$screen_details['screen']['height'] = $data['height'];
+				//$screen_details['screen']['template'] = $data['filename'];
+				$screen_details['screen']['template_id'] = $data['template_id'];
 				
 				$template_id = $data['template_id'];
 				
 				$sql1 = "SELECT `id`, `left`, `top`, `width`, `height`, `style` FROM `field` WHERE `template_id` = $template_id";
 				$res1 = sql_query($sql1);
 				$i = 0;
-				while($data1 = sql_row_keyed($res1, $i)){
+				while($data1 = sql_row_keyed($res1, $i++)){
 					$screen_details['fields'][$data1['id']]['left'] = $data1['left'];
 					$screen_details['fields'][$data1['id']]['top'] = $data1['top'];
 					$screen_details['fields'][$data1['id']]['width'] = $data1['width'];
 					$screen_details['fields'][$data1['id']]['height'] = $data1['height'];
 					$screen_details['fields'][$data1['id']]['style'] = $data1['style'];
-					$i++;
 				}
 				return $screen_details;
 			}
@@ -92,14 +92,13 @@ class Driver{
 				LEFT JOIN feed_content ON content.id = feed_content.content_id
 				WHERE feed_content.moderation_flag = 1
 				AND content.type_id = $this->type_id
-				AND content.start_time < NOW()
-				AND content.end_time > NOW()
+				AND (content.start_time < NOW() OR content.start_time IS NULL)
+				AND (content.end_time > NOW() OR content.start_time IS NULL)
 				GROUP BY feed_id";
 				$res = sql_query($sql);
 				$i = 0;
-				while($data = (sql_row_keyed($res,$i))){
+				while($data = (sql_row_keyed($res,$i++))){
 					$this->feeds[] = $data['feed_id']; 
-					$i++;
 				}
 				//echo "<br />We just found the feeds with content, they are:"; print_r($this->feeds);
 		
@@ -163,8 +162,8 @@ class Driver{
 			AND feed_content.moderation_flag = 1
 			AND content.type_id = $this->type_id
 			AND content.id > $this->content_id 
-			AND content.start_time < NOW()
-			AND content.end_time > NOW()
+			AND (content.start_time < NOW() OR content.start_time IS NULL)
+			AND (content.end_time > NOW() OR content.start_time IS NULL)
 			LIMIT 1";
 			$res = sql_query($sql);
 			if($res!=0 && ($data = (sql_row_keyed($res,0)))){
@@ -179,8 +178,8 @@ class Driver{
 				AND feed_content.moderation_flag = 1
 				AND content.type_id = $this->type_id
 				AND content.id > 0 
-				AND content.start_time < NOW()
-				AND content.end_time > NOW()
+				AND (content.start_time < NOW() OR content.start_time IS NULL)
+				AND (content.end_time > NOW() OR content.start_time IS NULL)
 				LIMIT 1"; //We loop back around to the start, 
 				$res = sql_query($sql);
 				if($res!=0 && ($data = (sql_row_keyed($res,0)))){
@@ -200,21 +199,21 @@ class Driver{
 	}
 	
 	function content_details(){
-		$sql = "SELECT `content`, `mime_type`, `duration` FROM `content` WHERE id = $this->content_id";
+	    $sql = "SELECT `template_id` FROM `screen` WHERE id = $this->screen_id LIMIT 1;";
+	    $template_id = sql_query1($sql);
+		$sql = "SELECT `content`, `mime_type`, `duration` FROM `content` WHERE id = $this->content_id;";
 		$res = sql_query($sql);
 		if($res!=0){
 			$data = (sql_row_keyed($res,0));
 			$data['content'] = stripslashes($data['content']);
 			$data['mime_type'] = stripslashes($data['mime_type']);
 			
-			if($data['mime_type'] == 'application/x-php'){ //This executes php code, disable if you want to be secure
-				$data['mime_type'] = 'text/html';
-				$data['content'] = eval($data['content']);
-			}
 			if($data['mime_type'] == 'text/time'){ //This executes time code
 				$data['mime_type'] = 'text/html';
 				$data['content'] = date($data['content']);
 			}
+			
+			$data['template_id'] = $template_id;
 		
 			return $data;
 		} else {
