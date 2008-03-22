@@ -1,15 +1,13 @@
 <?php
-include("mysql.inc");
-if(isset($_GET['mac'])){
-    $mac = hexdec($_GET['mac']);
-    $sql = "SELECT id FROM screen WHERE mac_address = $mac LIMIT 1;";
-    $id = sql_query1($sql);
-    if($id < 0){
-        header("Location: missing.php?mac={$_GET['mac']}");
-        exit(0);
-    }
-} else {
-    header("Location: /");
+include("../config.inc.php");
+include(COMMON_DIR."/mysql.inc.php");
+
+if(!isset($_GET['mac'])) $_GET['mac'] = 0;
+$mac = hexdec($_GET['mac']);
+$sql = "SELECT id FROM screen WHERE mac_address = $mac LIMIT 1;";
+$id = sql_query1($sql);
+if($id < 0){
+    header("Location: missing.php?mac={$_GET['mac']}");
     exit(0);
 }
 ?>

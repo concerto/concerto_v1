@@ -69,7 +69,7 @@ function initScreen(){
 		    data: {"id": screenId},
 		    success: function(json){
 		        if(json != null){
-			        var imgSrc = "resize.php?height=" + json["screen"]["height"] + "&width=" + json["screen"]["width"] + "&file=" + escape(json["screen"]["template"]);
+			        var imgSrc = "template.php?id=" + screenId;
 			        //load the image to cache
 			        var img = new Image();
 			        //set onload event handler
@@ -142,6 +142,7 @@ function fetchContent(){
 					        .fadeGlobal(field["prevdiv"]);
 					    field["prevdiv"] = div;
 					    field["timeout"] = time + parseInt(json["duration"]);
+				        if(json["template_id"] != templateId) templateId = undefined;
 				    } else if(json["mime_type"].match(/image/)){
 					    var imgSrc = "resize.php?height=" + field["height"] + "&width=" + field["width"] + "&file=" + escape(json["content"])
 					    //load the image to cache
@@ -160,6 +161,7 @@ function fetchContent(){
 						        .fadeGlobal(field["prevdiv"]);
 					        field["prevdiv"] = div;
 					        field["timeout"] = time + parseInt(json["duration"]);
+				            if(json["template_id"] != templateId) templateId = undefined;
 					    };
 					    //if error then try again with another image
 					    img.error = start;
@@ -180,8 +182,8 @@ function fetchContent(){
 					        .fadeGlobal(field["prevdiv"]);
 				        field["prevdiv"] = div;
 				        field["timeout"] = time + 3000;
+				        if(json["template_id"] != templateId) templateId = undefined;
 				    }
-				    if(json["template_id"] != templateId) templateId = undefined;
 				    start();
 			    },
 			    error: start,

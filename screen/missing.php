@@ -1,6 +1,6 @@
 <?php
 header("Refresh: 5; URL=index.php?mac={$_GET['mac']}");
-$tmp = str_split(str_pad($_GET['mac'], 12, "0", STR_PAD_LEFT), 2);
+$tmp = str_split(str_pad(preg_replace('/[^0-9A-Fa-f]/', '', $_GET['mac']), 12, "0", STR_PAD_LEFT), 2);
 $mac = sprintf("%s:%s:%s:%s:%s:%s", $tmp[0], $tmp[1], $tmp[2], $tmp[3], $tmp[4], $tmp[5])
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
