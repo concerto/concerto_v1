@@ -7,14 +7,7 @@
 <?php
 foreach($this->feeds as $feed){
 ?>
-  <tr>
-    <td<? if (!$notfirst) {$notfirst =1;  echo ' class="firstrow"';} ?>>
-    <a href="<?= ADMIN_URL?>/feeds/show/<?= $feed->id ?>">
-    <h1><?= $feed->name ?></h1>
-    </a>
-    </td>
-  </tr>
-
+  <tr><td<? if (!$notfirst) {$notfirst =1;  echo ' class="firstrow"';} ?>><h1><a href="<?= ADMIN_URL?>/feeds/show/<?= $feed->id ?>"><?= $feed->name ?></a></h1></td></tr>
 <?php
 }
 ?>

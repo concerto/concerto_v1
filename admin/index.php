@@ -312,7 +312,7 @@ class Controller
    {
       $this->breadcrumbs[]=Array($item,$url);
    }
-   function getCrumbs($delim=' :: ')
+   function getCrumbs($delim=' > ')
    {
       $vals = array();
       foreach($this->breadcrumbs as $k => $c) {

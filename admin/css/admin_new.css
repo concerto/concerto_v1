@@ -54,7 +54,7 @@ div.menu_box h3, div.alert_box h3 { font-size:120%;margin:0 0 4px;padding:0; }
 #maincontent_padding { background:#FFF; padding:15px 8px 8px; }
 
 #footer_gutter { background:#FFF; clear:both; height:75px; }
-#footer { color:#666; background:url(../images/footer_bg.gif) repeat;font-size:0.7em;letter-spacing:0.08em;text-align:center;width:100%; }
+#footer { color:#333; background:url(../images/footer_bg.gif) repeat;font-size:0.7em;letter-spacing:0.08em;text-align:center;width:100%; }
 #footer_padding { padding:13px; }
 #footer a:link, #footer a:visited { color:#333;font-size:100%;text-decoration:none; }
 #footer a:hover { color:#69c;font-size:100%;text-decoration:underline; }

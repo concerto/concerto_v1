@@ -8,9 +8,7 @@ foreach($this->users as $user){
    ?>
 <tr>
    <td<? if (!$notfirst) {$notfirst =1;  echo ' class="firstrow"';} ?>>
-   <a href="<?= ADMIN_URL?>/users/show/<? echo $user->username ?>">
-   <h1><?= $user->name ?></h1>
-   </a>
+   <h1><a href="<?= ADMIN_URL?>/users/show/<? echo $user->username ?>"><?= $user->name ?></a></h1>
    <?php
      $groups=array();
      if($user->admin_privileges) 

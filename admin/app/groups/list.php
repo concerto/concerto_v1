@@ -9,9 +9,7 @@ foreach($this->groups as $groupid => $group){
    ?>
 <tr>
    <td<? if (!$notfirst) {$notfirst =1;  echo ' class="firstrow"';} ?>>
-   <a href="<?= ADMIN_URL?>/groups/show/<? echo $groupid ?>">
-   <h1><?= $group[name] ?></h1>
-   </a>
+   <h1><a href="<?= ADMIN_URL?>/groups/show/<? echo $groupid ?>"><?= $group[name] ?></a></h1>
       <p><?= $group[members] ?> member<?=$group[members]!=1?"s":""?></p>
       <?php if(is_array($group[controls]))
         echo "<p>Controls ".join(" and ", $group[controls]).'</p>';
