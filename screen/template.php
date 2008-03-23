@@ -10,5 +10,5 @@ $sql = "SELECT template.filename, screen.width, screen.height FROM screen LEFT J
 $res = sql_query($sql);
 $row = sql_row_keyed($res, 0);
 
-resize(TEMPLATE_DIR.$row['filename'], $row['width'], $row['height']);
+resize(TEMPLATE_DIR.$row['filename'], $row['width'], $row['height'], true);
 ?>
