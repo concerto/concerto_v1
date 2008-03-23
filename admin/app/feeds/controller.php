@@ -23,11 +23,7 @@ class feedsController extends Controller
 
    function listAction()
    {
-      $feedids = sql_select("feed","id");
-      $this->feeds=Array();
-      if(is_array($feedids))
-         foreach($feedids as $feed)
-            $this->feeds[] = new Feed($feed['id']); 
+      $this->feeds=Feed::get_all();
    }
 
 

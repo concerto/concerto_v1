@@ -2,12 +2,13 @@
 class screensController extends Controller
 {
    public $actionNames = Array( 'list'=> 'Screens Listing', 'show'=>'Details',
-                                'edit'=> 'Edit', 'new'=>'New');
+                                'edit'=> 'Edit', 'new'=>'New', 'subscriptions'=>'Subscriptions');
 
    public $require = Array( 'require_login'=>1,
                             'require_action_auth'=>Array('edit','create',
                                                          'new', 'update',
-                                                         'delete','destroy') );
+                                                         'delete','destroy',
+                                                         'subscriptions', 'subscribe') );
 
    function setup()
    {
@@ -40,6 +41,16 @@ class screensController extends Controller
       $this->setSubject($this->screen->name);
    }
 
+   function subscriptionsAction()
+   {
+      $this->screen = new Screen($this->args[1]);
+      $this->setTitle('Managing Subscriptions for '.$this->screen->name);
+      $this->setSubject($this->screen->name);
+      $this->feeds=Feed::get_all();
+
+      $res = sql_select('template','*','id='.$this->screen->template_id);
+      $this->template = $res[0];
+   }
    function newAction()
    {
       $this->setTitle('Create new screen');

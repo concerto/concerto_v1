@@ -39,14 +39,6 @@
            <?php
            foreach ($this->feeds as $arr) {
               list($feed, $value) = $arr;
-              /*
-              echo '<br /><select id="content[feeds]['.$feed->id.']">';
-              echo '<option value=0'.($value==0?' selected':'').'>Never</option>';
-              echo '<option value=33'.($value<=33&&$value>0?' selected':'').'>Sometimes</option>';
-              echo '<option value=66'.($value<=66&&$value>33?' selected':'').'>Moderately</option>';
-              echo '<option value=100'.($value<=66&&$value>33?' selected':'').'>Very Often</option>';
-              echo '</select> <label>from <a href="'.ADMIN_URL."/feeds/show/$feed->id\">$feed->name</a>";
-              */
               echo '<br /><input type="checkbox" name="content[feeds]['.$feed->id.']" value="1"';
               if($checked) echo ' CHECKED';
               echo ' /><label>'.'<a href="'.ADMIN_URL."/feeds/show/$feed->id\">$feed->name</a></label>";
