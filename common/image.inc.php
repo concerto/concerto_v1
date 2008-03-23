@@ -1,35 +1,39 @@
 <?php
-function resize($filename, $new_width, $new_height, $stretch = false){
+function resize($filename, $new_width = false, $new_height = false, $stretch = false){
     if(!$stretch) {
         list($width, $height) = getimagesize($filename);
 
-        $ratio = $width / $height;
-        $new_ratio = $new_width / $new_height;
-
-        if($ratio < $new_ratio) {
-	        $new_height = $new_height;
-	        $new_width = $new_height * $ratio;
+        if(!$new_width || !$new_height) {
+	        $new_width = $width;
+	        $new_height = $height;
         } else {
-	        $new_width = $new_width;
-	        $new_height = $new_width / $ratio;
+            $ratio = $width / $height;
+            $new_ratio = $new_width / $new_height;
+
+            if($ratio < $new_ratio) {
+                $new_height = $new_height;
+                $new_width = $new_height * $ratio;
+            } else {
+                $new_width = $new_width;
+                $new_height = $new_width / $ratio;
+            }
         }
     }
 
     $new_image = imagecreatetruecolor($new_width, $new_height);
-    $image = imagecreatefromjpeg($filename) or //Read JPEG
-    $image = imagecreatefrompng($filename) or //Read PNG
-    $image = imagecreatefromgif($filename) or //Read GIF
+    $image = @imagecreatefromjpeg($filename) or //Read JPEG
+    $image = @imagecreatefrompng($filename) or //Read PNG
+    $image = @imagecreatefromgif($filename) or //Read GIF
     $image = false;
-    if($image)
+    if($image) {
 	    imagecopyresampled($new_image, $image, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
-    else
+        imagedestroy($image);
+    } else
         $new_image = imagecreatetruecolor(100, 100);
 
     header('Content-type: image/jpeg');
     imagejpeg($new_image, NULL, 100);
     imagedestroy($new_image);
-    if($image)
-        imagedestroy($image);
     exit(0);
 }
 ?>
