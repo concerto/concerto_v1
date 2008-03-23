@@ -144,8 +144,10 @@ class Dynamic{
 			if(!$return){
 				return false; //We had problems adding content to the right feed
 			}
-			if($old_ids && $return){
+			if($old_ids){
 				return $this->remove_content($ids); //Finally we remove the old ones.  We do this last so there is always content, we can live with duplicates for a few seconds
+			} else {
+				return true;
 			}
 		} else {
 			return false;  //Errors adding content!
