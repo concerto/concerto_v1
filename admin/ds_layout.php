@@ -6,16 +6,16 @@
 <title><?php echo join(' - ',array('Concerto Interface v0.8 (dev)',
 		$this->getTitle()));?></title>
 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-<link rel="stylesheet" type="text/css" href="<? echo ADMIN_BASE_URL ?>/css/admin_new.css" />
-<link rel="stylesheet" type="text/css" href="<? echo ADMIN_BASE_URL ?>/css/menu_tabs.css" />
+<link rel="stylesheet" type="text/css" href="<? echo ADMIN_BASE_URL ?>css/admin_new.css" />
+<link rel="stylesheet" type="text/css" href="<? echo ADMIN_BASE_URL ?>css/menu_tabs.css" />
 
 <!--[if lt IE 7.]>
 <script defer type="text/javascript" src="<? 
 echo $admin_base_url ?>/js/pngfix.js"></script>
 <![endif]-->
 
-<link rel="stylesheet" type="text/css" href="<? echo ADMIN_BASE_URL ?>/ajaxtabs/ajaxtabs.css" />
-<script type="text/javascript" src="<? echo ADMIN_BASE_URL ?>/ajaxtabs/ajaxtabs.js"></script>
+<link rel="stylesheet" type="text/css" href="<? echo ADMIN_BASE_URL ?>ajaxtabs/ajaxtabs.css" />
+<script type="text/javascript" src="<? echo ADMIN_BASE_URL ?>ajaxtabs/ajaxtabs.js"></script>
 
 <?php //renderHeadExtras() ?>
 </head>

@@ -343,7 +343,7 @@ function sql_select($table, $fields="", $conditions="", $extra="", $debug=false)
 	$i=0;
 	if($debug) echo mysql_error();
 	while($row = sql_row_keyed($res,$i++))
-		$rows[]=$row;
+		if(isset($row[0])) $rows[]=$row;
    if($debug) print_r($rows);
 	return $rows;	
 }
