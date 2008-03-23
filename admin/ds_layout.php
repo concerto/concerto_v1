@@ -44,7 +44,7 @@ echo $admin_base_url ?>/js/pngfix.js"></script>
 <div id="footer_gutter">&nbsp;</div>
 <div id="footer">
   <div id="footer_padding">
-    <p>Copyright &copy; 2008 Student Senate Web Technologies Group.</p>
+    <p>Copyright &copy; 2008 Student Senate Web Technologies Group</p>
   </div>
 </div>
 

@@ -1,4 +1,4 @@
-<a href="<?=ADMIN_URL.'/content/new'?>"><div class="buttonsel"><div class="buttonleft"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_left.gif" border="0" alt="" /></div><div class="buttonmid"><div class="buttonmid_padding">Submit Content</div></div><div class="buttonright"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_right.gif" border="0" alt="" /></div></div></a><div style="clear:left;height:12px;"></div>
+<a href="<?=ADMIN_URL.'/content/new'?>"><span class="buttonsel"><div class="buttonleft"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_left.gif" border="0" alt="" /></div><div class="buttonmid"><div class="buttonmid_padding">Submit Content</div></div><div class="buttonright"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_right.gif" border="0" alt="" /></div></span></a><div style="clear:both;height:12px;"></div>
 <h2>All content in the system is shown.  Click on a title for details.</h2>
 <?php
 if(is_array($this->contents) && count($this->contents>1))

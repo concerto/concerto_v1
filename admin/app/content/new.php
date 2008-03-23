@@ -1,4 +1,3 @@
-<p><a href="<?= ADMIN_URL ?>/content">Back to Content Listing</a></p>
 <div id="selectdisp_left">
   <div id="shadetabs">
     <div id="selectmenu">

@@ -32,7 +32,7 @@ define('ADMIN_URL','/mike_admin/index.php'); //URL that can access this page (ma
 */
 define('DEFAULT_CONTROLLER','frontpage');    //Controller to use when none is specified
 define('DEFAULT_TEMPLATE','ds_layout');      //Layout file for actions with none specified
-define('HOMEPAGE','Home');                   //Name of the homepage
+define('HOMEPAGE','Home');     //Name of the homepage
 define('HOMEPAGE_URL', ADMIN_URL);           //relative URL to reach the frontpage
 define('APP_PATH','app');
 

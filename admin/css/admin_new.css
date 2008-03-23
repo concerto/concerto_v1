@@ -18,7 +18,7 @@ a:hover { color:#666; text-decoration:underline; }
 #header a:link, #header a:visited { color:#ccc;text-decoration:none; }
 #header a:hover { color:#FFF;text-decoration:none;; }
 
-#content_header { background:#eaeaea;border-top:2px solid #FFF;padding-left:185px; }
+#content_header { background:#eaeaea;border-top:2px solid #FFF;padding-left:195px; }
 #content_header h1 { color:#000;margin:0px;padding:0; }
 #content_header h2 { color:#333;font-weight:700;font-size:0.85em;margin:5px 0 10px 0px;padding:0px 0px 5px 0px; }
 #content_header h2 a { color:#069;text-decoration:none; }
@@ -48,7 +48,7 @@ div.menu_box h2, div.alert_box h2 { font-size:115%;margin:8px 0;padding:0; }
 div.menu_box h3, div.alert_box h3 { font-size:120%;margin:0 0 4px;padding:0; }
 
 #maincontent_header { margin-left:185px; }
-#maincontent { background:#FFF !important; margin-left:185px;margin-bottom:50px;margin-right:25px; margin-top:25px; text-align:left; }
+#maincontent { background:#FFF !important; margin-left:195px;margin-bottom:50px;margin-right:25px; margin-top:25px; text-align:left; }
 #maincontent h1, #maincontent h1 a { font-size:1.4em; font-weight:bold; margin:0px 0px 8px 0px; padding:0px; }
 #maincontent h2 { color:#666666; font-size:1.1em; font-weight:bold; margin:0px 0px 20px 0px; padding:0px; }
 #maincontent_padding { background:#FFF; padding:15px 8px 8px; }
@@ -101,10 +101,10 @@ img.topleft { margin-left:-1px; margin-top:-1px; }
 img.botleft { margin-left:-1px; margin-bottom:-1px; }
 
 /* Gray ACTION button */
-div.buttonsel { color:#FFF; font-size:0.8em; font-weight:bold; text-decoration:none; height:24px; margin-bottom:10px; }
-div.buttonleft { float:left; height:24px; width:12px; }
-div.buttonmid { height:24px; float:left; background:#999; }
-div.buttonmid_padding { padding:5px 5px; }
-div.buttonright { float:left; height:24px; width:12px; }
-div.buttonsel a { color:#FFF; font-size:1.2em; font-weight:bold; text-decoration:none; }
-div.buttonsel a:hover { color:#FFF; text-decoration:underline; }
+.buttonsel { color:#FFF; font-size:0.8em; font-weight:bold; text-decoration:none; height:24px; margin-bottom:10px; display:inline; }
+.buttonleft { float:left; height:24px; width:12px; }
+.buttonmid { height:24px; float:left; background:#999; }
+.buttonmid_padding { padding:5px 5px; }
+.buttonright { float:left; height:24px; width:22px; }
+.buttonsel a { color:#FFF; font-size:1.2em; font-weight:bold; text-decoration:none; }
+.buttonsel a:hover { color:#FFF; text-decoration:underline; }
