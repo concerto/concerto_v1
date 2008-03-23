@@ -49,7 +49,7 @@ div.menu_box h3, div.alert_box h3 { font-size:120%;margin:0 0 4px;padding:0; }
 
 #maincontent_header { margin-left:185px; }
 #maincontent { background:#FFF !important; margin-left:195px;margin-bottom:50px;margin-right:25px; margin-top:25px; text-align:left; }
-#maincontent h1, #maincontent h1 a { font-size:1.4em; font-weight:bold; margin:0px 0px 8px 0px; padding:0px; }
+#maincontent h1, #maincontent h1 a { font-size:1.2em; font-weight:bold; margin:0px 0px 8px 0px; padding:0px; }
 #maincontent h2 { color:#666666; font-size:1.1em; font-weight:bold; margin:0px 0px 20px 0px; padding:0px; }
 #maincontent_padding { background:#FFF; padding:15px 8px 8px; }
 
@@ -108,7 +108,7 @@ img.botleft { margin-left:-1px; margin-bottom:-1px; }
 .buttonsel a { color:#FFF; font-size:1.2em; font-weight:bold; text-decoration:none; }
 .buttonsel a:hover { color:#FFF; text-decoration:underline; }
 
-span.emph { font-size:1.6em; }
+span.emph { font-size:1.4em; }
 h3 span.emph { color:#000 !important; padding-left:8px; }
 
 /* Screens/Feeds Subscription View (screens/show.php) */
