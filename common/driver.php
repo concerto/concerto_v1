@@ -20,15 +20,13 @@ Cleaned
 */
 
 class Driver{
-	var $mac_id;
 	var $screen_id;
 	var $field_id;
 	var $type_id;
 	var $feed_id;
-	var $content_id;
+	var $last_content_id;
 	
 	var $set;
-	var $feeds;
 	var $error;
 	
 	function __construct($data1_in='', $data2_in=''){
@@ -84,71 +82,50 @@ class Driver{
 	
 	function get_feed(){
 		if(isset($this->screen_id) && isset($this->field_id)){
-			if($this->error >= 1){ //but of course all might not be well in the database land.. so we think about those problems here
-				//echo "Hitting the advanced code";
-				//The majority of this code is to address "empty" feeds.
-				//The following code builds an of feeds that have content in them
-				$sql = "SELECT COUNT(content.id) as content_count, feed_id FROM content
-				LEFT JOIN feed_content ON content.id = feed_content.content_id
-				WHERE feed_content.moderation_flag = 1
-				AND content.type_id = $this->type_id
-				AND (content.start_time < NOW() OR content.start_time IS NULL)
-				AND (content.end_time > NOW() OR content.start_time IS NULL)
-				GROUP BY feed_id";
-				$res = sql_query($sql);
-				$i = 0;
-				while($data = (sql_row_keyed($res,$i++))){
-					$this->feeds[] = $data['feed_id']; 
-				}
-				//echo "<br />We just found the feeds with content, they are:"; print_r($this->feeds);
-		
-				//Now we test to see how many of those feeds are actually mapped to this position
-				$feed_string = implode (',', $this->feeds);
-				$sql = "SELECT `feed_id`, `range_l`, `range_h` FROM `position` 
-				WHERE `screen_id` = $this->screen_id AND `field_id` = $this->field_id AND feed_id IN ($feed_string) ORDER BY `range_l` ASC";
-				$res = sql_query($sql);
-				$j = 0;
-				$range_sum = 0;
-				while($data = (sql_row_keyed($res,$j))){
-					$feed_range[$data['feed_id']]['range'] = $data['range_h'] - $data['range_l'];
-					$range_sum = $range_sum + $feed_range[$data['feed_id']]['range'];
-					$j++;
-				}
-				//echo "<br /> Just calculated ranges:"; print_r($feed_range);
-				$scale = 1/$range_sum;
-				$rand = rand(0,100) / 100;
-				$base = 0;
-				foreach($feed_range as $feed_id => $feed){
-					$feed['low'] = $base;
-					$feed['high'] = $base + $feed['range'] * $scale;
-					$base = $feed['high'];
-					//print_r($feed);
-					if($feed['low'] < $rand && $rand <= $feed['high']){
-						$this->feed_id = $feed_id;
-						//echo "<br />Got it! $feed_id looks like a match!!!";
-						$this->error = 0;
-						return true;
-					}
-				}
-		
-				return false;
-				
-			} else { //We start off by assuming that all is well in the Concerto world, there is plenty of content to be bad
-				//The "regular" weighting algorithm
-				$rand = rand(0,100) / 100;
-				$sql = "SELECT `feed_id`, `content_id` FROM `position` WHERE `screen_id` = $this->screen_id AND `field_id` = $this->field_id AND 
-				(`range_l` < $rand AND $rand <= `range_h`)";
-				$res = sql_query($sql);
-				if($res != 0){
-					$data = (sql_row_keyed($res,0));
-					$this->feed_id = $data['feed_id'];
-					$this->content_id = $data['content_id'];
-					return true;
-				} else {
-					$this->error++;
-					return false;
+			$sql = "SELECT feed.id, field.type_id, position.last_content_id, position.range_l, position.range_h, COUNT( content.id ) as cnt
+            FROM position
+            LEFT JOIN field ON position.field_id = field.id
+            LEFT JOIN feed ON position.feed_id = feed.id
+            LEFT JOIN feed_content ON feed.id = feed_content.feed_id
+            LEFT JOIN content ON feed_content.content_id = content.id
+            WHERE position.screen_id =$this->screen_id
+            AND field.id =$this->field_id
+            AND field.type_id = content.type_id
+            AND feed_content.moderation_flag =1
+            AND (content.start_time < NOW() OR content.start_time IS NULL)
+            AND (content.end_time > NOW() OR content.end_time IS NULL)
+            GROUP BY feed.id;";
+			$res = sql_query($sql);
+			$i = 0;
+			$range_sum = 0;
+			while($data = (sql_row_keyed($res,$i++))){
+			    if($data['cnt'] > 0){
+				    $feeds[$data['id']]['type_id'] = $data['type_id'];
+				    $feeds[$data['id']]['last_content_id'] = $data['last_content_id'];
+				    $feeds[$data['id']]['low'] = floatval($data['range_l']);
+				    $feeds[$data['id']]['high'] = floatval($data['range_h']);
+				    $range_sum += abs($feeds[$data['id']]['high'] - $feeds[$data['id']]['low']);
 				}
 			}
+						
+			$rand = rand() * $range_sum / getrandmax();
+			
+			$lower_weight = 0;
+			foreach($feeds as $feed_id => $feed){
+			    $weight = $feed['high'] - $feed['low'];
+				if($lower_weight < $rand && $rand <= $lower_weight += $weight){
+					$this->feed_id = $feed_id;
+					$this->type_id = $feed['type_id'];
+					if(!($this->last_content_id = $feed['last_content_id']))
+					    $this->last_content_id = 0;
+					//echo "<br />Got it! $feed_id looks like a match!!!";
+					$this->error = 0;
+					return true;
+				}
+			}
+	
+			return false;
+
 		} else {
 			return false;
 		}
@@ -161,9 +138,10 @@ class Driver{
 			WHERE feed_content.feed_id = $this->feed_id
 			AND feed_content.moderation_flag = 1
 			AND content.type_id = $this->type_id
-			AND content.id > $this->content_id 
+			AND content.id > $this->last_content_id 
 			AND (content.start_time < NOW() OR content.start_time IS NULL)
 			AND (content.end_time > NOW() OR content.start_time IS NULL)
+			ORDER BY content.id ASC
 			LIMIT 1";
 			$res = sql_query($sql);
 			if($res!=0 && ($data = (sql_row_keyed($res,0)))){
@@ -180,6 +158,7 @@ class Driver{
 				AND content.id > 0 
 				AND (content.start_time < NOW() OR content.start_time IS NULL)
 				AND (content.end_time > NOW() OR content.start_time IS NULL)
+    			ORDER BY content.id ASC
 				LIMIT 1"; //We loop back around to the start, 
 				$res = sql_query($sql);
 				if($res!=0 && ($data = (sql_row_keyed($res,0)))){
@@ -205,17 +184,18 @@ class Driver{
 		$res = sql_query($sql);
 		if($res!=0){
 			$data = (sql_row_keyed($res,0));
-			$data['content'] = stripslashes($data['content']);
-			$data['mime_type'] = stripslashes($data['mime_type']);
+			$json['content'] = stripslashes($data['content']);
+			$json['mime_type'] = stripslashes($data['mime_type']);
+			$json['duration'] = $data['duration'];
 			
 			if($data['mime_type'] == 'text/time'){ //This executes time code
-				$data['mime_type'] = 'text/html';
-				$data['content'] = date($data['content']);
+				$json['mime_type'] = 'text/html';
+				$json['content'] = date($data['content']);
 			}
 			
-			$data['template_id'] = $template_id;
+			$json['template_id'] = $template_id;
 		
-			return $data;
+			return $json;
 		} else {
 			return false;
 		}
@@ -223,10 +203,17 @@ class Driver{
 	
 	function log_back(){
 		if(isset($this->screen_id) && isset($this->field_id) && isset($this->feed_id)&& isset($this->content_id)){
-			$sql = "UPDATE `position` SET `content_id` = $this->content_id 
-			WHERE `screen_id` = $this->screen_id AND `field_id` = $this->field_id AND `feed_id` = $this->feed_id";
-			sql_query($sql);
-			return true;
+			$sql = "UPDATE `position` SET `last_content_id` = $this->content_id 
+			WHERE `screen_id` = $this->screen_id AND `field_id` = $this->field_id AND `feed_id` = $this->feed_id LIMIT 1;";
+			
+			if(sql_command($sql) != -1)
+			    return false;
+			
+			$sql = "UPDATE screen SET last_updated = NOW()
+			WHERE id = $this->screen_id LIMIT 1";
+//			echo "$sql<br/>\n";
+			
+			return sql_command($sql) != -1;
 		} else {
 			return false;
 		}

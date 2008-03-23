@@ -122,7 +122,7 @@ function fetchContent(){
 			    url: "content.php",
 			    data: {"screen_id": screenId, "field_id": field["id"]},
 			    success: function(json){
-				    if(!json || !json["mime_type"]){
+				    if(!json || !json["mime_type"] || !json["duration"]){
 				        field["timeout"] = time + 3000;
 				    //based on the mime-type of the content, handle it accordingly
 				    } else if(json["mime_type"].match(/text/)){
@@ -144,7 +144,7 @@ function fetchContent(){
 					    field["timeout"] = time + parseInt(json["duration"]);
 				        if(json["template_id"] != templateId) templateId = undefined;
 				    } else if(json["mime_type"].match(/image/)){
-					    var imgSrc = "resize.php?height=" + field["height"] + "&width=" + field["width"] + "&file=" + escape(json["content"])
+					    var imgSrc = "image.php?file=" + escape(json["content"]) + "&width=" + field["width"] + "&height=" + field["height"];
 					    //load the image to cache
 					    var img = new Image();
 					    //set onload event handler

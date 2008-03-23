@@ -42,5 +42,12 @@ foreach ($class->list_overrides( ) as $path) {
     print "\n";
 }
 
+foreach ($class->list_files( ) as $file) {
+    print "file:";
+    print $file["path"].":";
+    print $file["sig"].":";
+    print $file["md5"].":";
+    print $file["url"]."\n";
+}
 
 ?>

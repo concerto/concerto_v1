@@ -19,6 +19,65 @@ function validate_mac($mac) {
     }
 }
 
+class FlashFile {
+    private $id, $name, $md5, $sig, $url;
+
+    public function create_new($name, $location, $url) {
+        # compute md5 sum of the data file
+        $md5 = md5_file($location);
+        # sign the md5 hash
+        $sig = generate_signature($md5);
+        # insert into database
+        $name = mysql_escape_string($name);
+        mysql_query(
+            "insert into file (name, md5, sig, url) ".
+            "values(\"$name\", \"$md5\", \"$sig\", \"$url\")"
+        ) or die ("query to insert new file failed: " . mysql_error( ));
+
+        # return the object
+        $new_id = mysql_insert_id( );
+        return FlashFile::load_from_id($new_id);
+    }
+    public function load_from_id($id) {
+        $obj = new FlashFile( );
+        if (!is_numeric($id)) {
+            die("passed non-numeric ID to load_from_id");
+        }
+        $result = mysql_query("select name, md5, sig, url from file where file_id=$id") 
+            or die("query to load file object from DB failed: " . mysql_error( ));
+
+        if (!($row = mysql_fetch_row($result))) {
+            die("attempt to load file object with nonexistent ID\n");
+        } else {
+            $obj->id = $id;
+            $obj->name = $row[0];
+            $obj->md5 = $row[1];
+            $obj->sig = $row[2];
+            $obj->url = $row[3];
+        }
+    }
+    public function get_name( ) {
+        return $this->name;
+    }
+    public function get_url( ) {
+        return $this->url;
+    }
+    public function get_md5( ) {
+        return $this->md5;
+    }
+    public function get_sig( ) {
+        return $this->sig;
+    }
+    public function get_id( ) {
+        return $this->id;
+    }
+    public function delete( ) {
+        $id = $this->id;
+        mysql_query("delete from file where file_id=$id");
+        mysql_query("delete from file_map where file_id=$id");
+    }
+}
+
 class HardwareClass {
     public function create_new($name) {
         // create a new hardware class and return it.
@@ -41,7 +100,7 @@ class HardwareClass {
 
         return $objs;
     }
-
+    
     public function load_from_id($id) {
         // load a hardware class from the database given its ID
         $obj = new HardwareClass( );
@@ -255,6 +314,55 @@ class HardwareClass {
         }
 
         return $ret;
+    }
+
+    public function add_file($filename, $target_path) {
+        $id = $this->id;
+       
+        # get the md5 hash of the file and sign it
+        $path = BASE_DIR."/flash/".$filename;
+        $md5 = md5_file($path);
+        $sig = generate_signature($md5);
+        
+        $filename = basename($filename);
+        if (!file_exists(BASE_DIR."/flash/$filename")) {
+            die("File does not exist!");
+        }
+        $url = BASE_URL."/flash/$filename";
+
+        $filename=mysql_escape_string($filename);
+        $url=mysql_escape_string($url);
+        $target_path=mysql_escape_string($target_path);
+        $md5=mysql_escape_string($md5);
+        $sig=mysql_escape_string($sig);
+
+        mysql_query("insert into file_map (class_id, filename, url, output_path, md5, sig) " .
+            "values($id, \"$filename\", \"$url\", \"$target_path\", \"$md5\", \"$sig\")") 
+            or die("failure to add file to class: ". mysql_error( ));
+    }
+
+    public function remove_file($path) { 
+        $path=mysql_escape_string($path);
+        $id=$this->id;
+
+        mysql_query("delete from file_map where class_id=$id and output_path=\"$path\"")
+            or die("failed to delete file...");
+    }
+
+    public function list_files( ) {
+        $id=$this->id;
+        $result = mysql_query("select filename, url, output_path, md5, sig from file_map where class_id=$id") or die("failed to list files: " . mysql_error( ));
+        $output = array();
+        while ($row = mysql_fetch_row($result)) {
+            $output[] = array(
+                name => $row[0],
+                path => $row[2],
+                url => $row[1],
+                md5 => $row[3],
+                sig => $row[4]
+            );
+        }
+        return $output;
     }
 
     private $id;

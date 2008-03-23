@@ -322,6 +322,9 @@ class HardwareClass {
         # get the md5 hash of the file and sign it
         $path = BASE_DIR."/flash/".$filename;
         $md5 = md5_file($path);
+        #$tmp = split('= ', exec("openssl md5 $path"));
+        #$md5 = trim($tmp[1]);
+        print "-->".$md5."<--";
         $sig = generate_signature($md5);
         
         $filename = basename($filename);
