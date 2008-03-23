@@ -39,10 +39,11 @@ class Screen{
 	 var $set;
 	 
 	 //The default constructor takes a screen ID and pulls all of the data out for quick and easy access
-	 function __construct($macid = ''){
+    //Note: This now takes the database ID, rather than the mac address.
+	 function __construct($sid = ''){
 	 	//Returns true for sucess, false for failure
-		if($macid != ''){
-			$sql = "SELECT * from screen WHERE mac_address = $macid LIMIT 1";
+		if($sid != ''){
+			$sql = "SELECT * from screen WHERE id = $sid LIMIT 1";
 			$res = sql_query($sql);
 			if($res != 0){
 				$data = (sql_row_keyed($res,0));
@@ -191,13 +192,13 @@ class Screen{
 	}
 
 	function get_all($where = ''){
-		$sql = "SELECT mac_address FROM screen $where";
+		$sql = "SELECT id FROM screen $where";
 		$res = sql_query($sql);
 		$i=0;
 		$found = false;
 		while($row = sql_row_keyed($res,$i)){
 			$found = true;
-			$data[] = new Screen($row['mac_address']);
+			$data[] = new Screen($row['id']);
 			$i++;
 		}
 		if($found){

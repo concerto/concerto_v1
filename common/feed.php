@@ -146,8 +146,10 @@ class Feed{
 	}
 	//List all content in a feed based on moderation status
 	function content_list($mod_flag=''){
-		if($mod_flag != ''){
-			$mod_where = "AND moderation flag LIKE '$mod_flag'";
+		if($mod_flag == 'NULL'){
+			$mod_where = "AND moderation_flag IS NULL";
+		} elseif($mod_flag != ''){
+			$mod_where = "AND moderation_flag LIKE '$mod_flag'";
 		} else {
 			$mod_where = "";
 		}
