@@ -137,7 +137,7 @@ class Feed{
 		sql_query($sql);
 		if($this->type == 0){  //Dont log dynamic feeds
                         $notify = new Notification();
-                	$notify->notify('feed', $this->id, 'content', $content_in, 'add');
+                	$notify->notify('feed', $this->id, 'content', $content_in, 'remove');
                 }
 		return true;
 	}
@@ -253,8 +253,8 @@ class Feed{
 		if(!$res){
 			return false; //Error with the final delete!!!
 		}
-		//$notify = new Notification();
-		//$notify->notify('feed', $this->id, 'user', $user, 'delete');
+		$notify = new Notification();
+		$notify->notify('feed', $this->id, 'user', $_SESSION['user']->id, 'delete');
 		//Then we just clear the variables
 		$this->id = '';
 		$this->name = '';
