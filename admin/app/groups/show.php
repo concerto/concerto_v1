@@ -1,8 +1,7 @@
-<p><a href="<?echo ADMIN_URL ?>/groups">Back to Groups Listing</a>
 <?php if ($this->canEdit) {?>
- | <a href="<?echo ADMIN_URL ?>/groups/delete/<?echo $this->group->id ?>">Delete Group</a>
- | <a href="<?echo ADMIN_URL ?>/groups/add/<?echo $this->group->id ?>">Add User</a>
- | <a href="<?echo ADMIN_URL ?>/groups/remove/<?echo $this->group->id ?>">Remove User</a>
+<a href="<?=ADMIN_URL.'/groups/add/'.$this->group->id ?>"><span class="buttonsel"><div class="buttonleft"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_left.gif" border="0" alt="" /></div><div class="buttonmid"><div class="buttonmid_padding">Add a User</div></div><div class="buttonright"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_right.gif" border="0" alt="" /></div></span></a>
+<a href="<?=ADMIN_URL.'/groups/remove/'.$this->group->id ?>"><span class="buttonsel"><div class="buttonleft"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_left.gif" border="0" alt="" /></div><div class="buttonmid"><div class="buttonmid_padding">Remove a User</div></div><div class="buttonright"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_right.gif" border="0" alt="" /></div></span></a>
+<a href="<?=ADMIN_URL.'/groups/delete/'.$this->group->id ?>"><span class="buttonsel"><div class="buttonleft"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_left.gif" border="0" alt="" /></div><div class="buttonmid"><div class="buttonmid_padding">Delete Group</div></div><div class="buttonright"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_right.gif" border="0" alt="" /></div></span></a><div style="clear:both;height:12px;"></div>
 <?php } ?>
 </p>
 
@@ -25,18 +24,13 @@
 	foreach($this->feeds as $feed){
 	?>
 	  <tr>
-	    <td<? if (!$notfirst) {$notfirst =1;  echo ' class="firstrow"';} ?>>
-	    <a href="<?= ADMIN_URL?>/feeds/show/<?= $feed->id ?>">
-	    <h1><?= $feed->name ?></h1>
-	    </a>
-	    </td>
+	    <td<? if (!$notfirst) {$notfirst =1;  echo ' class="firstrow"';} ?>><h1><a href="<?= ADMIN_URL?>/feeds/show/<?= $feed->id ?>"><?= $feed->name ?></a></h1></td>
 	  </tr>
-
 	<? } ?>
 	</table>
 	<? } ?>
 
-	<?if(is_array($this->screens)&&count($this->screens)>0) { ?>
+	<? if(is_array($this->screens)&&count($this->screens)>0) { ?>
 	<h3>Screens:</h3>
 	<?php
 	foreach($this->screens as $screen){

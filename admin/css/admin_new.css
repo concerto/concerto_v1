@@ -59,11 +59,10 @@ div.menu_box h3, div.alert_box h3 { font-size:120%;margin:0 0 4px;padding:0; }
 #footer a:link, #footer a:visited { color:#333;font-size:100%;text-decoration:none; }
 #footer a:hover { color:#69c;font-size:100%;text-decoration:underline; }
 
-table.edit_win { background:url(../images/lightblue_bg.gif) repeat; margin:0px; padding:0px; width:100%; }
+table.edit_win { background:url(../images/lightblue_bg.gif) repeat; border-top:solid 1px #ccc; margin:0px; padding:0px; width:100%; }
 table.edit_win td { border-bottom:solid 1px #cccccc; padding:16px; text-align:left; vertical-align:top; }
-table.edit_win td.firstrow { border-top:solid 1px #cccccc; }
 table.edit_win td p { color:#666666; line-height:normal; margin:0px 0px 6px 0px; padding:0px; }
-table.edit_win td h5 { color:#333333; font-size:1em; font-weight:bold; line-height:normal; margin:0px 0px 6px 0px; padding:0px; }
+table.edit_win td h5 { color:#333333; font-size:1.15em; font-weight:bold; line-height:normal; margin:0px 0px 6px 0px; padding:0px; }
 table.edit_win td img { border:solid 2px #99ccff; }
 table.edit_win td img:hover { border:solid 2px #006699; }
 table.edit_win input.extended { width:100%; }
@@ -108,3 +107,14 @@ img.botleft { margin-left:-1px; margin-bottom:-1px; }
 .buttonright { float:left; height:24px; width:22px; }
 .buttonsel a { color:#FFF; font-size:1.2em; font-weight:bold; text-decoration:none; }
 .buttonsel a:hover { color:#FFF; text-decoration:underline; }
+
+span.emph { font-size:1.6em; }
+h3 span.emph { color:#000 !important; padding-left:8px; }
+
+/* Screens/Feeds Subscription View (screens/show.php) */
+ul.subscriptions { margin:0px 25px; padding:0px; list-style:none; }
+ul.subscriptions li { border:solid 1px #006699; margin-bottom:20px; background:#ccc url(../images/lightblue_bg.gif) repeat; padding:10px 20px 10px 10px; }
+ul.subscriptions h2 { color:#666 !important; }
+ul.subscriptions h2 span.emph { color:#000 !important; padding-right:8px; }
+ul.subscriptions ul { list-style:none; }
+ul.subscriptions ul li { border:solid 2px #666; }
