@@ -98,7 +98,8 @@ class Content{
 
                 	$this->id = $sql_id;
                 	$this->name = stripslashes($name_in); //Since we aren't pulling them back via mysql, they will be escaped
-                	$this->content = stripslashes($content_in);
+                	$this->user_id = $user_id_in;
+			$this->content = stripslashes($content_in);
                 	$this->mime_type = $mime_type_in;
                 	$this->type_id = $type_id_in;
                 	$this->duration = $duration_in;
@@ -107,7 +108,13 @@ class Content{
                 	$this->submitted = date("Y:m:d H:i:s", time());
 				
                 	$this->set = true;
-                	return true;
+
+                	if($this->user_id != 0){ //Avoid logging dynamic content
+				$notify = new Notification();
+				$notify->notify('content', $this->id, 'user', $this->user_id, 'new');
+			}
+
+			return true;
            		} else {
                 	return false;
             	}
@@ -137,7 +144,9 @@ class Content{
 		$sql = "UPDATE content SET name = '$name_clean', content = '$content_clean', duration = '$this->duration', start_time = '$this->start_time', end_time = '$this->end_time' WHERE id = $this->id LIMIT 1";
 		$res = sql_query($sql);
         	if($res){
-            		return true;
+			$notify = new Notification();
+                        $notify->notify('content', $this->id, 'user', $_SESSION['user']->id, 'update');
+			return true;
         	} else {
             		return false;
         	}
@@ -191,7 +200,7 @@ class Content{
 			return false; //Failure to remove the content from all the feeds it was in
 		}
 		if($this->mime_type != 'text/plain' && $this->mime_type != 'text/html' && $this->mime_type != 'text/time'){
-			$path = CONTENT_STORE . $this->content;
+			$path = IMAGE_DIR . $this->content;
 			unlink($path);
 		}
 		if(!$return){
@@ -200,6 +209,10 @@ class Content{
 		$sql = "DELETE FROM content WHERE id = $this->id";
 		$res = sql_query($sql);
 		if($res){
+			if($this->user_id != 0){
+				$notify = new Notification();
+                        	$notify->notify('content', $this->id, 'user', $_SESSION['user']->id, 'delete');
+			}
 			return true;
 		} else {
 			return false;

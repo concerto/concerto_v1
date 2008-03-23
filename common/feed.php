@@ -77,11 +77,14 @@ class Feed{
                     		$sql_id = sql_insert_id();
 
                     		$this->id = $sql_id;
-                    		$this->name = $name_in;
+                    		$this->name = stripslashes($name_in);
                     		$this->group_id = $group_in;
-							$this->type = $type_in;
+				$this->type = $type_in;
 							
                     		$this->set = true;
+
+				$notify = new Notification();
+	                        $notify->notify('feed', $this->id, 'group', $this->group_id, 'new');
 
                     		return true;
                 	} else {
@@ -99,6 +102,8 @@ class Feed{
 		$sql = "UPDATE feed SET name = '$name_clean', group_id = '$this->group_id' WHERE id = $this->id LIMIT 1";
 		$res = sql_query($sql);
         if($res){
+	    $notify = new Notification();
+            $notify->notify('feed', $this->id, 'user', $_SESSION['user']->id, 'update');
             return true;
         } else {
             return false;
@@ -116,16 +121,24 @@ class Feed{
 		$sql = "INSERT INTO feed_content (feed_id, content_id, moderation_flag) VALUES ($this->id, $content_in, $mod_in)";
 		$res = sql_query($sql);
 		if($res){
-           		return true;
+			if($this->type == 0){  //Dont log dynamic feeds
+				$notify = new Notification();
+                        	$notify->notify('feed', $this->id, 'content', $content_in, 'add');
+           		}
+			return true;
         	} else {
-            	return false;
-        }
+            		return false;
+        	}
     }
 	
 	//Remove content from a feed
 	function content_remove($content_in){
 		$sql = "DELETE FROM feed_content WHERE feed_id = $this->id AND content_id = $content_in LIMIT 1";
 		sql_query($sql);
+		if($this->type == 0){  //Dont log dynamic feeds
+                        $notify = new Notification();
+                	$notify->notify('feed', $this->id, 'content', $content_in, 'add');
+                }
 		return true;
 	}
 
@@ -175,6 +188,12 @@ class Feed{
 		$sql = "UPDATE feed_content SET moderation_flag = $mod_in WHERE feed_id = $this->id AND content_id = '$cid' LIMIT 1";
 		$res = sql_query($sql);
 		if($res){
+			$notify = new Notification();
+			if($mod_in == 1){
+                        	$notify->notify('feed', $this->id, 'content', $cid, 'approve');
+			} elseif($mod_in == 0){
+				$notify->notify('feed', $this->id, 'content', $cid, 'deny');
+			}
 			return true;
 		} else {
 			return false;
@@ -234,6 +253,8 @@ class Feed{
 		if(!$res){
 			return false; //Error with the final delete!!!
 		}
+		//$notify = new Notification();
+		//$notify->notify('feed', $this->id, 'user', $user, 'delete');
 		//Then we just clear the variables
 		$this->id = '';
 		$this->name = '';

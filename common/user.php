@@ -106,6 +106,10 @@ class User{
 				$this->firstname = $namesplit[0]; 
 
 				$this->set = true;
+	
+				$notify = new Notification();
+	                        $notify->notify('user', $this->id, '', '', 'new');
+
 				return true;
 			} else {
 				return false;
@@ -119,7 +123,10 @@ class User{
 	function set_properties(){
 		$sql = "UPDATE user SET username = '$this->username', name = '$this->name', email = '$this->email', admin_privileges = '$this->admin_privileges' WHERE id = $this->id LIMIT 1";
 		$res = sql_query($sql);
-		if($res != 0){
+		if($res){
+			$notify = new Notification();
+                        $notify->notify('user', $this->id, 'user', $_SESSION['user']->id, 'update');
+
 			return true;
 		} else {
 			return false;
@@ -133,6 +140,10 @@ class User{
 			$res = sql_query($sql);
 			if($res != 0){
 				$this->groups[] = $group_id;
+	
+				$notify = new Notification();
+	                        $notify->notify('group', $group_id, 'user', $this->id, 'join');
+
 				return true;
 			} else {
 				return false;
@@ -149,6 +160,10 @@ class User{
 			if($res != 0){
 				$key = array_search($group_id, $this->groups);
 				unset($this->groups[$key]);
+
+				$notify = new Notification();
+	                        $notify->notify('group', $group_id, 'user', $this->id, 'leave');
+
 				return true;
 			} else {
 				return false;

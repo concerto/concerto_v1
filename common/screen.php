@@ -96,6 +96,10 @@ class Screen{
 				$this->last_updated = 0;
 				
 				$this->set = true;
+
+				$notify = new Notification();
+	                        $notify->notify('screen', $this->id, 'group', $this->group_id, 'new');
+
 				return true;	
 			} else {
 				return false;
@@ -131,7 +135,10 @@ class Screen{
 		$sql = "UPDATE screen SET name = '$name_clean',  group_id = '$this->group_id', location = '$location_clean', mac_address = '$this->mac_address', width = '$this->width', height = '$this->height, template_id = $this->template_id' WHERE id = $this->id LIMIT 1";
 		//echo $sql;
 		$res = sql_query($sql);
-		if($res != 0){
+		if($res){
+			$notify = new Notification();
+                        $notify->notify('screen', $this->id, 'user', $_SESSION['user']->id, 'update');
+	
 			return true;
 		} else {
 			return false;
@@ -219,7 +226,9 @@ class Screen{
 		if(!$res){
 			return false;
 		}
-		
+		$notify = new Notification();
+                $notify->notify('screen', $this->id, 'user', $_SESSION['user']->id, 'delete');
+
 		return true;
 	}
 }
