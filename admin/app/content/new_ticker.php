@@ -1,6 +1,7 @@
-<p><a href="<?echo ADMIN_URL ?>/users">Back to Users Listing</a></p>
-<h3>Use this form to add your image content.<h3>
-
+<h1>Add Ticker Text</h1>
+<h2>Fill in these details to post a text announcement to Concerto.</h2>
+<img src="/admin/images/ticker_icon.jpg" alt="" />
+<br />
 <form method="POST" action="<?=ADMIN_URL?>/content/create">
 <?php 
    include("_form.php");
@@ -9,9 +10,8 @@
   <tr>
   <td><h5>Ticker Text</h5></td>
   <td class="edit_col">
-    <input name="content_data" id="content" type="text" size="40" />
-    <input name="content[content]" value="text"
-    id="content_upload_type" type="hidden" />
+    <input name="content[content]" id="content" class="extended" type="text" size="40" />
+    <input name="content[upload_type]" value="text" id="content_upload_type" type="hidden" />
   </td>
 </table>
 <br />

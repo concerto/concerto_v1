@@ -14,7 +14,16 @@ class frontpageController extends Controller
 
 	function indexAction()
 	{
-		$this->setTitle("Concerto Front Page");
+     $this->setTitle("Concerto Front Page");
+     if (isLoggedIn()) {
+       $this->renderView('dashboard');
+       $this->setTitle("Dashboard");
+     }
+	}
+
+	function dashboardAction()
+	{
+		$this->setTitle("Dashboard");
 	}
 
 	function stupidAction()

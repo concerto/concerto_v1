@@ -2,12 +2,18 @@
 
 <h2>All content in the system is shown.  Click on a title for details.</h2>
 <?php
+if(is_array($this->contents) && count($this->contents>1))
+{
 foreach(array_keys($this->contents) as $field)
      $urls[]='<a href="#'.$field.'">'.$field.'</a>';
 ?>
 <p>Jump to: <?=join(" | ", $urls)?>
 </p>
 <?php
+} else {
+	echo "<p>There is no active content in the system.</p>";
+}
+if(is_array($this->contents))
 foreach($this->contents as $field=>$contents)
 {
    echo "<a name=\"$field\" /><h1>$field</h1>";

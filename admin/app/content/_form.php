@@ -8,7 +8,7 @@
        <tr> 
          <td class='firstrow'><h5>Title</h5></td>
          <td class='edit_col firstrow'>
-           <input type="text" id="name" name="content[name]" value="<?=$content->name?>">
+           <input type="text" id="name" class="extended" name="content[name]" value="<?=$content->name?>">
          </td>
        </tr> 
        <tr>

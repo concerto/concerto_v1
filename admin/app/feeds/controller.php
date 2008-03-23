@@ -2,12 +2,13 @@
 class feedsController extends Controller
 {
    public $actionNames = Array( 'list'=> 'Feeds Listing', 'show'=>'Details',
-                                'edit'=> 'Edit');
+                                'edit'=> 'Edit', 'moderate'=>'Moderate');
 
    public $require = Array( 'require_login'=>1,
                             'require_action_auth'=>Array('edit','create',
-                                                         'new', 'update',
-                                                         'destroy' ) );
+                                                         'new', 'update', 'deny',
+                                                         'delete', 'destroy',
+                                                         'moderate', 'approve' ) );
 
    function setup()
    {
@@ -29,12 +30,34 @@ class feedsController extends Controller
             $this->feeds[] = new Feed($feed['id']); 
    }
 
+
    function showAction()
    {
       $this->feed = new Feed($this->args[1]);
       $this->group = new Group($this->feed->group_id);
+      $this->contents=$this->feed->content_list("1");
+      $waiting_arr=$this->feed->content_list('NULL');
+      if(is_array($waiting_arr)) $waiting = count($waiting_arr);
+	else $waiting = "No";
+      $this->waiting = "$waiting item".($waiting!=1?'s':'')." awaiting moderation";
       $this->setTitle($this->feed->name);
       $this->canEdit = $_SESSION['user']->can_write('feed',$this->args[1]);
+   }
+
+   function moderateAction()
+   {
+        $this->feed = new Feed($this->args[1]);
+        $this->setTitle('Moderating '.$this->feed->name);
+
+      $types = sql_select('type',Array('id','name'), NULL, 'ORDER BY name');
+      foreach($types as $type) {
+         $contentids = sql_select('feed_content', 'content_id', NULL,
+		'LEFT JOIN content ON content.id=content_id WHERE type_id = '.$type['id'].
+		' AND moderation_flag IS NULL AND feed_id = '.$this->feed->id.' ORDER BY name');
+         if(is_array($contentids))
+            foreach($contentids as $id)
+               $this->contents[$type['name']][] = new Content($id['content_id']);
+      }
    }
 
    function editAction()
@@ -47,6 +70,17 @@ class feedsController extends Controller
    {
       $this->setTitle("Create new feed");
    }
+
+   function deleteAction()
+   {
+      $this->showAction();
+      $this->renderView('show');
+      $this->setTitle('Deleting '.$this->feed->name);
+      $this->flash("Do you really want to remove <strong>{$this->feed->name}</strong>? <br />".
+                   '<a href="'.ADMIN_URL.'/feeds/destroy/'.$this->feed->id.'">Yes</a> | '.
+                   '<a href="'.ADMIN_URL.'/feedss/show/'.$this->feed->id.'">No</a>','warn');
+   }
+
 
    function createAction()
    {
@@ -62,7 +96,7 @@ class feedsController extends Controller
          redirect_to(ADMIN_URL.'/feeds/new');
       }
    }
-   //feeds up to here
+
    function updateAction()
    {
       $feed = new Feed($this->args[1]);
@@ -71,11 +105,37 @@ class feedsController extends Controller
       $feed->group_id = $dat['group'];
 
       if($feed->set_properties()) {
-         $_SESSION['flash'][]=Array('info', 'Feed Updated Successfully');
+         $$this->flash('Feed Updated Successfully');
          redirect_to(ADMIN_URL.'/feeds/show/'.$feed->id);
       } else {
-         $_SESSION['flash'][]=Array('error', 'Your submission was not valid. Please try again.');
+         $this->flash('Feed update failed. Please try again.','error');
          redirect_to(ADMIN_URL.'/feeds/show/'.$this->args[1]);
+      }
+   }
+
+   function approveAction()
+   {
+      $feed = new Feed($this->args[1]);
+      $cid = $this->args[2];
+      if($feed->content_mod($cid, 1)) {
+         $this->flash('Content approved successfully.');
+         redirect_to(ADMIN_URL.'/feeds/moderate/'.$feed->id);
+      } else {
+         $this->flash('Content approval failed.','error');
+         redirect_to(ADMIN_URL.'/feeds/moderate/'.$this->args[1]);
+      }
+   }
+
+   function denyAction()
+   {
+      $feed = new Feed($this->args[1]);
+      $cid = $this->args[2];
+      if($feed->content_mod($cid, 0)) {
+         $this->flash('Content denied successfully.');
+         redirect_to(ADMIN_URL.'/feeds/moderate/'.$feed->id);
+      } else {
+         $this->flash('Content denial failed.','error');
+         redirect_to(ADMIN_URL.'/feeds/moderate/'.$this->args[1]);
       }
    }
 
@@ -83,7 +143,7 @@ class feedsController extends Controller
    {
       $feed = new Feed($this->args[1]);
       if($feed->destroy()) {
-         $this->flash('Feed destroyed successfuly');
+         $this->flash('Feed destroyed successfully');
          redirect_to(ADMIN_URL.'/feeds');
       } else {
          $this->flash('There was an error removing the feed.','error');

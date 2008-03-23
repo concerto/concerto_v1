@@ -1,9 +1,10 @@
 
     #tabs {
-   border-bottom:6px solid #ccc;
+   border-bottom:6px solid #999;
       float:left;
    margin-bottom:12px;
       width:100%;
+      min-height:18px;
       background:#000;
       font-size:100%;
       line-height:normal;
@@ -29,7 +30,7 @@
       float:left;
       display:block;
       background:url("../images/tabrightH.gif") no-repeat right top;
-      padding:5px 15px 4px 6px;
+      padding:5px 15px 4px 10px;
       color:#FFF;
       }
     /* Commented Backslash Hack hides rule from IE5-Mac \*/

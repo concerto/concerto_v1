@@ -1,5 +1,6 @@
 <div id="menuframe">
   <div id="menuframe_padding">
+
     <div class="logo_box">
 	   <div class="logo_box_padding">
 	     <center><a href="<?php echo ADMIN_BASE_URL ?>/index.php"><img 
@@ -31,5 +32,14 @@ src="<?php echo ADMIN_BASE_URL?>/images/conc_bluebg.gif" alt="Concerto" style=""
         </div>
       </div>
     </div>
+    <div class="alert_box">
+	   <div class="alert_box_inset">
+        <div class="alert_box_padding">
+          <h1>Awaiting Moderation</h1>
+          <p><a href="#">Union Clubs (3)</a></p>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>

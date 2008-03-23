@@ -2,7 +2,7 @@
 class screensController extends Controller
 {
    public $actionNames = Array( 'list'=> 'Screens Listing', 'show'=>'Details',
-                                'edit'=> 'Edit');
+                                'edit'=> 'Edit', 'new'=>'New');
 
    public $require = Array( 'require_login'=>1,
                             'require_action_auth'=>Array('edit','create',
@@ -11,22 +11,18 @@ class screensController extends Controller
 
    function setup()
    {
-      $this->setName("Screens");
+      $this->setName('Screens');
    }
 
    function indexAction()
    {
       $this->listAction();
-      $this->renderView("screens", "list");
+      $this->renderView('screens', 'list');
    }
 
    function listAction()
    {
-      $screenids = sql_select("screen","mac_address");
-      $this->screens=Array();
-      if(is_array($screenids))
-         foreach($screenids as $screen)
-            $this->screens[] = new Screen($screen[mac_address]); 
+	$this->screens=Screen::get_all();
    }
 
    function showAction()
@@ -39,16 +35,28 @@ class screensController extends Controller
    function editAction()
    {
       $this->screen = new Screen($this->args[1]);
-      $this->setTitle("Editing ".$this->screen->name);
+      $this->setTitle('Editing '.$this->screen->name);
    }
 
    function newAction()
    {
-      $this->setTitle("Create new screen");
+      $this->setTitle('Create new screen');
    }
 
    function createAction()
    {
+      $this->setTitle('Screen Creation');
+      $screen=new Screen();
+
+      if($screen->create_screen($_POST[screen][name],$_POST[screen][group],$_POST[screen][location],$_POST[screen][mac_address],
+		$_POST[screen][width],$_POST[screen][height],$_POST[screen][template])) {
+         $this->flash($screen->name.' was created successfully.');
+         redirect_to(ADMIN_URL.'/screens/show/'.$screen->mac_address);
+      } else {
+         $this->flash('The screen creation failed. '.
+                      'Please check all fields and try again; contact an administrator if all else fails.','error');
+         redirect_to(ADMIN_URL.'/screens/new');
+      }
    }
 
    function updateAction()
@@ -65,7 +73,7 @@ class screensController extends Controller
 
      if($screen->set_properties()) {
         $this->flash('Screen Updated Successfully');
-        redirect_to(ADMIN_URL.'/screens/show/'.$screen->mac_address);
+        redirect_to(ADMIN_URL.'/screens/show/'.$screen->id);
      } else {
         $this->flash('Your submission was not valid. Please try again.','error');
         redirect_to(ADMIN_URL.'/screens/show/'.$this->args[1]);
@@ -79,8 +87,8 @@ class screensController extends Controller
       $this->renderView('show');
       $this->setTitle('Deleting '.$this->screen->name);
       $this->flash("Do you really want to remove <strong>{$this->screen->name}</strong>? <br />".
-                   '<a href="'.ADMIN_URL.'/screens/destroy/'.$this->screen->mac_address.'">Yes</a> | '.
-                   '<a href="'.ADMIN_URL.'/screens/show/'.$this->screen->mac_address.'">No</a>','warn');
+                   '<a href="'.ADMIN_URL.'/screens/destroy/'.$this->screen->id.'">Yes</a> | '.
+                   '<a href="'.ADMIN_URL.'/screens/show/'.$this->screen->id.'">No</a>','warn');
    }
 
    function destroyAction()

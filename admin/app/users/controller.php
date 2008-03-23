@@ -94,7 +94,7 @@ class usersController extends Controller
          if($user->create_user(phpCAS::getUser(),$dat['name'],
                                $dat['email'],0)) {
             $_SESSION['flash'][]=
-               Array('info','Your profile was created successfully. Welcome to concerto!');
+               Array('info','Your profile was created successfully. Welcome to Concerto!');
             login_login();
             redirect_to(ADMIN_URL);
          } else {

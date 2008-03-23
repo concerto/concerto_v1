@@ -10,8 +10,8 @@ class contentController extends Controller
 
    function setup()
    {
-      $this->setName("Content");
-      $this->setTemplate("blank_layout", "image");
+      $this->setName('Content');
+      $this->setTemplate('blank_layout', Array('image','new_image','new_ticker'));
    }
 
    function indexAction()
@@ -24,11 +24,13 @@ class contentController extends Controller
    {
       $types = sql_select('type',Array('id','name'), NULL, 'ORDER BY name');
       foreach($types as $type) {
-         $contentids = sql_select('content','id','type_id = '.$type['id'],
-                                  'ORDER BY name');
+         $contentids = sql_select('feed_content','DISTINCT content_id', '', 'INNER JOIN `content`'.
+		' ON content_id=content.id AND moderation_flag=1 AND type_id = '.$type['id'].
+		' AND (content.start_time < NOW() OR content.start_time IS NULL)'.
+		' AND (content.end_time > NOW() OR content.end_time IS NULL) ORDER BY name');
          if(is_array($contentids))
             foreach($contentids as $id)
-               $this->contents[$type['name']][] = new Content($id[id]);
+               $this->contents[$type['name']][] = new Content($id['content_id']);
       }
     }
 
@@ -36,7 +38,7 @@ class contentController extends Controller
    {
       $content = new Content($this->args[1]);
       if($content->mime_type = 'image/jpeg') {
-         $this->file = CONTENT_DIR .'/'. $content->content;
+         $this->file = IMAGE_DIR .'/'. $content->content;
             $this->height = $_GET['height'];
          $this->width = $_GET['width'];
       } else if ($content->id) {

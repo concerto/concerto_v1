@@ -1,7 +1,7 @@
 <p><a href="<?echo ADMIN_URL ?>/screens">Back to Screens Listing</a>
 <?php if ($this->canEdit) {?>
- | <a href="<?echo ADMIN_URL ?>/screens/edit/<?echo $this->screen->mac_address ?>">Edit Screen</a>
- | <a href="<?echo ADMIN_URL ?>/screens/delete/<?echo $this->screen->mac_address ?>">Delete Screen</a>
+ | <a href="<?echo ADMIN_URL ?>/screens/edit/<?echo $this->screen->id ?>">Edit Screen</a>
+ | <a href="<?echo ADMIN_URL ?>/screens/delete/<?echo $this->screen->id ?>">Delete Screen</a>
 <?php } ?>
 </p>
 <?php
@@ -32,26 +32,32 @@ $scrimg?>" alt=""
       </p>
       <h3>Group</h3>
       <p>
-      <? $group = $this->screen->group_id ?>
-      <a href="<?= $this->screen->group
+      <? $group = new Group($this->screen->group_id) ?>
+      <a href="<?= ADMIN_URL.'/groups/show/'.$group->id ?>"><?=$group->name?></a>
       </p>
       <h3 style="clear:left">Subscriptions</h3>
       <ul>
-	<? foreach ($this->screen->list_fields() as $field) { ?>
+<?php
+	$fields=$this->screen->list_fields();
+	if(is_array($fields)) {
+ 	 foreach ($fields as $field) { 
+?>
 	 <li>Field <? echo $field->name ?><ul>
 	   <?php
 		$positions = $field->list_positions();
 		if($positions) {
 		  foreach($positions as $position) {
-          $feed = new Feed($position->feed_id);
+			$feed = new Feed($position->feed_id);
 	   ?>
 		  <li><?=$feed->name?></li>
 	   <?php
-        }
-		} else echo "<li>(none)</li>";
+		  }
+	        } else echo "<li>(no subscriptions)</li>";
 	   ?>
 	 </ul></li>
-	<?php }?> 
+<?php   }
+       }else echo "<p>No fields on this template</p>";
+?> 
       </ul>
 
 

@@ -19,6 +19,9 @@ include(COMMON_DIR.'/content.php');  //Class to represent content items in the s
 include(COMMON_DIR.'/upload.php');   //Helps uploading
 include(COMMON_DIR.'/group.php');    //Class to represent user groups
 include(COMMON_DIR.'/dynamic.php');  //Functionality for dynamic content
+include(COMMON_DIR.'/notification.php');  //Functionality for notifications
+include(COMMON_DIR.'/image.inc.php');//Image library, used for resizing images
+
 
 include('includes/login.php');  //Functionality for CAS, logins, and page authorization
 
@@ -39,7 +42,7 @@ define('APP_PATH','app');
 global $rddesp;
 
 //parse request
-$request = split('/',trim($_SERVER[PATH_INFO],'/'));
+$request = split('/',trim($_SERVER['PATH_INFO'],'/'));
 
 //decide what controller we'll be requesting an action from
 $controller = $request[0];
@@ -306,7 +309,7 @@ class Controller
 }
 
 //Utility function that I wrote
-function sql_select($table, $fields="", $conditions="", $extra="")
+function sql_select($table, $fields="", $conditions="", $extra="", $debug=false)
 {
 	if($fields && !is_array($fields) )
 		$fields = Array($fields);
@@ -315,12 +318,15 @@ function sql_select($table, $fields="", $conditions="", $extra="")
 		$query .= " WHERE $conditions ";
    if($extra)
       $query .= ' '.$extra;
+   if($debug)
+      echo $query;
 	$res=sql_query($query);
 	$rows= array();
 	$i=0;
-	//echo mysql_error();
+	if($debug) echo mysql_error();
 	while($row = sql_row_keyed($res,$i++))
 		$rows[]=$row;
+   if($debug) print_r($rows);
 	return $rows;	
 }
 ?>

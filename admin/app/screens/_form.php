@@ -2,6 +2,7 @@
 <?php
    //assuming $this->screen is null or the screen we want to edit
    $screen = $this->screen;
+   if(isset($screen->width) && isset($screen->height)){
    if($screen->width/$screen->height==(16/9)) 
    {
       $scrimg="screen_169.png";
@@ -9,6 +10,7 @@
    }else{
       $scrimg="screen_43.png";
       $ratio ="4:3";
+   }
    }
 ?>
 <!-- Begin Screen Form General Section -->
