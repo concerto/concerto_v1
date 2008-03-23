@@ -128,7 +128,7 @@ class contentController extends Controller
       if($uploader->retval) {
          $this->flash('Your content was succesfully uploaded! It will be active on the '.
                   'system as soon as it is approved for the feed(s) you chose. '.$uploader->status);
-            redirect_to(ADMIN_URL.'/content/show'.$uploader->cid);
+            redirect_to(ADMIN_URL.'/content/show/'.$uploader->cid);
       } else {
          $this->flash('Your content submission failed. '.
                       'Please check all fields and try again. '.$uploader->status, 'error');

@@ -33,6 +33,7 @@ src="<?php echo ADMIN_BASE_URL?>/images/conc_bluebg.gif" alt="Concerto" style=""
       </div>
     </div>
 <?php
+if(isLoggedIn() && $_SESSION['user']->id)
         $feeds = sql_select('user','feed.id',false,'LEFT JOIN `user_group` ON user_group.user_id = user.id'.
                             ' LEFT JOIN `feed` ON feed.group_id = user_group.group_id WHERE user.id = '.
                             $_SESSION['user']->id);
