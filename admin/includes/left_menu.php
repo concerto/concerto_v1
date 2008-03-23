@@ -32,14 +32,30 @@ src="<?php echo ADMIN_BASE_URL?>/images/conc_bluebg.gif" alt="Concerto" style=""
         </div>
       </div>
     </div>
+<?php
+        $feeds = sql_select('user','feed.id',false,'LEFT JOIN `user_group` ON user_group.user_id = user.id'.
+                            ' LEFT JOIN `feed` ON feed.group_id = user_group.group_id WHERE user.id = '.
+                            $_SESSION['user']->id);
+if(is_array($feeds)&&count($feeds)>0) {
+?>
     <div class="alert_box">
 	   <div class="alert_box_inset">
         <div class="alert_box_padding">
           <h1>Awaiting Moderation</h1>
-          <p><a href="#">Union Clubs (3)</a></p>
+ <?php
+        foreach($feeds as $feed) {
+           $obj = new Feed($feed['id']);
+           $num = count($obj->content_list('NULL'));
+ ?>
+          <p><a href="<?=ADMIN_URL.'/feeds/show/'.$obj->id?>"><?=$obj->name?></a> (<?=$num?>)</p>
+<?php
+        }
+?>
         </div>
       </div>
     </div>
-
+<?
+}
+?>
   </div>
 </div>
