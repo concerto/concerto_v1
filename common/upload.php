@@ -120,6 +120,10 @@ class Uploader{
 					$this->jpeg_cleaner();
 				} elseif ($pre_type == "image/png"){
 					$this->png_cleaner();
+				} elseif ($pre_type == "image/gif"){
+					$this->gif_cleaner();
+				} elseif ($pre_type == "application/vnd.ms-powerpoint"){
+					$this->ppt_cleaner();
 				} elseif ($pre_type == "application/pdf"){
 					$this->pdf_cleaner(); 
 				} else {
@@ -274,6 +278,73 @@ class Uploader{
         	}
 		}
 	}
+	function gif_cleaner($loc = ''){
+		//echo "Starting GIF cleaner";
+		$temp_dir = "/tmp/";
+		$temp_name = $this->user_id . "-" . time() . ".gif";
+		$temp_dest = $temp_dir . $temp_name;
+		if($loc != ''){
+			$temp_dest = $loc;
+		} else {
+			if(!move_uploaded_file($this->content_i['tmp_name'], $temp_dest)){
+				$this->retval = false;
+				return false;
+			}
+		}
+		chmod($temp_dest, 0644);
+		//Now that we have the file and we know where it is, lets mess it up
+		$src_img=imagecreatefromgif($temp_dest);
+
+		$width=imageSX($src_img);
+		$height=imageSY($src_img);
+		//echo "Source $width x $height";
+		if($width < MIN_W || $height < MIN_H){ //The image isn't big enough!
+			unlink($temp_dest);
+			//echo "Too Small!";
+			$this->status = "The image you submitted was too small.";
+			$this->retval = false;
+			return false;
+		} elseif($width > MAX_W || $height > MAX_H){  //The image is too large, resize it!
+			//echo "Too large";
+			$scale_x = MAX_W / $width;
+			$scale_y = MAX_H / $height;
+				
+			if($scale_x >= $scale_y){ //Find the dimension that needs the most help
+				$scale = $scale_y;
+			} else {
+				$scale = $scale_x;
+			}
+			$new_x = $width * $scale;
+			$new_y = $height * $scale;
+			
+			$dest_img=ImageCreateTrueColor($new_x,$new_y);
+        	imagecopyresampled($dest_img,$src_img,0,0,0,0,$new_x,$new_y,$width,$height);
+        	imagegif($dest_img, $temp_dest, 90);
+       		imagedestroy($dest_img);
+       		imagedestroy($src_img);
+       		
+       		$this->mime_type = 'image/gif';
+       		$this->type_id = 3; //SELF: THIS IS BAD AND DUMB AND STUPID
+       		//echo "But we shrunk it!";
+       		$this->status = "Your image was sucessfully resized.";
+        	if($this->auto){
+       			return $this->mover($temp_dest);
+       		} else {
+				$this->retval = true;
+       			return true;
+       		}
+		} else {
+			$this->mime_type = 'image/gif';
+          	$this->type_id = 3; //SELF: THIS IS BAD AND DUMB AND STUPID
+			//echo "Did not require resizing";
+			if($this->auto){
+        		return $this->mover($temp_dest);
+        	} else {
+				$this->retval = true;
+        		return true;
+        	}
+		}
+	}
 
 	function pdf_cleaner(){
 		$temp_dir = "/tmp/";
@@ -287,6 +358,36 @@ class Uploader{
         	unlink($source);
         	if($return != 0){
 			$this->status = "Your PDF couldn't be converted to an image";
+			$this->retval = false;
+			return false;
+		}
+			$this->content_i['temp_name'] = $target;
+			$this->content_i['type'] = "image/png";
+			if($this->auto){
+        		$this->png_cleaner($target);
+        	} else {
+				$this->retval = true;
+        		return true;
+        	}
+			
+		} else {
+		
+		}
+	}
+	function ppt_cleaner(){
+		$temp_dir = "/tmp/";
+		$temp_name = $this->user_id . "-" . time() . ".ppt";
+		$temp_dest = $temp_dir . $temp_name;
+		if(move_uploaded_file($this->content_i['tmp_name'], $temp_dest)){
+			$source = $temp_dest;
+			$target = $temp_dir . $this->user_id . "-" . time() . ".png";
+			$command = COMMON_DIR . "scripts/DocumentConverter.py " . $source . " " . $target; //This command relies on open office
+        	//echo $command;
+		exec($command, $output, $return);
+        	//print_r($output); echo "RETURNING: $return..";
+		unlink($source);
+        	if($return != 0){
+			$this->status = "Your PPT couldn't be converted to an image";
 			$this->retval = false;
 			return false;
 		}
