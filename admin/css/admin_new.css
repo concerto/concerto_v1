@@ -67,7 +67,7 @@ table.edit_win td h5 { color:#333333; font-size:1em; font-weight:bold; line-heig
 table.edit_win td img { border:solid 2px #99ccff; }
 table.edit_win td img:hover { border:solid 2px #006699; }
 table.edit_win input.extended { width:100%; }
-td.edit_col { width:80%; }
+td.edit_col { width:70%; }
 
 table.item_details td { padding:2px; }
 
