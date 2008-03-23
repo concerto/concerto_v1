@@ -1,8 +1,7 @@
 <?php
 function resize($filename, $new_width = false, $new_height = false, $stretch = false){
+    list($width, $height) = getimagesize($filename);
     if(!$stretch) {
-        list($width, $height) = getimagesize($filename);
-
         if(!$new_width || !$new_height) {
 	        $new_width = $width;
 	        $new_height = $height;
@@ -25,6 +24,7 @@ function resize($filename, $new_width = false, $new_height = false, $stretch = f
     $image = @imagecreatefrompng($filename) or //Read PNG
     $image = @imagecreatefromgif($filename) or //Read GIF
     $image = false;
+
     if($image) {
 	    imagecopyresampled($new_image, $image, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
         imagedestroy($image);
