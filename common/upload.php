@@ -55,7 +55,7 @@ class Uploader{
 		
 		$this->auto = $auto_in; //This field specificies if the uploader should run in automatic mode or manual processing.  I like auto mode, but thats just me
 		
-		$this->status = "Unknown error.";
+		$this->status = "";
 
 		if($this->auto){
 			$this->filer();
@@ -84,7 +84,7 @@ class Uploader{
 				return true; //The content is finished uploading
 			} else {
 				$this->retval = false;
-				$this->status = $content->status;
+				$this->status = $this->status . $content->status;
 				return false; //Failure making a content isn't a good thing
 			}
 		
@@ -106,7 +106,7 @@ class Uploader{
 				return true; //The content is finished uploading
 			} else {
 				$this->retval = false;
-				$this->status = $content->status;
+				$this->status = $this->status . $content->status;
 				return false; //Failure making a content isn't a good thing
 			}
 		} elseif($this->ctype == 'file'){
@@ -128,16 +128,17 @@ class Uploader{
 					$this->pdf_cleaner(); 
 				} else {
 					unlink($this->content_i['tmp_name']); //Delete it since its def a virus duh!
-					$this->status = "We could not recognize the type of file you submitted.";
+					$this->status = $this->status ."We could not recognize the type of file you submitted. ";
 					$this->retval = false;
 					return false; //Unknown filetype
 				}
 			} else {
 				$this->retval = false;
+				$this->status = "The system is currently experiencing a permission error.  Please contact an administrator. ";
 				return false;
 			}
 		} else {
-			$this->status = "We could not recognize the uploader used.";
+			$this->status = $this->status . "We could not recognize the uploader used. ";
 			//Unknown ctype == bad
 			$this->retval = false;
 			return false;
@@ -147,38 +148,46 @@ class Uploader{
 		//We could add enchanted MIME typing here, but for now we'll trust browsers
 		return $this->content_i['type'];
 	}
-	function jpeg_cleaner(){
+	function jpeg_cleaner($loc = ''){
 		//echo "Starting JPEG cleaner";
 		$temp_dir = "/tmp/";
-		$temp_name = $this->user_id . "-" . time() . ".jpg";
+		$temp_name = $this->user_id . "-" . time() . ".gif";
 		$temp_dest = $temp_dir . $temp_name;
-		if(move_uploaded_file($this->content_i['tmp_name'], $temp_dest)){
-			chmod($temp_dest, 0644);
-			//Now that we have the file and we know where it is, lets mess it up
-			$src_img=imagecreatefromjpeg($temp_dest);
-
-			$width=imageSX($src_img);
-			$height=imageSY($src_img);
-			//echo "Source $width x $height";
-			if($width < MIN_W || $height < MIN_H){ //The image isn't big enough!
-				unlink($temp_dest);
-				$this->status = "The image you submitted was too small.";
+		if($loc != ''){
+			$temp_dest = $loc;
+		} else {
+			if(!move_uploaded_file($this->content_i['tmp_name'], $temp_dest)){
 				$this->retval = false;
+				$this->status = $this->status . "Permissions error, contact an adminstrator. ";
 				return false;
-			} elseif($width > MAX_W || $height > MAX_H){  //The image is too large, resize it!
-				//echo "Too large";
-				$scale_x = MAX_W / $width;
-				$scale_y = MAX_H / $height;
+			}
+		}
+		chmod($temp_dest, 0644);
+		//Now that we have the file and we know where it is, lets mess it up
+		$src_img=imagecreatefromjpeg($temp_dest);
+
+		$width=imageSX($src_img);
+		$height=imageSY($src_img);
+		//echo "Source $width x $height";
+		if($width < MIN_W || $height < MIN_H){ //The image isn't big enough!
+			unlink($temp_dest);
+			$this->status = $this->status . "The image you submitted was too small. ";
+			$this->retval = false;
+			return false;
+		} elseif($width > MAX_W || $height > MAX_H){  //The image is too large, resize it!
+			//echo "Too large";
+			$scale_x = MAX_W / $width;
+			$scale_y = MAX_H / $height;
+			
+			if($scale_x >= $scale_y){ //Find the dimension that needs the most help
+				$scale = $scale_y;
+			} else {
+				$scale = $scale_x;
+			}
+			$new_x = $width * $scale;
+			$new_y = $height * $scale;
 				
-				if($scale_x >= $scale_y){ //Find the dimension that needs the most help
-					$scale = $scale_y;
-				} else {
-					$scale = $scale_x;
-				}
-				$new_x = $width * $scale;
-				$new_y = $height * $scale;
-				
-				$dest_img=ImageCreateTrueColor($new_x,$new_y);
+			$dest_img=ImageCreateTrueColor($new_x,$new_y);
         		imagecopyresampled($dest_img,$src_img,0,0,0,0,$new_x,$new_y,$width,$height);
         		imagejpeg($dest_img, $temp_dest, 90);
         		imagedestroy($dest_img);
@@ -186,29 +195,24 @@ class Uploader{
         		
         		$this->mime_type = 'image/jpeg';
         		$this->type_id = 3; //SELF: THIS IS BAD AND DUMB AND STUPID
-        		$this->status = "Your image was sucessfully resized.";
+        		$this->status = $this->status . "Your image was sucessfully resized. ";
         		//echo "But we shrunk it!";
         		if($this->auto){
         			return $this->mover($temp_dest);
         		} else {
-					$this->retval = true;
+				$this->retval = true;
         			return true;
         		}
-			} else {
-				$this->mime_type = 'image/jpeg';
-                $this->type_id = 3; //SELF: THIS IS BAD AND DUMB AND STUPID
-				//echo "Did not require resizing";
-				if($this->auto){
-        				return $this->mover($temp_dest);
-        		} else {
-						$this->retval = true;
-        				return true;
-        		}
-			}
-
 		} else {
-			$this->retval = false;
-			return false;
+			$this->mime_type = 'image/jpeg';
+               		$this->type_id = 3; //SELF: THIS IS BAD AND DUMB AND STUPID
+			//echo "Did not require resizing";
+			if($this->auto){
+        			return $this->mover($temp_dest);
+	       		} else {
+				$this->retval = true;
+        			return true;
+	       		}
 		}
 	}
 	function png_cleaner($loc = ''){
@@ -221,6 +225,7 @@ class Uploader{
 		} else {
 			if(!move_uploaded_file($this->content_i['tmp_name'], $temp_dest)){
 				$this->retval = false;
+				$this->status = $this->status . "Permissions error, contact an adminstrator. ";
 				return false;
 			}
 		}
@@ -234,7 +239,7 @@ class Uploader{
 		if($width < MIN_W || $height < MIN_H){ //The image isn't big enough!
 			unlink($temp_dest);
 			//echo "Too Small!";
-			$this->status = "The image you submitted was too small.";
+			$this->status = $this->status . "The image you submitted was too small. ";
 			$this->retval = false;
 			return false;
 		} elseif($width > MAX_W || $height > MAX_H){  //The image is too large, resize it!
@@ -251,31 +256,31 @@ class Uploader{
 			$new_y = $height * $scale;
 			
 			$dest_img=ImageCreateTrueColor($new_x,$new_y);
-        	imagecopyresampled($dest_img,$src_img,0,0,0,0,$new_x,$new_y,$width,$height);
-        	imagepng($dest_img, $temp_dest, 90);
-       		imagedestroy($dest_img);
-       		imagedestroy($src_img);
-       		
-       		$this->mime_type = 'image/png';
-       		$this->type_id = 3; //SELF: THIS IS BAD AND DUMB AND STUPID
-       		//echo "But we shrunk it!";
-       		$this->status = "Your image was sucessfully resized.";
-        	if($this->auto){
-       			return $this->mover($temp_dest);
-       		} else {
+       		 	imagecopyresampled($dest_img,$src_img,0,0,0,0,$new_x,$new_y,$width,$height);
+        		imagepng($dest_img, $temp_dest, 90);
+       			imagedestroy($dest_img);
+       			imagedestroy($src_img);
+       			
+       			$this->mime_type = 'image/png';
+       			$this->type_id = 3; //SELF: THIS IS BAD AND DUMB AND STUPID
+	       		//echo "But we shrunk it!";
+       			$this->status = $this->status . "Your image was sucessfully resized. ";
+        		if($this->auto){
+       				return $this->mover($temp_dest);
+       			} else {
 				$this->retval = true;
-       			return true;
-       		}
+       				return true;
+       			}
 		} else {
 			$this->mime_type = 'image/png';
-          	$this->type_id = 3; //SELF: THIS IS BAD AND DUMB AND STUPID
+          		$this->type_id = 3; //SELF: THIS IS BAD AND DUMB AND STUPID
 			//echo "Did not require resizing";
 			if($this->auto){
-        		return $this->mover($temp_dest);
-        	} else {
+        			return $this->mover($temp_dest);
+        		} else {
 				$this->retval = true;
-        		return true;
-        	}
+        			return true;
+        		}
 		}
 	}
 	function gif_cleaner($loc = ''){
@@ -288,6 +293,7 @@ class Uploader{
 		} else {
 			if(!move_uploaded_file($this->content_i['tmp_name'], $temp_dest)){
 				$this->retval = false;
+				$this->status = $this->status . "Permissions error, contact an adminstrator. ";
 				return false;
 			}
 		}
@@ -301,7 +307,7 @@ class Uploader{
 		if($width < MIN_W || $height < MIN_H){ //The image isn't big enough!
 			unlink($temp_dest);
 			//echo "Too Small!";
-			$this->status = "The image you submitted was too small.";
+			$this->status = $this->status . "The image you submitted was too small. ";
 			$this->retval = false;
 			return false;
 		} elseif($width > MAX_W || $height > MAX_H){  //The image is too large, resize it!
@@ -318,31 +324,31 @@ class Uploader{
 			$new_y = $height * $scale;
 			
 			$dest_img=ImageCreateTrueColor($new_x,$new_y);
-        	imagecopyresampled($dest_img,$src_img,0,0,0,0,$new_x,$new_y,$width,$height);
-        	imagegif($dest_img, $temp_dest, 90);
-       		imagedestroy($dest_img);
-       		imagedestroy($src_img);
+	        	imagecopyresampled($dest_img,$src_img,0,0,0,0,$new_x,$new_y,$width,$height);
+        		imagegif($dest_img, $temp_dest, 90);
+       			imagedestroy($dest_img);
+       			imagedestroy($src_img);
        		
-       		$this->mime_type = 'image/gif';
-       		$this->type_id = 3; //SELF: THIS IS BAD AND DUMB AND STUPID
-       		//echo "But we shrunk it!";
-       		$this->status = "Your image was sucessfully resized.";
-        	if($this->auto){
-       			return $this->mover($temp_dest);
-       		} else {
+       			$this->mime_type = 'image/gif';
+       			$this->type_id = 3; //SELF: THIS IS BAD AND DUMB AND STUPID
+       			//echo "But we shrunk it!";
+       			$this->status = $this->status . "Your image was sucessfully resized. ";
+        		if($this->auto){
+       				return $this->mover($temp_dest);
+       			} else {
 				$this->retval = true;
-       			return true;
-       		}
+       				return true;
+       			}
 		} else {
 			$this->mime_type = 'image/gif';
-          	$this->type_id = 3; //SELF: THIS IS BAD AND DUMB AND STUPID
+          		$this->type_id = 3; //SELF: THIS IS BAD AND DUMB AND STUPID
 			//echo "Did not require resizing";
 			if($this->auto){
-        		return $this->mover($temp_dest);
-        	} else {
+        			return $this->mover($temp_dest);
+        		} else {
 				$this->retval = true;
-        		return true;
-        	}
+        			return true;
+        		}
 		}
 	}
 
@@ -354,24 +360,25 @@ class Uploader{
 			$source = $temp_dest;
 			$target = $temp_dir . $this->user_id . "-" . time() . ".png";
 			$command = "convert " . $source . " " . $target; //This command relies on Image Magick & GS to be installed
-        	exec($command, $output, $return);
-        	unlink($source);
-        	if($return != 0){
-			$this->status = "Your PDF couldn't be converted to an image";
-			$this->retval = false;
-			return false;
-		}
+        		exec($command, $output, $return);
+        		unlink($source);
+        		if($return != 0){
+				$this->status = $this->status . "Your PDF couldn't be converted to an image. ";
+				$this->retval = false;
+				return false;
+			}
 			$this->content_i['temp_name'] = $target;
 			$this->content_i['type'] = "image/png";
 			if($this->auto){
-        		$this->png_cleaner($target);
-        	} else {
+        			$this->png_cleaner($target);
+        		} else {
 				$this->retval = true;
-        		return true;
-        	}
-			
+        			return true;
+        		}
 		} else {
-		
+			$this->status = $this->status . "PDF permission overflow.  Please contact an administrator. ";
+			$this->retval = false;
+			return false;
 		}
 	}
 	function ppt_cleaner(){
@@ -382,26 +389,28 @@ class Uploader{
 			$source = $temp_dest;
 			$target = $temp_dir . $this->user_id . "-" . time() . ".png";
 			$command = COMMON_DIR . "scripts/DocumentConverter.py " . $source . " " . $target; //This command relies on open office
-        	//echo $command;
-		exec($command, $output, $return);
-        	//print_r($output); echo "RETURNING: $return..";
-		unlink($source);
-        	if($return != 0){
-			$this->status = "Your PPT couldn't be converted to an image";
-			$this->retval = false;
-			return false;
-		}
+        		//echo $command;
+			exec($command, $output, $return);
+	        	//print_r($output); echo "RETURNING: $return..";
+			unlink($source);
+       		 	if($return != 0){
+				$this->status = $this->status . "Your PPT couldn't be converted to an image. ";
+				$this->retval = false;
+				return false;
+			}
 			$this->content_i['temp_name'] = $target;
 			$this->content_i['type'] = "image/png";
+			$this->status = $this->status . "Please check to ensure your powerpoint was correctly converted. ";
 			if($this->auto){
-        		$this->png_cleaner($target);
-        	} else {
+        			$this->png_cleaner($target);
+        		} else {
 				$this->retval = true;
-        		return true;
-        	}
-			
+        			return true;
+        		}	
 		} else {
-		
+                        $this->status = $this->status . "PPT permission overflow.  Please contact an administrator. ";
+                        $this->retval = false;
+                        return false;
 		}
 	} 
 	function mover($current_loc){
@@ -420,12 +429,11 @@ class Uploader{
 				$f = new Feed($fid);
 				$f->content_add($this->cid);
 			}
-			$this->status = "";
 			$this->retval = true;
 			return true; //The content is finished uploading
 		} else {
 			$this->retval = false;
-			$this->status = $content->status;
+			$this->status = $this->status . $content->status;
 			return false; //Failure making a content isn't a good thing
 		}
 	} 

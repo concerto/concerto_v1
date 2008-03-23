@@ -136,7 +136,16 @@ class Group{
 		$this->name = '';
 		$this->set = false;
 
-      return true;
+		return true;
+	}
+
+	function send_mail($subject, $msg){
+		$users = $this->get_members();
+		$retval = true;
+		foreach($users as $user){
+			$retval = $retval * $user->send_mail($subject, $msg);
+		}
+		return $retval;
 	}
 }
 ?>

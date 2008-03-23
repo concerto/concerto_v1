@@ -27,6 +27,7 @@ class User{
 	var $name;
 	var $firstname;
 	var $email;
+	var $allow_email;
 	var $admin_privileges;
 	
 	var $groups = array();
@@ -34,10 +35,10 @@ class User{
 		
 	function __construct($username_in = ''){
 		if($username_in != ''){
-         if(is_numeric($username_in))
-            $sql = "SELECT * FROM user WHERE id = '$username_in' LIMIT 1";
-         else
-            $sql = "SELECT * FROM user WHERE username = '$username_in' LIMIT 1";
+	        	if(is_numeric($username_in))
+            			$sql = "SELECT * FROM user WHERE id = '$username_in' LIMIT 1";
+         		else
+            			$sql = "SELECT * FROM user WHERE username = '$username_in' LIMIT 1";
 			$res = sql_query($sql);
 			if($res != 0){
 				$data = (sql_row_keyed($res,0));
@@ -46,7 +47,8 @@ class User{
 				$this->name = $data['name'];
 				$this->email = $data['email'];
 				$this->admin_privileges = $data['admin_privileges'];
-				
+				$this->allow_email = $data['allow_email'];
+
 				//Get firstname for aesthetic output
 				$namesplit = split(" ",$this->name);
 				$this->firstname = $namesplit[0]; 
@@ -76,7 +78,7 @@ class User{
 	}
 	
 	//Creates a user
-	function create_user($username_in, $name_in, $email_in, $admin_privileges_in){
+	function create_user($username_in, $name_in, $email_in, $admin_privileges_in, $allow_email_in = 1){
 		if($this->set == true){
 			return false; //We already have a user object you idiot
 		} else {
@@ -87,9 +89,13 @@ class User{
 			if(!is_numeric($admin_privileges_in)){
 				return false;
 			}
+			if(!is_numeric($allow_email_in)){
+				return false;
+			}
+
 			//End testing/cleaning block
 			
-			$sql = "INSERT INTO user (username, name, email, admin_privileges) VALUES ('$username_in', '$name_in', '$email_in', $admin_privileges_in)";
+			$sql = "INSERT INTO user (username, name, email, admin_privileges, allow_email) VALUES ('$username_in', '$name_in', '$email_in', $admin_privileges_in, $allow_email_in)";
 			
 			$res = sql_query($sql);
 			if($res){
@@ -100,6 +106,7 @@ class User{
 				$this->name = stripslashes($name_in);
 				$this->email = stripslashes($email_in);
 				$this->admin_privileges = $admin_privileges_in;
+				$this->allow_email = $allow_email_in;
 				
 				//Get firstname for aesthetic output
 				$namesplit = split(" ",$this->name);
@@ -121,11 +128,11 @@ class User{
 	
 	//Sets their properties back to the database
 	function set_properties(){
-		$sql = "UPDATE user SET username = '$this->username', name = '$this->name', email = '$this->email', admin_privileges = '$this->admin_privileges' WHERE id = $this->id LIMIT 1";
+		$sql = "UPDATE user SET username = '$this->username', name = '$this->name', email = '$this->email', admin_privileges = '$this->admin_privileges', allow_email = '$this->allow_email' WHERE id = $this->id LIMIT 1";
 		$res = sql_query($sql);
 		if($res){
 			$notify = new Notification();
-                        $notify->notify('user', $this->id, 'user', $_SESSION['user']->id, 'update');
+                     $notify->notify('user', $this->id, 'user', $_SESSION['user']->id, 'update');
 
 			return true;
 		} else {
@@ -234,8 +241,29 @@ class User{
 				return false;
 			}
 		} else if($type == 'group'){
-            return $this->in_group($item_id);
-      }
+      		      return $this->in_group($item_id);
+      		}
+	}
+	function send_mail($subject, $msg){
+		if($this->allow_email){
+			$to = "$this->name <$this->email>";
+			$from = "senate-webmaster@union.rpi.edu";
+			
+			$headers  = 'MIME-Version: 1.0' . "\r\n";
+			$headers .= 'Content-Type: text/plain; charset="UTF-8"' . "\r\n";
+			$headers .= "From: $from\r\n";
+  			$headers .= "Reply-To: $from\r\n";
+    			$headers .= 'X-Mailer: Concerto';
+			$msg = "Hi $this->firstname,\r\n" . $msg;
+			$msg .= "\r\n\r\nThanks,\r\nThe Concerto Team\r\n\r\n";
+			$msg .= "___\r\n";
+			$msg .= "Want to control which emails you receive from Concerto? Go to:\r\n";
+			$msg .= "http://signage.union.rpi.edu/admin/users/edit/$this->username";
+
+			return mail($to, $subject, $msg, $headers);
+		} else {
+			return true;
+		}	
 	}
 }
 ?>
