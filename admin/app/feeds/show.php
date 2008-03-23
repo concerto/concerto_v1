@@ -19,9 +19,7 @@ $cont = new Content($content[content_id]);
 ?>
         <tr>
           <td<? if (!$notfirst) {$notfirst =1;  echo ' class="firstrow"';} ?>>
-          <a href="<?= ADMIN_URL?>/content/show/<?= $cont->id ?>">
-          <h1><?= $cont->name ?></h1>
-          </a>
+          <h1><a href="<?= ADMIN_URL?>/content/show/<?= $cont->id ?>"><?= $cont->name ?></a></h1>
         </tr>
 <?php }
 }?> 
