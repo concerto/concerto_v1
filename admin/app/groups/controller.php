@@ -6,7 +6,7 @@ class groupsController extends Controller
 
    public $require = Array( 'require_login'=>1,
                             'require_action_auth'=>Array('edit','create', 'destroy',
-                                                         'new', 'update', 'add',
+                                                         'new', 'update', 'add', 'delete',
                                                          'remove', 'subscribe', 'unsubscribe') );
 
    function setup() 
@@ -54,15 +54,17 @@ class groupsController extends Controller
    function showAction()
    {
       $this->group = new Group($this->args[1]);
-	$this->feeds = Feed::get_all('WHERE group_id='.$this->group->id);
-	$this->screens = Screen::get_all('WHERE group_id='.$this->group->id);
+      $this->feeds = Feed::get_all('WHERE group_id='.$this->group->id);
+      $this->screens = Screen::get_all('WHERE group_id='.$this->group->id);
       $this->setTitle($this->group->name);
+      $this->setSubject($this->group->name);
       $this->canEdit =$_SESSION['user']->can_write('group',$this->args[1]);
    }
 
    function editAction()
    {  
-
+      $this->setTitle('Editing '.$this->group->name);
+      $this->setSubject($this->group->name);
    }
 
    function newAction()
@@ -74,7 +76,7 @@ class groupsController extends Controller
    {
       $this->showAction();
       $this->renderView('show');
-	$this->setTitle('Deleting '.$this->group->name);
+      $this->setTitle('Deleting '.$this->group->name);
       $this->flash("Do you really want to remove <strong>{$this->group->name}</strong>? <br />".
                    '<a href="'.ADMIN_URL.'/groups/destroy/'.$this->group->id.'">Yes</a> | '.
                    '<a href="'.ADMIN_URL.'/groups/show/'.$this->group->id.'">No</a>','warn');
@@ -82,18 +84,20 @@ class groupsController extends Controller
 
    function addAction()
    {
-	$this->group = new Group($this->args[1]);
-	$this->users = sql_select('user',array('username','name'),false,'LEFT JOIN user_group on '.
-			'user.id = user_group.user_id AND group_id='.$this->group->id.' WHERE group_id IS NULL '.
-			'ORDER BY `user`.`username` ASC ');
-	$this->setTitle('Add user to '.$this->group->name);
+      $this->group = new Group($this->args[1]);
+      $this->users = sql_select('user',array('username','name'),false,'LEFT JOIN user_group on '.
+                                'user.id = user_group.user_id AND group_id='.$this->group->id.
+                                ' WHERE group_id IS NULL ORDER BY `user`.`username` ASC ');
+      $this->setTitle('Add user to '.$this->group->name);
+      $this->setSubject($this->group->name);
    }
 
    function removeAction()
    {
-	$this->group = new Group($this->args[1]);
-	$this->users = $this->group->get_members();
-	$this->setTitle('Remove user from '.$this->group->name);
+      $this->group = new Group($this->args[1]);
+      $this->users = $this->group->get_members();
+      $this->setTitle('Remove user from '.$this->group->name);
+      $this->setSubject($this->group->name);
    }
 
    function createAction()

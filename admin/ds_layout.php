@@ -29,7 +29,7 @@ echo $admin_base_url ?>/js/pngfix.js"></script>
 
 <div id="content_header">
   <h1><?php echo $this->getTitle();?></h1>
-  <h2><?php echo join(' :: ',$this->breadcrumbs)?></h2>
+  <h2><?php echo $this->getCrumbs();?></h2>
 </div>
 
 <div id="maincontent">

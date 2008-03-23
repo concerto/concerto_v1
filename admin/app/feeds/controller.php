@@ -2,7 +2,7 @@
 class feedsController extends Controller
 {
    public $actionNames = Array( 'list'=> 'Feeds Listing', 'show'=>'Details',
-                                'edit'=> 'Edit', 'moderate'=>'Moderate');
+                                'edit'=> 'Edit', 'moderate'=>'Moderate', 'delete'=>'Delete');
 
    public $require = Array( 'require_login'=>1,
                             'require_action_auth'=>Array('edit','create',
@@ -38,22 +38,23 @@ class feedsController extends Controller
       $this->contents=$this->feed->content_list("1");
       $waiting_arr=$this->feed->content_list('NULL');
       if(is_array($waiting_arr)) $waiting = count($waiting_arr);
-	else $waiting = "No";
+      else $waiting = "No";
       $this->waiting = "$waiting item".($waiting!=1?'s':'')." awaiting moderation";
       $this->setTitle($this->feed->name);
+      $this->setSubject($this->feed->name);
       $this->canEdit = $_SESSION['user']->can_write('feed',$this->args[1]);
    }
 
    function moderateAction()
    {
-        $this->feed = new Feed($this->args[1]);
-        $this->setTitle('Moderating '.$this->feed->name);
-
+      $this->feed = new Feed($this->args[1]);
+      $this->setTitle('Moderating '.$this->feed->name);
+      $this->setSubject($this->feed->name);
       $types = sql_select('type',Array('id','name'), NULL, 'ORDER BY name');
       foreach($types as $type) {
          $contentids = sql_select('feed_content', 'content_id', NULL,
-		'LEFT JOIN content ON content.id=content_id WHERE type_id = '.$type['id'].
-		' AND moderation_flag IS NULL AND feed_id = '.$this->feed->id.' ORDER BY name');
+                                  'LEFT JOIN content ON content.id=content_id WHERE type_id = '.$type['id'].
+                                  ' AND moderation_flag IS NULL AND feed_id = '.$this->feed->id.' ORDER BY name');
          if(is_array($contentids))
             foreach($contentids as $id)
                $this->contents[$type['name']][] = new Content($id['content_id']);
@@ -63,6 +64,7 @@ class feedsController extends Controller
    function editAction()
    {
       $this->feed = new Feed($this->args[1]);
+      $this->setSubject($this->feed->name);
       $this->setTitle("Editing ".$this->feed->name);
    }
 

@@ -2,11 +2,11 @@
 class contentController extends Controller
 {
    public $actionNames = Array( 'list'=> 'Content Listing', 'show'=>'Details',
-                                'edit'=> 'Edit', 'new'=>'Submit Content');
+                                'edit'=> 'Edit', 'new'=>'Submit Content', 'remove'=>'Delete');
 
    public $require = Array( 'require_login'=>Array('index','list','show'),
-                            'require_action_auth'=>Array('edit', 'new', 
-                                                         'update', 'destroy', 'create') );
+                            'require_action_auth'=>Array('edit', 'new', 'new_image', 'new_ticker',
+                                                         'update', 'destroy', 'create', 'remove') );
 
    function setup()
    {
@@ -57,6 +57,7 @@ class contentController extends Controller
          redirect_to(ADMIN_URL.'/content');
       }
       $this->setTitle($this->content->name);
+      $this->setSubject($this->content->name);
       $this->canEdit =$_SESSION['user']->can_write('content',$this->args[1]);
       $this->submitter = new User($this->content->user_id);
       $feeds = $this->content->list_feeds();
@@ -76,6 +77,7 @@ class contentController extends Controller
    {
       $this->content = new Content($this->args[1]);
       $this->setTitle("Editing Content: ".$this->content->name);
+      $this->setSubject($this->content->name);
    }
    
    function newAction()

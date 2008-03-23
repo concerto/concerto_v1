@@ -14,16 +14,16 @@ class frontpageController extends Controller
 
 	function indexAction()
 	{
-     $this->setTitle("Concerto Front Page");
-     if (isLoggedIn()) {
-       $this->renderView('dashboard');
-       $this->setTitle("Dashboard");
-     }
+      $this->setTitle("Concerto Front Page");
+      if (isLoggedIn()) {
+         $this->dashboardAction();
+         $this->renderView('dashboard');
+      }
 	}
-
+   
 	function dashboardAction()
 	{
-		$this->setTitle("Dashboard");
+		$this->setTitle("Concerto Dashboard");
 	}
 
 	function stupidAction()

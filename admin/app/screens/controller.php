@@ -22,13 +22,14 @@ class screensController extends Controller
 
    function listAction()
    {
-	$this->screens=Screen::get_all();
+      $this->screens=Screen::get_all();
    }
 
    function showAction()
    {
       $this->screen = new Screen($this->args[1]);
       $this->setTitle($this->screen->name);
+      $this->setSubject($this->screen->name);
       $this->canEdit =$_SESSION['user']->can_write('screen',$this->args[1]);
    }
 
@@ -36,6 +37,7 @@ class screensController extends Controller
    {
       $this->screen = new Screen($this->args[1]);
       $this->setTitle('Editing '.$this->screen->name);
+      $this->setSubject($this->screen->name);
    }
 
    function newAction()

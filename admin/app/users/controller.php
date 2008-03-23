@@ -2,11 +2,11 @@
 class usersController extends Controller
 {
    public $actionNames = Array( 'list'=> 'Users Listing', 'show'=>'Details',
-                                'edit'=> 'Edit', 'signup'=>'Create Profile');
+                                'edit'=> 'Edit', 'signup'=>'Create Profile', 'new'=>'New');
 
-   public $require = Array( 'require_login'=>Array('index','list','show'),
-                            'require_action_auth'=>Array('edit', 'new', 
-                                                         'update', 'destroy') );
+   public $require = Array( 'require_login'=>1,
+                            'require_action_auth'=>Array('list', 'edit', 'new', 
+                                                         'update', 'destroy', 'show') );
    //note: it is only with great care that we don't have any requirements to create or signup
 
    function setup()
@@ -40,6 +40,7 @@ class usersController extends Controller
          redirect_to(ADMIN_URL.'/users');
       }
       $this->setTitle($this->user->name);
+      $this->setSubject($this->user->name);
       $this->canEdit =$_SESSION['user']->can_write('user',$this->args[1]);
       $this->groups=array();
       if($this->user->admin_privileges)
@@ -54,6 +55,7 @@ class usersController extends Controller
    {
       $this->user = new User($this->args[1]);
       $this->setTitle("Editing profile for ".$this->user->name);
+      $this->setSubject($this->user->name);
    }
    
    function signupAction()
