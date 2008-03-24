@@ -1,5 +1,3 @@
-<p><a href="<?=ADMIN_URL.'/feeds/show/'.$this->feed->id?>">Back to the <?=$this->feed->name?> page</a></p>
-
 <h2>Use the buttons to approve or deny each piece of content as you see appropriate for this feed.</h2>
 <?php
 if(is_array($this->contents))

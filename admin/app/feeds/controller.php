@@ -31,11 +31,25 @@ class feedsController extends Controller
    {
       $this->feed = new Feed($this->args[1]);
       $this->group = new Group($this->feed->group_id);
-      $this->contents=$this->feed->content_list("1");
+      //      $this->contents=$this->feed->content_list("1");
       $waiting_arr=$this->feed->content_list('NULL');
       if(is_array($waiting_arr)) $waiting = count($waiting_arr);
       else $waiting = "No";
       $this->waiting = "$waiting item".($waiting!=1?'s':'')." awaiting moderation";
+
+
+      $types = sql_select('type',Array('id','name'), NULL, 'ORDER BY name');
+      foreach($types as $type) {
+         $contentids = sql_select('feed_content','DISTINCT content_id', '', 'INNER JOIN `content`'.
+                                  ' ON content_id=content.id AND moderation_flag=1'.
+                                  ' AND feed_id = '.$this->feed->id.' AND type_id = '.$type['id'].
+                                  ' ORDER BY name');
+         if(is_array($contentids))
+            foreach($contentids as $id)
+               $this->contents[$type['name']][] = new Content($id['content_id']);
+      }
+
+
       $this->setTitle($this->feed->name);
       $this->setSubject($this->feed->name);
       $this->canEdit = $_SESSION['user']->can_write('feed',$this->args[1]);
