@@ -5,7 +5,7 @@ class groupsController extends Controller
                                 'delete'=> 'Delete', 'add'=>'Add User', 'remove'=>'Remove User');
 
    public $require = Array( 'require_login'=>1,
-                            'require_action_auth'=>Array('edit','create', 'destroy', 'show', 'index', 'list',
+                            'require_action_auth'=>Array('edit','create', 'destroy',// 'show', 'index', 'list',
                                                          'new', 'update', 'add', 'delete',
                                                          'remove', 'subscribe', 'unsubscribe') );
 

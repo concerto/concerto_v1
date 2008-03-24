@@ -4,9 +4,9 @@ class usersController extends Controller
    public $actionNames = Array( 'list'=> 'Users Listing', 'show'=>'Details',
                                 'edit'=> 'Edit', 'signup'=>'Create Profile', 'new'=>'New');
 
-   public $require = Array(// 'require_login'=>Array('index'),
-                           'require_action_auth'=>Array('edit', 'new', 'list', 'index',
-                                                         'update', 'destroy','show') );
+   public $require = Array( 'require_login'=>Array('index' ,'list','show'),
+                           'require_action_auth'=>Array('edit', 'new', //'list', 'index', 'show',
+                                                         'update', 'destroy') );
    //note: it is only with great care that we don't have any requirements to create or signup
 
    function setup()
@@ -41,7 +41,8 @@ class usersController extends Controller
       }
       $this->setTitle($this->user->name);
       $this->setSubject($this->user->name);
-      $this->canEdit =$_SESSION['user']->can_write('user',$this->args[1]);
+//    $this->canEdit =$_SESSION['user']->can_write('user',$this->args[1]);
+      $this->canEdit = has_action_auth('users',$this->args[1]);
       $this->groups=array();
       if($this->user->admin_privileges)
          $this->groups[]= "<strong>Concerto Administrators</strong>";
@@ -49,6 +50,17 @@ class usersController extends Controller
       if(is_array($group_objs))
          foreach($this->user->list_groups() as $group)
             $this->groups[] = '<a href="'.ADMIN_URL."/groups/show/$group->id\">$group->name</a>";
+
+      $types = sql_select('type',Array('id','name'), NULL, 'ORDER BY name');
+      foreach($types as $type) {
+         $contentids = sql_select('feed_content','DISTINCT content_id', '', 'INNER JOIN `content`'.
+      ' ON content_id=content.id AND moderation_flag=1 AND type_id = '.$type['id'].
+      ' AND content.user_id='.$this->user->id.' ORDER BY name');
+         if(is_array($contentids))
+            foreach($contentids as $id)
+               $this->contents[$type['name']][] = new Content($id['content_id']);
+      }
+
    }
    
    function editAction()
