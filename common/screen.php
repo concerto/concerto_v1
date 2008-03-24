@@ -51,11 +51,14 @@ class Screen{
 				$this->name = $data['name'];
 				$this->group_id = $data['group_id'];
 				$this->location = $data['location'];
-				$this->mac_address = $data['mac_address'];
+				$this->mac_address = $data['mac_address']; //Do not touch, your changes will not be saved.
+				
 				$this->width = $data['width'];
 				$this->height = $data['height'];
 				$this->template_id = $data['template_id'];
 				$this->last_updated = $data['last_updated'];
+				
+				$this->mac_inhex = dechex($this->mac_address); //You want to update this field only!
 				
 				$this->set = true;
 				return true;
@@ -68,13 +71,16 @@ class Screen{
 		}
 	}
 	
-	function create_screen($name_in, $group_id_in, $location_in, $mac_address_in, $width_in='', $height_in='', $template_id_in=''){
+	function create_screen($name_in, $group_id_in, $location_in, $mac_hex_in, $width_in='', $height_in='', $template_id_in=''){
 		if($this->set){
 			return false;
 		} else {
 			//Begin testing/cleaning block
 			$name_in = escape($name_in);
 			$location = escape($location_in);
+			
+			$mac_hex_in = eregi_replace("[\s|:]", '', $mac_hex_in);
+			$mac_address_in = hexdec($mac_hex_in);
 			
 			if(!is_numeric($group_id_in) || !is_numeric($width_in) || !is_numeric($height_in) || !is_numeric($template_id_in)){
 				return false;
@@ -90,6 +96,7 @@ class Screen{
 				$this->group_id = $group_id_in;
 				$this->location = stripslashes($location_in);
 				$this->mac_address = $mac_address_in;
+				$this->mac_inhex = $mac_hex_in;
 				$this->width = $width_in;
 				$this->height = $height_in;
 				$this->template_id = $template_id_in;
@@ -129,8 +136,12 @@ class Screen{
 		if(!is_numeric($this->template_id)){
 				return false;
 		}
-
+		$this->mac_inhex = eregi_replace('[\s|:]', '', $this->mac_inhex);
 		//End Cleaning/Test Block
+		
+		if(hexdec($this->mac_inhex) != $this->mac_address){
+			$this->mac_address = hexdec($this->mac_inhex);
+		}
 		
 		$sql = "UPDATE screen SET name = '$name_clean',  group_id = '$this->group_id', location = '$location_clean', mac_address = '$this->mac_address', width = '$this->width', height = '$this->height, template_id = $this->template_id' WHERE id = $this->id LIMIT 1";
 		//echo $sql;

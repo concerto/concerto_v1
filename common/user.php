@@ -253,16 +253,18 @@ class User{
 			$headers .= 'Content-Type: text/plain; charset="UTF-8"' . "\r\n";
 			$headers .= "From: $from\r\n";
   			$headers .= "Reply-To: $from\r\n";
-    			$headers .= 'X-Mailer: Concerto';
-			$msg = "Hi $this->firstname,\r\n" . $msg;
-			$msg .= "\r\n\r\nThanks,\r\nThe Concerto Team\r\n\r\n";
+  			$headers .= 'X-Mailer: Concerto';
+			
+			$msg = "Hi $this->firstname,\r\n" . $msg; //Greet the user
+			
+			$msg .= "\r\n\r\nThanks,\r\nThe Concerto Team\r\n\r\n"; //Prepend some footer content
 			$msg .= "___\r\n";
 			$msg .= "Want to control which emails you receive from Concerto? Go to:\r\n";
 			$msg .= "http://signage.union.rpi.edu/admin/users/edit/$this->username";
 
 			return mail($to, $subject, $msg, $headers);
 		} else {
-			return true;
+			return true;  //We return true because the user didn't want to get email, this isn't something we should penalize them for
 		}	
 	}
 }
