@@ -37,11 +37,11 @@
       }
 ?>
                   </select>
-                  <select id="content[startmeridiem" name="content[startmeridiem]">
+                  <select id="content[startmeridiem]" name="content[startmeridiem]">
                      <option value="am">AM</option>
                      <option value="pm">PM</option>
                   </select>
-           <input type="text" id="start_date" name="content[start_time]" value="<?=$content->start_time?>">
+           <input type="text" id="start_date" class="start_date" name="content[start_time]" value="<?=$content->start_time?>">
 
          </td>
        </tr>
@@ -73,11 +73,11 @@
       }
 ?>
                   </select>
-                  <select id="content[endmeridiem" name="content[endmeridiem]">
+                  <select id="content[endmeridiem]" name="content[endmeridiem]">
                      <option value="am">AM</option>
                      <option value="pm">PM</option>
                   </select>
-           <input type="text" id="end_date" name="content[end_time]" value="<?=$content->end_time?>">
+           <input type="text" id="end_date" class="end_date" name="content[end_time]" value="<?=$content->end_time?>">
          </td>
        </tr>
 

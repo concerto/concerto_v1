@@ -2,8 +2,8 @@
 $(function() {
     $("#selectmenu > ul").tabs();
     $.datepicker.setDefaults({showOn: 'both', buttonImageOnly: true, buttonImage: '<?= ADMIN_BASE_URL ?>images/cal_icon.gif', buttonText: 'Calendar'});
-    $('#start_date').datepicker({showAnim: "fadeIn"});
-    $('#end_date').datepicker({showAnim: "fadeIn"});
+    $(".start_date").datepicker({showAnim: "fadeIn"});
+    $(".end_date").datepicker({showAnim: "fadeIn"});
 });
 //--></script>
 <div id="selectdisp_left">
