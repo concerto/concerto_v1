@@ -4,9 +4,8 @@ class contentController extends Controller
    public $actionNames = Array( 'list'=> 'Content Listing', 'show'=>'Details',
                                 'edit'=> 'Edit', 'new'=>'Submit Content', 'remove'=>'Delete');
 
-   public $require = Array( 'require_login'=>Array('index','list','show'),
-                            'require_action_auth'=>Array('edit', 'new', 'new_image', 'new_ticker',
-                                                         'update', 'destroy', 'create', 'remove') );
+   public $require = Array( 'require_login'=>Array('index','list','show','new','create','new_ticker','new_image'),
+                            'require_action_auth'=>Array('edit', 'update', 'destroy', 'remove') );
 
    function setup()
    {

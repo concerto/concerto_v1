@@ -76,7 +76,7 @@ class feedsController extends Controller
       $this->setTitle('Deleting '.$this->feed->name);
       $this->flash("Do you really want to remove <strong>{$this->feed->name}</strong>? <br />".
                    '<a href="'.ADMIN_URL.'/feeds/destroy/'.$this->feed->id.'">Yes</a> | '.
-                   '<a href="'.ADMIN_URL.'/feedss/show/'.$this->feed->id.'">No</a>','warn');
+                   '<a href="'.ADMIN_URL.'/feeds/show/'.$this->feed->id.'">No</a>','warn');
    }
 
 
