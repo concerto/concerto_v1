@@ -36,7 +36,7 @@ foreach(array_keys($this->contents) as $field)
 if(is_array($this->contents))
 foreach($this->contents as $field=>$contents)
 {
-   echo "<h1>$field</h1>";
+   echo "<a name=\"$field\"></a><h1>$field</h1>";
 ?>
 <table class="edit_win" cellpadding="6" cellspacing="0">
 <?php

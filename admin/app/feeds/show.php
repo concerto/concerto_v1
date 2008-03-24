@@ -4,14 +4,18 @@
 <?php } ?>
 </p>
       <h3>Group: <span class="emph"><a href="<?=ADMIN_URL.'/groups/show/'.$this->group->id?>"><?= $this->group->name ?></a></span></h3>
+<?php
+if($this->canEdit) {
+?>
       <h3>Moderation status: <span class="emph">
 <?php
-	if($this->canEdit) echo '<a href="'.ADMIN_URL.'/feeds/moderate/'.$this->feed->id.'">'.$this->waiting.'</a>';
-	else echo $this->waiting;
+	echo '<a href="'.ADMIN_URL.'/feeds/moderate/'.$this->feed->id.'">'.$this->waiting.'</a>';
 ?>
-
-      </span></h3><br />
-      <h3>Active and Future Content</h3>
+      </span></h3>
+<?php
+}
+?>
+     <h3>Active and Future Content</h3>
 
 <?php
 if(is_array($this->contents) && count($this->contents>1))
@@ -28,7 +32,7 @@ foreach(array_keys($this->contents) as $field)
 if(is_array($this->contents))
 foreach($this->contents as $field=>$contents)
 {
-   echo "<h1>$field</h1>";
+   echo "<a name=\"$field\"></a><h1>$field</h1>";
 ?>
 <table class="edit_win" cellpadding="6" cellspacing="0">
 <?php
@@ -62,7 +66,9 @@ foreach($this->contents as $field=>$contents)
 ?>
        <?=date("m/j/Y",strtotime($content->start_time))?> - <?=date("m/j/Y",strtotime($content->end_time))?></span>
        <h2>Submitted by <strong><a href="<?=ADMIN_URL.'/users/show/'.$submitter->username?>"><?=$submitter->name?></a></strong></h2>
+<? if ($this->canEdit) { ?>
        <h2><a href="<?=ADMIN_URL?>/feeds/deny/<?=$this->feed->id.'/'.$content->id?>" title="Unapprove this content">Remove from feed</a></h2>
+<? } ?>
       </a>
     </td>
   </tr>
