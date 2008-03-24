@@ -23,5 +23,5 @@
              </select></td>
        </tr>
      </table>
-     </div>
+     <br clear="all" />
 <!-- End Feed Form -->
