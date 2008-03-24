@@ -247,7 +247,7 @@ class User{
 	function send_mail($subject, $msg){
 		if($this->allow_email){
 			$to = "$this->name <$this->email>";
-			$from = "senate-webmaster@union.rpi.edu";
+			$from = "concerto@union.rpi.edu";
 			
 			$headers  = 'MIME-Version: 1.0' . "\r\n";
 			$headers .= 'Content-Type: text/plain; charset="UTF-8"' . "\r\n";
