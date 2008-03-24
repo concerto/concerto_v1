@@ -1,6 +1,8 @@
 <?php
    //assuming $this->user is null or the screen we want to edit
    $user = $this->user;
+   if(!is_numeric($user->id))
+      $user->allow_email=1;
 ?>
 <!-- Begin User Form -->
 	<div>
@@ -17,6 +19,11 @@
            <input type="text" id="width" name="user[email]" value="<?=$user->email?>">
          </td>
        </tr>
+       <tr>
+         <td><h5>System Notifications</h5></td>
+         <td>
+           <input type="checkbox" id="allow_email" value="allow" name="user[allow_email]"<? if($user->allow_email) echo " CHECKED"?>> Yes, I want to recieve e-mail notices about system activity that concerns me (recommended).
+         </td>         
        <? if (isLoggedIn() && $_SESSION['user']->username != $user->username) { ?>
        <tr>
          <td><h5>Username (RCS ID)</h5></td>

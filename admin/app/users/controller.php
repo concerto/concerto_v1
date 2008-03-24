@@ -84,7 +84,7 @@ class usersController extends Controller
       }
       if(isAdmin()) {
          if($user->create_user($dat['username'],$dat['name'],
-                               $dat['email'],$dat['admin_privileges']=='admin'?1:0)) {
+                               $dat['email'],$dat['admin_privileges']=='admin'?1:0, $dat['allow_email']=='allow'?1:0)) {
             $_SESSION['flash'][]=Array('info', 'User profile created successfully.');
             redirect_to(ADMIN_URL.'/users/show/'.$user->username);
          } else {
@@ -94,7 +94,7 @@ class usersController extends Controller
          }
       } else {
          if($user->create_user(phpCAS::getUser(),$dat['name'],
-                               $dat['email'],0)) {
+                               $dat['email'],0,$dat['allow_email']=='allow'?1:0)) {
             $_SESSION['flash'][]=
                Array('info','Your profile was created successfully. Welcome to Concerto!');
             login_login();
@@ -120,6 +120,7 @@ class usersController extends Controller
       }
       $user->name = $dat['name'];
       $user->email = $dat['email'];
+      $user->allow_email = $dat['allow_email']=='allow'?1:0;
    
       if($user->set_properties()) {
          $_SESSION['flash'][]=Array('info', 'User profile updated successfully.');
