@@ -19,6 +19,7 @@ echo $admin_base_url ?>/js/pngfix.js"></script>
 <script type="text/javascript" src="<? echo ADMIN_BASE_URL ?>js/jquery.js"></script>
 <script type="text/javascript" src="<? echo ADMIN_BASE_URL ?>js/ui.datepicker.js"></script>
 <script type="text/javascript" src="<? echo ADMIN_BASE_URL ?>js/ui.tabs.js"></script>
+<script type="text/javascript" src="<? echo ADMIN_BASE_URL ?>js/subscriptions.js"></script>
 
 
 <?php //renderHeadExtras() ?>

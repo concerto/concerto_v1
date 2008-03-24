@@ -72,6 +72,53 @@ class screensController extends Controller
       }
    }
 
+   function subscribeAction()
+   {
+     $screen = new screen($this->args[1]);
+     $dat = $_POST['content']['freq'];
+
+     $success = true;
+
+     $fields =$screen->list_fields();
+     if(is_array($fields)){
+        foreach($fields as $field){
+           $posits = $field->list_positions();
+           //update or remove existing positions
+           if(is_array($posits)){ 
+              foreach($posits as $pos) {
+                 if(isset($dat[$field->id][$pos->feed_id])) {
+                    $pos->weight=$dat[$field->id][$pos->feed_id];
+                    unset($dat[$field->id][$pos->feed_id]);
+                 } else {
+                    $pos->destroy();
+                 }   
+              }
+           }
+           //add new positions
+           if(is_array($dat[$field->id])) {
+              foreach($dat[$field->id] as $feed_id=>$wt) {
+                 if($field->add_feed($feed_id)) {
+                    foreach($field->list_positions() as $pos) {
+                       if($pos->feed_id==$feed_id)
+                          $pos->weight=$wt;
+                    }
+                 } else $success=false;
+              }
+           }
+           $field->rebalance_scale();
+           if($field->set_properties()===false) $success=false;
+        }
+     }
+     
+     if($success) {
+        $this->flash('Screen subscriptions updated successfully!');
+        redirect_to(ADMIN_URL.'/screens/subscriptions/'.$screen->id);
+     } else {
+        $this->flash('There was an error updating the screen. Please try again, or contact an administrator.','error');
+        redirect_to(ADMIN_URL.'/screens/subscriptions/'.$this->args[1]);
+     }
+   }
+
    function updateAction()
    {
      $screen = new screen($this->args[1]);
@@ -91,7 +138,6 @@ class screensController extends Controller
         $this->flash('Your submission was not valid. Please try again.','error');
         redirect_to(ADMIN_URL.'/screens/show/'.$this->args[1]);
      }
-     print_r($screen);
    }
 
    function deleteAction()

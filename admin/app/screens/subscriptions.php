@@ -1,30 +1,59 @@
 <img src="<?=ADMIN_URL?>/templates/preview/<?=$this->template['id']?>" />
    <div>
-   <form method="POST" action="<?=ADMIN_URL?>/screens/subscribe">
-     <table class='edit_win' cellpadding='6' cellspacing='0'>
+   <form method="POST" action="<?=ADMIN_URL?>/screens/subscribe/<?=$this->screen->id?>">
+<ul class="subscriptions">
 <?php
-foreach($this->screen->list_fields() as $field) {
+$fields_list=$this->screen->list_fields();
+if(is_array($fields_list)){
+foreach($fields_list as $field) {
 ?>
-       <tr>
-         <td<? if (!$notfirst) echo ' class="firstrow"'; ?>>
-            <h5><?=$field->name?></h5>
-         </td>
-         <td class="edit_col<? if (!$notfirst) {$notfirst =1;  echo ' firstrow';} ?>">
+
+<li id ="field_<?=$field->id?>"><h2><span class="emph"><? echo $field->name ?></span> (Field)</h2><ul>
+
 <?php
-foreach($this->feeds as $feed) {
-              echo '<br /><select id="content[feeds]['.$feed->id.']">';
-              echo '<option value=0'.($value==0?' selected':'').'>Never</option>';
-              echo '<option value=33'.($value<=33&&$value>0?' selected':'').'>Sometimes</option>';
-              echo '<option value=66'.($value<=66&&$value>33?' selected':'').'>Moderately</option>';
-              echo '<option value=100'.($value<=66&&$value>33?' selected':'').'>Very Often</option>';
-              echo '</select> <label> Draw content from <a href="'.ADMIN_URL."/feeds/show/$feed->id\">$feed->name</a>";
+$positions = $field->list_positions();
+if(is_array($positions)) {
+   foreach($positions as $pos) {
+		$feed = new Feed($pos->feed_id);	
+		$value = $pos->weight;
+
+      echo '<li id="pos_'.$field->id.'_'.$feed->id.'"><select name="content[freq]['.$field->id.']['.$feed->id.']">';
+      echo '<option value="0"'.($value<=0?' selected':'').'>Never</option>';
+      echo '<option value=".33"'.($value<=.33&&$value>0?' selected':'').'>Sometimes</option>';
+      echo '<option value=".66"'.($value<=.66&&$value>.33?' selected':'').'>Moderately</option>';
+      echo '<option value="1.00"'.($value>.66?' selected':'').'>Very Often</option>';
+      echo '</select>';
+
+?>
+        display content from <a href="<?=ADMIN_URL.'/feeds/show/'.$feed->id?>">
+           <?=$feed->name?></a>
+           (<a href="#" onclick="removePos(<?=$field->id.','.$feed->id.',\''.$feed->name?>'); return false;">
+            remove</a> )
+           </li>
+<?php
+   }
+} else echo "<li>(no current subscriptions)</li>";
+      ?>
+
+	<p>
+	  Add a feed to this field: 
+	  <select id="add_<?=$field->id?>">
+     <option value="" SELECTED></option>
+     <?php
+       foreach($field->avail_feeds() as $feed) {
+          echo "<option value=\"$feed->id\">$feed->name</option>";
+       }
+     ?>
+	  </select>
+	  <input type="submit" onclick="addPos(<?=$field->id.',\''.ADMIN_URL.'/feeds/show/'?>'); return false;" value="Add" />
+	</p>
+    </ul></li>
+
+<?php
+}
 }
 ?>
-         </td>
-       </tr>
-<?php
-}
-?>
-     </table>
+   </ul>
+   <input type="submit" value="Submit" />
    </form>
-   </div>
+
