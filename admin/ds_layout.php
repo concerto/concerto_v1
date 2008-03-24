@@ -10,7 +10,6 @@
 <link rel="stylesheet" type="text/css" href="<? echo ADMIN_BASE_URL ?>css/menu_tabs.css" />
 <link rel="stylesheet" type="text/css" href="<? echo ADMIN_BASE_URL ?>css/ui.datepicker.css" />
 <link rel="stylesheet" type="text/css" href="<? echo ADMIN_BASE_URL ?>css/ui.tabs.css" />
-<link rel="stylesheet" type="text/css" href="<? echo ADMIN_BASE_URL ?>ajaxtabs/ajaxtabs.css" />
 
 <!--[if lt IE 7.]>
 <script defer type="text/javascript" src="<? 
@@ -50,7 +49,7 @@ echo $admin_base_url ?>/js/pngfix.js"></script>
 <div id="footer">
   <div id="footer_padding">
     <p>Copyright &copy; 2008 Student Senate Web Technologies Group</p>
-    <p>Contact: <a href="mailto:concerto@union.rpi.edu">concerto@union.rpi.edu</a></p>
+    <p>Contact Support: <a href="mailto:concerto@union.rpi.edu">concerto@union.rpi.edu</a></p>
   </div>
 </div>
 
