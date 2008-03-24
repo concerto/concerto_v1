@@ -22,9 +22,9 @@ src="<?php echo ADMIN_BASE_URL?>/images/conc_bluebg.gif" alt="Concerto" style=""
            <? } else { ?>
          <img src="<?= ADMIN_BASE_URL ?>/images/user_basic.gif" /><br /><br /> 
            <? } //This closes the non admin or moderator stuff 
-           echo 'Welcome, <a href="'.ADMIN_URL.'/users/show/'.userName().'">'.firstName().'</a>!';
+           echo '<p>Welcome, <a href="'.ADMIN_URL.'/users/show/'.userName().'">'.firstName().'</a>!</p>';
            ?>
-           <br /><br />
+           
            <h3><a href="<?= ADMIN_URL ?>/frontpage/logout">Logout</a></h3>
         <?
           }

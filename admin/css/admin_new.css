@@ -29,9 +29,9 @@ a:hover { color:#666; text-decoration:underline; }
 div.logo_box, div.menu_box_content { background:#069 url(../images/logobox_bottom.gif) bottom center no-repeat;border-left:solid 1px #FFF;border-right:solid 1px #FFF;border-bottom:solid 1px #FFF;border-top:0;margin-bottom:2px; }
 
 div.menu_box { background:url(../images/menu_bg.gif) repeat;font-size:0.9em; border-left:solid 1px #FFF;border-right:solid 1px #FFF;border-bottom:solid 1px #FFF;border-top:0;margin-bottom:2px; text-align:center; }
-div.menu_box a:link, div.menu_box a:visited, .menu_box_content a:visited { color:#FFF;font-size:70%;text-decoration:none; }
+div.menu_box a:link, div.menu_box a:visited, .menu_box_content a:visited { color:#FFF;text-decoration:none; }
 div.menu_box img { text-align:center; }
-div.menu_box a:hover, .menu_box_content a:hover { color:#ccc;font-size:70%;text-decoration:underline; }
+div.menu_box a:hover, .menu_box_content a:hover { color:#ccc;text-decoration:underline; }
 div.menu_box_inset { background:url(../images/menubox_top.gif) top center no-repeat; }
 div.menu_box_padding { background:url(../images/menubox_bottom.gif) bottom center no-repeat; }
 
