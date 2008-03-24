@@ -117,7 +117,7 @@ class feedsController extends Controller
       $feed->group_id = $dat['group'];
 
       if($feed->set_properties()) {
-         $$this->flash('Feed Updated Successfully');
+         $this->flash('Feed Updated Successfully');
          redirect_to(ADMIN_URL.'/feeds/show/'.$feed->id);
       } else {
          $this->flash('Feed update failed. Please try again.','error');

@@ -419,7 +419,7 @@ class Uploader{
 		if($content->create_content($this->name, $this->user_id, $this->content_o, $this->mime_type, $this->type_id, $this->duration, $this->start_date, $this->end_date)){
 			$this->cid = $content->id;
 			
-			$target_loc = CONTENT_DIR . $this->cid . "." . $ext;
+			$target_loc = IMAGE_DIR . $this->cid . "." . $ext;
 			rename($current_loc, $target_loc);
 			$content->content = $this->cid . "." . $ext;
 			$content->set_properties();

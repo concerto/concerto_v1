@@ -1,4 +1,5 @@
-<form method="POST" action="<?=ADMIN_URL?>/screens/update/<?=$this->screen->mac_address?>">
+<form method="POST" 
+action="<?=ADMIN_URL?>/feeds/update/<?=$this->feed->id?>">
 <?php 
 	include("_form.php");
 ?>
