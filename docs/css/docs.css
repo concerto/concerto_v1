@@ -13,6 +13,8 @@ a { color:#006699; font-weight:bold; text-decoration:none; }
 a:hover { color:#666; text-decoration:underline; }
 
 #left_pane { background:#069; float:left; position:fixed; width:24%; }
+#left_pane h1 { font-size:1.2em; text-align:center; }
+#left_pane h1 a { color:#FFF !important; text-align:center !important; }
 #left_pane_padding { background: url(../images/br.gif) bottom right no-repeat; border-right:solid 1px #FFF; padding-bottom:12px; }
 #right_pane { float:right;width:76%; }
 
@@ -20,7 +22,7 @@ a:hover { color:#666; text-decoration:underline; }
 #header_padding { padding:4px 0px 0px 0px; }
 #header h1 { color:#ccc;font-size:250%;font-weight:700; }
 #header a:link, #header a:visited { color:#ccc;text-decoration:none; }
-#header a:hover { color:#FFF;text-decoration:none;; }
+#header a:hover { color:#FFF;text-decoration:none; }
 
 #content_header { background:#eaeaea;border-top:1px solid #FFF;padding-left:25px; }
 #content_header h1 { color:#000;margin:0px;padding:0; }
