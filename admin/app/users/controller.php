@@ -4,9 +4,9 @@ class usersController extends Controller
    public $actionNames = Array( 'list'=> 'Users Listing', 'show'=>'Details',
                                 'edit'=> 'Edit', 'signup'=>'Create Profile', 'new'=>'New');
 
-   public $require = Array( 'require_login'=>1,
-                            'require_action_auth'=>Array('list', 'edit', 'new', 
-                                                         'update', 'destroy', 'show') );
+   public $require = Array(// 'require_login'=>Array('index'),
+                           'require_action_auth'=>Array('edit', 'new', 'list', 'index',
+                                                         'update', 'destroy','show') );
    //note: it is only with great care that we don't have any requirements to create or signup
 
    function setup()

@@ -49,8 +49,11 @@ function require_action_auth($callback)
    $id=$callback->currId;
 
    if(!has_action_auth($target, $id)) {
-      $_SESSION[flash][] = Array('error',"Sorry, you don't have permission to edit $target $id");
-      redirect_to(ADMIN_URL.'/'.$callback->controller);
+      $callback->flash("Sorry, you don't have permission to edit $target $id",'error');
+      if($callback->action == $callback->defaultAction)
+         redirect_to(ADMIN_URL);
+      else
+         redirect_to(ADMIN_URL.'/'.$callback->controller);
    }
 
    return true;

@@ -140,7 +140,7 @@ Functionality: Ancestor for all controllers
 */
 class Controller
 {
-   protected $defaultAction = 'index';
+   public $defaultAction = 'index';
    protected $before_execs = array();
    protected $after_execs = array();
    protected $defaultTemplate = DEFAULT_TEMPLATE;
@@ -151,6 +151,7 @@ class Controller
    public $action;
    public $currId;
    public $subjectName;
+
    function __construct()
    {
       $this->controller = 
