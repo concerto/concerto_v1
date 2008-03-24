@@ -14,13 +14,69 @@
        <tr>
          <td><h5>Start Date</h5><p>When should this piece of content start to be displayed on Concerto?</p></td>
          <td>
+                  <select id="content[starthour]" name="content[starthour]">
+<?php
+      for ($i = 1; $i < 13; $i++)
+      {
+         $tempi = str_pad($i, 2, "0", STR_PAD_LEFT);
+
+         if ($i == 12)
+            echo "{$tabs[6]}<option value=\"{$tempi}\" selected=\"selected\">{$tempi}</option>\n";
+         else
+            echo "{$tabs[6]}<option value=\"{$tempi}\">{$tempi}</option>\n";
+      }
+?>
+                  </select>
+                  <select id="content[startminute]" name="content[startminute]">
+<?php
+      for ($i = 0; $i < 60; $i += 5)
+      {
+         $tempi = str_pad($i, 2, "0", STR_PAD_LEFT);
+
+         echo "{$tabs[6]}<option value=\"{$tempi}\">{$tempi}</option>\n";
+      }
+?>
+                  </select>
+                  <select id="content[startmeridiem" name="content[startmeridiem]">
+                     <option value="am">AM</option>
+                     <option value="pm">PM</option>
+                  </select>
            <input type="text" id="start_date" name="content[start_time]" value="<?=$content->start_time?>">
+
          </td>
        </tr>
 
        <tr>
          <td><h5>End Date</h5><p>When should this piece of content expire?  This might be the date of the event you are advertising.</p></td>
          <td>
+
+                  <select id="content[endhour]" name="content[endhour]">
+<?php
+      for ($i = 1; $i < 13; $i++)
+      {
+         $tempi = str_pad($i, 2, "0", STR_PAD_LEFT);
+
+         if ($i == 12)
+            echo "{$tabs[6]}<option value=\"{$tempi}\" selected=\"selected\">{$tempi}</option>\n";
+         else
+            echo "{$tabs[6]}<option value=\"{$tempi}\">{$tempi}</option>\n";
+      }
+?>
+                  </select>
+                  <select id="content[endminute]" name="content[endminute]">
+<?php
+      for ($i = 0; $i < 60; $i += 5)
+      {
+         $tempi = str_pad($i, 2, "0", STR_PAD_LEFT);
+
+         echo "{$tabs[6]}<option value=\"{$tempi}\">{$tempi}</option>\n";
+      }
+?>
+                  </select>
+                  <select id="content[endmeridiem" name="content[endmeridiem]">
+                     <option value="am">AM</option>
+                     <option value="pm">PM</option>
+                  </select>
            <input type="text" id="end_date" name="content[end_time]" value="<?=$content->end_time?>">
          </td>
        </tr>

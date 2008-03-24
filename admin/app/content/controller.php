@@ -121,8 +121,11 @@ class contentController extends Controller
       if(is_array($dat['feeds'])) $feed_ids=array_keys($dat['feeds']);
       else $feed_ids=Array();
 
-      $uploader = new Uploader($dat['name'], $dat['start_time'],
-                               $dat['end_time'], $feed_ids, $dat['duration']*1000, 
+      $start=$dat['start_time'].' '.$dat['starthour'].':'.$dat['startminute'].' '.$dat['startmeridiem'];
+      $end=$dat['end_time'].' '.$dat['endhour'].':'.$dat['endminute'].' '.$dat['endmeridiem'];
+
+      $uploader = new Uploader($dat['name'], $start,
+                               $end, $feed_ids, $dat['duration']*1000, 
                                $content_val, $dat['upload_type'], $_SESSION[user]->id, 1);
                              
       if($uploader->retval) {
