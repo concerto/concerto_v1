@@ -145,7 +145,7 @@ class Screen{
 			$this->mac_address = hexdec($this->mac_inhex);
 		}
 		
-		$sql = "UPDATE screen SET name = '$name_clean',  group_id = '$this->group_id', location = '$location_clean', mac_address = '$this->mac_address', width = '$this->width', height = '$this->height, template_id = $this->template_id' WHERE id = $this->id LIMIT 1";
+		$sql = "UPDATE screen SET name = '$name_clean',  group_id = '$this->group_id', location = '$location_clean', mac_address = '$this->mac_address', width = '$this->width', height = $this->height, template_id = $this->template_id WHERE id = $this->id LIMIT 1";
 		//echo $sql;
 		$res = sql_query($sql);
 		if($res){
