@@ -30,7 +30,8 @@ class Screen{
 	 var $name;
 	 var $group_id;
 	 var $location;
-	 var $mac_address;
+	 var $mac_address; //Ignore me
+	 var $mac_inhex; //Use this
 	 var $width;
 	 var $height;
 	 var $template_id;
