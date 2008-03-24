@@ -14,14 +14,14 @@
        <tr>
          <td><h5>Start Date</h5><p>When should this piece of content start to be displayed on Concerto?</p></td>
          <td>
-           <input type="text" id="width" name="content[start_time]" value="<?=$content->start_time?>">
+           <input type="text" id="start_date" name="content[start_time]" value="<?=$content->start_time?>">
          </td>
        </tr>
 
        <tr>
          <td><h5>End Date</h5><p>When should this piece of content expire?  This might be the date of the event you are advertising.</p></td>
          <td>
-           <input type="text" id="width" name="content[end_time]" value="<?=$content->end_time?>">
+           <input type="text" id="end_date" name="content[end_time]" value="<?=$content->end_time?>">
          </td>
        </tr>
 

@@ -8,14 +8,19 @@
 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 <link rel="stylesheet" type="text/css" href="<? echo ADMIN_BASE_URL ?>css/admin_new.css" />
 <link rel="stylesheet" type="text/css" href="<? echo ADMIN_BASE_URL ?>css/menu_tabs.css" />
+<link rel="stylesheet" type="text/css" href="<? echo ADMIN_BASE_URL ?>css/ui.datepicker.css" />
+<link rel="stylesheet" type="text/css" href="<? echo ADMIN_BASE_URL ?>css/ui.tabs.css" />
+<link rel="stylesheet" type="text/css" href="<? echo ADMIN_BASE_URL ?>ajaxtabs/ajaxtabs.css" />
 
 <!--[if lt IE 7.]>
 <script defer type="text/javascript" src="<? 
 echo $admin_base_url ?>/js/pngfix.js"></script>
 <![endif]-->
 
-<link rel="stylesheet" type="text/css" href="<? echo ADMIN_BASE_URL ?>ajaxtabs/ajaxtabs.css" />
-<script type="text/javascript" src="<? echo ADMIN_BASE_URL ?>ajaxtabs/ajaxtabs.js"></script>
+<script type="text/javascript" src="<? echo ADMIN_BASE_URL ?>js/jquery.js"></script>
+<script type="text/javascript" src="<? echo ADMIN_BASE_URL ?>js/ui.datepicker.js"></script>
+<script type="text/javascript" src="<? echo ADMIN_BASE_URL ?>js/ui.tabs.js"></script>
+
 
 <?php //renderHeadExtras() ?>
 </head>

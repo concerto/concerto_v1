@@ -81,6 +81,7 @@ class contentController extends Controller
    
    function newAction()
    {
+      $this->readFeeds(Feed::get_all('WHERE type=0'));
       $this->setTitle("Add Content");
    }
 
