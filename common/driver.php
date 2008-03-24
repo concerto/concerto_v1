@@ -197,7 +197,9 @@ class Driver{
 		
 			return $json;
 		} else {
-			return false;
+			$json['template_id'] = $template_id;
+		
+			return $json;
 		}
 	}
 	
