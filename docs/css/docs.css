@@ -12,29 +12,37 @@ body, html { border:0;color:#000;font-family:Arial, Verdana, sans-serif;font-siz
 a { color:#006699; font-weight:bold; text-decoration:none; }
 a:hover { color:#666; text-decoration:underline; }
 
-#left_pane { background:#069; float:left; width:25%; }
-#right_pane { float:right; width:73%; }
+#left_pane { background:#069; float:left; position:fixed; width:24%; }
+#left_pane_padding { background: url(../images/br.gif) bottom right no-repeat; border-right:solid 1px #FFF; padding-bottom:12px; }
+#right_pane { float:right;width:76%; }
 
-#header { background:#000;border-bottom:6px solid #ccc;clear:both;color:#ccc;font-size:85%;margin-bottom:15px;padding:0px;text-align:left; }
+#header { background:#000;border-bottom:6px solid #ccc;clear:both;color:#ccc;font-size:85%;margin-bottom:0px;padding:0px;text-align:left;height:8px; }
 #header_padding { padding:4px 0px 0px 0px; }
 #header h1 { color:#ccc;font-size:250%;font-weight:700; }
 #header a:link, #header a:visited { color:#ccc;text-decoration:none; }
 #header a:hover { color:#FFF;text-decoration:none;; }
 
-#content_header { background:#eaeaea;border-top:2px solid #FFF;padding-left:25px; }
+#content_header { background:#eaeaea;border-top:1px solid #FFF;padding-left:25px; }
 #content_header h1 { color:#000;margin:0px;padding:0; }
 #content_header h2 { color:#333;font-weight:700;font-size:0.85em;margin:5px 0 10px 0px;padding:0px 0px 5px 0px; }
 #content_header h2 a { color:#069;text-decoration:none; }
 #content_header h2 a:hover { text-decoration:underline; }
 #left_bg { float:left;width:350px; }
 
+#toc { color:#FFF; background:url(../images/menu_bg.gif) repeat; border:solid 1px #ccc; margin:15px; }
+#toc a { color:#FFF; text-decoration:none; }
+#toc a:hover { color:#ccc; text-decoration:underline; }
+#toc a:visited { color:#ffffcc; }
+#toc ol { line-height:1.8em; }
 
 
-#maincontent_header { margin-left:25px; }
-#maincontent { background:#FFF !important; margin-left:25px; margin-bottom:50px;margin-right:25px; margin-top:25px; text-align:left; }
-#maincontent h1, #maincontent h1 a { font-size:1.2em; font-weight:bold; margin:0px 0px 8px 0px; padding:0px; }
+#maincontent_header { padding-left:25px; }
+#maincontent { background:#FFF !important; padding-left:25px; margin-bottom:50px;margin-right:25px; margin-top:25px; text-align:left; }
+#maincontent h1, #maincontent h1 a { font-size:1.4em; font-weight:bold; margin:0px 0px 20px 0px; padding:0px; }
 #maincontent h2 { color:#666666; font-size:1.1em; font-weight:bold; margin:0px 0px 20px 0px; padding:0px; }
 #maincontent_padding { background:#FFF; padding:15px 8px 8px; }
+#maincontent img { border:solid 1px #999; margin:8px 0px; }
+#maincontent p { line-height:1.4em; margin-bottom:20px;}
 
 #footer_gutter { background:#FFF; clear:both; height:75px; }
 #footer { color:#333; background:url(../images/footer_bg.gif) repeat;font-size:0.7em;letter-spacing:0.08em;text-align:center;width:100%; }

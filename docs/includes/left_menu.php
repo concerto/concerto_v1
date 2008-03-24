@@ -1,17 +1,8 @@
-<div id="menuframe">
-  <div id="menuframe_padding">
-
-    <div class="logo_box">
-	   <div class="logo_box_padding">
-	     <center><a href="/zaik_refresh/trunk/docs/"><img src="images/conc_bluebg.gif" alt="Concerto" style="" border="0" /></a></center>
-	   </div>
-	 </div>
-    <div class="menu_box">
-	   <div class="menu_box_inset">
-        <div class="menu_box_padding">
-
-        </div>
-      </div>
-    </div>
-  </div>
+<center><a href="/zaik_refresh/trunk/docs/"><img src="images/conc_support.gif" alt="Concerto Support" style="" border="0" /></a></center>
+<div id="toc">
+  <ol>
+    <li><a href="page1.php">Introducing Concerto</a></li>
+    <li><a href="page2.php">System Overview</a></li>
+    <li><a href="page3.php">Control Panel</a></li>
+  </ul>
 </div>

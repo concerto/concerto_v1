@@ -10,11 +10,12 @@
 
 <body>
 
-<div id="left_pane">
+<div id="left_pane"><div id="left_pane_padding">
   <!-- BEGIN Sidebar -->
   <? include("left_menu.php"); ?>
   <!-- END Sidebar -->
-</div>
+  <div style="clear:both;"></div>
+</div></div>
 
 <div id="right_pane">
   <div id="header">
@@ -22,10 +23,3 @@
     </div>
   </div>
 
-  <div id="content_header">
-    <h1>Concerto Support</h1>
-    <h2>How may we help you?</h2>
-  </div>
-
-  <div id="maincontent">
-  <!-- main content begins here -->
