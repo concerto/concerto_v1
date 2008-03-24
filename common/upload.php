@@ -75,10 +75,9 @@ class Uploader{
 			if($content->create_content($this->name, $this->user_id, $this->content_o, $this->mime_type, $this->type_id, $this->duration, $this->start_date, $this->end_date)){
 
 				$this->cid = $content->id;
-				foreach($this->feeds as $fid){
-					$f = new Feed($fid);
-					$f->content_add($this->cid);
-				}
+				
+				$this->submit_tofeeds();
+				
 				$this->status = "";
 				$this->retval = true;
 				return true; //The content is finished uploading
@@ -97,10 +96,9 @@ class Uploader{
 			if($content->create_content($this->name, $this->user_id, $this->content_o, $this->mime_type, $this->type_id, $this->duration, $this->start_date, $this->end_date)){
 
 				$this->cid = $content->id;
-				foreach($this->feeds as $fid){
-					$f = new Feed($fid);
-					$f->content_add($this->cid);
-				}
+				
+				$this->submit_tofeeds();
+				
 				$this->status = "";
 				$this->retval = true;
 				return true; //The content is finished uploading
@@ -421,14 +419,13 @@ class Uploader{
 		if($content->create_content($this->name, $this->user_id, $this->content_o, $this->mime_type, $this->type_id, $this->duration, $this->start_date, $this->end_date)){
 			$this->cid = $content->id;
 			
-			$target_loc = IMAGE_DIR . $this->cid . "." . $ext;
+			$target_loc = CONTENT_DIR . $this->cid . "." . $ext;
 			rename($current_loc, $target_loc);
 			$content->content = $this->cid . "." . $ext;
 			$content->set_properties();
-			foreach($this->feeds as $fid){
-				$f = new Feed($fid);
-				$f->content_add($this->cid);
-			}
+			
+			$this->submit_tofeeds();
+			
 			$this->retval = true;
 			return true; //The content is finished uploading
 		} else {
@@ -436,6 +433,17 @@ class Uploader{
 			$this->status = $this->status . $content->status;
 			return false; //Failure making a content isn't a good thing
 		}
-	} 
+	}
+	function submit_tofeeds(){ //Submits the content to feeds, addressed the auto-approve issue for moderators
+		foreach($this->feeds as $fid){
+			$f = new Feed($fid);
+			$u = new User($this->user_id);
+			if($u->in_group($f->group_id)){
+				$f->content_add($this->cid, 1);
+			} else {
+				$f->content_add($this->cid);
+			}
+		}
+	}
 }
 ?>
