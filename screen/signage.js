@@ -30,7 +30,11 @@ jQuery.fn.extend({
 			else
 				low = middle;
 		}
-		$(this).css("font-size", parseInt((high + low) / 2));
+        //FUCKING UGLY...TAKE THIS SHIT OUT FOR GODS SAKE!!!
+		var font = parseInt((high + low) / 2);
+		while($(this).height() > height){
+		    $(this).css("font-size", --font);
+		}
 		//center the div
 		$(this).css("top", top + (height - $(this).height()) / 2);
 		//return current div
