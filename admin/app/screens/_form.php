@@ -43,7 +43,7 @@
        <tr>
          <td><h5>MAC Address</h5></td>
          <td>
-           <input type="text" id="mac_address" name="screen[mac_address]" value="<?=$screen->mac_address?>">
+           <input type="text" id="mac_inhex" name="screen[mac_inhex]" value="<?=$screen->mac_inhex?>">
          </td>
        </tr>
        <tr>

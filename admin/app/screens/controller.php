@@ -61,7 +61,7 @@ class screensController extends Controller
       $this->setTitle('Screen Creation');
       $screen=new Screen();
 
-      if($screen->create_screen($_POST[screen][name],$_POST[screen][group],$_POST[screen][location],$_POST[screen][mac_address],
+      if($screen->create_screen($_POST[screen][name],$_POST[screen][group],$_POST[screen][location],$_POST[screen][mac_inhex],
 		$_POST[screen][width],$_POST[screen][height],$_POST[screen][template])) {
          $this->flash($screen->name.' was created successfully.');
          redirect_to(ADMIN_URL.'/screens/show/'.$screen->mac_address);
@@ -79,13 +79,13 @@ class screensController extends Controller
      $screen->name = $dat['name'];
      $screen->group_id = $dat['group'];
      $screen->location = $dat['location'];
-     $screen->mac_address = $dat['mac_address'];
+     $screen->mac_inhex = $dat['mac_inhex'];
      $screen->width = $dat['width'];
      $screen->height = $dat['height'];
      $screen->template_id = $dat['template'];
 
      if($screen->set_properties()) {
-        $this->flash('Screen Updated Successfully');
+        $this->flash('Screen updated successfully!');
         redirect_to(ADMIN_URL.'/screens/show/'.$screen->id);
      } else {
         $this->flash('Your submission was not valid. Please try again.','error');

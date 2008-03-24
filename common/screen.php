@@ -44,7 +44,7 @@ class Screen{
 	 function __construct($sid = ''){
 	 	//Returns true for sucess, false for failure
 		if($sid != ''){
-			$sql = "SELECT * from screen WHERE id = $sid LIMIT 1";
+			$sql = "SELECT *, HEX(mac_address) as inhex from screen WHERE id = $sid LIMIT 1";
 			$res = sql_query($sql);
 			if($res != 0){
 				$data = (sql_row_keyed($res,0));
@@ -59,7 +59,8 @@ class Screen{
 				$this->template_id = $data['template_id'];
 				$this->last_updated = $data['last_updated'];
 				
-				$this->mac_inhex = dechex($this->mac_address); //You want to update this field only!
+            //This is done by sql because a mac is bigger than php's int.
+				$this->mac_inhex = $data['inhex']; //You want to update this field only!
 				
 				$this->set = true;
 				return true;
