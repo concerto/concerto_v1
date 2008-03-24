@@ -203,13 +203,12 @@ class Driver{
 	
 	function log_back(){
 		if(isset($this->screen_id) && isset($this->field_id) && isset($this->feed_id)&& isset($this->last_content_id)){
+			$sql = "UPDATE `screen` SET `last_updated` = NOW() WHERE id = $this->screen_id LIMIT 1";
+
+			sql_command($sql);
+
 			$sql = "UPDATE `position` SET `last_content_id` = $this->last_content_id 
 			WHERE `screen_id` = $this->screen_id AND `field_id` = $this->field_id AND `feed_id` = $this->feed_id LIMIT 1;";
-			
-			if(sql_command($sql) != -1)
-			    //return false; //This lime was hitting all the time making it bomb before logging the update
-			
-			$sql = "UPDATE `screen` SET `last_updated` = NOW() WHERE id = $this->screen_id LIMIT 1";
 			
 			return sql_command($sql) != -1;
 		} else {
