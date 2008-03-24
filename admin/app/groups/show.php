@@ -42,7 +42,7 @@
 	    $ratio ="4:3";
 	  }
 	?>
-	  <a href="<?echo ADMIN_URL?>/screens/show/<? echo $screen->mac_address ?>">
+	  <a href="<?echo ADMIN_URL?>/screens/show/<? echo $screen->id ?>">
 	    <div class="screenfloat">
 	      <img src="<?echo ADMIN_BASE_URL?>/images/<?echo $scrimg?>" alt="" /><br /><br />
 	      <h1><? echo $screen->name?></h1>

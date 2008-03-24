@@ -146,7 +146,7 @@ class Driver{
 			$res = sql_query($sql);
 			if($res!=0 && ($data = (sql_row_keyed($res,0)))){
 				//echo "Found the next content";
-				$this->content_id = $data['id'];
+				$this->last_content_id = $data['id'];
 				$this->log_back(); //Let the system know we found this content and plan on using it
 				return true;
 			} else {
@@ -163,7 +163,7 @@ class Driver{
 				$res = sql_query($sql);
 				if($res!=0 && ($data = (sql_row_keyed($res,0)))){
 					//echo "Found a loop back";
-					$this->content_id = $data['id'];
+					$this->last_content_id = $data['id'];
 					$this->log_back(); //Let the system know we found this content and plan on using it
 					return true;
 				} else {
@@ -180,7 +180,7 @@ class Driver{
 	function content_details(){
 	    $sql = "SELECT `template_id` FROM `screen` WHERE id = $this->screen_id LIMIT 1;";
 	    $template_id = sql_query1($sql);
-		$sql = "SELECT `content`, `mime_type`, `duration` FROM `content` WHERE id = $this->content_id;";
+		$sql = "SELECT `content`, `mime_type`, `duration` FROM `content` WHERE id = $this->last_content_id;";
 		$res = sql_query($sql);
 		if($res!=0){
 			$data = (sql_row_keyed($res,0));
@@ -202,16 +202,14 @@ class Driver{
 	}
 	
 	function log_back(){
-		if(isset($this->screen_id) && isset($this->field_id) && isset($this->feed_id)&& isset($this->content_id)){
-			$sql = "UPDATE `position` SET `last_content_id` = $this->content_id 
+		if(isset($this->screen_id) && isset($this->field_id) && isset($this->feed_id)&& isset($this->last_content_id)){
+			$sql = "UPDATE `position` SET `last_content_id` = $this->last_content_id 
 			WHERE `screen_id` = $this->screen_id AND `field_id` = $this->field_id AND `feed_id` = $this->feed_id LIMIT 1;";
 			
 			if(sql_command($sql) != -1)
-			    return false;
+			    //return false; //This lime was hitting all the time making it bomb before logging the update
 			
-			$sql = "UPDATE screen SET last_updated = NOW()
-			WHERE id = $this->screen_id LIMIT 1";
-//			echo "$sql<br/>\n";
+			$sql = "UPDATE `screen` SET `last_updated` = NOW() WHERE id = $this->screen_id LIMIT 1";
 			
 			return sql_command($sql) != -1;
 		} else {
