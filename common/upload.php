@@ -3,10 +3,16 @@
 Class: Upload
 Status: Good to go
 Functionality: Uploads content
+	contructor		Takes the content and starts the upload process
+	filer			Identify what a content is a route it the appropriate way
+	typer			Read mime type (lame)
+	xxx_cleaner		Applies any rules we need to filetype xxx, may pass off to another xxx cleaner
+	mover			Moves the content to the right directory, and adds it to the system
+	submit_tofeeds		Submits the content to the feeds, auto approving for owners
 Comments: 
 	The goal of upload is to process/clean things up before sending them to Content to be created.
 	And then clean them up after content has had a chance to play.
-	Cleaned
+	Cleaned.  Also added ppt and gif support, feeds now are a function
 */
 
 
@@ -116,7 +122,7 @@ class Uploader{
 				if($pre_type == "image/jpeg" || $pre_type == "image/pjpeg" || $pre_type == "image/jpg"){
 					//echo "Bananas";
 					$this->jpeg_cleaner();
-				} elseif ($pre_type == "image/png"){
+				} elseif ($pre_type == "image/png" || $pre_type == "image/x-png"){ //Wierd IE sends x-png
 					$this->png_cleaner();
 				} elseif ($pre_type == "image/gif"){
 					$this->gif_cleaner();
