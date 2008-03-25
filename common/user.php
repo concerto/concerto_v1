@@ -19,7 +19,7 @@ Functionality:  Create users, allows access to user properties, group stuff, etc
 
 Comments: 
 	can_write is my basic implementation of 'privledges', essentially it combines owner + group to test if the user is an owner who can write
-  
+	Fast patch, users cannot leave information blank when creating accounts  
 */
 class User{
 	var $id;
@@ -83,6 +83,9 @@ class User{
 			return false; //We already have a user object you idiot
 		} else {
 			//Cleaning Block
+			if($username_in == "" || $name_in == "" || $email_in == ""){ //All user fields must be set!
+				return false;
+			}
 			$username_in = escape($username_in);
 			$name_in = escape($name_in);
 			$email_in = escape($email_in);
@@ -128,7 +131,22 @@ class User{
 	
 	//Sets their properties back to the database
 	function set_properties(){
-		$sql = "UPDATE user SET username = '$this->username', name = '$this->name', email = '$this->email', admin_privileges = '$this->admin_privileges', allow_email = '$this->allow_email' WHERE id = $this->id LIMIT 1";
+		//Cleaning Block
+                if($this->username == "" || $this->name == "" || $this->email == ""){ //All user fields must be set!
+                        return false; 
+                }
+                $username_in = escape($this->username);
+                $name_in = escape($this->name);
+                $email_in = escape($this->email);
+                if(!is_numeric($this->admin_privileges)){
+                        return false;
+                }
+                if(!is_numeric($this->allow_email)){
+                        return false;
+                }
+
+		$sql = "UPDATE user SET username = '$username_in', name = '$name_in', email = '$email_in', admin_privileges = '$this->admin_privileges', 
+allow_email = '$this->allow_email' WHERE id = $this->id LIMIT 1";
 		$res = sql_query($sql);
 		if($res){
 			$notify = new Notification();

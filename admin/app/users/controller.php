@@ -101,7 +101,7 @@ class usersController extends Controller
             redirect_to(ADMIN_URL.'/users/show/'.$user->username);
          } else {
             $_SESSION['flash'][]=Array('error', 'Your profile submission failed. '.
-                                       'Please check all fields and try again.'.print_r($dat,true).mysql_error());
+                                       'Please check all fields and try again.');
             redirect_to(ADMIN_URL.'/users/new');
          }
       } else {
