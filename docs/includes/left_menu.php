@@ -3,5 +3,6 @@
 <div id="toc">
   <ol>
     <li><a href="page1.php">Introducing Concerto</a></li>
+    <li><a href="page2.php">Style Guide for Graphical Content</a></li>
   </ul>
 </div>
