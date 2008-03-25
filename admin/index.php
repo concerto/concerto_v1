@@ -123,7 +123,7 @@ function denied($reason=0)
       $sess['messages'][] = 
          array('info',
                '<a href="?login">Log in</a> or <a href= "'.
-               ADMIN_BASE_URL.'/help">visit the help pages</a> to learn more.');
+               ADMIN_BASE_URL.'/docs/">visit the help pages</a> to learn more.');
    setView('frontpage','denied');
 }
 
