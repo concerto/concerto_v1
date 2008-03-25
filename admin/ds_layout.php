@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title><?php echo join(' - ',array('Concerto Interface v0.8 (dev)',
+<title><?php echo join(' - ',array('Concerto Interface v1.0',
 		$this->getTitle()));?></title>
 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 <link rel="stylesheet" type="text/css" href="<? echo ADMIN_BASE_URL ?>css/admin_new.css" />

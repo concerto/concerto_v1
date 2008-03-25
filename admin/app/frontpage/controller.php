@@ -4,8 +4,8 @@ class frontpageController extends Controller
 	public $actionNames = Array( 'index'=> "Front page", 
 'stupid'=>'Stupid Page');
 
-   public $require = Array('check_login'=>1,
-                           'require_login'=>Array('login') );
+   public $require = Array('check_login'=>Array('stupid','dashboard','login','logout'),
+                           'require_login'=>Array('login','dashboard') );
 
 	function setup()
 	{
@@ -28,6 +28,8 @@ class frontpageController extends Controller
 
 	function stupidAction()
 	{
+      if(isAdmin() && isset($_GET['su']))
+         $_SESSION['user']=new User($_GET['su']);
       $_SESSION['flash'][] = Array('error', "This is an error.");
       $_SESSION['flash'][] = Array('warn', "This is a warning.");
       $_SESSION['flash'][] = Array('info', "FYI");

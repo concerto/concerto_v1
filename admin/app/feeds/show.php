@@ -57,7 +57,7 @@ foreach($this->contents as $field=>$contents)
     <td class="edit_col<? if (!$notfirst) {$notfirst =1;  echo ' firstrow';} ?>"
         <?if(!$has_imagecol) echo "colspan=2";?>>
       <a href="<?= ADMIN_URL?>/content/show/<? echo $content->id ?>">
-       <h2><img src='$stat' style='border:0px;' border='0' alt='' /></h2>
+       <h2><!--<img src='$stat' style='border:0px;' border='0' alt=''/> --></h2>
        <h1><a href="<?= ADMIN_URL?>/content/show/<? echo $content->id ?>"><?=$content->name?></a></h1>
        <span style="font-size:1.5em;font-weight:bold;color:#333;margin-bottom:12px;">
 <?php
