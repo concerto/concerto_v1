@@ -1,7 +1,7 @@
 <?php include("includes/pageheader.php") ?>
   <div id="content_header">
     <h1>How May We Help You?</h1>
-    <br />
+    <h2>Last Updated: 03/25/08 at 1:29 am EST</h2>
   </div>
 
   <div id="maincontent">
