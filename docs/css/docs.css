@@ -45,7 +45,7 @@ a:hover { color:#666; text-decoration:underline; }
 #maincontent_padding { background:#FFF; padding:15px 8px 8px; }
 #maincontent img { border:solid 1px #999; margin:8px 0px; }
 #maincontent p { line-height:1.4em; margin-bottom:20px;}
-#maincontent ul { line-height:1.4em; }
+#maincontent ul { line-height:1.6em; }
 
 #footer_gutter { background:#FFF; clear:both; height:75px; }
 #footer { color:#333; background:url(../images/footer_bg.gif) repeat;font-size:0.7em;letter-spacing:0.08em;text-align:center;width:100%; }
