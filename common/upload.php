@@ -155,7 +155,7 @@ class Uploader{
 	function jpeg_cleaner($loc = ''){
 		//echo "Starting JPEG cleaner";
 		$temp_dir = "/tmp/";
-		$temp_name = $this->user_id . "-" . time() . ".gif";
+		$temp_name = $this->user_id . "-" . time() . ".jpg";
 		$temp_dest = $temp_dir . $temp_name;
 		if($loc != ''){
 			$temp_dest = $loc;
