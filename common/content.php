@@ -201,7 +201,11 @@ class Content{
 		}
 		if($this->mime_type != 'text/plain' && $this->mime_type != 'text/html' && $this->mime_type != 'text/time'){
 			$path = IMAGE_DIR . $this->content;
-			unlink($path);
+			if(unlink($path)){
+				$this->status = "File deleted.";
+			}else{
+				$this->status  = "Trouble finding content, maybe you already removed it?";
+			}
 		}
 		if(!$return){
 			return false;  //Failure to delete content
