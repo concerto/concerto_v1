@@ -9,14 +9,15 @@ each area, and how often to display each.</p>
 
    <div>
    <form method="POST" action="<?=ADMIN_URL?>/screens/subscribe/<?=$this->screen->id?>">
-<ul class="subscriptions">
+     <ul class="subscriptions">
 <?php
 $fields_list=$this->screen->list_fields();
 if(is_array($fields_list)){
 foreach($fields_list as $field) {
 ?>
 
-<li id ="field_<?=$field->id?>"><h2><span class="emph"><? echo $field->name ?></span> (Field)</h2><ul>
+<li id ="field_<?=$field->id?>"><h2><span class="emph"><? echo $field->name ?></span> (Field)</h2>
+<ul>
 
 <?php
 $positions = $field->list_positions();
@@ -43,6 +44,9 @@ if(is_array($positions)) {
 } else echo "<li>(no current subscriptions)</li>";
       ?>
 
+
+</ul>
+
 	<p>
 	  Add a feed to this field: 
 	  <select id="add_<?=$field->id?>">
@@ -55,13 +59,14 @@ if(is_array($positions)) {
 	  </select>
 	  <input type="submit" onclick="addPos(<?=$field->id.',\''.ADMIN_URL.'/feeds/show/'?>'); return false;" value="Add" />
 	</p>
-    </ul></li>
+
+</li>
 
 <?php
 }
 }
 ?>
-   </ul>
+</ul>
    <input type="submit" value="Submit" />
    </form>
 

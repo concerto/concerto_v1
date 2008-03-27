@@ -65,13 +65,16 @@ table.edit_win td p { color:#666666; line-height:normal; margin:0px 0px 6px 0px;
 table.edit_win td h5 { color:#333333; font-size:1.15em; font-weight:bold; line-height:normal; margin:0px 0px 6px 0px; padding:0px; }
 table.edit_win td img { border:solid 2px #99ccff; }
 table.edit_win td img:hover { border:solid 2px #006699; }
+table.edit_win td img.icon { border:0px; }
+table.edit_win td.icon { width:90px; }
 table.edit_win input.extended { width:100%; }
+table.edit_win span.emph { font-size:1.65em; font-weight:bold; }
 td.edit_col { width:70%; }
 
 table.item_details td { padding:2px; }
 
 /*======== Control Screens =========*/
-div.screenfloat { float:left; border:solid 2px #cccccc; margin:6px; text-align:center; width:300px; }
+div.screenfloat { float:left; cursor:hand; border:solid 2px #cccccc; margin:6px; text-align:center; width:300px; }
 div.screenfloat:hover { background:url(../images/medblue_bg.gif) top left repeat; border:solid 2px #006699; }
 div.screenfloat a { display:block; }
 div.screenfloat img { border:0px; }
@@ -89,7 +92,7 @@ div.select td { padding-right:25px; }
 /* ========= Common elements =========*/
 
 /* Rounded edges */
-.roundcont { border:solid 1px #999; width:100%; }
+.roundcont { border:solid 1px #999; width:100%; margin-bottom:20px; }
 .roundcont_main { padding:8px 14px; }
 .roundcont_main h1 { color:#333 !important; font-size:1.2em !important; font-weight:bold; }
 .roundcont p { margin: 0 10px; }
@@ -100,7 +103,7 @@ img.topleft { margin-left:-1px; margin-top:-1px; }
 img.botleft { margin-left:-1px; margin-bottom:-1px; }
 
 /* Gray ACTION button */
-.buttonsel { color:#FFF; font-size:0.8em; font-weight:bold; text-decoration:none; height:24px; margin-bottom:10px; display:inline; }
+.buttonsel { cursor: hand; color:#FFF; font-size:0.8em; font-weight:bold; text-decoration:none; height:24px; margin-bottom:10px; display:inline; }
 .buttonleft { float:left; height:24px; width:12px; }
 .buttonmid { height:24px; float:left; background:#999; }
 .buttonmid_padding { padding:5px 5px; }
