@@ -32,7 +32,7 @@ function resize($filename, $new_width = false, $new_height = false, $stretch = f
         $new_image = imagecreatetruecolor(100, 100);
 
     header('Content-type: image/jpeg');
-    imagejpeg($new_image, NULL, 100);
+    imagejpeg($new_image, NULL, 80);
     imagedestroy($new_image);
     exit(0);
 }

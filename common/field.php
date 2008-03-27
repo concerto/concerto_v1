@@ -81,8 +81,10 @@ class Field{
 		$res = sql_query($sql);
 		if($res != 0){
 			$poss = 1;
-			foreach ($this->screen_pos as $pos){
-				$poss = $poss * ($pos->set_properties());
+         if(is_array($this->screen_pos)) {
+            foreach ($this->screen_pos as $pos){
+               $poss = $poss * ($pos->set_properties());
+            }
 			}
 			return $poss;
 		} else {
@@ -129,9 +131,11 @@ class Field{
 	function rebalance_byweight(){
 		if($this->screen_set){
 			$sum = 0;
-			foreach($this->screen_pos as $pos){
-				$sum += $pos->weight;
-			}
+         if(is_array($this->screen_pos)) {
+            foreach($this->screen_pos as $pos){
+               $sum += $pos->weight;
+            }
+         }
 			if($sum < 0.99999 || $sum > 1){  //Tests to verify that all the weights add up to 1, or something close enough for the database
 				return false;
 			} else {
@@ -154,6 +158,7 @@ class Field{
 	function rebalance_scale(){
 		if($this->screen_set){
 			$sum = 0;
+         if(!is_array($this->screen_pos)) return true;
 			foreach($this->screen_pos as $pos){
 				$sum += $pos->weight;
 			}
@@ -170,6 +175,7 @@ class Field{
 	//Adds a feed to a field.. aka a position mapping.  Does not do any weighting, that must be done seperately
 	function add_feed($feed_id_in){
 		if($this->screen_set){
+         if(is_array($this->screen_pos))
 			foreach($this->screen_pos as $pos){
 				if($pos->feed_id == $feed_id_in){
 					return true; //The mapping already exists.  Someone cannot see that, maybe they are using an iphone and the screen is tiny. dumb iphone
