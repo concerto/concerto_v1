@@ -2,7 +2,7 @@
        <div style=" height:260px; top:0px; float:left; margin-left:30px;">
    <p style="width:280px; bottom:150px; padding:30px; margin-top:50px; background:url(../images/lightblue_bg.gif);
 border:1px solid #aaa">Your screen is divided up into several areas, each of which can display different types of content.
-   Use these controls to chose feeds (think of a feed as a category) of content to place in
+   Use these controls to select feeds (categories of content, i.e. <i>Student Union</i>, which contains student clubs' content) to place in
 each area, and how often to display each.</p>
    </div>
 <br clear=left />
