@@ -4,10 +4,13 @@
 <a href="<?=ADMIN_URL.'/screens/delete/'.$this->screen->id ?>"><span class="buttonsel"><div class="buttonleft"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_left.gif" border="0" alt="" /></div><div class="buttonmid"><div class="buttonmid_padding">Delete Screen</div></div><div class="buttonright"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_right.gif" border="0" alt="" /></div></span></a><div style="clear:both;height:12px;"></div>
 <?php
 }
-  if($this->screen->width/$this->screen->height==(16/9)){
+  if ($this->screen->width/$this->screen->height==(16/9)){
     $scrimg="screen_169.png";
     $ratio ="16:9";
-  }else{
+  } else if ($this->screen->width/$this->screen->height==(16/10)) {
+    $scrimg="screen_169.png";
+    $ratio ="16:10";
+  } else{
     $scrimg="screen_43.png";
     $ratio ="4:3";
   }
@@ -37,13 +40,17 @@
     </tr>
   </table>
   <h3>Subscriptions</h3>
-  <ul class="subscriptions">
+
 <?php
 	$fields=$this->screen->list_fields();
 	if(is_array($fields)) {
  	 foreach ($fields as $field) { 
 ?>
-	 <li><h2><span class="emph"><? echo $field->name ?></span> (Field)</h2><ul>
+<div class="roundcont">
+  <div class="roundtop"><img src="<? echo ADMIN_BASE_URL ?>/images/wc_tl.gif" alt="" width="6" height="6" class="corner topleft" style="display: none" /></div>
+  <div class="roundcont_main">
+    <h1><span class="emph"><? echo $field->name ?></span> (Field)</h1>
+    <ul>
 	   <?php
 		$positions = $field->list_positions();
 		if($positions) {
@@ -55,8 +62,12 @@
 		  }
 	        } else echo "<li>(no subscriptions)</li>";
 	   ?>
-	 </ul></li>
+	 </ul>
+  </div>
+  <div class="roundbottom"><img src="<? echo ADMIN_BASE_URL ?>/images/wc_bl.gif" alt="" width="6" height="6" class="corner botleft" style="display: none" /></div>
+</div>
+
 <?php   }
        }else echo "<p>No fields on this template</p>";
 ?> 
-      </ul>
+

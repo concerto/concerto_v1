@@ -7,6 +7,9 @@ foreach($this->screens as $screen){
   if($screen->width/$screen->height==(16/9)){
     $scrimg="screen_169.png";
     $ratio ="16:9";
+  } else if ($screen->width/$screen->height==(16/10)) {
+    $scrimg="screen_169.png";
+    $ratio ="16:10";
   }else{
     $scrimg="screen_43.png";
     $ratio ="4:3";

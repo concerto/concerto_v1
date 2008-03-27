@@ -9,14 +9,18 @@ each field, and how often to display each.</p>
 
    <div>
    <form method="POST" action="<?=ADMIN_URL?>/screens/subscribe/<?=$this->screen->id?>">
-     <ul class="subscriptions">
+
 <?php
 $fields_list=$this->screen->list_fields();
 if(is_array($fields_list)){
 foreach($fields_list as $field) {
 ?>
 
-<li id ="field_<?=$field->id?>"><h2><span class="emph"><? echo $field->name ?></span> (Field)</h2>
+<div class="roundcont">
+  <div class="roundtop"><img src="<? echo ADMIN_BASE_URL ?>/images/wc_tl.gif" alt="" width="6" height="6" class="corner topleft" style="display: none" /></div>
+  <div class="roundcont_main">
+    <h1><span class="emph"><? echo $field->name ?></span> (Field)</h1>
+    
 <ul>
 
 <?php
@@ -60,13 +64,16 @@ if(is_array($positions)) {
 	  <input type="submit" onclick="addPos(<?=$field->id.',\''.ADMIN_URL.'/feeds/show/'?>'); return false;" value="Add" />
 	</p>
 
-</li>
+  </div>
+  <div class="roundbottom"><img src="<? echo ADMIN_BASE_URL ?>/images/wc_bl.gif" alt="" width="6" height="6" class="corner botleft" style="display: none" /></div>
+</div>
+
 
 <?php
 }
 }
 ?>
-</ul>
+
    <input type="submit" value="Submit" />
    </form>
 
