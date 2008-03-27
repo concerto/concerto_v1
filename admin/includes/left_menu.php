@@ -43,7 +43,7 @@ if(is_array($feeds)&&count($feeds)>0) {
            $modq = $obj->content_list('NULL');
            $num = is_array($modq)?count($modq):0;
            if($num>0)
-              $mod_feeds[]='<p><a href="'.ADMIN_URL.'/feeds/show/'.$obj->id.
+              $mod_feeds[]='<p><a href="'.ADMIN_URL.'/feeds/moderate/'.$obj->id.
                  '">'.$obj->name.'</a> ('.$num.')</p>';
         }
 }
