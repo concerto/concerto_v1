@@ -7,7 +7,9 @@ error_reporting(0);
 
 if(isset($_GET['id'])){
     $driver = new Driver($_GET['id']);
-    echo json_encode($driver->screen_details());
+    $json = $driver->screen_details();
+    $json["checksum"] = crc32(json_encode($json));
+    echo json_encode($json);
 } elseif(isset($_GET['screen_id']) && isset($_GET['field_id'])) {
     $driver = new Driver($_GET['screen_id'], $_GET['field_id']);
     $driver->get_feed();

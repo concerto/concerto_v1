@@ -51,26 +51,25 @@ class Driver{
 	
 	function screen_details(){
 		if(isset($this->screen_id)){
-			$sql = "SELECT screen.width, screen.height, template.id as template_id, template.filename FROM screen
+			$sql = "SELECT screen.width, screen.height, template.id as template_id FROM screen
 			LEFT JOIN template ON screen.template_id = template.id
 			WHERE screen.id = '$this->screen_id' LIMIT 1";
 			$res = sql_query($sql);
 			if($res != 0 && ($data = sql_row_keyed($res,0))){
-				//$screen_details['screen']['width'] = $data['width'];
-				//$screen_details['screen']['height'] = $data['height'];
-				//$screen_details['screen']['template'] = $data['filename'];
+				$width = $data['width'];
+				$height = $data['height'];
 				$screen_details['screen']['template_id'] = $data['template_id'];
 				
-				$template_id = $data['template_id'];
+			    $template_id = $data['template_id'];
 				
 				$sql1 = "SELECT `id`, `left`, `top`, `width`, `height`, `style` FROM `field` WHERE `template_id` = $template_id";
 				$res1 = sql_query($sql1);
 				$i = 0;
 				while($data1 = sql_row_keyed($res1, $i++)){
-					$screen_details['fields'][$data1['id']]['left'] = $data1['left'];
-					$screen_details['fields'][$data1['id']]['top'] = $data1['top'];
-					$screen_details['fields'][$data1['id']]['width'] = $data1['width'];
-					$screen_details['fields'][$data1['id']]['height'] = $data1['height'];
+					$screen_details['fields'][$data1['id']]['left'] = $data1['left'] * $width;
+					$screen_details['fields'][$data1['id']]['top'] = $data1['top'] * $height;
+					$screen_details['fields'][$data1['id']]['width'] = $data1['width'] * $width;
+					$screen_details['fields'][$data1['id']]['height'] = $data1['height'] * $height;
 					$screen_details['fields'][$data1['id']]['style'] = $data1['style'];
 				}
 				return $screen_details;
@@ -178,8 +177,6 @@ class Driver{
 	}
 	
 	function content_details(){
-	    $sql = "SELECT `template_id` FROM `screen` WHERE id = $this->screen_id LIMIT 1;";
-	    $template_id = sql_query1($sql);
 		$sql = "SELECT `content`, `mime_type`, `duration` FROM `content` WHERE id = $this->last_content_id;";
 		$res = sql_query($sql);
 		if($res!=0){
@@ -193,13 +190,9 @@ class Driver{
 				$json['content'] = date($data['content']);
 			}
 			
-			$json['template_id'] = $template_id;
-		
 			return $json;
 		} else {
-			$json['template_id'] = $template_id;
-		
-			return $json;
+			return false;
 		}
 	}
 	

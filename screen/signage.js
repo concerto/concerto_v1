@@ -45,8 +45,8 @@ jQuery.fn.extend({
 //the screen id of the current screen such that we don't have to query it every single time
 //WARNING: SET THIS VARIABLE OR THE SCRIPT WILL START SHITTING BRICKS!!!...or not do anything.
 var screenId;
-//the current template ID
-var templateId;
+//the current template checksum, if this changes then the template and fields have changed
+var checksum;
 //the fields in the template, they will be defined later on...I hope
 var fields = [];
 //the current field that updates the script
@@ -54,32 +54,40 @@ var currentField;
 
 //This is where it starts.  The function makes sure that a template exists and starts loading content
 function start(){
-    if(screenId == undefined || templateId == undefined || !fields.length){
+    if(screenId == undefined || checksum == undefined || !fields.length){
         //No template is currently loaded
-        initScreen();
+        checkScreen();
     } else {
-        //change a different field
-        if(++currentField >= fields.length)
+        //if we still in range of the fields then update each one
+        if(currentField < fields.length){
+            //...every 1.5 seconds
+            setTimeout(fetchContent, 1500);
+        } else {
+            //if not then check if we need a template update and go back to field 0
             currentField = 0;
-        //...every 1.5 seconds
-        setTimeout(fetchContent, 1500);
+            checkScreen();
+        }
     }
 }
 
-function initScreen(){
+function checkScreen(){
     //ajax json request to get information about this screen
     $.ajax({type: "GET",
 		    url: "content.php",
 		    data: {"id": screenId},
 		    success: function(json){
-		        if(json != null){
+		        //if the json does not exist or the checksum does not check up then reload the template
+		        if(json != null && json["checksum"] != checksum){
 			        var imgSrc = "template.php?id=" + screenId;
 			        //load the image to cache
 			        var img = new Image();
 			        //set onload event handler
 			        img.onload = function(){
+			            //empty the body...NONE WILL SURVIVE!!! HAHAHAHAHA
                         $(document.body).empty();
+                        //emtpy the fields...LOL
 			            fields.length = 0;
+			            //create the background image
 			            $("<img>")
 			                .attr({"src": imgSrc,
 					               "alt": ""
@@ -89,19 +97,14 @@ function initScreen(){
 				                  "top": "0"
 			                })
 			                .appendTo($(document.body));
-			            var width = img.width;
-			            var height = img.height;
+			            //set properties of each field
 			            $.each(json["fields"], function(fieldId, field){
 			                field["id"] = fieldId;
 			                field["timeout"] = 0;
 			                field["prevdiv"] = undefined;
-			                field["left"] *= width;
-			                field["top"] *= height;
-			                field["width"] *= width;
-			                field["height"] *= height;
 			                fields.push(field);
 			            });
-			            templateId = json["screen"]["template_id"];
+			            checksum = json["checksum"];
 			            currentField = 0;
 			            start();
 			        };
@@ -117,7 +120,8 @@ function initScreen(){
 }
 
 function fetchContent(){
-    var field = fields[currentField];
+    //update next field
+    var field = fields[currentField++];
     var time = (new Date()).getTime();
     
     if(field && field["timeout"] < time)
@@ -126,6 +130,7 @@ function fetchContent(){
 			    url: "content.php",
 			    data: {"screen_id": screenId, "field_id": field["id"]},
 			    success: function(json){
+                    //if not mime_type is set or duration then just wait
 				    if(!json || !json["mime_type"] || !json["duration"]){
 				        field["timeout"] = time + 3000;
 				    //based on the mime-type of the content, handle it accordingly
@@ -146,7 +151,6 @@ function fetchContent(){
 					        .fadeGlobal(field["prevdiv"]);
 					    field["prevdiv"] = div;
 					    field["timeout"] = time + parseInt(json["duration"]);
-				        if(json["template_id"] != templateId) templateId = undefined;
 				    } else if(json["mime_type"].match(/image/)){
 					    var imgSrc = "image.php?file=" + escape(json["content"]) + "&width=" + field["width"] + "&height=" + field["height"];
 					    //load the image to cache
@@ -165,7 +169,6 @@ function fetchContent(){
 						        .fadeGlobal(field["prevdiv"]);
 					        field["prevdiv"] = div;
 					        field["timeout"] = time + parseInt(json["duration"]);
-				            if(json["template_id"] != templateId) templateId = undefined;
 					    };
 					    //if error then try again with another image
 					    img.error = start;
@@ -186,7 +189,6 @@ function fetchContent(){
 					        .fadeGlobal(field["prevdiv"]);
 				        field["prevdiv"] = div;
 				        field["timeout"] = time + 3000;
-				        if(json["template_id"] != templateId) templateId = undefined;
 				    }
 				    start();
 			    },
@@ -198,5 +200,6 @@ function fetchContent(){
         start();
 }
 
+//Let's get it started.  Let's get it started in here!
 $(document).ready(start);
 
