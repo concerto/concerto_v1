@@ -1,9 +1,9 @@
 <img src="<?=ADMIN_URL?>/templates/preview/<?=$this->template['id']?>" style=" border: 1px solid #aaa; display:inline;margin:25px;float:left" />
        <div style=" height:260px; top:0px; float:left; margin-left:30px;">
    <p style="width:280px; bottom:150px; padding:30px; margin-top:50px; background:url(../images/lightblue_bg.gif);
-border:1px solid #aaa">Your screen is divided up into several areas, each of which can display different types of content.
+border:1px solid #aaa">Your screen is divided up into several areas, called <b>fields</b>, each of which can display different types of content.
    Use these controls to select feeds (categories of content, i.e. <i>Student Union</i>, which contains student clubs' content) to place in
-each area, and how often to display each.</p>
+each field, and how often to display each.</p>
    </div>
 <br clear=left />
 
