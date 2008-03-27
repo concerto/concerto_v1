@@ -3,7 +3,7 @@
 Class: User
 Status: Mild, like salsa
 Functionality:  Create users, allows access to user properties, group stuff, etc
-       create_user         		Creates a new user
+        create_user         		Creates a new user
 
         set_properties         	Writes user properties back to the database
 
@@ -16,6 +16,14 @@ Functionality:  Create users, allows access to user properties, group stuff, etc
         list_groups			Lists all the groups a user is in		
 		
         can_write			Tests to see if a user can write to an object (essentially a permission check)
+
+	 send_mail			Sends the user an email, if they have that setting enabled.
+
+	 controls_afeed		Tests to see if a user is in a group that owns any feeds.
+
+	 controls_ascreen		Tests to see if a user is in a group that owns screens.
+
+	 is_special			If controls_afeed or controls_ascreen.
 
 Comments: 
 	can_write is my basic implementation of 'privledges', essentially it combines owner + group to test if the user is an owner who can write
@@ -284,6 +292,37 @@ allow_email = '$this->allow_email' WHERE id = $this->id LIMIT 1";
 		} else {
 			return true;  //We return true because the user didn't want to get email, this isn't something we should penalize them for
 		}	
+	}
+	function controls_afeed(){
+		if($this->set){
+			$groups = implode(',',$this->groups);
+			$sql = "SELECT COUNT(id) AS f_count FROM feed WHERE group_id IN ($groups)";
+			$res = sql_query($sql);
+			if(($res && $data = sql_row_keyed($res,0)) && $data['f_count'] > 0){
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+	function controls_ascreen(){
+		if($this->set){
+			$groups = implode(',',$this->groups);
+			$sql = "SELECT COUNT(id) AS s_count FROM screen WHERE group_id IN ($groups)";
+			$res = sql_query($sql);
+			if(($res && $data = sql_row_keyed($res,0)) && $data['s_count'] > 0){
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+	function is_special(){
+		if($this->controls_afeed() || $this->controls_ascreen()){
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
 ?>
