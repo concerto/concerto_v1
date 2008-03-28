@@ -222,7 +222,7 @@ class Uploader{
 	function png_cleaner($loc = ''){
 		//echo "Starting PNG cleaner";
 		$temp_dir = "/tmp/";
-		$temp_name = $this->user_id . "-" . time() . ".png";
+		$temp_name = $this->user_id . "-" . time() . ".jpg";
 		$temp_dest = $temp_dir . $temp_name;
 		if($loc != ''){
 			$temp_dest = $loc;
@@ -242,7 +242,6 @@ class Uploader{
 		//echo "Source $width x $height";
 		if($width < MIN_W || $height < MIN_H){ //The image isn't big enough!
 			unlink($temp_dest);
-			//echo "Too Small!";
 			$this->status = $this->status . "The image you submitted was too small. ";
 			$this->retval = false;
 			return false;
@@ -250,7 +249,7 @@ class Uploader{
 			//echo "Too large";
 			$scale_x = MAX_W / $width;
 			$scale_y = MAX_H / $height;
-				
+			
 			if($scale_x >= $scale_y){ //Find the dimension that needs the most help
 				$scale = $scale_y;
 			} else {
@@ -258,35 +257,35 @@ class Uploader{
 			}
 			$new_x = $width * $scale;
 			$new_y = $height * $scale;
-			
+				
 			$dest_img=ImageCreateTrueColor($new_x,$new_y);
-       		 	imagecopyresampled($dest_img,$src_img,0,0,0,0,$new_x,$new_y,$width,$height);
-        		imagepng($dest_img, $temp_dest, 90);
-       			imagedestroy($dest_img);
-       			imagedestroy($src_img);
-       			
-       			$this->mime_type = 'image/png';
-       			$this->type_id = 3; //SELF: THIS IS BAD AND DUMB AND STUPID
-	       		//echo "But we shrunk it!";
-       			$this->status = $this->status . "Your image was sucessfully resized. ";
+        		imagecopyresampled($dest_img,$src_img,0,0,0,0,$new_x,$new_y,$width,$height);
+        		imagepng($dest_img, $temp_dest, 9);
+        		imagedestroy($dest_img);
+        		imagedestroy($src_img);
+        		
+        		$this->mime_type = 'image/png';
+        		$this->type_id = 3; //SELF: THIS IS BAD AND DUMB AND STUPID
+        		$this->status = $this->status . "Your image was sucessfully resized. ";
+        		//echo "But we shrunk it!";
         		if($this->auto){
-       				return $this->mover($temp_dest);
-       			} else {
-				$this->retval = true;
-       				return true;
-       			}
-		} else {
-			$this->mime_type = 'image/png';
-          		$this->type_id = 3; //SELF: THIS IS BAD AND DUMB AND STUPID
-			//echo "Did not require resizing";
-			if($this->auto){
         			return $this->mover($temp_dest);
         		} else {
 				$this->retval = true;
         			return true;
         		}
+		} else {
+			$this->mime_type = 'image/png';
+               		$this->type_id = 3; //SELF: THIS IS BAD AND DUMB AND STUPID
+			//echo "Did not require resizing";
+			if($this->auto){
+        			return $this->mover($temp_dest);
+	       		} else {
+				$this->retval = true;
+        			return true;
+	       		}
 		}
-	}
+	}	
 	function gif_cleaner($loc = ''){
 		//echo "Starting GIF cleaner";
 		$temp_dir = "/tmp/";
@@ -329,7 +328,7 @@ class Uploader{
 			
 			$dest_img=ImageCreateTrueColor($new_x,$new_y);
 	        	imagecopyresampled($dest_img,$src_img,0,0,0,0,$new_x,$new_y,$width,$height);
-        		imagegif($dest_img, $temp_dest, 90);
+        		imagegif($dest_img, $temp_dest);
        			imagedestroy($dest_img);
        			imagedestroy($src_img);
        		
