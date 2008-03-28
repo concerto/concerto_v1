@@ -260,7 +260,7 @@ class Uploader{
 				
 			$dest_img=ImageCreateTrueColor($new_x,$new_y);
         		imagecopyresampled($dest_img,$src_img,0,0,0,0,$new_x,$new_y,$width,$height);
-        		imagepng($dest_img, $temp_dest, 9);
+        		imagepng($dest_img, $temp_dest, 1);
         		imagedestroy($dest_img);
         		imagedestroy($src_img);
         		
