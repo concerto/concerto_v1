@@ -48,12 +48,15 @@
        </tr>
        <tr>
          <td><h5>Layout Design</h5></td>
-         <td><select name="screen[template]">
+         <td>
              <?php $templates = sql_select('template',array('id','name'));
                    if(is_array($templates))
                      foreach($templates as $template) {
              ?>
-                <option value="<?= $template[id] ?>"<?php if($screen->template_id==$template[id]) echo ' SELECTED'; ?>><?=$template[name]?></option>
+                <input type="radio" name="screen[template]" style="vertical-align:middle"  value="<?= $template[id] ?>"<?php if($screen->template_id==$template[id]) echo ' checked'; ?>>
+                    <img style="vertical-align:middle; margin:10px;" src="<?=ADMIN_URL.'/templates/preview/'.$template[id].'?width=150'?>" />
+                    <?=$template[name]?>
+                </input><br />
              <?php   } ?>
              </select></td>
        </tr>
