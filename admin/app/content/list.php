@@ -15,14 +15,22 @@ foreach(array_keys($this->contents) as $field)
 if(is_array($this->contents))
 foreach($this->contents as $field=>$contents)
 {
-   echo "<h1><a name=\"$field\" ></a>$field</h1>";
+   echo "<br /><br /><h1><span class=\"emph\"><a name=\"$field\" ></a>$field</span>&nbsp;&nbsp;&nbsp;<a href=\"#\">top</a></h1>";
 ?>
-<table class="edit_win" cellpadding="6" cellspacing="0">
+<table class="edit_win" cellpadding="0" cellspacing="0">
 <?php
    $notfirst=0; //style for first row
    foreach($contents as $content) {
       $submitter = new User($content->user_id);
 ?>
+  <!-- NEW COLLAPSED LIST CODE BEGINS HERE -->
+  <tr class="minlist">
+    <td colspan="2">
+      <table class="minedit" cellpadding="0" cellspacing="0" width="100%"><tr><td valign="middle" width="65"><img src="<?= ADMIN_BASE_URL ?>images/sample_imgicon.jpg" alt="" /></td><td><span class="mintitle"><span class="emph"><a href="<?= ADMIN_URL?>/content/show/<?= $content->id ?>"><?= $content->name ?></a></span> <b><?= date("m/j/y",strtotime($content->start_time)) ?> - <?= date("m/j/y",strtotime($content->end_time)) ?></b></span></td></tr></table>
+    </td>
+  </tr>
+  <!-- NEW COLLAPSED LIST CODE ENDS HERE -->
+
   <tr>
 <?php
       if(preg_match('/image/',$content->mime_type)) {
@@ -47,6 +55,7 @@ foreach($this->contents as $field=>$contents)
              echo "$content->content<br/>\n";
 ?>
        <?=date("m/j/Y",strtotime($content->start_time))?> - <?=date("m/j/Y",strtotime($content->end_time))?></span>
+       (# Weeks)
        <h2>Submitted by <strong><a href="<?=ADMIN_URL.'/users/show/'.$submitter->username?>"><?=$submitter->name?></a></strong></h2>
       </a>
     </td>

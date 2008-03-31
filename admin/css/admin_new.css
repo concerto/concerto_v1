@@ -59,14 +59,20 @@ div.menu_box h3, div.alert_box h3 { font-size:120%;margin:0 0 4px;padding:0; }
 #footer a:link, #footer a:visited { color:#333;font-size:100%;text-decoration:none; }
 #footer a:hover { color:#69c;font-size:100%;text-decoration:underline; }
 
-table.edit_win { background:url(../images/lightblue_bg.gif) repeat; border-top:solid 1px #ccc; margin:0px; padding:0px; width:100%; }
-table.edit_win td { border-bottom:solid 1px #cccccc; padding:16px; text-align:left; vertical-align:top; }
+table.edit_win { background:url(../images/lightblue_bg.gif) repeat; border-left:solid 1px #ccc; border-right:solid 1px #ccc; border-top:solid 1px #ccc; margin:0px; padding:0px; width:100%; }
+table.edit_win td { border-bottom:solid 1px #ccc; padding:16px; text-align:left; vertical-align:top; }
 table.edit_win td p { color:#666666; line-height:normal; margin:0px 0px 6px 0px; padding:0px; }
 table.edit_win td h5 { color:#333333; font-size:1.15em; font-weight:bold; line-height:normal; margin:0px 0px 6px 0px; padding:0px; }
 table.edit_win td img { border:solid 2px #99ccff; }
 table.edit_win td img:hover { border:solid 2px #006699; }
 table.edit_win td img.icon { border:0px; }
 table.edit_win td.icon { width:90px; }
+table.edit_win tr.minlist { padding:0px; font-size:1.05em; vertical-align:middle; background:url(../images/alert_box.gif) repeat; }
+table.edit_win tr.minlist td { padding:8px; border-bottom:solid 1px #FFF; }
+table.edit_win tr.minlist img { border:solid 1px #ccc; }
+table.minedit td { padding:0px !important; border:0px !important; }
+table.edit_win tr.minlist span.mintitle { display:block; padding:8px; }
+table.edit_win tr.minlist span.emph { padding-right:12px; }
 table.edit_win input.extended { width:100%; }
 table.edit_win span.emph { font-size:1.65em; font-weight:bold; }
 td.edit_col { width:70%; }
