@@ -20,7 +20,7 @@ include(COMMON_DIR.'/upload.php');   //Helps uploading
 include(COMMON_DIR.'/group.php');    //Class to represent user groups
 include(COMMON_DIR.'/dynamic.php');  //Functionality for dynamic content
 include(COMMON_DIR.'/notification.php');  //Functionality for notifications
-include(COMMON_DIR.'/image.inc.php');//Image library, used for resizing images
+include(COMMON_DIR.'/image.inc.php');	//Image library, used for resizing images
 
 
 include('includes/login.php');  //Functionality for CAS, logins, and page authorization

@@ -36,14 +36,9 @@ class contentController extends Controller
    function imageAction()
    {
       $content = new Content($this->args[1]);
-      if($content->mime_type = 'image/jpeg') {
-         $this->file = IMAGE_DIR .'/'. $content->content;
-            $this->height = $_GET['height'];
-         $this->width = $_GET['width'];
-      } else if ($content->id) {
-         echo "Content type not supported";
-         exit();
-      }
+      $this->file = $content->content;
+      $this->height = $_GET['height'];
+      $this->width = $_GET['width'];
    }
 
    function showAction()
