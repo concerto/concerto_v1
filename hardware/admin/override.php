@@ -13,7 +13,8 @@ function do_write($class_obj, $path) {
     if (!array_key_exists("text", $_REQUEST)) {
         die("text not specified for config write");
     }
-    $class_obj->edit_override($path, $_REQUEST["text"]);
+    $data = str_replace("\r\n","\n",$_REQUEST["text"]);
+    $class_obj->edit_override($path, $data);
 }
 
 $class_obj = HardwareClass::load_from_id($class_id);
