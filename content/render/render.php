@@ -53,6 +53,9 @@ function cache_parse($threshold = 100){
 		fclose($fh);
 		unset($fh);
 	}
+	if(!isset($data)){ //Nothing has been viewed/logged.  Do no more thinking
+		return true;
+	}
 	//Now we find those entries that are worthy of a cache
 	foreach($data as $file_path => $details){
 		foreach($details as $width => $h_details){

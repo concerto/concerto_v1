@@ -28,18 +28,18 @@ class Dynamic{
                 $data = (sql_row_keyed($res,0));
                 $this->id = $data['id'];
                 $this->type = $data['type'];
-				$this->path = stripslashes($data['path']);
-				$this->rules = unserialize($data['rules']);
-				$this->last_update = $data['last_update'];
+		$this->path = stripslashes($data['path']);
+		$this->rules = unserialize($data['rules']);
+		$this->last_update = $data['last_update'];
 				
-				if($feed_id != ''){
-					$this->feed = new Feed($feed_id, false);  //The false is critical here!
-					$this->feed_set = true;
-				} else {
-					$this->feed_set = false;
-				}
-				
-				$this->set = true;
+		if($feed_id != ''){
+			$this->feed = new Feed($feed_id, false);  //The false is critical here!
+			$this->feed_set = true;
+		} else {
+			$this->feed_set = false;
+		}
+			
+		$this->set = true;
                 return true;
             } else {
                 return false;
@@ -108,9 +108,10 @@ class Dynamic{
 		} else {
 			$name = "Dynamic Content";
 		}
+		$max_digits = floor(1+log($this->rules['items_per_content']*count($this->content),10));
 		foreach($this->content as $key =>$item){
-			$lower = $key  * $this->rules['items_per_content'] + 1;
-			$upper = $lower + $this->rules['items_per_content'] - 1;
+			$lower = $this->zero_pad($key  * $this->rules['items_per_content'] + 1, $max_digits);
+			$upper = $this->zero_pad($lower + $this->rules['items_per_content'] - 1, $max_digits);
 			
 			$c_name = $name . " ($lower-$upper)";
 			$c_owner = 0; //Content is owned by the system
@@ -187,6 +188,13 @@ class Dynamic{
 		return $var_in;
 	
 	}
-	
+	function zero_pad($content, $desired_digits){
+		if(strlen($content) < $desired_digits){
+			$offset = $desired_digits - strlen($content);
+			$content = str_repeat('0',$offset) . $content;
+			return $content;
+		}
+		return $content;
+	}
 }
 ?>

@@ -17,16 +17,21 @@ include(COMMON_DIR.'image.inc.php');//Image library, used for resizing images
 
 include(CONTENT_DIR.'render/render.php'); //Functions to generate the cache
 
-if(date("D Hi") == 'Sun 0005'){
+if(date("D Hi") == 'Sun 0005' || $_REQUEST['weekly']){
 	weekly();
+	print("Finished weekly job\n");
 }
-if(date("Hi") == '0005'){
+if(date("Hi") == '0005' || $_REQUEST['nightly']){
 	nightly();
+	print("Finished nightly job\n");
 }
-if(date("i") == '05'){
+if(date("i") == '05' || $_REQUEST['hourly']){
 	hourly();
+	print("Finished hourly job");
 }
 always();
+
+
 
 function weekly(){
 	clear_cache(IMAGE_DIR.'/cache/');
