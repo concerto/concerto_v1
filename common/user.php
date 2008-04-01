@@ -96,6 +96,10 @@ class User{
 			}
 			$username_in = escape($username_in);
 			$name_in = escape($name_in);
+			$valid_email = "^[a-z0-9,!#\$%&'\*\+/=\?\^_`\{\|}~-]+(\.[a-z0-9,!#\$%&'\*\+/=\?\^_`\{\|}~-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*\.([a-z]{2,})$";
+			if(!eregi($valid_email, $email_in)){ //Test for a valid email address
+				return false;
+			}
 			$email_in = escape($email_in);
 			if(!is_numeric($admin_privileges_in)){
 				return false;
@@ -145,6 +149,10 @@ class User{
                 }
                 $username_in = escape($this->username);
                 $name_in = escape($this->name);
+				$valid_email = "^[a-z0-9,!#\$%&'\*\+/=\?\^_`\{\|}~-]+(\.[a-z0-9,!#\$%&'\*\+/=\?\^_`\{\|}~-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*\.([a-z]{2,})$";
+				if(!eregi($valid_email, $this->email)){ //Test for a valid email address
+					return false;
+				}
                 $email_in = escape($this->email);
                 if(!is_numeric($this->admin_privileges)){
                         return false;
