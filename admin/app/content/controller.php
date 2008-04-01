@@ -76,7 +76,7 @@ class contentController extends Controller
    
    function newAction()
    {
-      $this->readFeeds(Feed::get_all('WHERE type=0'));
+      $this->readFeeds(Feed::get_all('WHERE type=0 AND group_id!=0'));
       $this->setTitle("Add Content");
    }
 
@@ -107,26 +107,27 @@ class contentController extends Controller
    function createAction()
    {
       $dat = $_POST['content'];
+      if($_POST['submit']!='Add another feed') {
 
-      if($dat['upload_type']=='file')
-         $content_val = $_FILES['content_file'];
-      else
-         $content_val = $dat['content'];
-
-      if(is_array($dat['feeds'])) $feed_ids=array_keys($dat['feeds']);
-      else $feed_ids=Array();
-
-      $start=$dat['start_time'].' '.$dat['starthour'].':'.$dat['startminute'].' '.$dat['startmeridiem'];
-      $end=$dat['end_time'].' '.$dat['endhour'].':'.$dat['endminute'].' '.$dat['endmeridiem'];
-
-      $uploader = new Uploader($dat['name'], $start,
-                               $end, $feed_ids, $dat['duration']*1000, 
-                               $content_val, $dat['upload_type'], $_SESSION[user]->id, 1);
-                             
+         if($dat['upload_type']=='file')
+            $content_val = $_FILES['content_file'];
+         else
+            $content_val = $dat['content'];
+         
+         if(is_array($dat['feeds'])) $feed_ids=array_unique(array_values($dat['feeds']));
+         else $feed_ids=Array();
+         
+         $start=$dat['start_time'].' '.$dat['starthour'].':'.$dat['startminute'].' '.$dat['startmeridiem'];
+         $end=$dat['end_time'].' '.$dat['endhour'].':'.$dat['endminute'].' '.$dat['endmeridiem'];
+         
+         $uploader = new Uploader($dat['name'], $start,
+                                  $end, $feed_ids, $dat['duration']*1000, 
+                                  $content_val, $dat['upload_type'], $_SESSION[user]->id, 1);
+      }
       if($uploader->retval) {
          $this->flash('Your content was succesfully uploaded! It will be active on the '.
-                  'system as soon as it is approved for the feed(s) you chose. '.$uploader->status);
-            redirect_to(ADMIN_URL.'/content/show/'.$uploader->cid);
+                      'system as soon as it is approved for the feed(s) you chose. '.$uploader->status);
+         redirect_to(ADMIN_URL.'/content/show/'.$uploader->cid);
       } else {
          $this->flash('Your content submission failed. '.
                       'Please check all fields and try again. '.$uploader->status, 'error');

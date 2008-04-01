@@ -84,23 +84,30 @@
        <tr>
          <td><h5>Duration</h5><p>For how long should this piece of content be displayed on a screen?</p></td>
          <td>
-           <input type="text" size="2" id="width" name="content[duration]" value="<?= $content->duration?$content->end_time:DEFAULT_DURATION?>"> &nbsp;seconds
+           Default is <?=DEFAULT_DURATION?> seconds (<a href="#" onclick = "this.parentNode.getElementsByTagName('div')[0].style.display='block'; return false;">click here to use a different duration</a>)
+           <div id="content_duration_div" style="display:none"><input type="text" size="2" id="width" name="content[duration]" id="content_duration" value="<?= $content->duration?$content->end_time:DEFAULT_DURATION?>"> &nbsp;seconds</div>
          </td>
        </tr>
 
        <tr>
-         <td><h5>Feeds</h5><p>In which content categories would this content fit the best?  (You may select more than one.)</p></td>
+         <td><h5>Feeds</h5><p>In which content categories would this content fit the best?  (If possible, please limit to the most relevant category.)</p></td>
          <td>
+           <div>
            Submit to Feed:
+           <select name="content[feeds][0]" id="1">
+           <option></option>
            <?php
            foreach ($this->feeds as $arr) {
               list($feed, $value) = $arr;
-              echo '<br /><input type="checkbox" name="content[feeds]['.$feed->id.']" value="1"';
-              if($checked) echo ' CHECKED';
-              echo ' /><label>'.'<a href="'.ADMIN_URL."/feeds/show/$feed->id\">$feed->name</a></label>";
-              
+              echo '<option value="'.$feed->id.'"';
+              if($checked) echo ' selected';
+              echo '>'.$feed->name.'</option>';
+               
            }
            ?>
+           </select>
+           <span>(<a href="#" onClick = "var n=this.parentNode.parentNode.cloneNode(true); var s=n.getElementsByTagName('select')[0]; s.id=1+parseInt(s.id); s.name='content[feeds]['+s.id+']'; this.parentNode.parentNode.appendChild(n); this.parentNode.parentNode.removeChild(this.parentNode); return false;">add another feed</a>)</span>
+           </div>
        </tr>       
      </table>
      </div>
