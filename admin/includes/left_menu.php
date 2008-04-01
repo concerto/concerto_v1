@@ -18,6 +18,8 @@ src="<?php echo ADMIN_BASE_URL?>/images/conc_bluebg.gif" alt="Concerto" style=""
          ?>
 	   <?
            if ( isAdmin() ) { ?>
+         <img src="<?=ADMIN_BASE_URL ?>/images/user_1337.gif" /><br /><br />
+           <? } elseif ($_SESSION[user]->controls_afeed() || $_SESSION[user]->controls_ascreen()) { ?>
          <img src="<?=ADMIN_BASE_URL ?>/images/user_admin.gif" /><br /><br />
            <? } else { ?>
          <img src="<?= ADMIN_BASE_URL ?>/images/user_basic.gif" /><br /><br /> 
