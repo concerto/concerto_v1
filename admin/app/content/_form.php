@@ -7,13 +7,13 @@
      <table class='edit_win' cellpadding='6' cellspacing='0'>
        <tr> 
          <td class='firstrow'><h5>Title</h5><p>Enter some words that describe this piece of content to others.</p></td>
-         <td class='edit_col firstrow'>
+         <td colspan="2" class='edit_col firstrow'>
            <input type="text" id="name" class="extended" name="content[name]" value="<?=$content->name?>">
          </td>
        </tr> 
        <tr>
          <td><h5>Start Date</h5><p>When should this piece of content start to be displayed on Concerto?</p></td>
-         <td>
+         <td colspan="2">
                   <select id="content[starthour]" name="content[starthour]">
 <?php
       for ($i = 1; $i < 13; $i++)
@@ -48,7 +48,7 @@
 
        <tr>
          <td><h5>End Date</h5><p>When should this piece of content expire?  This might be the date of the event you are advertising.</p></td>
-         <td>
+         <td colspan="2">
 
                   <select id="content[endhour]" name="content[endhour]">
 <?php
@@ -84,11 +84,12 @@
        <tr>
          <td><h5>Duration</h5><p>For how long should this piece of content be displayed on a screen?</p></td>
          <td>
-           Default is <?=DEFAULT_DURATION?> seconds (<a href="#" onclick = "this.parentNode.getElementsByTagName('div')[0].style.display='block'; return false;">click here to use a different duration</a>)
+           Default is <?=DEFAULT_DURATION?> seconds 
+         </td>
+         <td width="30%" style="text-align:right;"><a href="#" onclick = "this.parentNode.getElementsByTagName('div')[0].style.display='block'; return false;">Set a different duration</a>
            <div id="content_duration_div" style="display:none"><input type="text" size="2" id="width" name="content[duration]" id="content_duration" value="<?= $content->duration?$content->end_time:DEFAULT_DURATION?>"> &nbsp;seconds</div>
          </td>
        </tr>
-
        <tr>
          <td><h5>Feeds</h5><p>In which content categories would this content fit the best?  (If possible, please limit to the most relevant category.)</p></td>
          <td>
@@ -106,8 +107,10 @@
            }
            ?>
            </select>
-           <span>(<a href="#" onClick = "var n=this.parentNode.parentNode.cloneNode(true); var s=n.getElementsByTagName('select')[0]; s.id=1+parseInt(s.id); s.name='content[feeds]['+s.id+']'; this.parentNode.parentNode.appendChild(n); this.parentNode.parentNode.removeChild(this.parentNode); return false;">add another feed</a>)</span>
+           
            </div>
+         </td>
+         <td style="text-align:right;"><a href="#" onClick = "var n=this.parentNode.parentNode.cloneNode(true); var s=n.getElementsByTagName('select')[0]; s.id=1+parseInt(s.id); s.name='content[feeds]['+s.id+']'; this.parentNode.parentNode.appendChild(n); this.parentNode.parentNode.removeChild(this.parentNode); return false;">Add another feed</a></td>
        </tr>       
      </table>
      </div>
