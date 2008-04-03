@@ -22,20 +22,26 @@ foreach($this->contents as $field=>$contents)
    $notfirst=0; //style for first row
    foreach($contents as $content) {
       $submitter = new User($content->user_id);
+      if(preg_match('/image/',$content->mime_type)) {
+        $has_imagecol=1;
+
 ?>
   <!-- NEW COLLAPSED LIST CODE BEGINS HERE -->
   <tr class="minlist">
     <td colspan="2">
-      <table class="minedit" cellpadding="0" cellspacing="0" width="100%"><tr><td valign="middle" width="65"><img src="<?= ADMIN_BASE_URL ?>images/sample_imgicon.jpg" alt="" /></td><td><span class="mintitle"><span class="emph"><a href="<?= ADMIN_URL?>/content/show/<?= $content->id ?>"><?= $content->name ?></a></span> <b><?= date("m/j/y",strtotime($content->start_time)) ?> - <?= date("m/j/y",strtotime($content->end_time)) ?></b></span></td></tr></table>
+      <table class="minedit" cellpadding="0" cellspacing="0" width="100%"><tr>
+      <td valign="middle" width="65">
+<?php
+if ($has_imagecol) { 
+?>
+      <img src="<?= ADMIN_URL?>/content/image/<?= $content->id ?>?width=50&height=38" />
+<?php } ?>
+      </td><td><span class="mintitle"><span class="emph"><a href="<?= ADMIN_URL?>/content/show/<?= $content->id ?>"><?= $content->name ?></a></span> <b><?= date("m/j/y",strtotime($content->start_time)) ?> - <?= date("m/j/y",strtotime($content->end_time)) ?></b></span></td></tr></table>
     </td>
   </tr>
   <!-- NEW COLLAPSED LIST CODE ENDS HERE -->
 
   <tr>
-<?php
-      if(preg_match('/image/',$content->mime_type)) {
-        $has_imagecol=1;
-?>
     <td<? if (!$notfirst) echo ' class="firstrow"'; ?>>
     <a href="<?= ADMIN_URL?>/content/show/<?= $content->id ?>"> 
     <img src="<?= ADMIN_URL?>/content/image/<?= $content->id ?>?width=200&height=150" />
