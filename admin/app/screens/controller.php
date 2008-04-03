@@ -64,7 +64,7 @@ class screensController extends Controller
       if($screen->create_screen($_POST[screen][name],$_POST[screen][group],$_POST[screen][location],$_POST[screen][mac_inhex],
 		$_POST[screen][width],$_POST[screen][height],$_POST[screen][template])) {
          $this->flash($screen->name.' was created successfully.');
-         redirect_to(ADMIN_URL.'/screens/show/'.$screen->mac_address);
+         redirect_to(ADMIN_URL.'/screens/show/'.$screen->id);
       } else {
          $this->flash('The screen creation failed. '.
                       'Please check all fields and try again; contact an administrator if all else fails.','error');

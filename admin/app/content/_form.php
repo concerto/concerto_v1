@@ -92,8 +92,7 @@
        </tr>
        <tr>
          <td><h5>Feeds</h5><p>In which content categories would this content fit the best?  (If possible, please limit to the most relevant category.)</p></td>
-         <td>
-           <div>
+         <td id="feed_cell"><div>
            Submit to Feed:
            <select name="content[feeds][0]" id="1">
            <option></option>
@@ -107,10 +106,8 @@
            }
            ?>
            </select>
-           
-           </div>
-         </td>
-         <td style="text-align:right;"><a href="#" onClick = "var n=this.parentNode.parentNode.cloneNode(true); var s=n.getElementsByTagName('select')[0]; s.id=1+parseInt(s.id); s.name='content[feeds]['+s.id+']'; this.parentNode.parentNode.appendChild(n); this.parentNode.parentNode.removeChild(this.parentNode); return false;">Add another feed</a></td>
+           </div></td>
+         <td style="text-align:right;"><a href="#" onClick = "var c=this.parentNode.parentNode.getElementsByTagName('td')[1]; var n =c.lastChild.cloneNode(true); var s=n.getElementsByTagName('select')[0]; s.id=1+parseInt(s.id); s.name='content[feeds]['+s.id+']'; c.appendChild(n); return false;">Add another feed</a></td>
        </tr>       
      </table>
      </div>

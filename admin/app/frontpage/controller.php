@@ -1,4 +1,4 @@
-<?Php
+<?php
 class frontpageController extends Controller
 {
 	public $actionNames = Array( 'index'=> "Front page", 
@@ -24,6 +24,7 @@ class frontpageController extends Controller
 	function dashboardAction()
 	{
 		$this->setTitle("Concerto Dashboard");
+      $this->screens= Screen::get_all();
 	}
 
 	function stupidAction()
