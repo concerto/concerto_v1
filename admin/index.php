@@ -133,6 +133,22 @@ function redirect_to($url)
    exit();
 }
 
+function url_for($controller, $action='', $id='')
+{
+   $str = ADMIN_URL.'/'.$controller;
+   if($action!='')
+      $str.='/'.$action;
+   if($id!='')
+      $str.='/'.$id;
+   return $str;
+}
+
+function link_to($label, $controller, $action='', $id='', $a_extra='')
+{
+   return "<a href=\"".url_for($controller, $action, $id)."\"".
+      ($a_extra==''?'':' ').$a_extra.">$label</a>";
+}
+
 /*
 Class: Controller
 Status: Stable

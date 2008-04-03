@@ -2,10 +2,10 @@
 class frontpageController extends Controller
 {
 	public $actionNames = Array( 'index'=> "Front page", 
-'stupid'=>'Stupid Page');
+'admin'=>'Admin Utilities');
 
-   public $require = Array('check_login'=>Array('stupid','dashboard','login','logout'),
-                           'require_login'=>Array('login','dashboard') );
+   public $require = Array('check_login'=>Array('dashboard','login','logout'),
+                           'require_login'=>Array('admin','login','dashboard','su') );
 
 	function setup()
 	{
@@ -27,16 +27,29 @@ class frontpageController extends Controller
       $this->screens= Screen::get_all();
 	}
 
-	function stupidAction()
+	function adminAction()
 	{
-      if(isAdmin() && isset($_GET['su']))
-         $_SESSION['user']=new User($_GET['su']);
+      $user = new User(phpCAS::getUser());
+      if(!$user->admin_privileges)
+         redirect_to(ADMIN_URL.'/frontpage');
       $_SESSION['flash'][] = Array('error', "This is an error.");
       $_SESSION['flash'][] = Array('warn', "This is a warning.");
       $_SESSION['flash'][] = Array('info', "FYI");
       $_SESSION['flash'][] = Array('stat', "status");
-		$this->setTitle("Idiot.");
+		$this->setTitle("Administrative Utilities");
 	}
+
+   function suAction()
+   {
+      $user = new User(phpCAS::getUser());
+      if(isset($_REQUEST['r'])) {
+         $_SESSION['user']=$user;
+      } elseif ($user->admin_privileges  && isset($_REQUEST['su'])) {
+         $_SESSION['user'] = new User($_REQUEST['su']);
+      }
+      redirect_to(ADMIN_URL."/frontpage");
+   }
+
 
 	function loginAction()
 	{
