@@ -138,7 +138,7 @@ class Uploader{
 				}
 			} else {
 				$this->retval = false;
-				$this->status = "The system is currently experiencing a permission error.  Please contact an administrator. ";
+				$this->status = "Error receiving your file.  Please contact an administrator if this error repeats. ";
 				return false;
 			}
 		} else {
@@ -162,7 +162,7 @@ class Uploader{
 		} else {
 			if(!move_uploaded_file($this->content_i['tmp_name'], $temp_dest)){
 				$this->retval = false;
-				$this->status = $this->status . "Permissions error, contact an adminstrator. ";
+				$this->status = $this->status . "Permissions error, contact an adminstrator. [Type: J]";
 				return false;
 			}
 		}
@@ -229,7 +229,7 @@ class Uploader{
 		} else {
 			if(!move_uploaded_file($this->content_i['tmp_name'], $temp_dest)){
 				$this->retval = false;
-				$this->status = $this->status . "Permissions error, contact an adminstrator. ";
+				$this->status = $this->status . "Permissions error, contact an adminstrator. [Type: P]";
 				return false;
 			}
 		}
@@ -296,7 +296,7 @@ class Uploader{
 		} else {
 			if(!move_uploaded_file($this->content_i['tmp_name'], $temp_dest)){
 				$this->retval = false;
-				$this->status = $this->status . "Permissions error, contact an adminstrator. ";
+				$this->status = $this->status . "Permissions error, contact an adminstrator. [Type: G]";
 				return false;
 			}
 		}
