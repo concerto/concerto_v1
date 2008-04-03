@@ -1,7 +1,7 @@
 <div id="tabs">
   <ul>
 <?php
-$controlsstuff = isAdmin() || $_SESSION[user]->controls_afeed() || $_SESSION[user]->controls_ascreen();
+$controlsstuff = isLoggedIn() && (isAdmin() || $_SESSION[user]->controls_afeed() || $_SESSION[user]->controls_ascreen());
 if(isLoggedIn()) { //We will change this!
 ?>
     <li><a href="<?= ADMIN_URL ?>/content/new" title="Add new content to the system"><span>Add Content</span></a></li>
