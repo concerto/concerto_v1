@@ -126,7 +126,7 @@ function fetchContent(){
     //update next field
     var field = fields[currentField++];
     var time = (new Date()).getTime();
-    
+
     if(field && field["timeout"] < time)
 	    //ajax json request to get each field's content
 	    $.ajax({type: "GET",
@@ -178,9 +178,9 @@ function fetchContent(){
 					        img.error = start;
 					        img.src = imgSrc;
 				        } else {
-					        field["timeout"] = time + 3000;
 				            start();
 				        }
+				        field["timeout"] = time + 3000;
 				    } else {
 				        field["timeout"] = time + 3000;
 				        start();
