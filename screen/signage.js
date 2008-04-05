@@ -180,7 +180,7 @@ function fetchContent(){
 				        } else {
 				            start();
 				        }
-				        field["timeout"] = time + 3000;
+				        field["timeout"] = time + parseInt(json["duration"]);
 				    } else {
 				        field["timeout"] = time + 3000;
 				        start();
