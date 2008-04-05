@@ -1,6 +1,6 @@
 jQuery.fn.extend({
 	//function that takes the current jQuery object and fades it in deleting the previous div
-	fadeGlobal: function(prevdiv){
+	fadeGlobal: function(prevdiv, callback){
 	    //if the previous div exists then fade it out
 	    if(prevdiv != undefined){
             prevdiv.animate({opacity: 0.0}, "slow", "swing", function(){
@@ -9,7 +9,7 @@ jQuery.fn.extend({
 	    }
 		
 		//fades the new div in waits the duration and calls the callback function
-		$(this).animate({opacity: 1.0}, "slow", "swing");
+		$(this).animate({opacity: 1.0}, "slow", "swing", callback);
 		return $(this);
 	},
 	
@@ -56,7 +56,7 @@ var currentField;
 function start(){
     if(screenId == undefined || checksum == undefined || !fields.length){
         //No template is currently loaded
-        checkScreen();
+        checkScreen(true);
     } else {
         //if we still in range of the fields then update each one
         if(currentField < fields.length){
@@ -65,19 +65,22 @@ function start(){
         } else {
             //if not then check if we need a template update and go back to field 0
             currentField = 0;
-            checkScreen();
+            if($(document.body).children().length > fields.length + 1)
+                checkScreen(true);
+            else
+                checkScreen();
         }
     }
 }
 
-function checkScreen(){
+function checkScreen(force){
     //ajax json request to get information about this screen
     $.ajax({type: "GET",
 		    url: "content.php",
 		    data: {"id": screenId},
 		    success: function(json){
 		        //if the json does not exist or the checksum does not check up then reload the template
-		        if(json != null && json["checksum"] != checksum){
+		        if(json != null && (force || json["checksum"] != checksum)){
 			        var imgSrc = "template.php?id=" + screenId;
 			        //load the image to cache
 			        var img = new Image();
@@ -131,66 +134,57 @@ function fetchContent(){
 			    data: {"screen_id": screenId, "field_id": field["id"]},
 			    success: function(json){
                     //if not mime_type is set or duration then just wait
-				    if(!json || !json["mime_type"] || !json["duration"]){
-				        field["timeout"] = time + 3000;
-				    //based on the mime-type of the content, handle it accordingly
-				    } else if(json["mime_type"].match(/text/)){
-					    //add the content, fit the content in the Box, and fade it in
-					    var div = $("<div>")
-					        .attr("style", field["style"])
-					        .css({"position": "absolute",
-					              "overflow": "hidden",
-					              "opacity": "0.0",
-					              "left": field["left"],
-					              "top": field["top"],
-					              "width": field["width"]
-					        })
-					        .appendTo(document.body)
-					        .append(json["content"])
-					        .fitBox(field["height"], field["top"])
-					        .fadeGlobal(field["prevdiv"]);
-					    field["prevdiv"] = div;
-					    field["timeout"] = time + parseInt(json["duration"]);
-				    } else if(json["mime_type"].match(/image/)){
-					    var imgSrc = "image.php?file=" + escape(json["content"]) + "&width=" + field["width"] + "&height=" + field["height"];
-					    //load the image to cache
-					    var img = new Image();
-					    //set onload event handler
-					    img.onload = function(){
-						    //create the image tag and add it to the DOM
-						    var div = $("<img>")
-						        .attr({"style": field["style"], "src": imgSrc, "alt": ""})
-						        .css({"position": "absolute", 
-        					          "opacity": "0.0",
-								      "left": field["left"] + (field["width"] - img.width) / 2,
-								      "top": field["top"] + (field["height"] - img.height) / 2
-						        })
-						        .appendTo(document.body)
-						        .fadeGlobal(field["prevdiv"]);
-					        field["prevdiv"] = div;
-					        field["timeout"] = time + parseInt(json["duration"]);
-					    };
-					    //if error then try again with another image
-					    img.error = start;
-					    img.src = imgSrc;
+				    if(json && json["mime_type"] && json["duration"]){
+				        //based on the mime-type of the content, handle it accordingly
+				        if(json["mime_type"].match(/text/)){
+					        //add the content, fit the content in the Box, and fade it in
+					        var div = $("<div>")
+					            .attr("style", field["style"])
+					            .css({"position": "absolute",
+					                  "overflow": "hidden",
+					                  "opacity": "0.0",
+					                  "left": field["left"],
+					                  "top": field["top"],
+					                  "width": field["width"]
+					            })
+					            .appendTo(document.body)
+					            .append(json["content"])
+					            .fitBox(field["height"], field["top"])
+					            .fadeGlobal(field["prevdiv"], function(){
+        					        field["prevdiv"] = div;
+        					        start();
+					            });
+				        } else if(json["mime_type"].match(/image/)){
+					        var imgSrc = "image.php?file=" + escape(json["content"]) + "&width=" + field["width"] + "&height=" + field["height"];
+					        //load the image to cache
+					        var img = new Image();
+					        //set onload event handler
+					        img.onload = function(){
+						        //create the image tag and add it to the DOM
+						        var div = $("<img>")
+						            .attr({"style": field["style"], "src": imgSrc, "alt": ""})
+						            .css({"position": "absolute", 
+            					          "opacity": "0.0",
+								          "left": field["left"] + (field["width"] - img.width) / 2,
+								          "top": field["top"] + (field["height"] - img.height) / 2
+						            })
+						            .appendTo(document.body)
+						            .fadeGlobal(field["prevdiv"], function(){
+					                    field["prevdiv"] = div;
+					                    start();
+					                });
+					        };
+					        //if error then try again with another image
+					        img.error = start;
+					        img.src = imgSrc;
+				        } else {
+					        field["timeout"] = time + 3000;
+				            start();
+				        }
 				    } else {
-					    //unknown MIME type
-					    var div = $("<div>")
-					        .attr({"style": field["style"], "src": imgSrc, "alt": ""})
-					        .css({"position": "absolute",
-					              "overflow": "hidden",
-					              "opacity": "0.0",
-					              "left": field["left"],
-					              "top": field["top"],
-					              "width": field["width"]
-					        })
-					        .appendTo(document.body)
-					        .append("Unknown MIME Type")
-					        .fadeGlobal(field["prevdiv"]);
-				        field["prevdiv"] = div;
 				        field["timeout"] = time + 3000;
+				        start();
 				    }
-				    start();
 			    },
 			    error: start,
 			    timeout: 3000,
