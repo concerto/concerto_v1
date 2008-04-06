@@ -65,10 +65,7 @@ function start(){
         } else {
             //if not then check if we need a template update and go back to field 0
             currentField = 0;
-            if($(document.body).children().length > fields.length + 1)
-                checkScreen(true);
-            else
-                checkScreen();
+            checkScreen();
         }
     }
 }
@@ -155,7 +152,7 @@ function fetchContent(){
         					        start();
 					            });
 				        } else if(json["mime_type"].match(/image/)){
-					        var imgSrc = "image.php?file=" + escape(json["content"]) + "&width=" + field["width"] + "&height=" + field["height"];
+					        var imgSrc = "image.php?file=" + escape(json["content"]) + "&amp;width=" + field["width"] + "&amp;height=" + field["height"];
 					        //load the image to cache
 					        var img = new Image();
 					        //set onload event handler
