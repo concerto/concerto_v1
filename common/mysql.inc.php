@@ -201,6 +201,45 @@ function sql_num_fields($result) {
 	return mysql_num_fields($result);
 }
 
+#Converts an array to variable value format
+function var_val($data){
+	foreach($data as $key=>$value){
+	        $compressed[] = $key . "=" . $value;
+	}
+	$ret_val = implode('&', $compressed);
+	return $ret_val;
+}
+#Converts an array to xml
+function toXml($data, $rootNodeName = 'data', $xml=null){
+        if ($xml == null){
+                $xml = simplexml_load_string("<?xml version='1.0' encoding='utf-8'?><$rootNodeName />");
+        }
+
+        // loop through the data passed in.
+        foreach($data as $key => $value){
+                // no numeric keys in our xml please!
+                if (is_numeric($key)){
+                        // make string key...
+                        $key = "Unknown_Node";
+                }
+
+                // replace anything not alpha numeric
+                $key = preg_replace('/[^a-z]/i', '', $key);
+
+                // if there is another array found recrusively call this function
+                if (is_array($value)){
+                        $node = $xml->addChild($key);
+                        // recrusive call.
+                        toXml($value, $rootNodeName, $node);
+                } else {
+                        // add single node.
+                        $value = htmlentities($value);
+                        $xml->addChild($key,$value);
+                }
+        }
+        // pass back as string. or simple xml object if you want!
+        return $xml->asXML();
+}
 # Establish a database connection.
 # On connection error, the message will be output without a proper HTML
 # header. There is no way I can see around this; if track_errors isn't on
