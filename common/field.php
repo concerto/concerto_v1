@@ -217,8 +217,18 @@ class Field{
 			$res = sql_query($sql);
 			$i = 0;
 			while($feed_row = sql_row_keyed($res, $i)){
-				$data[$i] = new Feed($feed_row['id']);
+				//$data[$i] = new Feed($feed_row['id']);
+				$feeds[$i] = $feed_row['id'];
 				$i++;
+			}
+			$obj = new Feed();
+			$access = $obj->priv_get(new Screen($this->screen_id), 'subscribe');
+			foreach($access as $feed){
+				$allowed[] = $feed->id;
+			}
+			$intersect = array_intersect($allowed, $feeds);
+			foreach($intersect as $feed_id){
+				$data[] = new Feed($feed_id);
 			}
 			return $data;
 		} else {

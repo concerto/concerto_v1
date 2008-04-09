@@ -76,18 +76,18 @@ class contentController extends Controller
    
    function newAction()
    {
-      $this->readFeeds(Feed::get_all('WHERE type=0 AND group_id!=0'));
+      $this->readFeeds(Feed::priv_get($_SESSION['user'], 'content'));
       $this->setTitle("Add Content");
    }
 
    function new_imageAction()
    {
-      $this->readFeeds(Feed::get_all('WHERE type=0'));
+      $this->readFeeds(Feed::priv_get($_SESSION['user'], 'content'));
    }
 
    function new_tickerAction()
    {
-      $this->readFeeds(Feed::get_all('WHERE type=0'));      
+      $this->readFeeds(Feed::priv_get($_SESSION['user'], 'content'));      
    }
 
    //just a helper to store feeds for listing in form

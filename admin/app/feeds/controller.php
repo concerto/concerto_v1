@@ -23,13 +23,21 @@ class feedsController extends Controller
 
    function listAction()
    {
-      $this->feeds=Feed::get_all();
+      $this->feeds=Feed::priv_get($_SESSION['user'], 'list');
    }
 
 
    function showAction()
    {
+      $access_check = new Feed();
+      if(!($access_check->priv_test($_SESSION['user'], $this->args[1]))) {
+         $this->flash('Error: The feed you requested could not be found. '.
+                      'You may have found a bad link, or the feed may have been removed. ',
+                      'error');
+         redirect_to(ADMIN_URL.'/feeds');
+      }
       $this->feed = new Feed($this->args[1]);
+      
       $this->group = new Group($this->feed->group_id);
       //      $this->contents=$this->feed->content_list("1");
       $waiting_arr=$this->feed->content_list('NULL');

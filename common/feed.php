@@ -10,8 +10,10 @@ Functionality:
         coontent_count	Counts all the content in a feed that match an optional mod flag
         content_list		Lists all the content in a feed, again with the mod flag junk
         content_mod		Moderates content in a feed, requires content ID and mod flag
-        list_all			Lists all the feeds in the system, optional WHERE syntax
-        get_all			Gets all the feeds in the system, optional WHERE syntax
+        list_all		Lists all the feeds in the system, optional WHERE syntax
+        get_all		Gets all the feeds in the system, optional WHERE syntax
+        priv_get		Gets all the feeds that an object (usr/scr) can access on a per action basis
+        priv_test		Test if a user can see a specific feed
         destroy		Deletes a feed, all content mapped to the feed, and scales all the fields up appropriately
 Comments:		
 	Working on adding the dynamic feeds, like RSS.
@@ -229,6 +231,45 @@ class Feed{
 			return false;
 		}
 	}
+	//Returns an array of feeds that the object has access to do an action with
+	function priv_get($obj, $action='list'){
+		if($action == 'subscribe'){
+			$scr_group = $obj->group_id;
+			$sql = "SELECT id FROM feed WHERE type = 0 OR type = 1 OR type = 2 OR (type = 3 AND group_id = $scr_group)";
+		}elseif($action == 'content'){
+			$group_string = implode(',',$obj->groups);
+			$sql = "SELECT id FROM feed WHERE type = 0 OR (type = 2 AND group_id IN ($group_string)) OR (type = 3 AND group_id IN ($group_string))";
+		}elseif($action == 'list'){
+			$group_string = implode(',',$obj->groups);
+			$sql = "SELECT id FROM feed WHERE type = 0 OR type = 1 OR type = 2 OR (type = 3 AND group_id IN ($group_string))";
+		}else{
+			return false;
+		}
+		$res = sql_query($sql);
+		$i=0;
+		$found = false;
+		while($row = sql_row_keyed($res,$i)){
+		    $found = true;
+		    $data[] = new Feed($row['id']);
+		    $i++;
+		}
+		if($found){
+			return $data;
+		} else {
+			return false;
+		}
+	}
+	//Test if a user has access to see a specific feed
+	function priv_test($obj, $feed_id){
+		$group_string = implode(',',$obj->groups);
+		$sql = "SELECT COUNT(id) FROM feed WHERE id = $feed_id AND (type = 0 OR type = 1 OR type = 2 OR (type = 3 AND group_id IN ($group_string)))";
+		if($res = sql_query1($sql)){
+			return $res;
+		} else {
+			return false;
+		}
+	}
+	//Destroys a feed.  Roar
 	function destroy(){
 		$sql = "DELETE FROM feed_content WHERE feed_id = $this->id";
 		$res = sql_query($sql);
