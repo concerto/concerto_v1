@@ -101,7 +101,11 @@ class Feed{
 				$this->status = "Unknown Error"; //Aka they are playing with the post data!
 				return false;
 		}
-		$sql = "UPDATE feed SET name = '$name_clean', group_id = '$this->group_id' WHERE id = $this->id LIMIT 1";
+		if(!is_numeric($this->type)){
+				$this->status = "Unknown Error"; //Aka they are playing with the post data!
+				return false;
+		}
+		$sql = "UPDATE feed SET name = '$name_clean', group_id = '$this->group_id', type = '$this->type' WHERE id = $this->id LIMIT 1";
 		$res = sql_query($sql);
         if($res){
 	    $notify = new Notification();
