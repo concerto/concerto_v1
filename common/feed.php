@@ -11,13 +11,14 @@ Functionality:
         content_list		Lists all the content in a feed, again with the mod flag junk
         content_mod		Moderates content in a feed, requires content ID and mod flag
         list_all		Lists all the feeds in the system, optional WHERE syntax
+        list_by_type   Lists all feeds based on the type of their content
         get_all		Gets all the feeds in the system, optional WHERE syntax
         priv_get		Gets all the feeds that an object (usr/scr) can access on a per action basis
         priv_test		Test if a user can see a specific feed
         destroy		Deletes a feed, all content mapped to the feed, and scales all the fields up appropriately
 Comments:		
 	Working on adding the dynamic feeds, like RSS.
-	AN URGENT PATCH WAS MADE TO CONTENT_LIST AND CONTENT_COUNT.  Please test all code accordingly!!!
+	Added the ability to list feeds based on a type, for content listing
 	Cleaned
 */
 class Feed{
@@ -210,14 +211,47 @@ class Feed{
 		$sql = "SELECT * FROM feed $where";
 		$res = sql_query($sql);
 		$i=0;
+		$found = false;
 		while($row = sql_row_keyed($res,$i)){
+			$found = true;
 		    $data[$i]['id'] = $row['id'];
 			$data[$i]['name'] = $row['name'];
 			$data[$i]['group_id'] = $row['group_id'];
 		    $i++;
 		}
-		return $data;
+		if($found){
+			return $data;
+		} else {
+			return false;
+		}
 	}
+	//List all feeds, based on type
+	function list_all_by_type($where = 'WHERE  type.id IS NOT NULL'){
+		$sql = "SELECT feed.id, feed.name, type.id as t_id, type.name as t_name
+				FROM feed
+				LEFT JOIN feed_content ON feed_content.feed_id = feed.id
+				LEFT JOIN content ON feed_content.content_id = content.id
+				LEFT JOIN type ON content.type_id = type.id
+				$where
+				GROUP BY feed.id, type.id";
+		$res = sql_query($sql);
+		$i=0;
+		$found = false;
+		while($row = sql_row_keyed($res,$i)){
+		    $found = true;
+			$data[$i]['id'] = $row['id'];
+			$data[$i]['name'] = $row['name'];
+			$data[$i]['type_id'] = $row['t_id'];
+			$data[$i]['type_name'] = $row['t_name'];
+		    $i++;
+		}
+		if($found){
+			return $data;
+		} else {
+			return false;
+		}
+	}
+	
 	//List all feeds, optional WHERE syntax
 	function get_all($where = ''){
 		$sql = "SELECT * FROM feed $where";
