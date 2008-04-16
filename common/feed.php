@@ -226,7 +226,7 @@ class Feed{
 		}
 	}
 	//List all feeds, based on type
-	function list_all_by_type($where = 'WHERE  type.id IS NOT NULL'){
+	function list_all_by_type($where = 'WHERE type.id IS NOT NULL'){
 		$sql = "SELECT feed.id, feed.name, type.id as t_id, type.name as t_name
 				FROM feed
 				LEFT JOIN feed_content ON feed_content.feed_id = feed.id
@@ -239,10 +239,8 @@ class Feed{
 		$found = false;
 		while($row = sql_row_keyed($res,$i)){
 		    $found = true;
-			$data[$i]['id'] = $row['id'];
-			$data[$i]['name'] = $row['name'];
-			$data[$i]['type_id'] = $row['t_id'];
-			$data[$i]['type_name'] = $row['t_name'];
+			$data[$row['id']]['name'] = $row['name'];
+			$data[$row['id']]['types'][$row['t_id']] = $row['t_name'];
 		    $i++;
 		}
 		if($found){
