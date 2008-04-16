@@ -33,7 +33,7 @@ define('ADMIN_URL','/mike_admin/index.php'); //URL that can access this page (ma
 define('DEFAULT_CONTROLLER','frontpage');    //Controller to use when none is specified
 define('DEFAULT_TEMPLATE','ds_layout');      //Layout file for actions with none specified
 define('HOMEPAGE','Home');     //Name of the homepage
-define('HOMEPAGE_URL', ADMIN_URL);           //relative URL to reach the frontpage
+define('HOMEPAGE_URL', '');           //relative URL for frontpage (we'll link to ADMIN_URL.'/'.HOMEPAGE_URL)
 define('APP_PATH','app');
 
 
@@ -182,7 +182,10 @@ class Controller
    
    function execute($args)
    {
+      //frontpage and controller breadcrumbs
       $this->breadcrumb(HOMEPAGE, HOMEPAGE_URL);
+      if($this->controller!=DEFAULT_CONTROLLER)
+         $this->breadcrumb($this->getName(),$this->controller);
       
       //figure out what action to use
       if(method_exists($this,$args[0].'Action'))
@@ -202,7 +205,7 @@ class Controller
       //(may be modified by action)
       $this->renderView($action);
     
-      //find the action's human name & create breadcrumb
+      //find the action's human name
       if($action != $this->defaultAction) {
         $actionName = $this->actionNames[$action];
         if(!isset($actionName)) 
@@ -215,14 +218,14 @@ class Controller
       //run the action
       call_user_func(array($this,$action.'Action'));
 
-      //set breadcrumbs
-      if($this->controller!=DEFAULT_CONTROLLER)
-      $this->breadcrumb($this->getName(),ADMIN_URL.'/'.$this->controller);
-      if($this->subjectName)
-         $this->breadcrumb($this->subjectName,ADMIN_URL.'/'.$this->controller.'/show/'.$this->args[1]);
-      if($action != $this->defaultAction && $action != 'show')
-         $this->breadcrumb($actionName,ADMIN_URL.'/'.$this->controller.'/'.$action);
-      //I don't forsee a case where that breadcrumb URL is shown, btw.
+      //set breadcrubs
+      if(count($this->breadcrumbs)<=2) {
+         if($this->subjectName)
+            $this->breadcrumb($this->subjectName,$this->controller.'/show/'.$this->args[1]);
+         if($action != $this->defaultAction && $action != 'show')
+            $this->breadcrumb($actionName,$this->controller.'/'.$action);
+         //I don't forsee a case where that breadcrumb URL is shown, btw.
+      }
       
       //include the template, which will call back for view
       $template = $this->getTemplate($action);
@@ -325,7 +328,7 @@ class Controller
       $_SESSION['flash'][]= Array($type, $msg);
    }
 
-   function breadcrumb($item, $url='')
+   function breadcrumb($item, $url=NULL)
    {
       $this->breadcrumbs[]=Array($item,$url);
    }
@@ -334,7 +337,10 @@ class Controller
       $vals = array();
       foreach($this->breadcrumbs as $k => $c) {
          if($c!='' && $k<count($this->breadcrumbs)-1) {
-            $vals[]="<a href=\"$c[1]\">$c[0]</a>";
+            if($c[1]!==NULL)
+               $vals[]="<a href=\"".ADMIN_URL."/$c[1]\">$c[0]</a>";
+            else
+               $vals[]=$c[0];
          } else {
             $vals[]=$c[0];
          }
