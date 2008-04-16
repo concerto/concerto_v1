@@ -9,6 +9,7 @@ Functionality:
         content_remove	Removes a piece of content from a feed
         coontent_count	Counts all the content in a feed that match an optional mod flag
         content_list		Lists all the content in a feed, again with the mod flag junk
+        content_list_by_type   Lists all the content in a feed based on the type of content, with the mod flag junk
         content_mod		Moderates content in a feed, requires content ID and mod flag
         list_all		Lists all the feeds in the system, optional WHERE syntax
         list_by_type   Lists all feeds based on the type of their content
@@ -174,6 +175,32 @@ class Feed{
 			$mod_where = "";
 		}
 		$sql = "SELECT * FROM feed_content WHERE feed_id = $this->id $mod_where";
+		$res = sql_query($sql);
+		$i=0;
+		while($row = sql_row_keyed($res,$i)){
+		    $data[$i]['content_id'] = $row['content_id'];
+		    $data[$i]['moderation_flag'] = $row['moderation_flag'];
+		    $i++;
+		}
+		if(isset($data)){
+			return $data;
+		} else {
+			return false;
+		}
+	}
+	//List all content in a feed based on type and moderation status
+	function content_list_by_type($type, $mod_flag=''){
+		if($mod_flag == 'NULL'){
+			$mod_where = "AND moderation_flag IS NULL";
+		} elseif($mod_flag != ''){
+			$mod_where = "AND moderation_flag LIKE '$mod_flag'";
+		} else {
+			$mod_where = "";
+		}
+		$sql = "SELECT feed_content.content_id, feed_content.moderation_flag FROM feed_content 
+				LEFT JOIN content ON feed_content.content_id = content.id
+				WHERE content.type_id = $type AND feed_id = $this->id $mod_where";
+				
 		$res = sql_query($sql);
 		$i=0;
 		while($row = sql_row_keyed($res,$i)){
