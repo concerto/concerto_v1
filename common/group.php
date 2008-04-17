@@ -139,11 +139,11 @@ class Group{
 		return true;
 	}
 
-	function send_mail($subject, $msg){
+	function send_mail($subject, $msg, $from='', $forward=false){
 		$users = $this->get_members();
 		$retval = true;
 		foreach($users as $user){
-			$retval = $retval * $user->send_mail($subject, $msg);
+			$retval = $retval * $user->send_mail($subject, $msg, $from, $forward);
 		}
 		return $retval;
 	}

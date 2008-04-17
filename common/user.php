@@ -1,28 +1,18 @@
 <?
 /*
 Class: User
-Status: Mild, like salsa
+Status: Good to go
 Functionality:  Create users, allows access to user properties, group stuff, etc
         create_user         		Creates a new user
-
         set_properties         	Writes user properties back to the database
-
         add_to_group	        	Adds current user to a group
-
         remove_from_group       	Removes the user from a group
-
-        in_group			Tests to see if a user is in a group
-		
-        list_groups			Lists all the groups a user is in		
-		
+        in_group			Tests to see if a user is in a group	
+        list_groups			Lists all the groups a user is in			
         can_write			Tests to see if a user can write to an object (essentially a permission check)
-
 	 send_mail			Sends the user an email, if they have that setting enabled.
-
 	 controls_afeed		Tests to see if a user is in a group that owns any feeds.
-
 	 controls_ascreen		Tests to see if a user is in a group that owns screens.
-
 	 is_special			If controls_afeed or controls_ascreen.
 
 Comments: 
@@ -278,24 +268,33 @@ allow_email = '$this->allow_email' WHERE id = $this->id LIMIT 1";
       		      return $this->in_group($item_id);
       		}
 	}
-	function send_mail($subject, $msg){
+	function send_mail($subject, $msg_in, $from='', $forward = false){
 		if($this->allow_email){
 			$to = "$this->name <$this->email>";
-			$from = "concerto@union.rpi.edu";
-			
+			if($from == ''){
+				$from = "concerto@union.rpi.edu";
+			}
+
 			$headers  = 'MIME-Version: 1.0' . "\r\n";
 			$headers .= 'Content-Type: text/plain; charset="UTF-8"' . "\r\n";
 			$headers .= "From: $from\r\n";
   			$headers .= "Reply-To: $from\r\n";
   			$headers .= 'X-Mailer: Concerto';
 			
-			$msg = "Hi $this->firstname,\r\n" . $msg; //Greet the user
-			
-			$msg .= "\r\n\r\nThanks,\r\nThe Concerto Team\r\n\r\n"; //Prepend some footer content
+			$msg = "";
+			if(!$forward){
+				$msg .= "Hi $this->firstname,\r\n"; //Greet the user
+			}
+
+			$msg .= $msg_in;
+
+			if(!$forward){
+				$msg .= "\r\n\r\nThanks,\r\nThe Concerto Team\r\n\r\n"; //Prepend some footer content
+			}
 			$msg .= "___\r\n";
 			$msg .= "Want to control which emails you receive from Concerto? Go to:\r\n";
 			$msg .= "http://signage.union.rpi.edu/admin/users/edit/$this->username";
-
+			
 			return mail($to, $subject, $msg, $headers);
 		} else {
 			return true;  //We return true because the user didn't want to get email, this isn't something we should penalize them for

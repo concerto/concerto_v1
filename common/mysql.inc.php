@@ -210,7 +210,7 @@ function var_val($data){
 	return $ret_val;
 }
 #Converts an array to xml
-function toXml($data, $rootNodeName = 'data', $xml=null){
+function toXml($data, $rootNodeName = 'channel', $xml=null){
         if ($xml == null){
                 $xml = simplexml_load_string("<?xml version='1.0' encoding='utf-8'?><$rootNodeName />");
         }
@@ -220,7 +220,7 @@ function toXml($data, $rootNodeName = 'data', $xml=null){
                 // no numeric keys in our xml please!
                 if (is_numeric($key)){
                         // make string key...
-                        $key = "Unknown_Node";
+                        $key = "item";
                 }
 
                 // replace anything not alpha numeric

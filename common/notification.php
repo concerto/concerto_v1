@@ -33,6 +33,7 @@ class Notification{
 				$this->type_id = $data['type_id'];
 				$this->by = $data['by_type'];
 				$this->by_id = $data['by_id'];
+				$this->processed = $data['processed'];
 				$this->msg = $data['msg'];
 
 				$this->set = true;
@@ -46,8 +47,8 @@ class Notification{
 	
 	//Log a notification in the table
 	function notify($type_in, $type_id_in, $by_in, $by_id_in, $msg_in){
-		$sql = "INSERT INTO `notifications` (`type`, `type_id`, `by_type`, `by_id`, `msg`, `timestamp`) 
-		VALUES ('$type_in', $type_id_in, '$by_in', $by_id_in, '$msg_in', NOW())";
+		$sql = "INSERT INTO `notifications` (`type`, `type_id`, `by_type`, `by_id`, `msg`, `processed`, `timestamp`) 
+		VALUES ('$type_in', $type_id_in, '$by_in', $by_id_in, '$msg_in', 0, NOW())";
 		$res = sql_query($sql);
 	}
 	
@@ -93,6 +94,48 @@ class Notification{
 			$this->text = $temp_text;
 		}
 	}
-	
+	function mark_sent(){
+		if($this->set){
+			$sql = "UPDATE notifications SET processed = 1 WHERE id = $this->id";
+			sql_query($sql);
+			return true;
+		}
+		return true;
+	}
+	function send_notifs($user_id){
+		$usr = new User($user_id);
+		$u_groups = implode(',', $usr->groups);
+		$notifs = array();
+		
+		//This will fetch all "content needs approval" notifications
+		$sql1 = "SELECT notifications.id, feed_content.moderation_flag, feed_content.content_id FROM notifications
+				INNER JOIN feed ON notifications.type_id = feed.id
+				INNER JOIN feed_content ON (feed.id = feed_content.feed_id AND notifications.by_id = feed_content.content_id)
+				WHERE notifications.`type` = 'feed' AND notifications.`msg` = 'add' AND feed.group_id IN ($u_groups) 
+				AND notifications.processed = 0  AND feed_content.`moderation_flag` IS NULL";
+		$res1 = sql_query($sql1);
+		if($res1 != 0){
+			$i = 0;
+			while($row = sql_row_keyed($res1, $i)){
+				$notifs[] = new Notification($row['id']);
+				$i++;
+			}
+		}
+		/*
+		//Select all "your content has been denied/approved
+		$sql2 = "SELECT notifications.id FROM notifications
+				INNER JOIN content ON notifications.by_id = content.id
+				WHERE notifications.`type` = 'feed' AND notifications.`by_type` = 'content' 
+				AND content.user_id = 1 AND notifications.processed = 0";
+		*/
+		
+		$msg = "The following actions have items may require your attention:\n\n";
+		foreach($notifs as $notif){
+			$msg .= $notif->text . "\n";
+			$notif->mark_sent();
+		}
+		$msg .= "\nYou can login to processs these actions here: http://signage.union.rpi.edu/admin/ \n\n";
+		$usr->send_mail("Concerto Notification", $msg);
+	}	
 }
 ?>
