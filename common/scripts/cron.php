@@ -50,10 +50,12 @@ function always(){
 	$feed_handler = new Feed();
 	if($feeds = $feed_handler->get_all("WHERE type = 1")){
 		foreach($feeds as $feed){
+			echo "Calling $feed->name for update. \n";
 			if($feed->dyn->update()){
 				echo "Updated $feed->name OK\n";
 			} else {
 				echo "Error updating $feed->name\n";
+				echo "Status: " . $feed->dyn->status . "\n";
 			}
 		}
 	}

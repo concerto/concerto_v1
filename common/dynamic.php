@@ -14,6 +14,7 @@ class Dynamic{
 	var $rules;
 	var $update_interval;
 	var $last_update;
+	var $status;
 	
 	var $feed;
 	var $content; //An array of content we create from the RSS feed
@@ -22,6 +23,7 @@ class Dynamic{
 	var $set;
 	
 	function __construct($id = '', $feed_id=''){
+		$this->status = "";
 		if($id != ''){
 			$sql = "SELECT * FROM dynamic WHERE id = $id LIMIT 1";
 			$res = sql_query($sql);
@@ -59,6 +61,7 @@ class Dynamic{
 			if($this->type == 1){
 				$return = $this->rss_update();
 			} else {
+				$this->status .= "Unknown update handler. ";
 				return false;
 			}
 			if($return){
@@ -67,8 +70,12 @@ class Dynamic{
 					$this->log_update();
 					return true;
 				} else {
+					$this->status .= "Failure to add content. ";
 					return false;
 				}
+			} else {
+				$this->status .= "Updated Failed";
+				return false;
 			}
 		} else {
 			return true; //No update was run because we just ran one
@@ -106,6 +113,7 @@ class Dynamic{
 			}
 			return true;
 		} else {
+			$this->status .= "Couldnt open RSS. ";
 			return false;
 		}
 	}
@@ -132,8 +140,8 @@ class Dynamic{
 				//We can't forget to add it to that feed!
 				$this->feed->content_add($obj->id, 0);
 				$existing_count++;
-				echo "Creating a new content, because we needed one\n";
 			} else {
+				$this->status .= "Error creating needed content. ";
 				return false; //Bomb bomb bomb.  There is a story behind that, yes
 			}
 		}
@@ -182,7 +190,9 @@ class Dynamic{
 				$obj->name = "Unused dynamic content";
 				$obj->set_properties();
 			}
+			return true;
 		} else {
+			$this->status .= "Unknown error adding content. ";
 			return false;  //Errors adding content!
 		}
 		
