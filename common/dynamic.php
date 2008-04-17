@@ -12,6 +12,7 @@ class Dynamic{
 	var $type;
 	var $path;
 	var $rules;
+	var $update_interval;
 	var $last_update;
 	
 	var $feed;
@@ -30,6 +31,7 @@ class Dynamic{
                 $this->type = $data['type'];
 		$this->path = stripslashes($data['path']);
 		$this->rules = unserialize($data['rules']);
+		$this->update_interval = $data['update_interval'];
 		$this->last_update = $data['last_update'];
 				
 		if($feed_id != ''){
@@ -51,20 +53,25 @@ class Dynamic{
 	}
 	
 	function update(){
-		$return = true;
-		if($this->type == 1){
-			$return = $this->rss_update();
-		} else {
-			return false;
-		}
-		if($return){
-			$ret_val = $this->add_content();
-			if($ret_val){
-				$this->log_update();
-				return true;
+		//Determine if we want an update before we run one
+		if((time() - strtotime($this->last_update)) >= $this->update_interval){
+			$return = true;
+			if($this->type == 1){
+				$return = $this->rss_update();
 			} else {
 				return false;
 			}
+			if($return){
+				$ret_val = $this->add_content();
+				if($ret_val){
+					$this->log_update();
+					return true;
+				} else {
+					return false;
+				}
+			}
+		} else {
+			return true; //No update was run because we just ran one
 		}
 	}
 	
@@ -108,47 +115,72 @@ class Dynamic{
 		} else {
 			$name = "Dynamic Content";
 		}
+		//Begin Generic properties for all content.  Generic is capitalized for a reason.
+		$c_owner = 0; //Content is owned by the system
+		$mime_type = "text/html";
+		$type_id = 1;
+		$duration = 10000;
+		$start_time = date("Y-m-d") . " 00:00:00";
+		$end_time = date("Y-m-d", strtotime("tomorrow")) . " 00:00:00";
+		//End Generic properties for all content
+		
 		$max_digits = floor(1+log($this->rules['items_per_content']*count($this->content),10));
+		$existing_count = $this->feed->content_count();
+		while($existing_count < count($this->content)){
+			$obj = new Content();
+			if($obj->create_content("New Content", $c_owner, "", $mime_type, $type_id, $duration, $start_time, $end_time)){
+				//We can't forget to add it to that feed!
+				$this->feed->content_add($obj->id, 0);
+				$existing_count++;
+				echo "Creating a new content, because we needed one\n";
+			} else {
+				return false; //Bomb bomb bomb.  There is a story behind that, yes
+			}
+		}
+		$content_objs = $this->feed->content_get();
+		
 		foreach($this->content as $key =>$item){
 			$lower = $this->zero_pad($key  * $this->rules['items_per_content'] + 1, $max_digits);
 			$upper = $this->zero_pad($lower + $this->rules['items_per_content'] - 1, $max_digits);
 			
-			$c_name = $name . " ($lower-$upper)";
-			$c_owner = 0; //Content is owned by the system
-			$mime_type = "text/html";
-			$type_id = 1;
-			$duration = 10000;
-			$start_time = date("Y-m-d") . " 00:00:00";
-			$end_time = date("Y-m-d", strtotime("tomorrow")) . " 00:00:00";
+			if($upper != $lower){
+				$c_name = $name . " ($lower-$upper)";
+			} else {
+				$c_name = $name . " ($lower)";
+			}
 	
 			$return = true; //This will hold any errors we hit adding content
-			$obj = new Content();
-			if($obj->create_content($c_name, $c_owner, $item, $mime_type, $type_id, $duration, $start_time, $end_time)){
+			
+			$obj = $content_objs[$key]['content'];
+			$obj->name = $c_name;
+			$obj->content = $item;
+			$obj->start_time = $start_time;
+			$obj->end_time = $end_time;
+			if($obj->set_properties()){
 				$c_id = $obj->id;
-				$new_ids[] = $c_id;
-				$return = $return * true;
+				if($content_objs[$key]['moderation_flag'] != 1){ //We need to moderate it!
+					if($this->feed->content_mod($c_id, 1)){
+						$return = $return * true;
+					} else {
+						$return = $return * false;
+					}
+				} else { //No moderation is needed
+					$return = $return * true;
+				}
 			} else {
 				$return = $return * false;
 			}
 		}
-		if($return){ //Test for errors adding content
-			$old_ids = $this->feed->content_list(); //Get all the content currently in the feed
-			if($old_ids){
-				foreach($old_ids as $id){ //Reformat it so its only the id
-					$ids[] = $id['content_id'];
-				}
-			}
-			$return = true;
-			foreach($new_ids as $id){
-				$return = $return * ($this->feed->content_add($id, 1)); //Since we auto approve it
-			}
-			if(!$return){
-				return false; //We had problems adding content to the right feed
-			}
-			if($old_ids){
-				return $this->remove_content($ids); //Finally we remove the old ones.  We do this last so there is always content, we can live with duplicates for a few seconds
-			} else {
-				return true;
+		if($return){ //Test for errors before cleaning out the old content
+			for($i = count($content_objs) -1 ; $i >= count($this->content); $i--){
+				$obj = $content_objs[$i]['content'];
+				//print_r($obj);
+				$c_id = $obj->id;
+				$this->feed->content_mod($c_id, 0);  //Deny that content
+				//We'll clean it out just for fun
+				$obj->content = "";
+				$obj->name = "Unused dynamic content";
+				$obj->set_properties();
 			}
 		} else {
 			return false;  //Errors adding content!

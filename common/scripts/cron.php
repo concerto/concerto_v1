@@ -14,8 +14,10 @@ include(COMMON_DIR.'upload.php');   //Helps uploading
 include(COMMON_DIR.'group.php');    //Class to represent user groups
 include(COMMON_DIR.'dynamic.php');  //Functionality for dynamic content
 include(COMMON_DIR.'image.inc.php');//Image library, used for resizing images
+include(COMMON_DIR.'notification.php');//Image library, used for resizing images
 
 include(CONTENT_DIR.'render/render.php'); //Functions to generate the cache
+include(COMMON_DIR.'scripts/mail.php'); //Used to do the email magic
 
 if(date("D Hi") == 'Sun 0010' || $_REQUEST['weekly']){
 	weekly();
@@ -31,14 +33,19 @@ if(date("i") == '10' || $_REQUEST['hourly']){
 }
 always();
 
-
-
 function weekly(){
 	clear_cache(IMAGE_DIR.'/cache/');
 	clear_cache(TEMPLATE_DIR.'/cache/');
 }
 function nightly(){
 
+	//Cache any content we need to cache
+	cache_parse(100);
+}
+function hourly(){
+
+}
+function always(){
 	//First generate new content for dynamic feeds
 	$feed_handler = new Feed();
 	if($feeds = $feed_handler->get_all("WHERE type = 1")){
@@ -50,14 +57,6 @@ function nightly(){
 			}
 		}
 	}
-
-	//Cache any content we need to cache
-	cache_parse(100);
-}
-function hourly(){
-
-}
-function always(){
-
+	//go_mail();
 }
 ?>
