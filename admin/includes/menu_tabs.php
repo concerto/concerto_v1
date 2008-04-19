@@ -15,6 +15,7 @@ if(isLoggedIn()) { //We will change this!
     <li><a<?=!$controlsstuff?' style="margin-left:12px"':''?> href="<?= ADMIN_URL ?>/groups/" title="Browse and user groups"><span>User Groups</span></a></li>
 <? if(isAdmin()){ ?>
     <li><a style="margin-left:12px" href="<?= ADMIN_URL ?>/frontpage/admin" title=""><span>Admin</span></a></li>
+    <li><a href="<?= ADMIN_URL ?>/pages" title="Manage informational content pages"><span>Info Pages</span></a></li>
 <? } ?>
 <?php
 }

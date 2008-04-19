@@ -36,6 +36,7 @@ define('HOMEPAGE','Home');     //Name of the homepage
 define('HOMEPAGE_URL', '');           //relative URL for frontpage (we'll link to ADMIN_URL.'/'.HOMEPAGE_URL)
 define('APP_PATH','app');
 
+set_magic_quotes_runtime(0);
 
 //session variables visible to both controller and view
 //global $sess;
@@ -166,7 +167,10 @@ class Controller
    public $controller;
    public $action;
    public $currId;
+   public $pagetitle;
    public $subjectName;
+   public $subtitle;
+   public $template;     //The template being used by the current action
 
    function __construct()
    {
@@ -211,7 +215,10 @@ class Controller
         if(!isset($actionName)) 
            $actionName = $action;
       }	
-    
+
+      //figure out which template should be used by default
+      $this->template = $this->getTemplate($action);
+
       //take care of any requirements
       $this->doRequirements($action);
       
@@ -228,9 +235,8 @@ class Controller
       }
       
       //include the template, which will call back for view
-      $template = $this->getTemplate($action);
-      if($template !== false)
-         include $template;
+      if($this->template !== false)
+         include $this->template;
       else //if this occurs, a 404 will be delivered but the
          //action may still have been completed.
          notFound(); 
@@ -257,6 +263,10 @@ class Controller
    {
       $this->pageTitle=$title;
    }
+   function setSubtitle($sub)
+   {
+      $this->subtitle = $sub;
+   }
    function setSubject($subj)
    {
       $this->subjectName=$subj;
@@ -270,7 +280,12 @@ class Controller
       if(isset($this->controller))
          return $this->controller;
 	}
-
+   function getSubtitle()
+   {
+      if(isset($this->subtitle))
+         return $this->subtitle;
+      return false;
+   }
 	function setTemplate($template, $actions='0')
    {
       if($actions == '0')
@@ -308,6 +323,7 @@ class Controller
    {
       return $this->defaultAction;
    }   
+
    //used to set which view will be included in the final page.
    //use renderView(view) to specify a view in the current controller
    //use renderView(controller, view) for a view in a different controller
