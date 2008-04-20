@@ -1,10 +1,9 @@
 <h2>Please use these utilities Wisely.
 
-
-<h3>Admin Privs: <span class="emph"><?= isAdmin() ?></span></h3>
-
-<h3>Reset Session: <span class="emph"><a href="<?=ADMIN_URL?>/frontpage/su?r=1">reset</a></span></h3>
-<h3>Masquerade (su)</h3>
+<div class="roundcont">
+  <div class="roundtop"><img src="<? echo ADMIN_BASE_URL ?>images/wc_tl.gif" alt="" width="6" height="6" class="corner topleft" style="display: none" /></div>
+  <div class="roundcont_main">
+<h1>Masquerade (su)</h1>
 <form action="<?=ADMIN_URL?>/frontpage/su" method="POST">
 <select name="su">
 <option></option>
@@ -21,12 +20,9 @@
 </select>
 <input type="submit" value="su" />
 </form>
-<h3>Session:</h3>
-
-<pre>
-<? print_r($_SESSION) ?>
-</pre>
-<h3>PHP Info</h3>
-<div>
-<? phpinfo() ?>
+  </div>
+  <div class="roundbottom"><img src="<? echo ADMIN_BASE_URL ?>images/wc_bl.gif" alt="" width="6" height="6" class="corner botleft" style="display: none" /></div>
 </div>
+<h3>Admin Privs: <span class="emph"><?= isAdmin() ?></span></h3>
+<h3>Reset Session: <span class="emph"><a href="<?=ADMIN_URL?>/frontpage/su?r=1">reset</a></span></h3>
+<a href="<?= ADMIN_URL ?>/frontpage/phpinfo.php">PHP Info</a>

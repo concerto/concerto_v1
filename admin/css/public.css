@@ -1,0 +1,38 @@
+/* Concerto */
+
+* { margin:0px; padding:0px; font-size:small; }
+body { background:#FFF; margin-left:auto; margin-right:auto; margin-top:25px; margin-bottom:25px; width:781px; }
+p, h1, h2, h3, h4, h5, h6, h7, h8 { font-family:Myriad Pro, Arial, sans-serif; }
+a { color:#006699; text-decoration:none; }
+a:hover { color:#333; text-decoration:underline; }
+
+#wrap { background:#FFF; }
+
+#main { background:#FFF url(../images/public/body_bg.gif) top center repeat-y; padding-left:10px; padding-right:10px; }
+#fp_img { text-align:center; padding:25px; }
+#fp_img img { margin:15px 0px; }
+#fp_img h1 { font-size:2.2em !important; }
+#main h1 { font-weight:bold; }
+
+#header { background:url(../images/public/header_bg.gif) top left repeat-x; height:75px; }
+#header_inset { width:100%; height:100%; background:url(../images/public/header_left.gif) top left no-repeat; }
+#header_padding { background:url(../images/public/header_right.gif) top right no-repeat; padding:19px 25px; }
+#header h1 { font-size:0.7em; }
+#header img { border:0px; }
+ul.menu { margin-top:6px; }
+ul.menu li { list-style:none; float:left; }
+ul.menu a { font-size:1.3em; font-weight:bold; padding:4px 16px; }
+ul.menu a:hover { background:#006699; color:#FFF; text-decoration:none; }
+
+#footer { background: url(../images/public/footer_bg.gif) top center repeat-y; }
+#footer_padding { background:url(../images/public/footer_bottom.gif) bottom center no-repeat; padding:14px 25px 35px 25px; text-align:center; }
+#footer_shadow { background:url(../images/public/footer_shadow.gif) center center no-repeat; width:100%; height:5px; }
+
+#footer h1 { font-size:0.9em; color:#666; margin-top:0px; margin-bottom:0px; }
+
+#fp_dock { background: url(../images/public/dock.jpg) bottom center no-repeat; height:150px; padding:0px 60px; }
+#fp_details { font-size:1.3em; background:url(../images/public/fp_details_bg.gif) top left repeat-x; margin:0px 10px 0px 11px; padding:30px; }
+#fp_details h1 { font-size:1.4em; color:#333; margin-bottom:1em; }
+#fp_details p { font-size:0.8em; line-height:1.2em; margin-bottom:1.3em; }
+div.floatright { float:right; margin:15px -10px 20px 30px; }
+div.floatright img { border:solid 1px #666; }

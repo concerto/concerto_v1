@@ -91,7 +91,7 @@
          </td>
        </tr>
        <tr>
-         <td><h5>Feeds</h5><p>In which content categories would this content fit the best?  (If possible, please limit to the most relevant category.)</p></td>
+         <td><h5>Feeds</h5><p>In which content categories would this content fit the best?  <b>Please limit to the most relevant category.</b> <a href="#"><img class="icon" src="<?= ADMIN_BASE_URL ?>images/help_button.gif" alt="Help" /></a></p></td>
          <td id="feed_cell"><div>
            Submit to Feed:
            <select name="content[feeds][0]" id="1">

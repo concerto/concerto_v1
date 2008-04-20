@@ -23,7 +23,7 @@ if(is_array($this->menu_links))
      foreach($this->menu_links as $ar)
         echo "<li><a href=\"$ar[url]\">$ar[name]</a></li>";
 ?>
-    </ul>
+    </ol>
   </div>
   <!-- END Sidebar -->
   <div style="clear:both;"></div>
