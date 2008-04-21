@@ -20,9 +20,9 @@ if(isset($_REQUEST['format']) && in_array($_REQUEST['format'],$format_av)){
 
 
 if(isset($_GET['id'])){
-    $driver = new Driver($_GET['id']);
+    $driver = new ScreenDriver($_GET['id']);
     $json = $driver->screen_details();
-    $json["checksum"] = crc32(json_encode($json));
+    if($json) $json["checksum"] = crc32(json_encode($json));
     if($format == 'json'){
        echo json_encode($json);
     }elseif($format == 'var_val'){
@@ -31,9 +31,7 @@ if(isset($_GET['id'])){
        echo toXml($json);
     }
 } elseif(isset($_GET['screen_id']) && isset($_GET['field_id'])) {
-    $driver = new Driver($_GET['screen_id'], $_GET['field_id']);
-    $driver->get_feed();
-    $driver->get_content();
+    $driver = new ContentDriver($_GET['screen_id'], $_GET['field_id']);
     $data = $driver->content_details();
     if($format == 'json'){
        echo json_encode($data);
