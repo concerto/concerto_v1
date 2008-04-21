@@ -228,8 +228,7 @@ class Feed{
 		$res = sql_query($sql);
 		$i=0;
 		while($row = sql_row_keyed($res,$i)){
-		    $data[$i]['content_id'] = $row['content_id'];
-		    $data[$i]['moderation_flag'] = $row['moderation_flag'];
+		    $data[$row['content_id']] = $row['moderation_flag'];
 		    $i++;
 		}
 		if(isset($data)){
