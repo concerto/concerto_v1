@@ -5,10 +5,12 @@
 <h2>Click on a feed for more information and contents.</h2>
 <table class="edit_win" cellpadding="6" cellspacing="0">
 <?php
-foreach($this->feeds as $feed){
+if($this->feeds){
+	foreach($this->feeds as $feed){
 ?>
   <tr><td<? if (!$notfirst) {$notfirst =1;  echo ' class="firstrow"';} ?>><h1><a href="<?= ADMIN_URL?>/feeds/show/<?= $feed->id ?>"><?= $feed->name ?></a></h1></td></tr>
 <?php
+	}
 }
 ?>
 </table>

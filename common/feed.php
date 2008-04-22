@@ -324,17 +324,23 @@ class Feed{
 			$sql = "SELECT id FROM feed WHERE type = 0 OR type = 1 OR type = 2 OR (type = 3 AND group_id = $scr_group)";
 		}elseif($action == 'content'){
 			$group_string = implode(',',$obj->groups);
-			$sql = "SELECT id FROM feed WHERE type = 0 OR (type = 2 AND group_id IN ($group_string)) OR (type = 3 AND group_id IN ($group_string))";
+			if($group_string != ""){ //We can only check for groups if they are in one!
+				$group_string = "OR (type = 2 AND group_id IN ($group_string)) OR (type = 3 AND group_id IN ($group_string))";
+			}
+			$sql = "SELECT id FROM feed WHERE type = 0 $group_string";
 		}elseif($action == 'list'){
 			$group_string = implode(',',$obj->groups);
-			$sql = "SELECT id FROM feed WHERE type = 0 OR type = 1 OR type = 2 OR (type = 3 AND group_id IN ($group_string))";
+			if($group_string != ""){
+				$group_string = "OR (type = 3 AND group_id IN ($group_string))";
+			}
+			$sql = "SELECT id FROM feed WHERE type = 0 OR type = 1 OR type = 2 $group_string";
 		}else{
 			return false;
 		}
 		$res = sql_query($sql);
 		$i=0;
 		$found = false;
-		while($row = sql_row_keyed($res,$i)){
+		while($res && $row = sql_row_keyed($res,$i)){
 		    $found = true;
 		    $data[] = new Feed($row['id']);
 		    $i++;
