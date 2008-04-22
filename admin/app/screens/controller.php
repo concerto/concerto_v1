@@ -49,7 +49,7 @@ class screensController extends Controller
       $this->feeds=Feed::get_all();
 
       $res = sql_select('template','*','id='.$this->screen->template_id);
-      $this->template = $res[0];
+      $this->templateobj = $res[0]; //Template is a keyword for the controller, so I call it something else
    }
    function newAction()
    {
