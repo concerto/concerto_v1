@@ -17,7 +17,7 @@ include(COMMON_DIR.'image.inc.php');//Image library, used for resizing images
 include(COMMON_DIR.'notification.php');//Image library, used for resizing images
 
 include(CONTENT_DIR.'render/render.php'); //Functions to generate the cache
-include(COMMON_DIR.'scripts/mail.php'); //Used to do the email magic
+//include(COMMON_DIR.'scripts/mail.php'); //Used to do the email magic
 
 if(date("D Hi") == 'Sun 0010' || $_REQUEST['weekly']){
 	weekly();
@@ -43,7 +43,21 @@ function nightly(){
 	cache_parse(100);
 }
 function hourly(){
-
+	//Rotate any screens that need a template rotation every 6 hours
+	if(date('H') % 6 == 0) {
+		//The array should be setup as follows, $screen[screen_id][] = template_id
+		//Make sure you have subscriptions setup!
+		$screens[5][] = 1;
+		$screens[5][] = 8;
+		foreach($screens as $key => $templates){
+			$scr = new Screen($key);
+			$templates = remove_element($templates, $scr->template_id);
+			$new_key = array_rand($templates,1);
+			$scr->template_id = $templates[$new_key];
+			$scr->set_properties();
+		}
+	}
+	//End template rotation
 }
 function always(){
 	//First generate new content for dynamic feeds
@@ -60,5 +74,15 @@ function always(){
 		}
 	}
 	//go_mail();
+}
+
+//Tiny helper function for the template rotation
+function remove_element($arr, $val){
+	foreach ($arr as $key => $value){
+		if ($arr[$key] == $val){
+			unset($arr[$key]);
+		}
+	}
+	return $arr = array_values($arr);
 }
 ?>
