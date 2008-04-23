@@ -169,30 +169,31 @@
         
         //function to fit text perfectly in the specified box
         fitBox: function(height, top){
-	        //define high and low bound for the font sizing
-	        var high = 64;
-	        var low = 0;
-	        //while the difference is larger than a constant pixelage
-	        while(high - low > 1){
-		        //find the middle point of the font size
-		        var middle = (high + low) / 2;
-		        $(this).css("font-size", middle);
-		        //if the DOM is still too big then set the middle point as the high bound
-		        if($(this).height() > height)
-			        high = middle;
-		        //otherwise the low bound
-		        else
-			        low = middle;
-	        }
+            //define high and low bound for the font sizing
+            var high = 64;
+            var low = 0;
+            //while the difference is larger than a constant pixelage
+            while(high - low > 1){
+                //find the middle point of the font size
+                var middle = (high + low) / 2;
+                $(this).css("font-size", middle);
+                //if the DOM is still too big then set the middle point as the high bound
+                if($(this).height() > height)
+                    high = middle;
+                //otherwise the low bound
+                else
+                    low = middle;
+            }
+
             //FUCKING UGLY...TAKE THIS SHIT OUT FOR GODS SAKE!!!
-	        var font = parseInt((high + low) / 2);
-	        while($(this).height() > height){
+            var font = parseInt((high + low) / 2);
+            while($(this).height() > height){
                 $(this).css("font-size", --font);
-	        }
-	        //center the div
-	        $(this).css("top", top + (height - $(this).height()) / 2);
-	        //return current div
-	        return $(this);
+            }
+            //center the div
+            $(this).css("top", top + (height - $(this).height()) / 2);
+            //return current div
+            return $(this);
         }
 	});
 })(jQuery);
