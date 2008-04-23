@@ -42,7 +42,6 @@ class ContentDriver{
 	var $type_id;
 	
 	function __construct($screen_id, $field_id){
-	    unset($_SESSION['timeline'][$field_id]);
 	    session_start();
 
 	    $this->screen_id = $screen_id;
@@ -78,14 +77,16 @@ class ContentDriver{
 		}
 		
 		$matrix = array();
-		foreach($content as $feed_id => &$feed){
+		foreach($content as $feed_id => $feed){
 		    $row = array();
 		    foreach(range(1, $weight[$feed_id]) as $i){
+		        shuffle($feed);
 		        $row = array_merge($row, $feed);
 		    }
 		    
-		    $row = array_pad($row, $size, NULL);
-		    shuffle($row);
+		    while(count($row) < $size) {
+		        array_splice($row, rand(0, count($row)), 0, array(NULL));
+		    }
 		    
 		    $matrix[] = $row;
 		}
