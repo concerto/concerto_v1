@@ -117,8 +117,8 @@ class ContentDriver{
 				        $json['mime_type'] = 'text/html';
 				        $json['content'] = date($data['content']);
 			        }
-
-			        $sql = "UPDATE screen SET last_updated = NOW() WHERE id = $this->screen_id LIMIT 1";
+				$ip = $_SERVER['REMOTE_ADDR'];
+			        $sql = "UPDATE screen SET last_updated = NOW(), last_ip = '$ip' WHERE id = $this->screen_id LIMIT 1";
 			        sql_command($sql);
 			
 			        return $json;
