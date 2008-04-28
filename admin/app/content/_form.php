@@ -13,71 +13,68 @@
        </tr> 
        <tr>
          <td><h5>Start Date</h5><p>When should this piece of content start to be displayed on Concerto?</p></td>
-         <td colspan="2">
-                  <select id="content[starthour]" name="content[starthour]">
+         <td>
+           <input type="text" id="content_start_date" class="start_date" name="content[start_date]" value="<?=$content->start_time?>">
+           <p id="start_time_msg">Starting at the beginning of the day (12:00am)</p>
+         </td>
+         <td width="30%" style="text-align:right;"><a href="#" onclick = "this.parentNode.getElementsByTagName('select')[0].style.display='inline'; document.getElementById('start_time_msg').style.display='none'; return false;">Set a different start time</a>
+           <div style="text-align:right">
+           <select id="content_start_time" name="content[start_time]" style="display:none">
 <?php
-      for ($i = 1; $i < 13; $i++)
+      echo "<option value=\"00:00\" selected>12:00am</option>\n";
+      echo "<option value=\"00:30\">12:30am</option>\n";
+      for ($i = 1; $i < 12; $i ++)
       {
          $tempi = str_pad($i, 2, "0", STR_PAD_LEFT);
-
-         if ($i == 12)
-            echo "{$tabs[6]}<option value=\"{$tempi}\" selected=\"selected\">{$tempi}</option>\n";
-         else
-            echo "{$tabs[6]}<option value=\"{$tempi}\">{$tempi}</option>\n";
+         echo "<option value=\"{$tempi}:00\">{$i}:00am</option>\n";
+         echo "<option value=\"{$tempi}:30\">{$i}:30am</option>\n";
       }
-?>
-                  </select>
-                  <select id="content[startminute]" name="content[startminute]">
-<?php
-      for ($i = 0; $i < 60; $i += 5)
+      echo "<option value=\"12:00\">12:00pm</option>\n";
+      echo "<option value=\"12:30\">12:30pm</option>\n";
+      for ($i = 1; $i < 12; $i ++)
       {
          $tempi = str_pad($i, 2, "0", STR_PAD_LEFT);
-
-         echo "{$tabs[6]}<option value=\"{$tempi}\">{$tempi}</option>\n";
+         $rtime = $i+12;
+         echo "<option value=\"{$rtime}:00\">$i:00pm</option>\n";
+         echo "<option value=\"{$rtime}:30\">$i:30pm</option>\n";
       }
+      echo "<option value=\"11:59\">11:59pm</option>\n";
 ?>
-                  </select>
-                  <select id="content[startmeridiem]" name="content[startmeridiem]">
-                     <option value="am">AM</option>
-                     <option value="pm">PM</option>
-                  </select>
-           <input type="text" id="start_date" class="start_date" name="content[start_time]" value="<?=$content->start_time?>">
-
+           </select>
+           </div>
          </td>
        </tr>
 
        <tr>
          <td><h5>End Date</h5><p>When should this piece of content expire?  This might be the date of the event you are advertising.</p></td>
-         <td colspan="2">
-
-                  <select id="content[endhour]" name="content[endhour]">
+         <td>
+           <input type="text" id="end_date" class="end_date" name="content[end_date]" value="<?=$content->end_time?>">
+           <p id="end_time_msg">Showing through the end of the day (11:59pm)</p>
+         </td>
+         <td width="30%" style="text-align:right;"><a href="#" onclick = "this.parentNode.getElementsByTagName('select')[0].style.display='inline'; document.getElementById('end_time_msg').style.display='none'; return false;">Set a different end time</a>
+           <div style="text-align:right">
+           <select id="content_end_time" name="content[end_time]" style="display:none">
 <?php
-      for ($i = 1; $i < 13; $i++)
+      echo "<option value=\"00:00\">12:00am</option>\n";
+      echo "<option value=\"00:30\">12:30am</option>\n";
+      for ($i = 1; $i < 12; $i += 2)
       {
          $tempi = str_pad($i, 2, "0", STR_PAD_LEFT);
-
-         if ($i == 12)
-            echo "{$tabs[6]}<option value=\"{$tempi}\" selected=\"selected\">{$tempi}</option>\n";
-         else
-            echo "{$tabs[6]}<option value=\"{$tempi}\">{$tempi}</option>\n";
+         echo "<option value=\"{$tempi}:00\">{$i}:00am</option>\n";
+         echo "<option value=\"{$tempi}:30\">{$i}:30am</option>\n";
       }
-?>
-                  </select>
-                  <select id="content[endminute]" name="content[endminute]">
-<?php
-      for ($i = 0; $i < 60; $i += 5)
+      echo "<option value=\"12:00\">12:00pm</option>\n";
+      echo "<option value=\"12:30\">12:30pm</option>\n";
+      for ($i = 1; $i < 12; $i += 2)
       {
          $tempi = str_pad($i, 2, "0", STR_PAD_LEFT);
-
-         echo "{$tabs[6]}<option value=\"{$tempi}\">{$tempi}</option>\n";
+         $rtime = $i+12;
+         echo "<option value=\"{$rtime}:00\">$i:00pm</option>\n";
+         echo "<option value=\"{$rtime}:30\">$i:30pm</option>\n";
       }
+      echo "<option value=\"11:59\" selected>11:59pm</option>\n";
 ?>
-                  </select>
-                  <select id="content[endmeridiem]" name="content[endmeridiem]">
-                     <option value="am">AM</option>
-                     <option value="pm">PM</option>
-                  </select>
-           <input type="text" id="end_date" class="end_date" name="content[end_time]" value="<?=$content->end_time?>">
+           </select>
          </td>
        </tr>
 
@@ -102,7 +99,6 @@
               echo '<option value="'.$feed->id.'"';
               if($checked) echo ' selected';
               echo '>'.$feed->name.'</option>';
-               
            }
            ?>
            </select>
