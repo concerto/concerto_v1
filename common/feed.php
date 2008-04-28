@@ -119,7 +119,7 @@ class Feed{
         }
     }
 	//Add a content to a feed
-	function content_add($content_in, $mod_in = 'NULL'){
+	function content_add($content_in, $mod_in = 'NULL', $moderator_id = 'NULL'){
 		if(!is_numeric($content_in)){
 				$this->status = "Please send the content id"; //Aka they are playing with the post data!
 				return false;
@@ -127,7 +127,7 @@ class Feed{
 		if($mod_in != 0 && $mod_in != 1 && $mod_in != 'NULL'){ //Don't let a stupid value in
 			$mod_in = 'NULL';
 		}
-		$sql = "INSERT INTO feed_content (feed_id, content_id, moderation_flag) VALUES ($this->id, $content_in, $mod_in)";
+		$sql = "INSERT INTO feed_content (feed_id, content_id, moderation_flag, moderator_id) VALUES ($this->id, $content_in, $mod_in, $moderator_id)";
 		$res = sql_query($sql);
 		if($res){
 			if($this->type == 0){  //Dont log dynamic feeds
@@ -238,11 +238,11 @@ class Feed{
 		}
 	}
 	//Moderate content: Approve or deny
-	function content_mod($cid, $mod_in='NULL'){
+	function content_mod($cid, $mod_in='NULL', $moderator_id = 0){
 		if($mod_in != 0 && $mod_in != 1 && $mod_in != 'NULL'){ //Don't let a stupid value in
 			$mod_in = 'NULL';
 		}
-		$sql = "UPDATE feed_content SET moderation_flag = $mod_in WHERE feed_id = $this->id AND content_id = '$cid' LIMIT 1";
+		$sql = "UPDATE feed_content SET moderation_flag = $mod_in, moderator_id = $moderator_id WHERE feed_id = $this->id AND content_id = '$cid' LIMIT 1";
 		$res = sql_query($sql);
 		if($res){
 			$notify = new Notification();

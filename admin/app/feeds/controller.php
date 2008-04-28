@@ -137,7 +137,7 @@ class feedsController extends Controller
    {
       $feed = new Feed($this->args[1]);
       $cid = $this->args[2];
-      if($feed->content_mod($cid, 1)) {
+      if($feed->content_mod($cid, 1, $_SESSION['user']->id)) {
          $this->flash('Content approved successfully.');
          redirect_to(ADMIN_URL.'/feeds/moderate/'.$feed->id);
       } else {
@@ -150,7 +150,7 @@ class feedsController extends Controller
    {
       $feed = new Feed($this->args[1]);
       $cid = $this->args[2];
-      if($feed->content_mod($cid, 0)) {
+      if($feed->content_mod($cid, 0, $_SESSION['user']->id)) {
          $this->flash('Content denied successfully.');
          redirect_to(ADMIN_URL.'/feeds/moderate/'.$feed->id);
       } else {
