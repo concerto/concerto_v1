@@ -3,8 +3,6 @@ include("../config.inc.php");
 include(COMMON_DIR."mysql.inc.php");
 include(COMMON_DIR."driver.php");
 
-error_reporting(0);
-
 //Default Values
 $format = 'json';
 //End default values

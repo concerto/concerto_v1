@@ -1,6 +1,5 @@
 <?php
 function resize($filename, $new_width = false, $new_height = false, $stretch = false){
-    error_reporting(0);
     list($width, $height) = getimagesize($filename);
     if(!$stretch) {
         if(!$new_width || !$new_height) {
