@@ -5,7 +5,7 @@ class frontpageController extends Controller
 'admin'=>'Admin Utilities');
 
    public $require = Array('check_login'=>Array('dashboard','login','logout'),
-                           'require_login'=>Array('admin','login','dashboard','su') );
+                           'require_login'=>Array('admin','login','dashboard','su','phpinfo') );
 
 	function setup()
 	{
@@ -29,15 +29,21 @@ class frontpageController extends Controller
 
 	function adminAction()
 	{
-      $user = new User(phpCAS::getUser());
-      if(!$user->admin_privileges)
-         redirect_to(ADMIN_URL.'/frontpage');
       $_SESSION['flash'][] = Array('error', "This is an error.");
       $_SESSION['flash'][] = Array('warn', "This is a warning.");
       $_SESSION['flash'][] = Array('info', "FYI");
       $_SESSION['flash'][] = Array('stat', "status");
 		$this->setTitle("Administrative Utilities");
 	}
+
+   function phpinfoAction()
+   {
+      $user = new User(phpCAS::getUser());
+      if(!$user->admin_privileges)
+         redirect_to(ADMIN_URL.'/frontpage');
+      phpinfo();
+      exit();
+   }
 
    function suAction()
    {

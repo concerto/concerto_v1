@@ -25,4 +25,4 @@
 </div>
 <h3>Admin Privs: <span class="emph"><?= isAdmin() ?></span></h3>
 <h3>Reset Session: <span class="emph"><a href="<?=ADMIN_URL?>/frontpage/su?r=1">reset</a></span></h3>
-<a href="<?= ADMIN_URL ?>/frontpage/phpinfo.php">PHP Info</a>
+<a href="<?= ADMIN_URL ?>/frontpage/phpinfo">PHP Info</a>
