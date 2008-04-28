@@ -88,7 +88,8 @@ class Dynamic{
 			$title = $xml->xpath($this->rules['title']['path']);
 			$title = $title[$this->rules['title']['item_num']];
 			$title = $this->regex_engine($title, $this->rules['title']['regex']);
-
+			$data = array(); //Set it up incase we don't have any the loops might break
+			
 			foreach ($xml->xpath($this->rules['item']['path']) as $item){
 				$i_title = $item->xpath($this->rules['item']['title']['path']);
 				$i_title = $i_title[$this->rules['item']['title']['item_num']];
@@ -243,6 +244,8 @@ class Dynamic{
 			//Actually process the regex
 			if($regex['type'] == 'eregi_replace'){
 				$var_in = eregi_replace($regex['search'], $regex['replace'], $regex['on']);
+			}elseif($regex['type'] == 'ereg_replace'){
+				$var_in = ereg_replace($regex['search'], $regex['replace'], $regex['on']);
 			}
 		}
 		return $var_in;
