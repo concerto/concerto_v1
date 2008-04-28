@@ -2,7 +2,7 @@
 class feedsController extends Controller
 {
    public $actionNames = Array( 'list'=> 'Feeds Listing', 'show'=>'Details',
-                                'edit'=> 'Edit', 'moderate'=>'Moderate', 'delete'=>'Delete');
+                                'edit'=> 'Edit', 'moderate'=>'Moderate', 'delete'=>'Delete', 'request'=>'Feed Request');
 
    public $require = Array( 'require_login'=>1,
                             'require_action_auth'=>Array('edit','create',
@@ -37,7 +37,7 @@ class feedsController extends Controller
          redirect_to(ADMIN_URL.'/feeds');
       }
       $this->feed = new Feed($this->args[1]);
-      
+
       $this->group = new Group($this->feed->group_id);
       //      $this->contents=$this->feed->content_list("1");
       $waiting_arr=$this->feed->content_list('NULL');
@@ -101,6 +101,25 @@ class feedsController extends Controller
                    '<a href="'.ADMIN_URL.'/feeds/show/'.$this->feed->id.'">No</a>','warn');
    }
 
+   function requestAction()
+   {
+      if(isset($_POST['submit'])) {
+         $group=new Group(2);
+         $dat = $_POST['feed'];
+         $nm = escape($_SESSION['user']->name);
+         $id = $_SESSION['user']->id;
+         $email = escape($_SESSION['user']->email);
+         $msg ="There has been a new feed request from {$nm} - {$email} (".ADMIN_URL."/users/show/{$id})\n";
+         $msg.='Name: '.escape($dat['name'])."\n";
+         $msg.='Organization: '.escape($dat['org'])."\n";
+         $msg.='Description: '.escape($dat['desc'])."\n";
+
+         $group->send_mail('New Concerto Feed Request: '.escape($dat['name']), $msg,escape($_SESSION['user']->email));
+
+         $this->flash("Your request is being processed. We'll be contacting you about the feed soon!");
+         redirect_to(ADMIN_URL.'/feeds/');
+      }
+   }
 
    function createAction()
    {
