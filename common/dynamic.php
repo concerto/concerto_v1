@@ -132,13 +132,31 @@ class Dynamic{
 		$end_time = date("Y-m-d", strtotime("tomorrow")) . " 00:00:00";
 		//End Generic properties for all content
 		
+		//We can overwrite some of those properties
+		if(isset($this->rules['duration'])){
+			$duration = $this->rules['duration'];
+		}
+		if(isset($this->rules['type_id'])){
+			$type_id = $this->rules['type_id'];
+		}
+		if(isset($this->rules['mime_type'])){
+			$mime_time = $this->rules['mime_type'];
+		}
+		//End overwriting them
+
 		$max_digits = floor(1+log($this->rules['items_per_content']*count($this->content),10));
 		$existing_count = $this->feed->content_count();
+
+		//Turn off notifications if they are not already being controlled
+		if(!defined("NOTIF_OFF")){
+			define("NOTIF_OFF",1);
+		}
+
 		while($existing_count < count($this->content)){
 			$obj = new Content();
 			if($obj->create_content("New Content", $c_owner, "", $mime_type, $type_id, $duration, $start_time, $end_time)){
 				//We can't forget to add it to that feed!
-				$this->feed->content_add($obj->id, 0);
+				$this->feed->content_add($obj->id, 0, 0);
 				$existing_count++;
 			} else {
 				$this->status .= "Error creating needed content. ";
@@ -167,7 +185,7 @@ class Dynamic{
 			if($obj->set_properties()){
 				$c_id = $obj->id;
 				if($content_objs[$key]['moderation_flag'] != 1){ //We need to moderate it!
-					if($this->feed->content_mod($c_id, 1)){
+					if($this->feed->content_mod($c_id, 1, 0)){
 						$return = $return * true;
 					} else {
 						$return = $return * false;
@@ -184,7 +202,7 @@ class Dynamic{
 				$obj = $content_objs[$i]['content'];
 				//print_r($obj);
 				$c_id = $obj->id;
-				$this->feed->content_mod($c_id, 0);  //Deny that content
+				$this->feed->content_mod($c_id, 0, 0);  //Deny that content
 				//We'll clean it out just for fun
 				$obj->content = "";
 				$obj->name = "Unused dynamic content";

@@ -18,8 +18,7 @@ Functionality:
         priv_get		Gets all the feeds that an object (usr/scr) can access on a per action basis
         priv_test		Test if a user can see a specific feed
         destroy		Deletes a feed, all content mapped to the feed, and scales all the fields up appropriately
-Comments:		
-	Working on adding the dynamic feeds, like RSS.
+Comments:
 	Added the ability to list feeds based on a type, for content listing
 	Cleaned
 */
@@ -238,7 +237,7 @@ class Feed{
 		}
 	}
 	//Moderate content: Approve or deny
-	function content_mod($cid, $mod_in='NULL', $moderator_id = 0){
+	function content_mod($cid, $mod_in='NULL', $moderator_id = 'NULL'){
 		if($mod_in != 0 && $mod_in != 1 && $mod_in != 'NULL'){ //Don't let a stupid value in
 			$mod_in = 'NULL';
 		}

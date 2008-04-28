@@ -47,9 +47,13 @@ class Notification{
 	
 	//Log a notification in the table
 	function notify($type_in, $type_id_in, $by_in, $by_id_in, $msg_in){
-		$sql = "INSERT INTO `notifications` (`type`, `type_id`, `by_type`, `by_id`, `msg`, `processed`, `timestamp`) 
-		VALUES ('$type_in', $type_id_in, '$by_in', $by_id_in, '$msg_in', 0, NOW())";
-		$res = sql_query($sql);
+		if(defined("NOTIF_OFF") && NOTIF_OFF == 1){ //Incase we don't want notifications
+			return true;
+		} else {
+			$sql = "INSERT INTO `notifications` (`type`, `type_id`, `by_type`, `by_id`, `msg`, `processed`, `timestamp`) 
+			VALUES ('$type_in', $type_id_in, '$by_in', $by_id_in, '$msg_in', 0, NOW())";
+			$res = sql_query($sql);
+		}
 	}
 	
 	//Builds the obj's from the types and ids for both type and by
