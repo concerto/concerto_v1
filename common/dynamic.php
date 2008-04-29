@@ -165,41 +165,44 @@ class Dynamic{
 			}
 		}
 		$content_objs = $this->feed->content_get();
-		
-		foreach($this->content as $key =>$item){
-			$lower = $this->zero_pad($key  * $this->rules['items_per_content'] + 1, $max_digits);
-			$upper = $this->zero_pad($lower + $this->rules['items_per_content'] - 1, $max_digits);
+		if(isset($this->content) && count($this->content) > 0){
+			foreach($this->content as $key =>$item){
+				$lower = $this->zero_pad($key  * $this->rules['items_per_content'] + 1, $max_digits);
+				$upper = $this->zero_pad($lower + $this->rules['items_per_content'] - 1, $max_digits);
 			
-			if($upper != $lower){
-				$c_name = $name . " ($lower-$upper)";
-			} else {
-				$c_name = $name . " ($lower)";
-			}
-	
-			$return = true; //This will hold any errors we hit adding content
-			
-			$obj = $content_objs[$key]['content'];
-			$obj->name = $c_name;
-			$obj->content = $item;
-			$obj->start_time = $start_time;
-			$obj->end_time = $end_time;
-			if($obj->set_properties()){
-				$c_id = $obj->id;
-				if($content_objs[$key]['moderation_flag'] != 1){ //We need to moderate it!
-					if($this->feed->content_mod($c_id, 1, 0)){
-						$return = $return * true;
-					} else {
-						$return = $return * false;
-					}
-				} else { //No moderation is needed
-					$return = $return * true;
+				if($upper != $lower){
+					$c_name = $name . " ($lower-$upper)";
+				} else {
+					$c_name = $name . " ($lower)";
 				}
-			} else {
-				$return = $return * false;
+		
+				$return = true; //This will hold any errors we hit adding content
+				
+				$obj = $content_objs[$key]['content'];
+				$obj->name = $c_name;
+				$obj->content = $item;
+				$obj->start_time = $start_time;
+				$obj->end_time = $end_time;
+				if($obj->set_properties()){
+					$c_id = $obj->id;
+					if($content_objs[$key]['moderation_flag'] != 1){ //We need to moderate it!
+						if($this->feed->content_mod($c_id, 1, 0)){
+							$return = $return * true;
+						} else {
+							$return = $return * false;
+						}
+					} else { //No moderation is needed
+						$return = $return * true;
+					}
+				} else {
+					$return = $return * false;
+				}
 			}
+		}else{
+			$return = true;
 		}
 		if($return){ //Test for errors before cleaning out the old content
-			for($i = count($content_objs) -1 ; $i >= count($this->content); $i--){
+			for($i = count($content_objs) - 1 ; $i >= count($this->content); $i--){
 				$obj = $content_objs[$i]['content'];
 				//print_r($obj);
 				$c_id = $obj->id;
@@ -207,7 +210,9 @@ class Dynamic{
 				//We'll clean it out just for fun
 				$obj->content = "";
 				$obj->name = "Unused dynamic content";
-				$obj->set_properties();
+				if($obj->set){
+					$obj->set_properties();
+				}
 			}
 			return true;
 		} else {
