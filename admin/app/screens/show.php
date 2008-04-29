@@ -36,6 +36,10 @@
           <a href="<?= ADMIN_URL.'/groups/show/'.$group->id ?>"><?=$group->name?></a>
           </span>
         </h3>
+<?php if(isAdmin()) { ?>
+        <h3>MAC: <span class="emph"><?=$this->screen->mac_inhex?></span></h3>
+        <h3>Last IP: <span class="emph"><?=$this->screen->last_ip?></span></h3>
+<?php } ?>
       </td>
     </tr>
   </table>

@@ -4,7 +4,8 @@ class screensController extends Controller
    public $actionNames = Array( 'list'=> 'Screens Listing', 'show'=>'Details',
                                 'edit'=> 'Edit', 'new'=>'New', 'subscriptions'=>'Subscriptions');
 
-   public $require = Array( 'require_login'=>1,
+   public $require = Array( 'require_login'=>Array('index','list','show','edit','subscriptions','new','create','subscribe',
+                                                   'update','delete','destroy'),
                             'require_action_auth'=>Array('edit','create',
                                                          'new', 'update',
                                                          'delete','destroy',
@@ -13,6 +14,7 @@ class screensController extends Controller
    function setup()
    {
       $this->setName('Screens');
+      $this->setTemplate('blank_layout','powerstate');
    }
 
    function indexAction()
@@ -130,6 +132,11 @@ class screensController extends Controller
      $screen->width = $dat['width'];
      $screen->height = $dat['height'];
      $screen->template_id = $dat['template'];
+     if(isAdmin()) {
+        $screen->controls_display = $dat['controls_display'];
+     }
+     $screen->time_on = $dat['time_on'];
+     $screen->time_off = $dat['time_off'];
 
      if($screen->set_properties()) {
         $this->flash('Screen updated successfully!');
@@ -160,6 +167,38 @@ class screensController extends Controller
          $this->flash('There was an error removing the screen.','error');
          redirect_to(ADMIN_URL.'/screens/show/'.$this->args[1]);
       }
+   }
+
+   function powerstateAction()
+   {
+      $this->challenge=$_GET['challenge_string'];
+      if(!isset($_GET['mac'])) $_GET['mac'] = 0;
+      $mac = hexdec($_GET['mac']);
+      list($scr) = sql_select('screen',Array('id', 'time_on', 'time_off'),"mac_address = $mac",'LIMIT 1');
+      if($scr['id'] < 0){
+         echo "Bad MAC.";
+         exit(0);
+      }
+
+      list($on_h,$on_m)=split(':',$scr['time_on']);
+      list($off_h,$off_m)=split(':',$scr['time_off']);
+      $localtime = localtime();
+
+      $h = $localtime[2];
+      $m = $localtime[1];
+      $s = $localtime[0];
+
+      if(isset($_GET['h'])) $h=$_GET['h'];
+      if(isset($_GET['m'])) $m=$_GET['m'];
+
+      //aon means the on time has passed already today.  aoff means it is later than the off time
+      $aon = $h>=$on_h && $m>=$on_m;
+      $aoff = $h>=$off_h && $m>=$off_m;
+
+      $reverse = $on_h>=$off_h && $on_m>=$off_m;
+
+      $this->status = ($aon xor $aoff);
+      if($reverse) $this->status = !$this->status;
    }
 }
 ?>

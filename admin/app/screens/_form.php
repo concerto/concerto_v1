@@ -71,6 +71,29 @@
              <?php   } ?>
              </select></td>
        </tr>
+<? if (isAdmin() && isset($screen->id))  { ?>
+       <tr>
+         <td><h5>Controls display</h5><p>Whether or not the machine controls the power state of the display.</p></td>
+         <td><select name="screen[controls_display]">
+           <option value="0"<?=$screen->controls_display?"":" selected"?>>No</option>
+           <option value="1"<?=$screen->controls_display?" selected":""?>>Yes</option>
+         </td>
+       </tr>
+<? } ?>
+<? if (isset($screen->id) && (isAdmin() || $screen->controls_display)) { ?>
+       <tr>
+         <td><h5>Display On Time</h5><p>What time should the system turn on the screen? <strong>Please specify hh:mm in 24-hour time</strong>, e.g. 18:00 for 6:00 pm, 00:00 for the very beginning of the day, or 23:59 for the end of the day.</p></td>
+         <td><input type="text" name="screen[time_on]" value="<?=$screen->time_on?>" />
+         </td>
+         </select>
+       </tr>
+       <tr>
+         <td><h5>Display Off Time</h5><p>What time should the system turn off the screen? <strong>Please specify hh:mm in 24-hour time.</strong></p></td>
+         <td><input type="text" name="screen[time_off]" value="<?=$screen->time_off?>" />
+         </td>
+         </select>
+       </tr>
+<? } ?>
      </table>
      </div>
 	<br clear="all" />

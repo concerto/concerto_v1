@@ -35,7 +35,12 @@ class Screen{
 	 var $width;
 	 var $height;
 	 var $template_id;
-	 var $last_updated;
+	 var $last_updated; //read-only
+    var $last_ip;      //read-only
+
+    var $controls_display;
+    var $time_on;
+    var $time_off;
 	 
 	 var $set;
 	 
@@ -58,7 +63,13 @@ class Screen{
 				$this->height = $data['height'];
 				$this->template_id = $data['template_id'];
 				$this->last_updated = $data['last_updated'];
+				$this->last_ip = $data['last_ip'];
+
 				
+            $this->controls_display = $data['controls_display'];
+            $this->time_on = $data['time_on'];
+            $this->time_off = $data['time_off'];
+
             //This is done by sql because a mac is bigger than php's int.
 				$this->mac_inhex = $data['inhex']; //You want to update this field only!
 				
@@ -79,6 +90,7 @@ class Screen{
 		} else {
 			//Begin testing/cleaning block
 			$name_in = escape($name_in);
+
 			$location = escape($location_in);
 			
 			$mac_hex_in = eregi_replace("[\s|:]", '', $mac_hex_in);
@@ -126,6 +138,9 @@ class Screen{
 		//Begin Cleaning/Test Block
 		$name_clean = escape($this->name);
 		$location_clean = escape($this->location);
+      $time_on_clean = escape($this->time_on);
+      $time_off_clean = escape($this->time_off);
+      if($this->controls_display) $this->controls_display=1;
 		if(!is_numeric($this->group_id)){
 				return false;
 		}
@@ -145,7 +160,7 @@ class Screen{
 			$this->mac_address = hexdec($this->mac_inhex);
 		}
 		
-		$sql = "UPDATE screen SET name = '$name_clean',  group_id = '$this->group_id', location = '$location_clean', mac_address = '$this->mac_address', width = '$this->width', height = $this->height, template_id = $this->template_id WHERE id = $this->id LIMIT 1";
+		$sql = "UPDATE screen SET name = '$name_clean',  group_id = '$this->group_id', location = '$location_clean', mac_address = '$this->mac_address', width = '$this->width', height = $this->height, template_id = $this->template_id, controls_display = $this->controls_display, time_on = '$time_on_clean', time_off = '$time_off_clean' WHERE id = $this->id LIMIT 1";
 		//echo $sql;
 		$res = sql_query($sql);
 		if($res){

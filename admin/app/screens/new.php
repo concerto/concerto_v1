@@ -4,6 +4,6 @@
 <?php 
         include("_form.php");
 ?>
-<input value="Create group" type="submit" name="submit" />
+<input value="Create Screen" type="submit" name="submit" />
 </form>
 
