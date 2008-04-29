@@ -153,7 +153,7 @@ class Feed{
 	//Count # of content in a feed based on moderation status
 	function content_count($mod_flag=''){
 		if($mod_flag != ''){
-			$mod_where = "AND moderation flag LIKE '$mod_flag'";
+			$mod_where = "AND moderation_flag LIKE '$mod_flag'";
 		} else {
 			$mod_where = "";
 		}
