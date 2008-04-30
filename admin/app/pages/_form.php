@@ -22,6 +22,13 @@
              <?php   } ?>
              </select></td>
        </tr>
+       <tr>
+         <td><h5>Show in menu</h5></td>
+         <td><select name="page[in_menu]">
+            <option value="0"<?=$page['in_menu']?"":" selected"?>>No</option>
+            <option value="1"<?=$page['in_menu']?" selected":""?>>Yes</option>
+          </select></td>
+       </tr>
        <tr> 
          <td class='firstrow'><h5>Page Content (HTML)</h5></td>
          <td class='edit_col firstrow'>

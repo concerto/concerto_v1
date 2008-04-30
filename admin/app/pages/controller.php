@@ -22,7 +22,7 @@ class pagesController extends Controller
    function listAction()
    {
       $this->canEdit = isAdmin();
-      $this->pages = sql_select('page',Array('page.id', 'page.name', 'page_category.path', 'page_category.name AS cat'),null,"LEFT JOIN `page_category` ON `page_category`.`id` = `page_category_id` ".
+      $this->pages = sql_select('page',Array('page.id', 'page.name', 'page_category.path', 'page_category.name AS cat', 'in_menu','page_category_id'),null,"LEFT JOIN `page_category` ON `page_category`.`id` = `page_category_id` ".
                                 "ORDER BY `page_category_id`,`order`");
    }
 
@@ -42,7 +42,7 @@ class pagesController extends Controller
          }
       }
       if(isset($this->category['id']))
-         $this->menu_links = sql_select('page',Array('id as url','name'),'page_category_id = '.
+         $this->menu_links = sql_select('page',Array('id as url','name'),'in_menu =1 AND page_category_id = '.
                                         $this->category['id'],'ORDER BY `order` ASC');
 
       if(isset($this->page['id'])) {
@@ -75,6 +75,18 @@ class pagesController extends Controller
       $this->setTitle("Create new page");
    }
 
+   function setdefaultAction()
+   {
+      $nm = escape($this->args[1]);
+      $page = $_GET['page'];
+      if(sql_command("UPDATE page_category SET `default_page` = $page WHERE `path` LIKE \"$nm\" LIMIT 1")==1) {
+         $this->flash("Default page successfully updated");
+      } else {
+         $this->flash("Error: default page not updated",'error');
+      }
+      redirect_to(ADMIN_URL.'/pages');
+   }
+
    function deleteAction()
    {
       if(is_numeric($this->args[1])) {
@@ -95,11 +107,13 @@ class pagesController extends Controller
       $name=escape($_POST['page']['name']);
       $content=escape($_POST['page']['content']);
       $uid = $_SESSION['user']->id;
+      if($_POST['page']['in_menu']) $in_menu = 1;
+      else $in_menu = 0;
       if(is_numeric($cat) && is_string($name) && is_string($content) && is_numeric($uid)) {
          list($last_item) = sql_select('page','`order`',"`page_category_id` = $cat",'ORDER BY `order` DESC LIMIT 1');
          $order=$last_item['order']+1;
-         $res = sql_command("INSERT INTO `page` (`page_category_id` ,`name` ,`content` ,`user_id` ,`timestamp` ,`order`) ".
-                            "VALUES ('$cat', '$name', '$content', '$uid', NOW( ) , '$order');");
+         $res = sql_command("INSERT INTO `page` (`page_category_id` ,`name` ,`content` ,`user_id` ,`timestamp` ,`order`, `in_menu`) ".
+                            "VALUES ('$cat', '$name', '$content', '$uid', '$in_menu' NOW( ) , '$order');");
       }
       if($res>0) {
          $this->flash($name.' was created successfully.');
@@ -118,9 +132,11 @@ class pagesController extends Controller
       $name=escape($_POST['page']['name']);
       $content=escape($_POST['page']['content']);
       $uid = $_SESSION['user']->id;
+      if($_POST['page']['in_menu']) $in_menu = 1;
+      else $in_menu = 0;
       if(is_numeric($id) && is_numeric($cat) && is_string($name) && is_string($content) && is_numeric($uid)) {
          $res = sql_command("UPDATE `page` SET `page_category_id`='$cat', `name`='$name', ".
-                            "`content`='$content', `user_id`='$uid' ,`timestamp`=NOW() ".
+                            "`content`='$content', `user_id`='$uid' ,`timestamp`=NOW(), `in_menu`=$in_menu ".
                             "WHERE id=$id LIMIT 1");
       }
       if($res>0) {

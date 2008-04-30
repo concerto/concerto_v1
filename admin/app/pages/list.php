@@ -3,6 +3,7 @@
 <? } ?>
 
 <h2>Click on a page for more information and contents.</h2>
+<p>An asterisk (*) represents items that will not show up in the menu.</p>
 <?php
 $prev_cat="";
 $open_table=0;
@@ -14,7 +15,26 @@ foreach($this->pages as $page){
 <?php
      }
 ?>
-<br /><h1><span class="emph"></a><?=$page['cat']?></span></h1>
+<br /><h1><span class="emph"><a href="<?= ADMIN_URL?>/pages/show/<?=$page['path']?>"><?=$page['cat']?></a></span></h1>
+<form action="<?=ADMIN_URL?>/pages/setdefault/<?=$page['path']?>" method="GET">
+Default page: <select name="page">
+<?php
+$pp = sql_select('page',Array('id','name'),"page_category_id LIKE $page[page_category_id]");
+list($cat) = sql_select('page_category','default_page','id = '.$page[page_category_id]);
+if(is_array($pp)) {
+foreach($pp as $lp) {
+?>
+<option value="<?=$lp['id']?>"<?=$cat['default_page']==$lp['id']?" selected":""?>><?=$lp['name']?></option>
+<?php
+}
+}
+?>
+<input type="submit" name="submit" value="submit" />
+</option>
+<?php
+?>
+</select>
+</form>
 <table class="edit_win" cellpadding="6" cellspacing="0"> 
 <?php
     $prev_cat=$page['cat'];
@@ -22,7 +42,7 @@ foreach($this->pages as $page){
    }
 ?>
   <tr><td<? if (!$notfirst) {$notfirst =1;  echo ' class="firstrow"';} ?>>
-  <h1 style="float:left"><a href="<?= ADMIN_URL?>/pages/show/<?=$page['path']?>/<?= $page[0] ?>"><?= $page['name'] ?></a></h1>
+  <h1 style="float:left"><a href="<?= ADMIN_URL?>/pages/show/<?=$page['path']?>/<?= $page[0] ?>"><?= $page['name'] ?></a> <?=$page['in_menu']?"":"*"?></h1>
   <?php if($this->canEdit) { ?>
   <div style="float:right; display:inline">
      <a href="<?=ADMIN_URL?>/pages/edit/<?=$page['id']?>">edit</a> &nbsp;
