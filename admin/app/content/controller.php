@@ -44,7 +44,7 @@ class contentController extends Controller
    function showAction()
    {
       $this->content = new Content($this->args[1]);
-      if(!$this->content->id) {//not a real content
+      if(!is_numeric($this->content->id)) {//not a real content
          $this->flash('Error: The content you requested could not be found. '.
                       'You may have found a bad link, or the content may have been removed. ',
                       'error');
