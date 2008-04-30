@@ -18,7 +18,7 @@
 <?php
 if(is_array($this->menu_links))
      foreach($this->menu_links as $ar)
-        echo "<li><a href=\"$ar[url]\">$ar[name]</a></li>";
+         echo "<li><a href=\"".ADMIN_URL.'/'.$this->controller.'/'.$this->action."/$ar[url]\">$ar[name]</a></li>";
 ?>
       </ul>
     </div>
