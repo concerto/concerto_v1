@@ -41,9 +41,10 @@ class pagesController extends Controller
                                            'ORDER BY `order` ASC LIMIT 1');
          }
       }
-      if(isset($this->category['id']))
-         $this->menu_links = sql_select('page',Array('id as url','name'),'in_menu =1 AND page_category_id = '.
-                                        $this->category['id'],'ORDER BY `order` ASC');
+      if(isset($this->category['id'])) {
+         $this->menu_links = sql_select('page',Array('CONCAT(`path`,"/",`page`.`id`) as url','page.name'),NULL,'LEFT JOIN page_category ON page_category.id = page.page_category_id WHERE in_menu =1 AND page_category_id = '.
+                                        $this->category['id'].' ORDER BY `order` ASC');
+                                        }
 
       if(isset($this->page['id'])) {
          $this->setTitle($this->page['name']);
