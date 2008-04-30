@@ -17,7 +17,7 @@
                     //if we still in range of the fields then update each one
                     if(currentField < fields.length){
                         //...every 1.5 seconds
-                        setTimeout(fetchContent, 1500);
+                        setTimeout(fetchContent, 1000);
                     } else {
                         //if not then check if we need a template update and go back to field 0
                         currentField = 0;
