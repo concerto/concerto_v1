@@ -100,7 +100,9 @@ class Dynamic{
 				
 				$i_sub = $this->regex_engine($i_sub, $this->rules['item']['sub']['regex']);
 
-				$data[] = "$i_title $i_sub";
+				$temp_content = "$i_title $i_sub";
+
+				$data[] = $temp_content;
 			}
 			$content_count = floor((count($data) + ($this->rules['items_per_content'] - 1)) / $this->rules['items_per_content']);
 			foreach ($data as $key => $content_text){
@@ -175,6 +177,14 @@ class Dynamic{
 				} else {
 					$c_name = $name . " ($lower)";
 				}
+
+				//If there is a pre or post rule, apply them here
+                                if(isset($this->rules['pre'])){
+                                        $item = $this->rules['pre'] . $item;
+                                }
+                                if(isset($this->rules['post'])){
+                                        $item = $item . $this->rules['post'];
+                                }
 		
 				$return = true; //This will hold any errors we hit adding content
 				

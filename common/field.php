@@ -162,6 +162,7 @@ class Field{
 			foreach($this->screen_pos as $pos){
 				$sum += $pos->weight;
 			}
+			if(!$sum) return true;
 			$scale = 1/$sum; //The amount each weight needs to grow by
 			foreach($this->screen_pos as $pos){
 				$pos->weight = $pos->weight * $scale;
