@@ -22,7 +22,16 @@ foreach($this->contents as $field=>$contents)
    $notfirst=0; //style for first row
    foreach($contents as $content) {
       $submitter = new User($content->user_id);
-      $week_range = date('W',strtotime($end_time)) - date('W',strtotime($start_time));
+      $diff=(strtotime($content->end_time)-strtotime($content->start_time));
+      $week_range = intval(date('W',$diff));
+      $day_range = intval(date('z',$diff));
+      if(!($day_range>6)){
+        $time_units='Day';
+        $time_range= $day_range;
+      } else {
+        $time_units='Week';
+        $time_range= $week_range;
+      }
       if(preg_match('/image/',$content->mime_type)) {
         $has_imagecol=1;
 
@@ -62,7 +71,7 @@ if ($has_imagecol) {
              echo "$content->content<br/>\n";
 ?>
        <?=date("m/j/Y",strtotime($content->start_time))?> - <?=date("m/j/Y",strtotime($content->end_time))?></span>
-       (<?=$week_range?> Week<?=$week_range==1?'':'s'?>)
+       (<?=$time_range?> <?=$time_units?><?=$time_range==1?'':'s'?>)
        <h2>Submitted by <strong><a href="<?=ADMIN_URL.'/users/show/'.$submitter->username?>"><?=$submitter->name?></a></strong></h2>
       </a>
     </td>
