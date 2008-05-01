@@ -12,7 +12,7 @@
 <body>
 <div id="wrap">
   <div id="header"><div id="header_inset"><div id="header_padding">
-    <div style="float:left;"><a href="#"><img src="<?= ADMIN_BASE_URL ?>images/public/logo.png" alt="" /></a></div>
+    <div style="float:left;"><a href="<?=ADMIN_URL.'/'.$this->controller.'/'.$this->action.'/'.$this->category['path']?>"><img src="<?= ADMIN_BASE_URL ?>images/public/logo.png" alt="" /></a></div>
     <div style="float:right;">
       <ul class="menu">
 <?php

@@ -114,7 +114,7 @@ class pagesController extends Controller
          list($last_item) = sql_select('page','`order`',"`page_category_id` = $cat",'ORDER BY `order` DESC LIMIT 1');
          $order=$last_item['order']+1;
          $res = sql_command("INSERT INTO `page` (`page_category_id` ,`name` ,`content` ,`user_id` ,`timestamp` ,`order`, `in_menu`) ".
-                            "VALUES ('$cat', '$name', '$content', '$uid', '$in_menu' NOW( ) , '$order');");
+                            "VALUES ('$cat', '$name', '$content', '$uid', NOW( ), '$order', '$in_menu');");
       }
       if($res>0) {
          $this->flash($name.' was created successfully.');
