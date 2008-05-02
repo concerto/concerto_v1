@@ -38,7 +38,7 @@
          echo "<option value=\"{$rtime}:00\">$i:00pm</option>\n";
          echo "<option value=\"{$rtime}:30\">$i:30pm</option>\n";
       }
-      echo "<option value=\"11:59\">11:59pm</option>\n";
+      echo "<option value=\"23:59\">11:59pm</option>\n";
 ?>
            </select>
            </div>
@@ -72,7 +72,7 @@
          echo "<option value=\"{$rtime}:00\">$i:00pm</option>\n";
          echo "<option value=\"{$rtime}:30\">$i:30pm</option>\n";
       }
-      echo "<option value=\"11:59\" selected>11:59pm</option>\n";
+      echo "<option value=\"23:59\" selected>11:59pm</option>\n";
 ?>
            </select>
          </td>
