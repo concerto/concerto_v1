@@ -17,7 +17,7 @@ foreach($this->screens as $screen){
 ?>
   <a href="<?echo ADMIN_URL?>/screens/show/<? echo $screen->id ?>">
     <div class="screenfloat"><div class="screenfloat_padding">
-      <img src="<?echo ADMIN_BASE_URL?>/images/<?echo $scrimg?>" alt="" /><br /><br />
+      <img src="<?echo ADMIN_BASE_URL?>/images/<?echo $scrimg?>" style="height:132px" alt="" /><br /><br />
       <h1><? echo $screen->name?></h1>
       <h2><? echo $screen->location?></h2>
       <h3><?php echo $screen->width.' x '.$screen->height.' ('.$ratio; ?>)</h3>

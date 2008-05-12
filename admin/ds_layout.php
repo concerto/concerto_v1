@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title><?php echo join(' - ',array('Concerto Interface v1.0',
+<title><?php echo join(' - ',array('Concerto Interface v1.7',
 		$this->getTitle()));?></title>
 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 <link rel="stylesheet" type="text/css" href="<? echo ADMIN_BASE_URL ?>css/admin_new.css" />
@@ -50,7 +50,7 @@ echo $admin_base_url ?>/js/pngfix.js"></script>
 <div id="footer">
   <div id="footer_padding">
     <p>Copyright &copy; 2008 Student Senate Web Technologies Group</p>
-    <p><a href="<?= ROOT_URL ?>docs/">Support Center</a> | Contact Support: <a href="mailto:concerto@union.rpi.edu">concerto@union.rpi.edu</a></p>
+    <p><a href="<?= ADMIN_BASE_URL ?>pages/show/docs/">Support Center</a> | Contact Support: <a href="mailto:concerto@union.rpi.edu">concerto@union.rpi.edu</a></p>
   </div>
 </div>
 

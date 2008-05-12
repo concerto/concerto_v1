@@ -20,7 +20,6 @@ foreach($this->screens as $screen) {
 
 ?>
       <tr valign="middle">
-        <td class="icon">
       <?php if(strtotime($screen->last_updated)>strtotime('-1 minutes')) { 
          $image = "images/check_icon.gif";
          $status = "Online";
@@ -28,8 +27,11 @@ foreach($this->screens as $screen) {
          $image = "images/ex_icon.gif";
          $status = "Offline";
       } ?>
-
-<img class="icon" src="<?= ADMIN_BASE_URL . $image ?>" alt="Screen <?=$status?>" /> <img class="icon" src="<?= ADMIN_BASE_URL ?>images/<?=$scrimg?>" alt="" /></td><td><span class="emph"><?=$screen->name?></span>, a <?=$screen->width.'x'.$screen->height?> display in <b><?=$screen->location?></b></td>
+<td class="icon" style="width:95px;"><img class="icon" src="<?= ADMIN_BASE_URL . $image ?>" alt="Screen <?=$status?>" />
+<div style="display:inline-block; margin-left:16px;width:50px; text-align:center">
+<a href="<?=url_for('screens','show',$screen->id)?>"><img class="icon" src="<?= ADMIN_BASE_URL ?>images/<?=$scrimg?>" alt="" /></a>
+</div></td>
+<td><span class="emph"><?=$screen->name?></span>, a <?=$screen->width.'x'.$screen->height?> display in <b><?=$screen->location?></b></td>
       </tr>
 <?php
 }
@@ -42,7 +44,7 @@ foreach($this->screens as $screen) {
   <div class="roundtop"><img src="<? echo ADMIN_BASE_URL ?>images/wc_tl.gif" alt="" width="6" height="6" class="corner topleft" style="display: none" /></div>
   <div class="roundcont_main">
     <h1>Content Submission Guidelines</h1>
-    <p>Pay careful attention to the content submission guidelines for graphical content <a href="<?= ROOT_URL ?>docs/page2.php">here</a>.</p>
+    <p>Pay careful attention to the submission guidelines for graphical content <a href="<?= ADMIN_BASE_URL ?>pages/show/docs/1"">here</a>.</p>
   </div>
   <div class="roundbottom"><img src="<? echo ADMIN_BASE_URL ?>images/wc_bl.gif" alt="" width="6" height="6" class="corner botleft" style="display: none" /></div>
 </div>
@@ -50,7 +52,7 @@ foreach($this->screens as $screen) {
   <div class="roundtop"><img src="<? echo ADMIN_BASE_URL ?>images/wc_tl.gif" alt="" width="6" height="6" class="corner topleft" style="display: none" /></div>
   <div class="roundcont_main">
     <h1>Did You Know?</h1>
-    <p>You can check out the help and support center for Concerto <a href="<?= ROOT_URL ?>docs/">here</a>.  New updates will be continuously added!</p>
+    <p>You can check out the help and support center for Concerto <a href="<?= ADMIN_BASE_URL ?>pages/show/docs/">here</a>.  New updates will be continuously added!</p>
   </div>
   <div class="roundbottom"><img src="<? echo ADMIN_BASE_URL ?>images/wc_bl.gif" alt="" width="6" height="6" class="corner botleft" style="display: none" /></div>
 </div>
