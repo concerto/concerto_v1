@@ -2,7 +2,7 @@
 class frontpageController extends Controller
 {
 	public $actionNames = Array( 'index'=> "Front page", 
-'admin'=>'Admin Utilities');
+                                'admin'=>'Admin Utilities');
 
    public $require = Array('check_login'=>Array('dashboard','login','logout'),
                            'require_login'=>Array('admin','login','dashboard','su','phpinfo') );
@@ -29,11 +29,27 @@ class frontpageController extends Controller
 
 	function adminAction()
 	{
-      $_SESSION['flash'][] = Array('error', "This is an error.");
-      $_SESSION['flash'][] = Array('warn', "This is a warning.");
-      $_SESSION['flash'][] = Array('info', "FYI");
-      $_SESSION['flash'][] = Array('stat', "status");
+      $user = new User(phpCAS::getUser());
+      if(!$user->admin_privileges)
+         redirect_to(ADMIN_URL.'/frontpage');
+
+      $this->flash('This is an error.','error');
+      $this->flash('This is a warning.','warn');
+      $this->flash('Status','stat');
+      $this->flash('FYI','info');
+      $this->flash('Default message type');
+
 		$this->setTitle("Administrative Utilities");
+
+      if(isset($_REQUEST['stats'])) {
+         if($_REQUEST['stats']=='Turn On') {
+            $_SESSION['stats']=1;
+            $_SESSION['flash']='Page build statistics now on (see page bottom)';
+         } else {
+            $_SESSION['stats']=0;
+            $_SESSION['flash']='Page build statistics now off';
+         }
+      }
 	}
 
    function phpinfoAction()
@@ -49,13 +65,14 @@ class frontpageController extends Controller
    {
       $user = new User(phpCAS::getUser());
       if(isset($_REQUEST['r'])) {
-         $_SESSION['user']=$user;
+         unset($_SESSION['su']);
+         login_login();
       } elseif ($user->admin_privileges  && isset($_REQUEST['su'])) {
-         $_SESSION['user'] = new User($_REQUEST['su']);
+         $_SESSION['su']=$_REQUEST['su'];
+         login_login();
       }
       redirect_to(ADMIN_URL."/frontpage");
    }
-
 
 	function loginAction()
 	{

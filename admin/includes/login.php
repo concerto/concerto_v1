@@ -36,9 +36,16 @@ function check_login($callback)
 
 function require_login()
 {
+/*Caching login: */
+/*
    phpCAS::forceAuthentication();
    if(!isLoggedIn())
       login_login();
+*/
+
+/*Re-fetching user for each page that uses it: */
+   login_login();
+
    return true;
 }
 
@@ -120,6 +127,10 @@ function login_login()
    // at this step, the user has been authenticated by the CAS server
    // and the user's login name can be read with phpCAS::getUser().   
    $rcsid = phpCAS::getUser();
+
+   if(isset($_SESSION['su'])) {
+      $rcsid=$_SESSION['su'];
+   }
    $rcsid=mysql_escape_string($rcsid);
    $_SESSION['user'] = new user($rcsid);
    if($_SESSION['user']->username != $rcsid){

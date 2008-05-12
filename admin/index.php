@@ -7,6 +7,9 @@ Functionality: Sets up for output, parses URL, and dispatches controllers
                 to preform requested actions.  Also includes base class
                 Controller.
 */
+global $start_time;
+$start_time=microtime(true);
+
 include('../config.inc.php');
 
 include(COMMON_DIR.'/mysql.inc.php');//Tom's sql library interface + db connection settings
@@ -35,6 +38,9 @@ define('DEFAULT_TEMPLATE','ds_layout');      //Layout file for actions with none
 define('HOMEPAGE','Home');     //Name of the homepage
 define('HOMEPAGE_URL', '');           //relative URL for frontpage (we'll link to ADMIN_URL.'/'.HOMEPAGE_URL)
 define('APP_PATH','app');
+
+global $include_time;
+$include_time=microtime(true);
 
 set_magic_quotes_runtime(0);
 
@@ -223,6 +229,8 @@ class Controller
       $this->doRequirements($action);
       
       //run the action
+      global $action_time;
+      $action_time=microtime(true);
       call_user_func(array($this,$action.'Action'));
 
       //set breadcrubs
@@ -235,6 +243,8 @@ class Controller
       }
       
       //include the template, which will call back for view
+      global $template_time;
+      $template_time=microtime(true);
       if($this->template !== false)
          include $this->template;
       else //if this occurs, a 404 will be delivered but the
@@ -248,8 +258,19 @@ class Controller
       $viewpath=APP_PATH.'/'.
          $this->view[controller].'/'.
          $this->view[view].'.php';
+      $view_time=microtime(true);
       if(file_exists($viewpath))
          include($viewpath);
+      if($_SESSION['stats']) {
+         global $start_time, $include_time, $action_time, $template_time;
+         $end = microtime(true);
+         echo '<p>includes: '.number_format(($include_time-$start_time)*1000,3).
+            ' | init: '.number_format(($action_time-$include_time)*1000,3).
+            ' | action: '.number_format(($template_time-$action_time)*1000,3).
+            ' | template: '.number_format(($view_time-$template_time)*1000,3).
+            ' | view: '.number_format(($end-$view_time)*1000,3).
+            '| <strong>Total: '.number_format(($end-$start_time)*1000,3).' ms</strong></p>';
+      }
    }
    function setName($name)
    {
