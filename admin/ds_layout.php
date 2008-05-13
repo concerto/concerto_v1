@@ -3,24 +3,29 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title><?php echo join(' - ',array('Concerto Interface v1.7',
+<title><?php echo join(' - ',array('Concerto Interface v'.CONCERTO_VERSION,
 		$this->getTitle()));?></title>
 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-<link rel="stylesheet" type="text/css" href="<? echo ADMIN_BASE_URL ?>css/admin_new.css" />
-<link rel="stylesheet" type="text/css" href="<? echo ADMIN_BASE_URL ?>css/menu_tabs.css" />
-<link rel="stylesheet" type="text/css" href="<? echo ADMIN_BASE_URL ?>css/ui.datepicker.css" />
-<link rel="stylesheet" type="text/css" href="<? echo ADMIN_BASE_URL ?>css/ui.tabs.css" />
+<link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/admin_new.css" />
+<link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/menu_tabs.css" />
+<link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/ui.datepicker.css" />
+<link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/ui.lightbox.css" />
+<link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/ui.tablesort.css" />
+<link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/ui.tabs.css" />
 
-<!--[if lt IE 7.]>
-<script defer type="text/javascript" src="<? 
-echo $admin_base_url ?>/js/pngfix.js"></script>
+<!--[if IE 6]>
+<link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/ieonly.css" />
 <![endif]-->
 
-<script type="text/javascript" src="<? echo ADMIN_BASE_URL ?>js/jquery.js"></script>
-<script type="text/javascript" src="<? echo ADMIN_BASE_URL ?>js/ui.datepicker.js"></script>
-<script type="text/javascript" src="<? echo ADMIN_BASE_URL ?>js/ui.tabs.js"></script>
-<script type="text/javascript" src="<? echo ADMIN_BASE_URL ?>js/subscriptions.js"></script>
+<!--[if lt IE 7.]>
+<script defer type="text/javascript" src="<?=ADMIN_BASE_URL?>js/pngfix.js"></script>
+<![endif]-->
 
+<script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/jquery.js"></script>
+<script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/ui.datepicker.js"></script>
+<script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/ui.lightbox.js"></script>
+<script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/ui.tablesort.js"></script>
+<script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/ui.tabs.js"></script>
 
 <?php //renderHeadExtras() ?>
 </head>

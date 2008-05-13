@@ -107,7 +107,6 @@ class screensController extends Controller
                  } else $success=false;
               }
            }
-           $field->rebalance_scale();
            if($field->set_properties()===false) $success=false;
         }
      }

@@ -10,7 +10,7 @@ class contentController extends Controller
    function setup()
    {
       $this->setName('Content');
-      $this->setTemplate('blank_layout', Array('image','new_image','new_ticker'));
+      $this->setTemplate('blank_layout', Array('image','new_image','new_ticker','ajax_details'));
    }
 
    function indexAction()
@@ -65,6 +65,10 @@ class contentController extends Controller
                $this->denied_feeds[]=$feed;
          }
       }
+   }
+
+   function ajax_detailsAction()
+   {
    }
 
    function editAction()

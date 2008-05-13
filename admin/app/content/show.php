@@ -21,8 +21,6 @@ if(preg_match('/image/',$this->content->mime_type)) {
 
 <h3>Run dates: <span class="emph"><?=date("m/j/Y H:i",strtotime($this->content->start_time))?> - <?=date("m/j/Y H:i",strtotime($this->content->end_time))?></span></h3>
 
-<h3>Display duration: <span class="emph"><img src="<?= ADMIN_BASE_URL ?>/images/stopwatch.gif" alt="Duration" /> <?=$this->content->duration/1000?> seconds</span></h3>
-
 <h3>Submitted By: <span class="emph"><a href="<?=ADMIN_URL.'/users/show/'.$this->submitter->username?>"><?=$this->submitter->name?></a></span></h3>
 
 <br clear="left">

@@ -18,11 +18,11 @@ src="<?php echo ADMIN_BASE_URL?>/images/conc_bluebg.gif" alt="Concerto" style=""
          ?>
 	   <?
            if ( isAdmin() ) { ?>
-         <img src="<?=ADMIN_BASE_URL ?>/images/user_1337.gif" /><br /><br />
+         <img src="<?=ADMIN_BASE_URL ?>images/user_1337.gif" alt="" /><br /><br />
            <? } elseif ($_SESSION[user]->controls_afeed() || $_SESSION[user]->controls_ascreen()) { ?>
-         <img src="<?=ADMIN_BASE_URL ?>/images/user_admin.gif" /><br /><br />
+         <img src="<?=ADMIN_BASE_URL ?>images/user_admin.gif" alt="" /><br /><br />
            <? } else { ?>
-         <img src="<?= ADMIN_BASE_URL ?>/images/user_basic.gif" /><br /><br /> 
+         <img src="<?= ADMIN_BASE_URL ?>images/user_basic.gif" alt="" /><br /><br /> 
            <? } //This closes the non admin or moderator stuff 
            echo '<p>Welcome, <a href="'.ADMIN_URL.'/users/show/'.userName().'">'.firstName().'</a>!</p>';
            ?>
@@ -35,27 +35,27 @@ src="<?php echo ADMIN_BASE_URL?>/images/conc_bluebg.gif" alt="Concerto" style=""
       </div>
     </div>
 <?php
-if(isLoggedIn() && $_SESSION['user']->id)
-        $feeds = sql_select('user','feed.id',false,'LEFT JOIN `user_group` ON user_group.user_id = user.id'.
-                            ' LEFT JOIN `feed` ON feed.group_id = user_group.group_id WHERE user.id = '.
-                            $_SESSION['user']->id);
-if(is_array($feeds)&&count($feeds)>0) {
-        foreach($feeds as $feed) {
-           $obj = new Feed($feed['id']);
-           $modq = $obj->content_list('NULL');
-           $num = is_array($modq)?count($modq):0;
-           if($num>0)
-              $mod_feeds[]='<p><a href="'.ADMIN_URL.'/feeds/moderate/'.$obj->id.
-                 '">'.$obj->name.'</a> ('.$num.')</p>';
-        }
+$sql = "SELECT feed_content.feed_id as feed_id, COUNT(content.id) as cnt
+        FROM feed_content
+        LEFT JOIN content ON feed_content.content_id = content.id
+        WHERE feed_content.moderation_flag IS NULL
+        GROUP BY feed_content.feed_id;";
+$res = sql_query($sql);
+
+for($i = 0;$row = sql_row_keyed($res,$i);++$i){
+    $count = $row['cnt'];
+    $feed = new Feed($row['feed_id']);
+    if($feed->user_priv($_SESSION['user'], 'moderate'))
+        $mod_feeds[]="<p><a href=\"".ADMIN_URL."/moderate/feed/{$feed->id}\">{$feed->name} ({$row['cnt']})</a></p>";
 }
-if(is_array($mod_feeds)&&count($mod_feeds)>0) {
+
+if(isset($mod_feeds)) {
 ?>
     <div class="alert_box">
 	   <div class="alert_box_inset">
         <div class="alert_box_padding">
-          <h1>Awaiting Moderation</h1>
-<?= join(" \n ", $mod_feeds) ?>
+          <h1><a href="<?=ADMIN_URL?>/moderate">Awaiting Moderation</a></h1>
+          <?= join("\n", $mod_feeds) ?>
         </div>
       </div>
     </div>

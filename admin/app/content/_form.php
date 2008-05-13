@@ -3,25 +3,24 @@
    $content = $this->content;
 ?>
 <!-- Begin Content Form -->
-	<div>
      <table class='edit_win' cellpadding='6' cellspacing='0'>
        <tr> 
-         <td class='firstrow'><h5>Title</h5><p>Enter some words that describe this piece of content to others.</p></td>
-         <td colspan="2" class='edit_col firstrow'>
-           <input type="text" id="name" class="extended" name="content[name]" value="<?=$content->name?>">
+         <td><h5>Title</h5><p>Enter some words that describe this piece of content to others.</p></td>
+         <td colspan="2" class='edit_col'>
+           <input type="text" class="extended" name="content[name]" value="<?=$content->name?>" />
          </td>
        </tr> 
        <tr>
          <td><h5>Start Date</h5><p>When should this piece of content start to be displayed on Concerto?</p></td>
          <td>
-           <input type="text" id="content_start_date" class="start_date" name="content[start_date]" value="<?=$content->start_time?>">
-           <p id="start_time_msg">Starting at the beginning of the day (12:00am)</p>
+           <input type="text" class="start_date" name="content[start_date]" value="<?=$content->start_time?>" />
+           <p class="start_time_msg">Starting at the beginning of the day (12:00am)</p>
          </td>
-         <td width="30%" style="text-align:right;"><a href="#" onclick = "this.parentNode.getElementsByTagName('select')[0].style.display='inline'; document.getElementById('start_time_msg').style.display='none'; return false;">Set a different start time</a>
-           <div style="text-align:right">
-           <select id="content_start_time" name="content[start_time]" style="display:none">
+         <td width="30%" style="text-align:right;"><a class="click_start_time" href="#">Set a different start time</a>
+           <div class="start_time_select" style="text-align:right;display:none">Start Time:
+           <select name="content[start_time]">
 <?php
-      echo "<option value=\"00:00\" selected>12:00am</option>\n";
+      echo "<option value=\"00:00\" selected=\"selected\">12:00am</option>\n";
       echo "<option value=\"00:30\">12:30am</option>\n";
       for ($i = 1; $i < 12; $i ++)
       {
@@ -48,12 +47,12 @@
        <tr>
          <td><h5>End Date</h5><p>When should this piece of content expire?  This might be the date of the event you are advertising.</p></td>
          <td>
-           <input type="text" id="end_date" class="end_date" name="content[end_date]" value="<?=$content->end_time?>">
-           <p id="end_time_msg">Showing through the end of the day (11:59pm)</p>
+           <input type="text" class="end_date" name="content[end_date]" value="<?=$content->end_time?>" />
+           <p class="end_time_msg">Showing through the end of the day (11:59pm)</p>
          </td>
-         <td width="30%" style="text-align:right;"><a href="#" onclick = "this.parentNode.getElementsByTagName('select')[0].style.display='inline'; document.getElementById('end_time_msg').style.display='none'; return false;">Set a different end time</a>
-           <div style="text-align:right">
-           <select id="content_end_time" name="content[end_time]" style="display:none">
+         <td width="30%" style="text-align:right;"><a class="click_end_time" href="#">Set a different end time</a>
+           <div class="end_time_select" style="text-align:right;display:none">End Time:
+           <select name="content[end_time]">
 <?php
       echo "<option value=\"00:00\">12:00am</option>\n";
       echo "<option value=\"00:30\">12:30am</option>\n";
@@ -72,40 +71,37 @@
          echo "<option value=\"{$rtime}:00\">$i:00pm</option>\n";
          echo "<option value=\"{$rtime}:30\">$i:30pm</option>\n";
       }
-      echo "<option value=\"23:59\" selected>11:59pm</option>\n";
+      echo "<option value=\"23:59\" selected=\"selected\">11:59pm</option>\n";
 ?>
            </select>
+           </div>
          </td>
        </tr>
 
        <tr>
          <td><h5>Duration</h5><p>For how long should this piece of content be displayed on a screen?</p></td>
          <td>
-           Default is <?=DEFAULT_DURATION?> seconds 
+           <div class="duration_msg">Default is <?=DEFAULT_DURATION?> seconds</div>
+           <div class="duration_div" style="display:none"><input type="text" size="2" name="content[duration]" value="<?= $content->duration?$content->end_time:DEFAULT_DURATION?>" /> &nbsp;seconds</div>
          </td>
-         <td width="30%" style="text-align:right;"><a href="#" onclick = "this.parentNode.getElementsByTagName('div')[0].style.display='block'; return false;">Set a different duration</a>
-           <div id="content_duration_div" style="display:none"><input type="text" size="2" id="width" name="content[duration]" id="content_duration" value="<?= $content->duration?$content->end_time:DEFAULT_DURATION?>"> &nbsp;seconds</div>
+         <td width="30%" style="text-align:right;"><a class="click_duration" href="#">Set a different duration</a>
          </td>
        </tr>
        <tr>
          <td><h5>Feeds</h5><p>In which content categories would this content fit the best?  <b>Please limit to the most relevant category.</b> <a href="#"><img class="icon" src="<?= ADMIN_BASE_URL ?>images/help_button.gif" alt="Help" /></a></p></td>
-         <td id="feed_cell"><div>
+         <td>
            Submit to Feed:
-           <select name="content[feeds][0]" id="1">
+           <select name="content[feeds][0]">
            <option></option>
-           <?php
-           foreach ($this->feeds as $arr) {
-              list($feed, $value) = $arr;
-              echo '<option value="'.$feed->id.'"';
-              if($checked) echo ' selected';
-              echo '>'.$feed->name.'</option>';
-           }
-           ?>
+<?php
+foreach ($this->feeds as $arr) {
+    list($feed, $value) = $arr;?>
+           <option value="<?=$feed->id?>"><?=$feed->name?></option>
+<? } ?>
            </select>
-           </div></td>
-         <td style="text-align:right;"><a href="#" onClick = "var c=this.parentNode.parentNode.getElementsByTagName('td')[1]; var n =c.lastChild.cloneNode(true); var s=n.getElementsByTagName('select')[0]; s.id=1+parseInt(s.id); s.name='content[feeds]['+s.id+']'; c.appendChild(n); return false;">Add another feed</a></td>
+         </td>
+         <td style="text-align:right;"><a class="click_add_feed" href="#">Add another feed</a></td>
        </tr>       
      </table>
-     </div>
-	<br clear="all" />
+   <br clear="all" />
 <!-- End Screen Form General Section -->

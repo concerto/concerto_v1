@@ -18,9 +18,6 @@ class Position{
 	var $screen_id;
 	var $feed_id;
 	var $field_id;
-	var $range_l;
-	var $range_h;
-	
 	var $weight;
 	
 	var $set;
@@ -35,10 +32,7 @@ class Position{
 				$this->screen_id = $data['screen_id'];
 				$this->feed_id = $data['feed_id'];
 				$this->field_id = $data['field_id'];
-				$this->range_l = $data['range_l'];
-				$this->range_h = $data['range_h'];
-			
-				$this->weight = $this->range_h - $this->range_l;
+				$this->weight = $data['weight'];
 			
 				$this->set = true;
 				return true;
@@ -52,7 +46,7 @@ class Position{
 	}
 
 	//Creates a posotion, yea..
-	function create_position($screen_id_in, $feed_id_in, $field_id_in, $range_l_in = 0, $range_h_in = 0){
+	function create_position($screen_id_in, $feed_id_in, $field_id_in, $weight_in = DEFAULT_WEIGHT){
 		if($this->set){
 			return true; //You've already got an object!
 		} else {
@@ -62,19 +56,14 @@ class Position{
 			if( $data['COUNT(id)'] != 0){
 				return false;  //Implying the mapping already exists
 			} else {
-				$sql = "INSERT INTO position (screen_id, feed_id, field_id, range_l, range_h) VALUES ($screen_id_in, $feed_id_in, $field_id_in, $range_l_in, $range_h_in)";
+				$sql = "INSERT INTO position (screen_id, feed_id, field_id, weight) VALUES ($screen_id_in, $feed_id_in, $field_id_in, $weight_in)";
 				$res = sql_query($sql);
 				if($res){
-					$sql_id = sql_insert_id();
-
-					$this->id = $sql_id;
+					$this->id = sql_insert_id();
 					$this->screen_id = $screen_id_in;
 					$this->feed_id = $feed_id_in;
 					$this->field_id = $field_id_in;
-					$this->range_l= $range_l_in;
-					$this->range_h = $range_h_in;
-					
-					$this->weight = $this->range_h - $this->range_l;
+					$this->weight = $weight_in;
 				
 					$this->set = true;
 					return true;
@@ -86,10 +75,9 @@ class Position{
 	
 	}
 	
-	//Updates ranges ONLY!
+	//Updates weights ONLY!
 	function set_properties(){
-		$sql = "UPDATE position SET range_l = '$this->range_l', range_h = '$this->range_h' WHERE id = $this->id LIMIT 1";
-		$this->weight = $this->range_h - $this->range_l;
+		$sql = "UPDATE position SET weight = '$this->weight' WHERE id = $this->id LIMIT 1";
 		$res = sql_query($sql);
 		if($res != 0){
 			return true;
@@ -110,9 +98,6 @@ class Position{
 				$this->screen_id = '';
 				$this->feed_id = '';
 				$this->field_id = '';
-				$this->range_l= '';
-				$this->range_h = '';
-					
 				$this->weight = '';
 				
 				$this->set = false;

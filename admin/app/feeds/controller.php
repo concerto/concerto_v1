@@ -26,65 +26,47 @@ class feedsController extends Controller
       $this->feeds=Feed::priv_get($_SESSION['user'], 'list');
    }
 
-
-   function showAction()
-   {
-      $access_check = new Feed();
-      if(!($access_check->priv_test($_SESSION['user'], $this->args[1]))) {
-         $this->flash('Error: The feed you requested could not be found. '.
-                      'You may have found a bad link, or the feed may have been removed. ',
-                      'error');
-         redirect_to(ADMIN_URL.'/feeds');
-      }
-      $this->feed = new Feed($this->args[1]);
-
-      $this->group = new Group($this->feed->group_id);
-      //      $this->contents=$this->feed->content_list("1");
-      $waiting_arr=$this->feed->content_list('NULL');
-      if(is_array($waiting_arr)) $waiting = count($waiting_arr);
-      else $waiting = "No";
-      $this->waiting = "$waiting item".($waiting!=1?'s':'')." awaiting moderation";
-
-
-      $types = sql_select('type',Array('id','name'), NULL, 'ORDER BY name');
-      foreach($types as $type) {
-         $contentids = sql_select('feed_content','DISTINCT content_id', '', 'INNER JOIN `content`'.
-                                  ' ON content_id=content.id AND moderation_flag=1'.
-                                  ' AND feed_id = '.$this->feed->id.' AND type_id = '.$type['id'].
-                                  ' ORDER BY name');
-         if(is_array($contentids))
-            foreach($contentids as $id)
-               $this->contents[$type['name']][] = new Content($id['content_id']);
-      }
-
-
-      $this->setTitle($this->feed->name);
-      $this->setSubject($this->feed->name);
-      $this->canEdit = $_SESSION['user']->can_write('feed',$this->args[1]);
-   }
-
-   function moderateAction()
-   {
-      $this->feed = new Feed($this->args[1]);
-      $this->setTitle('Moderating '.$this->feed->name);
-      $this->setSubject($this->feed->name);
-      $types = sql_select('type',Array('id','name'), NULL, 'ORDER BY name');
-      foreach($types as $type) {
-         $contentids = sql_select('feed_content', 'content_id', NULL,
-                                  'LEFT JOIN content ON content.id=content_id WHERE type_id = '.$type['id'].
-                                  ' AND moderation_flag IS NULL AND feed_id = '.$this->feed->id.' ORDER BY name');
-         if(is_array($contentids))
-            foreach($contentids as $id)
-               $this->contents[$type['name']][] = new Content($id['content_id']);
-      }
-   }
-
    function editAction()
    {
       $this->feed = new Feed($this->args[1]);
+      if(!$this->feed) {
+          $this->flash('Feed not found', 'error');
+          redirect_to(ADMIN_URL."/feeds");
+      }
+
       $this->setSubject($this->feed->name);
       $this->setTitle("Editing ".$this->feed->name);
    }
+
+    function showAction()
+    {
+      $this->feed = new Feed($this->args[1]);
+        if(!$this->feed) {
+            $this->flash('Feed not found', 'error');
+            redirect_to(ADMIN_URL."/feeds");
+        }
+        
+        $this->group = new Group($this->feed->group_id);
+
+        $sql = "SELECT COUNT(content.id) FROM feed_content
+                LEFT JOIN content ON feed_content.content_id = content.id
+                WHERE feed_content.feed_id = {$this->feed->id}
+                AND moderation_flag = 1
+                AND content.end_time > NOW()
+                GROUP BY feed_content.feed_id;";
+        $this->active_content = sql_query1($sql);
+
+        $sql = "SELECT COUNT(content.id) FROM feed_content
+                LEFT JOIN content ON feed_content.content_id = content.id
+                WHERE feed_content.feed_id = {$this->feed->id}
+                AND moderation_flag = 1
+                AND content.end_time < NOW()
+                GROUP BY feed_content.feed_id;";
+        $this->expired_content = sql_query1($sql);
+
+        $this->setSubject($this->feed->name);
+        $this->setTitle($this->feed->name);
+    }
 
    function newAction()
    {
@@ -149,32 +131,6 @@ class feedsController extends Controller
       } else {
          $this->flash('Feed update failed. Please try again.','error');
          redirect_to(ADMIN_URL.'/feeds/show/'.$this->args[1]);
-      }
-   }
-
-   function approveAction()
-   {
-      $feed = new Feed($this->args[1]);
-      $cid = $this->args[2];
-      if($feed->content_mod($cid, 1, $_SESSION['user']->id)) {
-         $this->flash('Content approved successfully.');
-         redirect_to(ADMIN_URL.'/feeds/moderate/'.$feed->id);
-      } else {
-         $this->flash('Content approval failed.','error');
-         redirect_to(ADMIN_URL.'/feeds/moderate/'.$this->args[1]);
-      }
-   }
-
-   function denyAction()
-   {
-      $feed = new Feed($this->args[1]);
-      $cid = $this->args[2];
-      if($feed->content_mod($cid, 0, $_SESSION['user']->id)) {
-         $this->flash('Content denied successfully.');
-         redirect_to(ADMIN_URL.'/feeds/moderate/'.$feed->id);
-      } else {
-         $this->flash('Content denial failed.','error');
-         redirect_to(ADMIN_URL.'/feeds/moderate/'.$this->args[1]);
       }
    }
 

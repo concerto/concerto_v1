@@ -1,0 +1,4 @@
+/* IE6-only CSS styles */
+#content_header h1 { padding:12px 0px 0px 0px; }
+h1, h2, h3, h4, h5, h6, span.emph { font-size:1.2em; }
+h1 { font-size:2em; }

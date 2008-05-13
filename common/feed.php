@@ -212,22 +212,15 @@ class Feed{
 		}
 	}
 	//List all content in a feed based on type and moderation status
-	function content_list_by_type($type, $mod_flag=''){
-		if($mod_flag == 'NULL'){
-			$mod_where = "AND moderation_flag IS NULL";
-		} elseif($mod_flag != ''){
-			$mod_where = "AND moderation_flag LIKE '$mod_flag'";
-		} else {
-			$mod_where = "";
-		}
+	function content_get_by_type($type, $where='1'){
 		$sql = "SELECT feed_content.content_id, feed_content.moderation_flag FROM feed_content 
 				LEFT JOIN content ON feed_content.content_id = content.id
-				WHERE content.type_id = $type AND feed_id = $this->id $mod_where";
-				
+				WHERE content.type_id = $type AND feed_content.feed_id = $this->id AND $where";
+
 		$res = sql_query($sql);
 		$i=0;
 		while($row = sql_row_keyed($res,$i)){
-		    $data[$row['content_id']] = $row['moderation_flag'];
+		    $data[] = new Content($row['content_id']);
 		    $i++;
 		}
 		if(isset($data)){
@@ -255,8 +248,29 @@ class Feed{
 			return false;
 		}		
 	}
+    //Retrieve the active types in this feed
+    function get_types(){
+		$sql = "SELECT type.id, type.name
+				FROM feed_content
+				LEFT JOIN content ON feed_content.content_id = content.id
+				LEFT JOIN type ON content.type_id = type.id
+			   WHERE feed_content.feed_id = {$this->id}
+				GROUP BY feed_content.feed_id, type.id";
+		$res = sql_query($sql);
+		$i=0;
+		$found = false;
+		while($row = sql_row_keyed($res,$i++)){
+		    $found = true;
+          $data[$row['id']] = $row['name'];
+		}
+		if($found){
+			return $data;
+		} else {
+			return false;
+		}
+    }
 	//List all feeds, optional WHERE syntax
-	function list_all($where = ''){
+	static function list_all($where = ''){
 		$sql = "SELECT * FROM feed $where";
 		$res = sql_query($sql);
 		$i=0;
@@ -275,7 +289,7 @@ class Feed{
 		}
 	}
 	//List all feeds, based on type
-	function list_all_by_type($where = 'WHERE type.id IS NOT NULL'){
+	static function list_all_by_type($where = 'WHERE type.id IS NOT NULL'){
 		$sql = "SELECT feed.id, feed.name, type.id as t_id, type.name as t_name
 				FROM feed
 				LEFT JOIN feed_content ON feed_content.feed_id = feed.id
@@ -300,7 +314,7 @@ class Feed{
 	}
 	
 	//List all feeds, optional WHERE syntax
-	function get_all($where = ''){
+	static function get_all($where = ''){
 		$sql = "SELECT * FROM feed $where";
 		$res = sql_query($sql);
 		$i=0;
@@ -316,6 +330,22 @@ class Feed{
 			return false;
 		}
 	}
+    function user_priv($user, $action='browse'){
+        //Admins can always browse...everything!!!
+        if($user->admin_privileges) return true;
+        foreach($user->groups as $group_id) {
+            if($this->group_id == $group_id)
+                return true;
+        }
+        //Members of Groups need some browsing too.  
+        if($action == 'browse') {
+            return $this->type != 3;
+        } elseif($action == 'submittable') {
+            return $this->type != 2 && $this->types != 3;
+        } else {
+            return false;
+        }
+    }
 	//Returns an array of feeds that the object has access to do an action with
 	function priv_get($obj, $action='list'){
 		if($action == 'subscribe'){

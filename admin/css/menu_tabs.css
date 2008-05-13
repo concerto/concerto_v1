@@ -2,7 +2,7 @@
     #tabs {
    border-bottom:6px solid #999;
       float:left;
-   margin-bottom:12px;
+/*   margin-bottom:12px;*/
       width:100%;
       min-height:18px;
       background:#000;
@@ -11,7 +11,7 @@
       }
     #tabs ul {
      margin:0;
-     padding:10px 10px 0 195px;
+     padding:0px 10px 0px 195px;
      list-style:none;
       }
     #tabs li {

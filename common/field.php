@@ -90,7 +90,6 @@ class Field{
 		} else {
 			return false;
 		}
-	
 	}
 	
 	//Lists all the positions in a field
@@ -98,76 +97,6 @@ class Field{
 		if($this->screen_set){
 			$data = $this->screen_pos;
 			return $data;
-		} else {
-			return false;
-		}
-	}
-	
-	//Rebalances all positions to be equally liked
-	function rebalance(){
-		if($this->screen_set){
-			$count = count($this->screen_pos);
-			$step = 1 / $count;
-			$low = 0;
-			$high = $step;
-			foreach($this->screen_pos as $pos){
-				$pos->range_l = $low;
-				$pos->range_h = $high;
-				$pos->set_properties();
-			
-				$low = $high;
-				$high = $high+$step;
-			}
-			if($high > 0.99999){
-				return true;
-			} else {
-				return false;  //This implies we didn't hit a max of 0.99999, where the database will round up to 1.  AKA there might not be a complete distribution.
-			}
-		} else {
-			return false; //A screen object hasn't been bound and gagged yet, hence we can't do anything
-		}
-	}
-	//Rebalances based on the weights stored in each postions.
-	function rebalance_byweight(){
-		if($this->screen_set){
-			$sum = 0;
-         if(is_array($this->screen_pos)) {
-            foreach($this->screen_pos as $pos){
-               $sum += $pos->weight;
-            }
-         }
-			if($sum < 0.99999 || $sum > 1){  //Tests to verify that all the weights add up to 1, or something close enough for the database
-				return false;
-			} else {
-				$low = 0;
-				foreach($this->screen_pos as $pos){
-					$high = $low + $pos->weight;
-					$pos->range_l = $low;
-					$pos->range_h = $high;
-					$pos->set_properties();
-				
-					$low = $high;			
-				}
-				return true;
-			}
-		} else {
-			return false; //See rebalance for comment
-		}
-	}
-	//Rebalances the weights so they sum to 1, helpful if you delete stuff
-	function rebalance_scale(){
-		if($this->screen_set){
-			$sum = 0;
-         if(!is_array($this->screen_pos)) return true;
-			foreach($this->screen_pos as $pos){
-				$sum += $pos->weight;
-			}
-			if(!$sum) return true;
-			$scale = 1/$sum; //The amount each weight needs to grow by
-			foreach($this->screen_pos as $pos){
-				$pos->weight = $pos->weight * $scale;
-			}
-			return $this->rebalance_byweight();
 		} else {
 			return false;
 		}

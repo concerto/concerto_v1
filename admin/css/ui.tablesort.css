@@ -1,0 +1,90 @@
+table.content_listing {
+width: 100%;
+text-align: left;
+vertical-align: middle;
+}
+table.moderate { border-bottom:solid 1px #999; }
+table.content_listing thead tr th {
+background-color: #666;
+color:#FFF;
+border: 1px solid #FFF;
+border-bottom:solid 8px #FFF;
+font-size: 8pt;
+padding-right:15px; 
+}
+
+table.content_listing thead tr th.driver {
+width: 100%;
+}
+table.content_listing thead tr th.driver_moderate {
+width:40%; 
+}
+
+table.content_listing thead tr .header {
+background-repeat: no-repeat;
+background-position: center right;
+cursor: pointer;
+}
+
+td.listh_icon { text-align:center; }
+tr.details { background:#FFF url(../images/details_bg.gif) top left repeat-x; }
+tr.details td { padding:12px; }
+td.preview { text-align:center; }
+td.text_bg { font-size:0.8em;text-align:center; background:url(../images/ticker_bg.gif) center center no-repeat; }
+
+table.content_listing tbody tr.listitem {
+background: url(../images/lightgray_bg.gif) repeat; 
+cursor: pointer;
+}
+
+tr.listitem td { border-top:solid 1px #999; }
+
+table.content_listing tbody tr.listitem:hover {
+background:#ccccff url(../images/listitem_sel_bg.gif) repeat; /* #cee2f0; url(../images/alert_box.gif) repeat; */
+}
+
+table.content_listing tbody tr.listitem_sel, table.content_listing tbody tr.sel_listitem {
+background:url(../images/alert_box.gif) repeat;
+cursor:pointer;
+}
+table.content_listing tbody tr.listitem_sel:hover {
+background:#ccccff url(../images/listitem_sel_bg.gif) repeat; /* #cee2f0; url(../images/alert_box.gif) repeat; */
+}
+
+table.content_listing tbody tr.sel_listitem:hover { background:url(../images/alert_box.gif) repeat !important; }
+
+table.content_listing thead tr .headerSortUp {
+background-image: url(../images/sort_asc_bluebg.gif);
+background-color: #4794bb;
+}
+
+table.content_listing thead tr .headerSortDown {
+background-image: url(../images/sort_desc_bluebg.gif);
+background-color: #4794bb;
+}
+
+div.tablesorterPager {
+padding: 10px 0 10px 0;
+background-color: #D6D2C2;
+text-align: center;
+}
+
+div.tablesorterPager span {
+padding: 0 5px 0 5px;
+}
+
+div.tablesorterPager input.prev {
+width: auto;
+margin-right: 10px;
+}
+div.tablesorterPager input.next {
+width: auto;
+margin-left: 10px;
+}
+div.tablesorterPager input {
+font-size: 8px;
+width: 50px;
+border: 1px solid #330000;
+text-align: center;
+}
+ 

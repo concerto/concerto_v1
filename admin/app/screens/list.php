@@ -5,13 +5,13 @@
 <?php
 foreach($this->screens as $screen){
   if($screen->width/$screen->height==(16/9)){
-    $scrimg="screen_169.png";
+    $scrimg="screen_169_list.png";
     $ratio ="16:9";
   } else if ($screen->width/$screen->height==(16/10)) {
-    $scrimg="screen_169.png";
+    $scrimg="screen_169_list.png";
     $ratio ="16:10";
   }else{
-    $scrimg="screen_43.png";
+    $scrimg="screen_43_list.png";
     $ratio ="4:3";
   }
 ?>

@@ -35,25 +35,28 @@
 	<?php
 	foreach($this->screens as $screen){
 	  if($screen->width/$screen->height==(16/9)){
-	    $scrimg="screen_169.png";
+	    $scrimg="screen_169_list.png";
 	    $ratio ="16:9";
+     }else if ($screen->width/$screen->height==(16/10)) {
+       $scrimg="screen_169_list.png";
+       $ratio ="16:10";
 	  }else{
-	    $scrimg="screen_43.png";
+	    $scrimg="screen_43_list.png";
 	    $ratio ="4:3";
 	  }
 	?>
 	  <a href="<?echo ADMIN_URL?>/screens/show/<? echo $screen->id ?>">
-	    <div class="screenfloat">
+       <div class="screenfloat"><div class="screenfloat_padding">
 	      <img src="<?echo ADMIN_BASE_URL?>/images/<?echo $scrimg?>" alt="" /><br /><br />
 	      <h1><? echo $screen->name?></h1>
 	      <h2><? echo $screen->location?></h2>
 	      <h3><?php echo $screen->width.' x '.$screen->height.' ('.$ratio; ?>)</h3>
 	      <?php if(strtotime($screen->last_updated)>strtotime('-1 minutes')) { ?>
-		<span style="color:green;font-size:1.3em;font-weight:bold;">Online</span>
+		   <span style="color:green;font-size:1.3em;font-weight:bold;">Online</span>
 	      <?php } else { ?>
-		<span style="color:red;font-size:1.3em;font-weight:bold;">Offline</span>
+    		<span style="color:red;font-size:1.3em;font-weight:bold;">Offline</span>
 	      <?php } ?>
-	    </div>
+	    </div></div>
 	  </a>
 
 	<?php
