@@ -63,11 +63,9 @@ class moderateController extends Controller
         $content_id = $_POST['content_id'];
         $action = $_POST['action'];
         if($feed && $action="approve"){
-            #echo json_encode($feed->content_mod($content_id, 1));
-            echo "true";
+            echo json_encode($feed->content_mod($content_id, 1));
         } elseif($feed && $action="deny") {
-            #echo json_encode($feed->content_mod($content_id, 0));
-            echo "true";
+            echo json_encode($feed->content_mod($content_id, 0));
         } else {
             echo json_encode(false);
         }
