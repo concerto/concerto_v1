@@ -99,8 +99,9 @@ if(isset($this->contents)) {
         </tr>
         <tr id="c<?=$content->id?>" class="details">
             <td class="actions">
-                <a class="approve" href="<?=ADMIN_URL?>/moderate/approve/<?=$this->feed->id?>/<?=$content->id?>"><span class="approve">Approve <img border="0" src="<?= ADMIN_BASE_URL ?>images/mod_check.gif" alt="" /></span></a>
-                <a class="deny" href="<?=ADMIN_URL?>/moderate/deny/<?=$this->feed->id?>/<?=$content->id?>"><span class="deny">Deny <img border="0" src="<?= ADMIN_BASE_URL ?>images/mod_ex.gif" alt="" /></span></a>
+                <a class="approve" title="Approve Content" href="<?=ADMIN_URL?>/moderate/approve/<?=$this->feed->id?>/<?=$content->id?>"><span class="approve">Approve <img border="0" src="<?= ADMIN_BASE_URL ?>images/mod_check.gif" alt="" /></span></a>
+                <a class="deny" title="Deny Content" href="<?=ADMIN_URL?>/moderate/deny/<?=$this->feed->id?>/<?=$content->id?>"><span class="deny">Deny <img border="0" src="<?= ADMIN_BASE_URL ?>images/mod_ex.gif" alt="" /></span></a>
+                <h3 title="Duration (seconds)"><input type="text" name="duration" value="<?=$content->get_duration($this->feed)/1000?>" size="2" /></h3>
             </td>
             <td colspan="5">
 <form>
@@ -115,8 +116,7 @@ if(isset($this->contents)) {
 </td>
 <td>
     <h1><a href="<?= ADMIN_URL ?>/content/show/<?= $content->id ?>"><?= $content->name ?></a></h1>
-    <span style="font-size:1.5em;font-weight:bold;color:#333;margin-bottom:12px;"><?= date('M j, Y',strtotime($content->start_time)) ?> - <?= date('M j, Y',strtotime($content->end_time)) ?></span> <? if($week_range > 1) echo "({$week_range} Weeks)" ?>
-    <h2>Display duration: <img border="0" src="<?= ADMIN_BASE_URL ?>images/mod_dur.gif" alt="" /><input type="text" name="duration" value="<?=$content->get_duration($this->feed)/1000?>" size="2" /> seconds</h2>
+    <span style="font-size:1.5em;font-weight:bold;color:#333;margin-bottom:12px;"><?= date('M j, Y h:i:s A',strtotime($content->start_time)) ?> - <?= date('M j, Y h:i:s A',strtotime($content->end_time)) ?></span> <? if($week_range > 1) echo "({$week_range} Weeks)" ?>
     <h2>Submitted by <strong><a href="<?= ADMIN_URL ?>/users/show/<?= $submitter->id ?>"><?= $submitter->name ?></a></strong></h2>
 </td>
 <td>

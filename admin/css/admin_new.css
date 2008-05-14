@@ -147,7 +147,8 @@ ul.subscriptions ul li { border:solid 2px #666; }
 #selectmenu li.selected a:hover { /*selected main tab style */ text-decoration: none; }
 
 /* Moderate */
-td.actions { color:#666; font-weight:bold; font-size:1.1em; background:#FFF url(../images/mod_bg.gif) top right repeat-y; width:80px; border-right:solid 1px #666; vertical-align:top !important; padding-top:25px !important; text-align:right; }
-span.approve { color:green; font-weight:bold;  display:block; margin-bottom:8px; }
-span.deny { color:red; font-weight;bold; display:block; margin-bottom:8px;  }
+td.actions { color:#006699; font-weight:bold; font-size:0.9em; background:#FFF url(../images/mod_bg.gif) top right repeat-y; width:100px; border-right:solid 1px #666; vertical-align:top !important; padding-top:25px !important; text-align:right; }
+td.actions h3 { background:url(../images/dur_med.gif) center right no-repeat; padding:3px 0px; padding-right:30px; }
+span.approve { color:green; font-weight:bold;  display:block; font-size:1.2em; margin-bottom:8px; }
+span.deny { color:red; font-weight;bold; display:block; margin-bottom:8px; font-size:1.2em; }
 a:hover span.approve, a:hover span.deny { text-decoration:underline; }
