@@ -230,16 +230,21 @@ class Feed{
 		}
 	}
 	//Moderate content: Approve or deny
-	function content_mod($cid, $mod_in='NULL', $moderator_id = 'NULL'){
-		if($mod_in != 0 && $mod_in != 1 && $mod_in != 'NULL'){ //Don't let a stupid value in
+	function content_mod($cid, $mod_in = NULL, $moderator = NULL, $duration = NULL){
+		if($mod_in != 0 && $mod_in != 1){ //Don't let a stupid value in
 			$mod_in = 'NULL';
 		}
-		$sql = "UPDATE feed_content SET moderation_flag = $mod_in, moderator_id = $moderator_id WHERE feed_id = $this->id AND content_id = '$cid' LIMIT 1";
+      $updates[] = "moderation_flag = $mod_in";
+      if($duration != NULL)
+          $updates[] = "duration = $duration";
+      if($moderator != NULL)
+          $updates[] = "moderator_id = {$moderator->id}";
+		$sql = "UPDATE feed_content SET ".join($updates, ", ")." WHERE feed_id = {$this->id} AND content_id = $cid LIMIT 1";
 		$res = sql_query($sql);
 		if($res){
 			$notify = new Notification();
 			if($mod_in == 1){
-                        	$notify->notify('feed', $this->id, 'content', $cid, 'approve');
+            $notify->notify('feed', $this->id, 'content', $cid, 'approve');
 			} elseif($mod_in == 0){
 				$notify->notify('feed', $this->id, 'content', $cid, 'deny');
 			}

@@ -78,7 +78,7 @@ class Uploader{
 			$this->mime_type = 'text/plain';
 			$this->type_id = 2; //SELF: THIS IS BAD AND DUMB AND STUPID
 			$content = new Content();
-			if($content->create_content($this->name, $this->user_id, $this->content_o, $this->mime_type, $this->type_id, $this->duration, $this->start_date, $this->end_date)){
+			if($content->create_content($this->name, $this->user_id, $this->content_o, $this->mime_type, $this->type_id, $this->start_date, $this->end_date)){
 
 				$this->cid = $content->id;
 				
@@ -99,7 +99,7 @@ class Uploader{
 			$this->mime_type = 'text/html';
 			$this->type_id = 2; //SELF: THIS IS BAD AND DUMB AND STUPID
 			$content = new Content();
-			if($content->create_content($this->name, $this->user_id, $this->content_o, $this->mime_type, $this->type_id, $this->duration, $this->start_date, $this->end_date)){
+			if($content->create_content($this->name, $this->user_id, $this->content_o, $this->mime_type, $this->type_id, $this->start_date, $this->end_date)){
 
 				$this->cid = $content->id;
 				
@@ -444,9 +444,9 @@ class Uploader{
 			$f = new Feed($fid);
 			$u = new User($this->user_id);
 			if($u->in_group($f->group_id)){
-				$f->content_add($this->cid, 1, $u->id);
+				$f->content_add($this->cid, 1, $u->id, $this->duration);
 			} else {
-				$f->content_add($this->cid);
+				$f->content_add($this->cid, NULL, NULL, $this->duration);
 			}
 		}
 	}

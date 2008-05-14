@@ -20,7 +20,6 @@ class Content{
 	var $content;
 	var $mime_type;
 	var $type_id;
-	var $duration;
 	var $start_time;
 	var $end_time;
 	var $submitted;
@@ -43,7 +42,6 @@ class Content{
 					$this->content = date($this->content);
 				}
 				$this->type_id = $data['type_id'];
-				$this->duration = $data['duration'];
 				$this->start_time = $data['start_time'];
 				$this->end_time = $data['end_time'];
 				$this->submitted = $data['submitted'];
@@ -59,7 +57,7 @@ class Content{
 		}
 	}
 	//Creates content, assumes it has already been handled by uploader
-	function create_content($name_in, $user_id_in, $content_in, $mime_type_in, $type_id_in, $duration_in, $start_time_in, $end_time_in){
+	function create_content($name_in, $user_id_in, $content_in, $mime_type_in, $type_id_in, $start_time_in, $end_time_in){
 		if($this->set == true){
 			return false;
 		} else {
@@ -67,10 +65,6 @@ class Content{
 			$name_in = escape($name_in);
 			$content_in = escape($content_in);
 			$mime_type_in = escape($mime_type_in);
-			if(!is_numeric($duration_in)){
-				$this->status = "Duration should be a number";
-				return false;
-			}
 			if(!($start_time_in=strtotime($start_time_in))){
 				$this->status = "Unable to understand start time";
 				return false;
@@ -88,9 +82,9 @@ class Content{
 			//End testing/cleaning block
 			
 			$sql = "INSERT INTO content 
-			(name, user_id, content, mime_type, type_id, duration, start_time, end_time, submitted)
+			(name, user_id, content, mime_type, type_id, start_time, end_time, submitted)
 			VALUES
-			('$name_in', $user_id_in, '$content_in', '$mime_type_in', $type_id_in, $duration_in, '$start_time_in', '$end_time_in', NOW())";
+			('$name_in', $user_id_in, '$content_in', '$mime_type_in', $type_id_in, '$start_time_in', '$end_time_in', NOW())";
 			$res = sql_query($sql);
 			//echo $sql;
             	if($res){
@@ -102,7 +96,6 @@ class Content{
 			$this->content = stripslashes($content_in);
                 	$this->mime_type = $mime_type_in;
                 	$this->type_id = $type_id_in;
-                	$this->duration = $duration_in;
                 	$this->start_time = $start_time_in;
                 	$this->end_time = $end_time_in;
                 	$this->submitted = date("Y:m:d H:i:s", time());
@@ -125,10 +118,6 @@ class Content{
 		//Cleaning Block
 		$name_clean = escape($this->name);
 		$content_clean = escape($this->content);
-		if(!is_numeric($this->duration)){
-			$this->status = "Duration should be a number";
-			return false;
-		}
 		if(!($this->start_time=strtotime($this->start_time))){
 			$this->status = "Unable to understand start time";
 			return false;
@@ -141,7 +130,7 @@ class Content{
 			$this->end_time = date("Y-m-d G:i:s", $this->end_time);
 			//End testing/cleaning block
 			
-		$sql = "UPDATE content SET name = '$name_clean', content = '$content_clean', duration = '$this->duration', start_time = '$this->start_time', end_time = '$this->end_time' WHERE id = $this->id LIMIT 1";
+		$sql = "UPDATE content SET name = '$name_clean', content = '$content_clean', start_time = '$this->start_time', end_time = '$this->end_time' WHERE id = $this->id LIMIT 1";
 		$res = sql_query($sql);
         	if($res){
 			$notify = new Notification();
@@ -162,6 +151,15 @@ class Content{
 			return false;
 		}
 	}
+    function get_duration($feed){
+        $sql = "SELECT duration FROM feed_content WHERE feed_content.content_id = {$this->id} AND feed_content.feed_id = {$feed->id} LIMIT 1;";
+        $ret = sql_query1($sql);
+        return max(0, $ret);
+    }
+    function get_moderator($feed){
+        $sql = "SELECT moderator_id FROM feed_content WHERE feed_content.content_id = {$this->id} AND feed_content.feed_id = {$feed->id} LIMIT 1;";
+        return new User(sql_query1($sql));
+    }
 	//Lists all feeds a content has been submitted to, as well as their moderation status
 	function list_feeds(){
 		$sql = "SELECT feed_id, moderation_flag FROM feed_content WHERE content_id = $this->id";
