@@ -44,6 +44,7 @@
 <div id="maincontent">
 <?php renderMessages() ?>
 <?php $this->render();//renderAction() ?>
+<div style="clear:both;"></div>
 </div>
 
 <!-- BEGIN Sidebar -->
