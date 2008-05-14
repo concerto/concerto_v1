@@ -28,7 +28,7 @@
 
             function checkScreen(force){
                 //ajax json request to get information about this screen
-                $.ajax({type: "GET",
+                $.ajax({type: "POST",
                         url: "content.php",
                         data: {"id": screenId},
                         success: function(json){
@@ -82,7 +82,7 @@
 
                 if(field && field["timeout"] < time)
                     //ajax json request to get each field's content
-                    $.ajax({type: "GET",
+                    $.ajax({type: "POST",
                             url: "content.php",
                             data: {"screen_id": screenId, "field_id": field["id"]},
                             success: function(json){
