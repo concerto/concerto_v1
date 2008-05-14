@@ -86,10 +86,13 @@ class browseController extends Controller
    
     function detailsAction()
     {
-        $this->content = new Content($_POST['id']);
-        if($this->content == false) exit();
+        $this->content = new Content($_POST['content_id']);
+        $this->feed = new Feed($_POST['feed_id']);
+        if($this->content == false || $this->feed == false) exit();
+        $this->duration = $this->content->get_duration($this->feed);
         $this->week_range = date('W',strtotime($this->content->end_time)) - date('W',strtotime($this->content->start_time));
         $this->submitter = new User($this->content->user_id);
+        $this->moderator = $this->content->get_moderator($this->feed);
     }
 }
 ?>

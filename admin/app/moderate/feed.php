@@ -3,8 +3,10 @@
     $(document).ready(function() {
         $(".approve").click(function() {
             var parent = $(this).parents("tr.details");
+            var action = $(parent).prev().find("td.actions");
             var content_id = $(parent).attr("id").replace(/c/,"");
             var duration = parseInt($(parent).find("input[name=duration]").attr("value")) * 1000;
+            var onError = function(){window.location = "<?=ADMIN_URL?>/moderate/approve/<?=$this->feed->id?>/" + content_id + "/" + duration;};
             $.ajax({type: "POST",
                     url: "<?=ADMIN_URL?>/moderate/post",
                     data: {"feed_id": <?=$this->feed->id?>,
@@ -12,15 +14,13 @@
                            "action": "approve",
                            "duration": duration},
                     success: function(json){
-                        if(json == true) {
-                            $(parent).prev().find("td.actions").html("Content Approved");
-                            $(parent).fadeOut("slow");
-                        } else {
-                            window.location = "<?=ADMIN_URL?>/moderate/approve/<?=$this->feed->id?>/" + content_id;
-                        }
+                        if(json == true) $(action).html("Content Approved");
+                        else onError();
                     },
-                    error: function(){
-                        window.location = "<?=ADMIN_URL?>/moderate/approve/<?=$this->feed->id?>/" + content_id;
+                    error: onError,
+                    beforeSend: function(){
+                        $(action).html("Approving...");
+                        $(parent).fadeOut("slow", function(){$(this).remove()});
                     },
                     dataType: "json"
             });
@@ -29,22 +29,22 @@
 
         $(".deny").click(function() {
             var parent = $(this).parents("tr.details");
+            var action = $(parent).prev().find("td.actions");
             var content_id = $(parent).attr("id").replace(/c/,"");
+            var onError = function(){window.location = "<?=ADMIN_URL?>/moderate/deny/<?=$this->feed->id?>/" + content_id;};
             $.ajax({type: "POST",
                     url: "<?=ADMIN_URL?>/moderate/post",
                     data: {"feed_id": <?=$this->feed->id?>,
                            "content_id": content_id,
                            "action": "deny"},
                     success: function(json){
-                        if(json == true) {
-                            $(parent).prev().find("td.actions").html("Content Denied");
-                            $(parent).fadeOut("slow");
-                        } else {
-                            window.location = "<?=ADMIN_URL?>/moderate/deny/<?=$this->feed->id?>/" + content_id;
-                        }
+                        if(json == true)  $(action).html("Content Denied");
+                        else onError();
                     },
-                    error: function(){
-                        window.location = "<?=ADMIN_URL?>/moderate/deny/<?=$this->feed->id?>/" + content_id;
+                    error: onError,
+                    beforeSend: function(){
+                        $(action).html("Denying...");
+                        $(parent).fadeOut("slow", function(){$(this).remove()});
                     },
                     dataType: "json"
             });
@@ -116,7 +116,7 @@ if(isset($this->contents)) {
 <td>
     <h1><a href="<?= ADMIN_URL ?>/content/show/<?= $content->id ?>"><?= $content->name ?></a></h1>
     <span style="font-size:1.5em;font-weight:bold;color:#333;margin-bottom:12px;"><?= date('M j, Y',strtotime($content->start_time)) ?> - <?= date('M j, Y',strtotime($content->end_time)) ?></span> <? if($week_range > 1) echo "({$week_range} Weeks)" ?>
-    <h2>Display duration: <img border="0" src="<?= ADMIN_BASE_URL ?>images/mod_dur.gif" alt="" /><input type="text" name="duration" value="<?=$content->duration/1000?>" size="2" /> seconds</h2>
+    <h2>Display duration: <img border="0" src="<?= ADMIN_BASE_URL ?>images/mod_dur.gif" alt="" /><input type="text" name="duration" value="<?=$content->get_duration($this->feed)/1000?>" size="2" /> seconds</h2>
     <h2>Submitted by <strong><a href="<?= ADMIN_URL ?>/users/show/<?= $submitter->id ?>"><?= $submitter->name ?></a></strong></h2>
 </td>
 <td>

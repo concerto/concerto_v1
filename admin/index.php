@@ -295,11 +295,11 @@ class Controller
    function getTitle()
    {
       if(isset($this->pageTitle))
-         return $this->pageTitle;
+         return htmlspecialchars($this->pageTitle);
       if(isset($this->actionNames[$this->view[view]]))
-         return $this->actionNames[$this->view[view]];
+         return htmlspecialchars($this->actionNames[$this->view[view]]);
       if(isset($this->controller))
-         return $this->controller;
+         return htmlspecialchars($this->controller);
 	}
    function getSubtitle()
    {
@@ -375,11 +375,11 @@ class Controller
       foreach($this->breadcrumbs as $k => $c) {
          if($c!='' && $k<count($this->breadcrumbs)-1) {
             if($c[1]!==NULL)
-               $vals[]="<a href=\"".ADMIN_URL."/$c[1]\">$c[0]</a>";
+               $vals[]="<a href=\"".ADMIN_URL."/$c[1]\">".htmlspecialchars($c[0])."</a>";
             else
-               $vals[]=$c[0];
+               $vals[]=htmlspecialchars($c[0]);
          } else {
-            $vals[]=$c[0];
+            $vals[]=htmlspecialchars($c[0]);
          }
       }
       return join($delim,$vals);

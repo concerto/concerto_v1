@@ -7,7 +7,9 @@
                 var parent = this;
                 $.ajax({type: "POST",
                         url: "<?=ADMIN_URL?>/browse/details",
-                        data: {"id": $(parent).attr("id").replace(/c/,"")},
+                        data: {"content_id": $(parent).attr("id").replace(/c/,""),
+                               "feed_id": <?=$this->feed->id?>
+                        },
                         success: function(html){
                             $("<tr>").attr("class", "details")
                             .append($("<td colspan=5>").html(html))
@@ -76,7 +78,7 @@
     });
 })(jQuery);
 //--></script>
-<h3>Group: <span class="emph"><a href="<?=ADMIN_URL.'/groups/show/'.$this->group->id?>"><?= $this->group->name ?></a></span></h3>
+<h3>Group: <span class="emph"><a href="<?=ADMIN_URL.'/groups/show/'.$this->group->id?>"><?= htmlspecialchars($this->group->name) ?></a></span></h3>
 <?php
 if($this->feed->user_priv($_SESSION['user'], "moderate")){
 ?>
@@ -137,11 +139,11 @@ if($this->contents){
                 echo "&nbsp;";
               } ?></td>
             <td class="listtitle">
-                <a href="<?= ADMIN_URL ?>/content/show/<?= $content->id ?>"><?= $content->name ?></a>
+                <a href="<?= ADMIN_URL ?>/content/show/<?= $content->id ?>"><?= htmlspecialchars($content->name) ?></a>
             </td>
             <td><?=date("m/j/Y",strtotime($content->start_time))?></td>
             <td><?=date("m/j/Y",strtotime($content->end_time))?></td>
-            <td><?php $user = new User($content->user_id); echo $user->name ?></td>    
+            <td><?php $user = new User($content->user_id); echo htmlspecialchars($user->name) ?></td>    
         </tr>
 <?php
     }

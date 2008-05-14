@@ -8,7 +8,7 @@ foreach($this->feeds as $feed) {
 ?>
 <tr>
     <td>
-      <h1><?= $feed->name ?></h1>
+      <h1><?= htmlspecialchars($feed->name) ?></h1>
       <?php
       $list = array();
       foreach($types as $type_id => $type_name) {
