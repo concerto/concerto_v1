@@ -6,7 +6,7 @@ if(isset($this->feeds)){
         if($this->count[$feed->id]==0){
             echo "No items awaiting moderation";
         } else {
-            echo "<a href=\"".ADMIN_URL."/moderate/feed/{$feed->id}\">{$this->count[$feed->id]} items awaiting moderation</a>\n";
+            echo "&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"".ADMIN_URL."/moderate/feed/{$feed->id}\"><span class='emph'>{$this->count[$feed->id]}</span> items awaiting moderation</a>\n";
         }
     }
 } else {
