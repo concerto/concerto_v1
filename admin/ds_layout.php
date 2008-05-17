@@ -12,11 +12,12 @@
 <link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/ui.tablesort.css" />
 <link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/ui.tabs.css" />
 
-<!--[if IE 6]>
+<!--[if IE]>
 <link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/ieonly.css" />
 <![endif]-->
 
 <!--[if lt IE 7.]>
+<link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/ie6.css" />
 <script defer type="text/javascript" src="<?=ADMIN_BASE_URL?>js/pngfix.js"></script>
 <![endif]-->
 

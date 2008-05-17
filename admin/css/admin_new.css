@@ -37,7 +37,7 @@ div.menu_box a:hover, .menu_box_content a:hover { color:#ccc;text-decoration:und
 div.menu_box_inset { background:url(../images/menubox_top.gif) top center no-repeat; }
 div.menu_box_padding { background:url(../images/menubox_bottom.gif) bottom center no-repeat; }
 
-div.alert_box { color:#006699; background:url(../images/alert_box.gif) repeat;font-size:0.9em; border-left:solid 1px #FFF;border-right:solid 1px #FFF;border-bottom:solid 1px #FFF;border-top:0; margin-bottom:2px; text-align:center; }
+div.alert_box { color:#006699; background:url(../images/alert_box.gif) repeat;font-size:0.8em; border-left:solid 1px #FFF;border-right:solid 1px #FFF;border-bottom:solid 1px #FFF;border-top:0; margin-bottom:2px; text-align:center; }
 div.alert_box p { color:#006699; padding:2px; font-weight:bold; }
 div.alert_box a { color:#006699; text-decoration:none; }
 div.alert_box a:hover { color:#003366; text-decoration:underline; }
