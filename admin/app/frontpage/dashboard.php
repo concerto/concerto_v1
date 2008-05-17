@@ -28,7 +28,7 @@ foreach($this->screens as $screen) {
          $status = "Offline";
       } ?>
 <td class="icon" style="width:95px;"><img class="icon" src="<?= ADMIN_BASE_URL . $image ?>" alt="Screen <?=$status?>" />
-<div style="display:inline-block; margin-left:16px;width:50px; text-align:center">
+<div style="display:inline; margin-left:12px;width:50px; text-align:center">
 <a href="<?=url_for('screens','show',$screen->id)?>"><img class="icon" src="<?= ADMIN_BASE_URL ?>images/<?=$scrimg?>" alt="" /></a>
 </div></td>
 <td><span class="emph"><?=$screen->name?></span>, a <?=$screen->width.'x'.$screen->height?> display in <b><?=$screen->location?></b></td>

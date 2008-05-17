@@ -44,9 +44,9 @@ div.alert_box a:hover { color:#003366; text-decoration:underline; }
 div.alert_box_inset { background:url(../images/alertbox_top.gif) top center no-repeat; }
 div.alert_box_padding { background:url(../images/alertbox_bottom.gif) bottom center no-repeat; }
 
-#fp_present { background:url(../images/present_new.jpg) center right no-repeat; padding-right:460px; min-height:400px; }
+#fp_present { background:url(../images/present_new.jpg) center right no-repeat; padding-right:460px; min-height:400px; height:400px; }
 #fp_present h1 { font-size:2em !important; color:#333; margin-left:6px !important; margin-bottom:30px !important; }
-#fp_present p.fp { margin:10px 6px !important; }
+#fp_present p.fp { margin:15px 6px !important; line-height:1.6em !important; }
 
 div.logo_box_padding, div.menu_box_padding, div.alert_box_padding { padding:8px; }
 div.menu_box h1, div.alert_box h1 { font-size:1.2em; }
@@ -59,7 +59,7 @@ div.menu_box h3, div.alert_box h3 { font-size:120%;margin:0 0 4px;padding:0; }
 #maincontent h2 { color:#666666; font-size:1.1em; font-weight:bold; margin:0px 0px 20px 0px; padding:0px; }
 #maincontent_padding { background:#FFF !important; padding:15px 8px 8px; }
 
-#footer_gutter { background:#FFF url(../images/footer_edge.gif) bottom center repeat-x; clear:both; height:75px; }
+#footer_gutter { background:#FFF url(../images/footer_edge2.gif) bottom center repeat-x; clear:both; height:75px; }
 #footer { color:#333; background:url(../images/footer_bg.gif) repeat;font-size:0.7em;letter-spacing:0.08em;text-align:center;width:100%; }
 #footer_padding { padding:0px 13px 13px 13px; }
 #footer a:link, #footer a:visited { color:#333;font-size:100%;text-decoration:none; }

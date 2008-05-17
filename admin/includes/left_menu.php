@@ -34,9 +34,6 @@ src="<?php echo ADMIN_BASE_URL?>/images/conc_bluebg.gif" alt="Concerto" style=""
         </div>
       </div>
     </div>
-        <? if (!isLoggedIn()) { ?>
-        <center><img src="<?= ADMIN_BASE_URL ?>images/login_pointer.gif" alt="Login Above" /></center>
-        <? } ?>
 
 <?php
 if(isLoggedIn()) {
