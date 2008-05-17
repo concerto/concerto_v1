@@ -3,7 +3,7 @@
 
     <div class="logo_box">
 	   <div class="logo_box_padding">
-	     <center><a href="<?php echo ADMIN_BASE_URL ?>/index.php"><img 
+	     <center><a href="<?php echo ADMIN_URL ?>"><img 
 src="<?php echo ADMIN_BASE_URL?>/images/conc_bluebg.gif" alt="Concerto" style="" border="0" 
 /></a></center>
 	   </div>
@@ -39,20 +39,21 @@ src="<?php echo ADMIN_BASE_URL?>/images/conc_bluebg.gif" alt="Concerto" style=""
         <? } ?>
 
 <?php
-$sql = "SELECT feed_content.feed_id as feed_id, COUNT(content.id) as cnt
-        FROM feed_content
-        LEFT JOIN content ON feed_content.content_id = content.id
-        WHERE feed_content.moderation_flag IS NULL
-        GROUP BY feed_content.feed_id;";
-$res = sql_query($sql);
-
-for($i = 0;$row = sql_row_keyed($res,$i);++$i){
-    $count = $row['cnt'];
-    $feed = new Feed($row['feed_id']);
-    if($feed->user_priv($_SESSION['user'], 'moderate'))
-        $mod_feeds[]="<p><a href=\"".ADMIN_URL."/moderate/feed/{$feed->id}\">{$feed->name} ({$row['cnt']})</a></p>";
+if(isLoggedIn()) {
+   $sql = 'SELECT feed_content.feed_id as feed_id, COUNT(content.id) as cnt '.
+          'FROM feed_content '.
+          'LEFT JOIN content ON feed_content.content_id = content.id '.
+          'WHERE feed_content.moderation_flag IS NULL '.
+          'GROUP BY feed_content.feed_id;';
+   $res = sql_query($sql);
+   
+   for($i = 0;$row = sql_row_keyed($res,$i);++$i){
+      $count = $row['cnt'];
+      $feed = new Feed($row['feed_id']);
+      if($feed->user_priv($_SESSION['user'], 'moderate'))
+         $mod_feeds[]="<p><a href=\"".ADMIN_URL."/moderate/feed/{$feed->id}\">{$feed->name} ({$row['cnt']})</a></p>";
+   }
 }
-
 if(isset($mod_feeds)) {
 ?>
     <div class="alert_box">
