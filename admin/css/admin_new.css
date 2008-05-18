@@ -167,8 +167,8 @@ div.alertmess p { margin-left:55px; font-weight:bold; padding:8px; }
 div.error { background:url(../images/alert_error.gif) center left no-repeat; color:red; }
 div.error p { background:red; color:#FFF; }
 div.warn { background:url(../images/alert_warning.gif) center left no-repeat; }
-div.warn p { background:yellow; color:#000; }
+div.warn p { background:#ffff66; color:#000; }
 div.stat { background:url(../images/alert_status.gif) center left no-repeat; }
-div.stat p { background:green; color:#FFF; }
+div.stat p { background:#99ff99; color:#000; }
 div.info { background:url(../images/alert_info.gif) center left no-repeat; color:#006699; }
-div.info p { background:#006699; color:#FFF; }
+div.info p { background:#99ccff; color:#000; }
