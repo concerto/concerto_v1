@@ -1,7 +1,7 @@
 <?php
 class feedsController extends Controller
 {
-   public $actionNames = Array( 'list'=> 'Feeds Listing', 'show'=>'Details',
+   public $actionNames = Array( 'list'=> 'Feeds Listing', 'show'=>'Details', 'new'=>'New',
                                 'edit'=> 'Edit', 'moderate'=>'Moderate', 'delete'=>'Delete', 'request'=>'Feed Request');
 
    public $require = Array( 'require_login'=>1,
@@ -55,7 +55,9 @@ class feedsController extends Controller
                 AND content.end_time > NOW()
                 GROUP BY feed_content.feed_id;";
         $this->active_content = sql_query1($sql);
-
+        if($this->active_content < 0)
+           $this->active_content = 0;
+        
         $sql = "SELECT COUNT(content.id) FROM feed_content
                 LEFT JOIN content ON feed_content.content_id = content.id
                 WHERE feed_content.feed_id = {$this->feed->id}
@@ -63,6 +65,8 @@ class feedsController extends Controller
                 AND content.end_time < NOW()
                 GROUP BY feed_content.feed_id;";
         $this->expired_content = sql_query1($sql);
+        if($this->expired_content < 0)
+           $this->expired_content = 0;
 
         $this->setSubject($this->feed->name);
         $this->setTitle($this->feed->name);

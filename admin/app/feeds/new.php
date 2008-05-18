@@ -1,4 +1,4 @@
-<h3>Please fill out all fields to create a new Feed.<h3>
+<h3>Please fill out all fields to create a new Feed.</h3>
 
 <form method="POST" action="<?=ADMIN_URL?>/feeds/create">
 <?php 

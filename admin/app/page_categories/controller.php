@@ -42,6 +42,9 @@ class page_categoriesController extends Controller
                                          'WHERE page_category.id = '.$this->args[1]);
       $sql = 'SELECT COUNT(page.id) FROM page WHERE page_category_id='.$this->category['id'];
       $this->count = sql_query1($sql);
+      if($this->count < 0)
+         $this->count = 0;
+
       if(!$this->category) {
          $this->flash('Category not found', 'error');
          redirect_to(ADMIN_URL."/page_categories");

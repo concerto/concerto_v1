@@ -74,7 +74,7 @@ class browseController extends Controller
         $this->setTitle("{$this->feed->name} - {$this->type_name}");
         $this->setSubject("{$this->feed->name} - {$this->type_name}");
         $this->breadcrumb($this->feed->name, "browse/show/".$this->feed->id);
-        $this->breadcrumb($this->type_name."!");
+        $this->breadcrumb($this->type_name);
     }
 
     function feedAction()

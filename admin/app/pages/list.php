@@ -16,7 +16,14 @@ foreach($this->pages as $page){
 <?php
      }
 ?>
-<br /><h1><span class="emph"><a href="<?= ADMIN_URL?>/pages/show/<?=$page['path']?>"><?=$page['cat']?></a></span> <a href="<?=ADMIN_URL.'/page_categories/edit/'.$page['page_category_id']?>">(edit)</a></h1>
+<br /><h1><span class="emph"><a href="<?= ADMIN_URL?>/pages/show/<?=$page['path']?>"><?=$page['cat']?></a></span> 
+<?php
+if($this->canEdit) {
+?>
+<a href="<?=ADMIN_URL.'/page_categories/edit/'.$page['page_category_id']?>">(edit)</a></h1>
+<?php
+}
+?>
 <?php if($this->canEdit) { ?>
    <form action="<?=ADMIN_URL?>/pages/setdefault/<?=$page['path']?>" method="GET">
    Default page: <select name="page">
