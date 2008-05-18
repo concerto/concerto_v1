@@ -1,148 +1,130 @@
 <?php
-class feedsController extends Controller
+class page_categoriesController extends Controller
 {
-   public $actionNames = Array( 'list'=> 'Feeds Listing', 'show'=>'Details',
-                                'edit'=> 'Edit', 'moderate'=>'Moderate', 'delete'=>'Delete', 'request'=>'Feed Request');
+   public $actionNames = Array( 'list'=> 'Category Listing', 'show'=>'Details', 'new'=>'New',
+                                'edit'=> 'Edit', 'delete'=>'Delete');
 
    public $require = Array( 'require_login'=>1,
-                            'require_action_auth'=>Array('edit','create',
-                                                         'new', 'update', 'deny',
-                                                         'delete', 'destroy',
-                                                         'moderate', 'approve' ) );
+                            'require_action_auth'=>1 );
 
    function setup()
    {
-      $this->setName("Feeds");
+      $this->setName("Page Categories");
    }
 
    function indexAction()
    {
       $this->listAction();
-      $this->renderView("feeds", "list");
+      $this->renderView("page_categories", "list");
    }
 
    function listAction()
    {
-      $this->feeds=Feed::priv_get($_SESSION['user'], 'list');
+      $this->categories=sql_select('page_category','*');
    }
 
    function editAction()
    {
-      $this->feed = new Feed($this->args[1]);
-      if(!$this->feed) {
-          $this->flash('Feed not found', 'error');
-          redirect_to(ADMIN_URL."/feeds");
+      list($this->category) = sql_select('page_category','*','id = '.$this->args[1]);
+      if(!$this->category) {
+          $this->flash('Page Category not found', 'error');
+          redirect_to(ADMIN_URL."/page_categories");
       }
 
       $this->setSubject($this->feed->name);
       $this->setTitle("Editing ".$this->feed->name);
    }
 
-    function showAction()
-    {
-      $this->feed = new Feed($this->args[1]);
-        if(!$this->feed) {
-            $this->flash('Feed not found', 'error');
-            redirect_to(ADMIN_URL."/feeds");
-        }
-        
-        $this->group = new Group($this->feed->group_id);
-
-        $sql = "SELECT COUNT(content.id) FROM feed_content
-                LEFT JOIN content ON feed_content.content_id = content.id
-                WHERE feed_content.feed_id = {$this->feed->id}
-                AND moderation_flag = 1
-                AND content.end_time > NOW()
-                GROUP BY feed_content.feed_id;";
-        $this->active_content = sql_query1($sql);
-
-        $sql = "SELECT COUNT(content.id) FROM feed_content
-                LEFT JOIN content ON feed_content.content_id = content.id
-                WHERE feed_content.feed_id = {$this->feed->id}
-                AND moderation_flag = 1
-                AND content.end_time < NOW()
-                GROUP BY feed_content.feed_id;";
-        $this->expired_content = sql_query1($sql);
-
-        $this->setSubject($this->feed->name);
-        $this->setTitle($this->feed->name);
-    }
-
+   function showAction()
+   {
+      list($this->category) = sql_select('page_category',Array('page_category.*','page.name as default_page_name'),null,
+                                         'LEFT JOIN page on page.id = default_page '.
+                                         'WHERE page_category.id = '.$this->args[1]);
+      $sql = 'SELECT COUNT(page.id) FROM page WHERE page_category_id='.$this->category['id'];
+      $this->count = sql_query1($sql);
+      if(!$this->category) {
+         $this->flash('Category not found', 'error');
+         redirect_to(ADMIN_URL."/page_categories");
+      }
+      $this->setSubject($this->category['name']);
+      $this->setTitle($this->category['name']);
+   }
+   
    function newAction()
    {
-      $this->setTitle("Create new feed");
+      $this->setTitle("Create a new category");
    }
 
    function deleteAction()
    {
       $this->showAction();
       $this->renderView('show');
-      $this->setTitle('Deleting '.$this->feed->name);
-      $this->flash("Do you really want to remove <strong>{$this->feed->name}</strong>? <br />".
-                   '<a href="'.ADMIN_URL.'/feeds/destroy/'.$this->feed->id.'">Yes</a> | '.
-                   '<a href="'.ADMIN_URL.'/feeds/show/'.$this->feed->id.'">No</a>','warn');
-   }
-
-   function requestAction()
-   {
-      if(isset($_POST['submit'])) {
-         $group=new Group(2);
-         $dat = $_POST['feed'];
-         $nm = escape($_SESSION['user']->name);
-         $id = $_SESSION['user']->id;
-         $email = escape($_SESSION['user']->email);
-         $msg ="There has been a new feed request from {$nm} - {$email} (".ADMIN_URL."/users/show/{$id})\n";
-         $msg.='Name: '.escape($dat['name'])."\n";
-         $msg.='Organization: '.escape($dat['org'])."\n";
-         $msg.='Description: '.escape($dat['desc'])."\n";
-
-         $group->send_mail('New Concerto Feed Request: '.escape($dat['name']), $msg,escape($_SESSION['user']->email));
-
-         $this->flash("Your request is being processed. We'll be contacting you about the feed soon!");
-         redirect_to(ADMIN_URL.'/feeds/');
-      }
+      $this->setTitle('Deleting '.$this->category['name']);
+      $this->flash('Do you really want to remove <strong>'.$this->category['name'].'</strong>? <br />'.
+                   '<a href="'.ADMIN_URL.'/page_categories/destroy/'.$this->category['id'].'">Yes</a> | '.
+                   '<a href="'.ADMIN_URL.'/page_categories/show/'.$this->category['id'].'">No</a>','warn');
    }
 
    function createAction()
    {
       $this->Settitle('Feed Creation');
-      $feed=new Feed();
+      $dat = $_POST['category'];
+      $name = escape($dat['name']);
+      $path = escape($dat['path']);
+      $layout = escape($dat['layout']);
 
-      if($feed->create_feed($_POST[feed][name],$_POST[feed][group])) {
-         $this->flash($feed->name.' was created successfully.');
-         redirect_to(ADMIN_URL.'/feeds/show/'.$feed->id);
+      if(is_string($name) && is_string($path) && is_string($layout)) {
+         $sql = "INSERT INTO `page_category` (`name`, `path`, `layout`) VALUES ('$name', '$path', '$layout');";
+         $res=sql_command($sql);
+      }
+
+      if($res>0) {
+         $this->flash($name.' was created successfully.');
+         redirect_to(ADMIN_URL.'/page_categories');
       } else {
-         $this->flash('Your feed creation failed. '.
+         $this->flash('Your category creation failed. '.$sql . mysql_error().
                       'Please check all fields and try again; contact an administrator if all else fails.','error');
-         redirect_to(ADMIN_URL.'/feeds/new');
+         redirect_to(ADMIN_URL.'/page_categories/new');
       }
    }
 
    function updateAction()
    {
-      $feed = new Feed($this->args[1]);
-      $dat = $_POST['feed'];
-      $feed->name = $dat['name'];
-      $feed->group_id = $dat['group'];
+      $id = $this->args[1];
+      $dat = $_POST['category'];
+      $name = escape($dat['name']);
+      $path = escape($dat['path']);
+      $layout = escape($dat['layout']);
+      $default_page = $dat['default_page'];
 
-      if($feed->set_properties()) {
-         $this->flash('Feed Updated Successfully');
-         redirect_to(ADMIN_URL.'/feeds/show/'.$feed->id);
+      if(is_numeric($default_page) && is_string($name) && is_string($path) && is_string($layout) && is_numeric($id)) {
+         $sql = "UPDATE `page_category` SET `name`='$name', `path`='$path', `layout`='$layout', `default_page`='$default_page' ".
+            "WHERE id=$id LIMIT 1";
+         $res = sql_command($sql);
+      }
+
+      if($res>0) {
+         $this->flash('Category updated successfully');
+         redirect_to(ADMIN_URL.'/page_categories/show/'.$id);
       } else {
-         $this->flash('Feed update failed. Please try again.','error');
-         redirect_to(ADMIN_URL.'/feeds/show/'.$this->args[1]);
+         $this->flash('Category update failed. Please try again.  '.$sql . mysql_error(),'error');
+         redirect_to(ADMIN_URL.'/page_categories/edit/'.$id);
       }
    }
 
    function destroyAction()
    {
-      $feed = new Feed($this->args[1]);
-      if($feed->destroy()) {
-         $this->flash('Feed destroyed successfully');
-         redirect_to(ADMIN_URL.'/feeds');
+      $id = $this->args[1];
+      if(is_numeric($id)) {
+         $res = sql_command('DELETE FROM `page_category` WHERE `page_category`.`id` = '.escape($id));
+      }
+
+      if($res>0) {
+         $this->flash('Category destroyed successfully');
+         redirect_to(ADMIN_URL.'/page_categories');
       } else {
-         $this->flash('There was an error removing the feed.','error');
-         redirect_to(ADMIN_URL.'/feeds/show/'.$this->args[1]);
+         $this->flash('There was an error removing the category.','error');
+         redirect_to(ADMIN_URL.'/page_categories/show/'.$this->args[1]);
       }
    }
 }

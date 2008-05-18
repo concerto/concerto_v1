@@ -5,7 +5,7 @@ class pagesController extends Controller
                                 'edit'=> 'Edit', 'delete'=>'Delete', 'new'=>'New');
 
    public $require = Array( 'require_action_auth'=>Array('edit','create', 'up', 'dn',
-                                                         'new', 'update',
+                                                         'new', 'update', 'setdefault',
                                                          'delete', 'destroy' ) );
 
    function setup()
@@ -29,22 +29,36 @@ class pagesController extends Controller
    function showAction()
    {
       $this->canEdit = isAdmin();
+
+      //figure out page and category to show
       if(isset($this->args[1])) {
          list($this->category) = sql_select('page_category','*','path LIKE \''.
                                             escape($this->args[1]).'\'');
-
+      }
+      if(is_numeric($this->category['id'])) {
          if(is_numeric($this->args[2])) {
+            //Prevent duplicate URLs by sending requests for category's default page
+            //  to category url with no page id
+            if($this->args[2]==$this->category['default_page']) {
+               redirect_to(ADMIN_URL.'/pages/show/'.$this->category['path']);
+            }
             list($this->page) = sql_select('page','*','id = '.escape($this->args[2]).
                                            ' AND page_category_id = '.$this->category['id']);
-         } elseif(is_numeric($this->category['id'])) {
-            list($this->page) = sql_select('page','*','page_category_id = '.$this->category['id'],
-                                           'ORDER BY `order` ASC LIMIT 1');
+         } else {
+            //No page specified, so we go to the category default
+            list($this->page) = sql_select('page','*','page_category_id = '.$this->category['id'].
+                                           ' AND id='.$this->category['default_page'],
+                                           'LIMIT 1');
          }
       }
+      
+      //get links to show in menu
       if(isset($this->category['id'])) {
-         $this->menu_links = sql_select('page',Array('CONCAT(`path`,"/",`page`.`id`) as url','page.name'),NULL,'LEFT JOIN page_category ON page_category.id = page.page_category_id WHERE in_menu =1 AND page_category_id = '.
-                                        $this->category['id'].' ORDER BY `order` ASC');
-                                        }
+         $this->menu_links = sql_select('page',Array('CONCAT(`path`,"/",`page`.`id`) as url','page.name'),
+                                        NULL,'LEFT JOIN page_category ON page_category.id = page.page_category_id '.
+                                        'WHERE in_menu =1 AND page_category_id = '. $this->category['id'].
+                                        ' ORDER BY `order` ASC');
+      }
 
       if(isset($this->page['id'])) {
          $this->setTitle($this->page['name']);
@@ -113,8 +127,9 @@ class pagesController extends Controller
       if(is_numeric($cat) && is_string($name) && is_string($content) && is_numeric($uid)) {
          list($last_item) = sql_select('page','`order`',"`page_category_id` = $cat",'ORDER BY `order` DESC LIMIT 1');
          $order=$last_item['order']+1;
-         $res = sql_command("INSERT INTO `page` (`page_category_id` ,`name` ,`content` ,`user_id` ,`timestamp` ,`order`, `in_menu`) ".
-                            "VALUES ('$cat', '$name', '$content', '$uid', NOW( ), '$order', '$in_menu');");
+         $sql =  "INSERT INTO `page` (`page_category_id` ,`name` ,`content` ,`user_id` ,`timestamp` ,`order`, `in_menu`) ".
+            "VALUES ('$cat', '$name', '$content', '$uid', NOW( ), '$order', '$in_menu');";
+         $res = sql_command($sql);
       }
       if($res>0) {
          $this->flash($name.' was created successfully.');
