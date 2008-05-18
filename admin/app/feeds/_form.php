@@ -1,49 +1,27 @@
-<!-- Beginning Category Form -->
+<!-- Beginning Feed Form -->
 <?php
-   //assuming $this->category is null or the category we want to edit
-   $cat = $this->category;
+   //assuming $this->feed is null or the feed we want to edit
+   $feed = $this->feed;
 ?>
      <table style="clear:none" class='edit_win' cellpadding='6' cellspacing='0'>
        <tr> 
-         <td class='firstrow'><h5>Category Name</h5></td>
+         <td class='firstrow'><h5>Feed Name</h5></td>
          <td class='edit_col firstrow'>
-           <input type="text" id="name" name="category[name]" value="<?=$cat['name']?>">
+           <input type="text" id="name" name="feed[name]" value="<?=$feed->name?>">
          </td>
        </tr>
-       <tr> 
-         <td class='firstrow'><h5>Path</h5><p>Letters, numbers, and hyphens only please.  No special characters or spaces.  Keep it short.</td>
-         <td class='edit_col firstrow'>
-           <input type="text" id="name" name="category[path]" value="<?=$cat['path']?>">
-         </td>
-       </tr>
-       <tr> 
-         <td class='firstrow'><h5>Layout</h5><p>Should be a filesystem path to a valid Concerto php template from the admin directory.</td>
-         <td class='edit_col firstrow'>
-           <input type="text" id="layout" name="category[layout]" value="<?=$cat['layout']?>">
-         </td>
-       </tr>
-<?php
-if(is_numeric($cat['id'])) {
-?>
        <tr>
-         <td><h5>Default Page</h5></td>
-         <td><select name="category[default_page]">
-                <option value=""<?php if(!isset($cat['default_page'])) echo ' SELECTED'; ?>></option>
-<?php
-   $pages = sql_select('page',array('id','name'),'page_category_id = '.$cat['id']);
-   if(is_array($pages)) {
-      foreach($pages as $page) {
-?>
-                <option value="<?= $page['id'] ?>"<?php if($cat['default_page']==$page['id']) echo ' SELECTED'; ?>><?=$page['name']?></option>
-<?php
-      }
-   }
-?>
+         <td><h5>Controlling Group</h5></td>
+         <td><select name="feed[group]">
+                <option value=""<?php if(!isset($feed->group_id)) echo ' SELECTED'; ?>></option>
+             <?php $groups = sql_select('group',array('id','name'));
+                   if(is_array($groups))
+                     foreach($groups as $group) {
+             ?>
+                <option value="<?= $group[id] ?>"<?php if($feed->group_id==$group[id]) echo ' SELECTED'; ?>><?=$group[name]?></option>
+             <?php   } ?>
              </select></td>
        </tr>
-<?php
-}
-?>
      </table>
      <br clear="all" />
-<!-- End Category Form -->
+<!-- End Feed Form -->

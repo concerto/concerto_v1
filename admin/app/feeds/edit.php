@@ -1,5 +1,5 @@
 <form method="POST" 
-action="<?=ADMIN_URL?>/page_categories/update/<?=$this->category['id']?>">
+action="<?=ADMIN_URL?>/feeds/update/<?=$this->feed->id?>">
 <?php 
 	include("_form.php");
 ?>
