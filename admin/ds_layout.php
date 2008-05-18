@@ -73,7 +73,7 @@ function renderMessage($type, $msg)
 		case "stat": $col='green'; break;
 		case "info": default: $col='#069';$text='white'; break;
 	}
-	return '<div style="width:100%;background-color:'.$col.';color:'.$text.'"><p style="padding:3px">'.
+	return '<div class="alertmess ' . $type . '"><p>'.
 		$msg."</p></div>\n";
 }
 ?>
