@@ -421,7 +421,7 @@ class Uploader{
 		$ext = substr(strrchr($current_loc, "."), 1);
 		$content = new Content();
 		//print_r($this);
-		if($content->create_content($this->name, $this->user_id, $this->content_o, $this->mime_type, $this->type_id, $this->duration, $this->start_date, $this->end_date)){
+		if($content->create_content($this->name, $this->user_id, $this->content_o, $this->mime_type, $this->type_id, $this->start_date, $this->end_date)){
 			$this->cid = $content->id;
 			
 			$target_loc = IMAGE_DIR . $this->cid . "." . $ext;
