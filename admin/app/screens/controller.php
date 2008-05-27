@@ -151,7 +151,7 @@ class screensController extends Controller
       $this->showAction();
       $this->renderView('show');
       $this->setTitle('Deleting '.$this->screen->name);
-      $this->flash("Do you really want to remove <strong>{$this->screen->name}</strong>? <br />".
+      $this->flash("Do you really want to remove the screen <strong>{$this->screen->name}</strong>? <br />".
                    '<a href="'.ADMIN_URL.'/screens/destroy/'.$this->screen->id.'">Yes</a> | '.
                    '<a href="'.ADMIN_URL.'/screens/show/'.$this->screen->id.'">No</a>','warn');
    }
@@ -160,7 +160,7 @@ class screensController extends Controller
    {
       $screen = new Screen($this->args[1]);
       if($screen->destroy()) {
-         $this->flash('Screen removed successfuly');
+         $this->flash('Screen removed successfully.');
          redirect_to(ADMIN_URL.'/screens');
       } else {
          $this->flash('There was an error removing the screen.','error');

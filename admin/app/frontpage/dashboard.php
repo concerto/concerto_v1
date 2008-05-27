@@ -1,6 +1,22 @@
 <div class="roundcont">
   <div class="roundtop"><img src="<? echo ADMIN_BASE_URL ?>images/wc_tl.gif" alt="" width="6" height="6" class="corner topleft" style="display: none" /></div>
   <div class="roundcont_main">
+    <h1>Content Submission Guidelines</h1>
+    <p>Pay careful attention to the submission guidelines for graphical content <a href="<?= ADMIN_BASE_URL ?>pages/show/docs/1">here</a>.</p>
+  </div>
+  <div class="roundbottom"><img src="<? echo ADMIN_BASE_URL ?>images/wc_bl.gif" alt="" width="6" height="6" class="corner botleft" style="display: none" /></div>
+</div>
+<div class="roundcont">
+  <div class="roundtop"><img src="<? echo ADMIN_BASE_URL ?>images/wc_tl.gif" alt="" width="6" height="6" class="corner topleft" style="display: none" /></div>
+  <div class="roundcont_main">
+    <h1>Did You Know?</h1>
+    <p>You can check out the help and support center for Concerto <a href="<?= ADMIN_BASE_URL ?>pages/show/docs/">here</a>.  New updates will be continuously added!</p>
+  </div>
+  <div class="roundbottom"><img src="<? echo ADMIN_BASE_URL ?>images/wc_bl.gif" alt="" width="6" height="6" class="corner botleft" style="display: none" /></div>
+</div>
+<div class="roundcont">
+  <div class="roundtop"><img src="<? echo ADMIN_BASE_URL ?>images/wc_tl.gif" alt="" width="6" height="6" class="corner topleft" style="display: none" /></div>
+  <div class="roundcont_main">
     <h1>Active Screens</h1>
     <p>Content on Concerto will currently be shown on the following displays around RPI'<!--'-->s Troy campus:</p>
     <br />
@@ -37,22 +53,6 @@ foreach($this->screens as $screen) {
 }
 ?>
     </table>
-  </div>
-  <div class="roundbottom"><img src="<? echo ADMIN_BASE_URL ?>images/wc_bl.gif" alt="" width="6" height="6" class="corner botleft" style="display: none" /></div>
-</div>
-<div class="roundcont">
-  <div class="roundtop"><img src="<? echo ADMIN_BASE_URL ?>images/wc_tl.gif" alt="" width="6" height="6" class="corner topleft" style="display: none" /></div>
-  <div class="roundcont_main">
-    <h1>Content Submission Guidelines</h1>
-    <p>Pay careful attention to the submission guidelines for graphical content <a href="<?= ADMIN_BASE_URL ?>pages/show/docs/1">here</a>.</p>
-  </div>
-  <div class="roundbottom"><img src="<? echo ADMIN_BASE_URL ?>images/wc_bl.gif" alt="" width="6" height="6" class="corner botleft" style="display: none" /></div>
-</div>
-<div class="roundcont">
-  <div class="roundtop"><img src="<? echo ADMIN_BASE_URL ?>images/wc_tl.gif" alt="" width="6" height="6" class="corner topleft" style="display: none" /></div>
-  <div class="roundcont_main">
-    <h1>Did You Know?</h1>
-    <p>You can check out the help and support center for Concerto <a href="<?= ADMIN_BASE_URL ?>pages/show/docs/">here</a>.  New updates will be continuously added!</p>
   </div>
   <div class="roundbottom"><img src="<? echo ADMIN_BASE_URL ?>images/wc_bl.gif" alt="" width="6" height="6" class="corner botleft" style="display: none" /></div>
 </div>

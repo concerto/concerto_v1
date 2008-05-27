@@ -162,13 +162,13 @@ span.deny { color:red; font-weight;bold; display:block; margin-bottom:8px; font-
 a:hover span.approve, a:hover span.deny { text-decoration:underline; }
 
 /* Alert Messages */
-div.alertmess { width:99%; margin:3px 0px; font-size:1.35em; padding:12px; }
+div.alertmess { width:99%; margin:0px 0px 8px 0px; font-size:1.35em; padding:3px 12px; }
 div.alertmess p { margin-left:55px; font-weight:bold; padding:8px; }
 div.error { background:url(../images/alert_error.gif) center left no-repeat; color:red; }
-div.error p { border-top:dotted 2px red; color:red; }
+div.error p { border-top:solid 4px #ff0000; color:#ff0000; background:#ffcccc; }
 div.warn { background:url(../images/alert_warning.gif) center left no-repeat; }
-div.warn p { border-top:dotted 2px #cc6600; color:#cc6600; }
+div.warn p { border-top:solid 4px #666600; color:#666600; background:#ffff99; }
 div.stat { background:url(../images/alert_status.gif) center left no-repeat; }
-div.stat p { border-top:dotted 2px green; color:green; }
+div.stat p { border-top:solid 4px green; color:green; background:#ccffcc; }
 div.info { background:url(../images/alert_info.gif) center left no-repeat; color:#006699; }
-div.info p { border-top:dotted 2px #006699; color:#006699; }
+div.info p { border-top:solid 4px #006699; color:#006699; background:url(../images/alert_box.gif) repeat; }
