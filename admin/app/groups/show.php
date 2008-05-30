@@ -24,7 +24,7 @@
 	foreach($this->feeds as $feed){
 	?>
 	  <tr>
-	    <td<? if (!$notfirst) {$notfirst =1;  echo ' class="firstrow"';} ?>><h1><a href="<?= ADMIN_URL?>/feeds/show/<?= $feed->id ?>"><?= $feed->name ?></a></h1></td>
+	    <td<? if (!$notfirst) {$notfirst =1;  echo ' class="firstrow"';} ?>><h1><a href="<?= ADMIN_URL?>/browse/show/<?= $feed->id ?>"><?= $feed->name ?></a></h1></td>
 	  </tr>
 	<? } ?>
 	</table>

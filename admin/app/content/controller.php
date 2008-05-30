@@ -15,8 +15,7 @@ class contentController extends Controller
 
    function indexAction()
    {
-      $this->listAction();
-      $this->renderView("content", "list");
+      redirect_to(ADMIN_URL.'/browse/');
    }
    
    function listAction()

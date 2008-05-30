@@ -61,7 +61,7 @@
 		  foreach($positions as $position) {
 			$feed = new Feed($position->feed_id);
 	   ?>
-		  <li><a href="<?=ADMIN_URL.'/feeds/show/'.$feed->id?>"><?=$feed->name?></a></li>
+		  <li><a href="<?=ADMIN_URL.'/browse/show/'.$feed->id?>"><?=$feed->name?></a></li>
 	   <?php
 		  }
 	        } else echo "<li>(no subscriptions)</li>";

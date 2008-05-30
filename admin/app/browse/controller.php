@@ -62,15 +62,6 @@ class browseController extends Controller
         $sql = "SELECT name FROM type WHERE id = {$this->type_id} LIMIT 1;";
         $this->type_name = sql_query1($sql);
 
-        $sql = "SELECT COUNT(content.id) FROM content
-                LEFT JOIN feed_content
-                ON content.id = feed_content.content_id
-                WHERE feed_content.feed_id = {$this->feed->id}
-                AND feed_content.moderation_flag IS NULL
-                GROUP BY feed_content.feed_id
-                ORDER BY content.type_id, content.name;";
-        $this->waiting = sql_query1($sql);
-
         $this->setTitle("{$this->feed->name} - {$this->type_name}");
         $this->setSubject("{$this->feed->name} - {$this->type_name}");
         $this->breadcrumb($this->feed->name, "browse/show/".$this->feed->id);
@@ -80,6 +71,42 @@ class browseController extends Controller
     function feedAction()
     {
         $this->feed = new Feed($this->args[1]);
+        if(!$this->feed) {
+           $this->flash('Feed not found', 'error');
+           redirect_to(ADMIN_URL."/feeds");
+        }                                                                  
+
+        $this->group = new Group($this->feed->group_id);                   
+
+        $sql = "SELECT COUNT(content.id) FROM feed_content
+                LEFT JOIN content ON feed_content.content_id = content.id
+                WHERE feed_content.feed_id = {$this->feed->id}
+                AND moderation_flag = 1
+                AND content.end_time > NOW()
+                GROUP BY feed_content.feed_id;";
+        $this->active_content = sql_query1($sql);
+        if($this->active_content < 0)
+           $this->active_content = 0;
+        
+        $sql = "SELECT COUNT(content.id) FROM feed_content  
+                LEFT JOIN content ON feed_content.content_id = content.id
+                WHERE feed_content.feed_id = {$this->feed->id}
+                AND moderation_flag = 1
+                AND content.end_time < NOW()
+                GROUP BY feed_content.feed_id;";
+        $this->expired_content = sql_query1($sql);
+        if($this->expired_content < 0)
+           $this->expired_content = 0;
+
+        $sql = "SELECT COUNT(content.id) FROM content
+                LEFT JOIN feed_content
+                ON content.id = feed_content.content_id
+                WHERE feed_content.feed_id = {$this->feed->id}
+                AND feed_content.moderation_flag IS NULL
+                GROUP BY feed_content.feed_id
+                ORDER BY content.type_id, content.name;";
+        $this->waiting = sql_query1($sql);
+
         $this->setTitle($this->feed->name);
         $this->setSubject($this->feed->name);
     }

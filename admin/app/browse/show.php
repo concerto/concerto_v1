@@ -78,15 +78,7 @@
     });
 })(jQuery);
 //--></script>
-<h3>Group: <span class="emph"><a href="<?=ADMIN_URL.'/groups/show/'.$this->group->id?>"><?= htmlspecialchars($this->group->name) ?></a></span></h3>
-<?php
-if($this->feed->user_priv($_SESSION['user'], "moderate")){
-?>
-<h3>Moderation status: <span class="emph"><a href="<?=ADMIN_URL?>/moderate/feed/<?=$this->feed->id?>"><?= $this->waiting > 0 ? $this->waiting : "No" ?> items awaiting moderation</a></span></h3>
-<?
-}
-?>
-<br />
+
 <div style="float:left; width:50%;">
   <h3>
 <?php

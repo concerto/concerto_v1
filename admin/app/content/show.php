@@ -32,7 +32,7 @@ if(is_array($this->act_feeds)) {
 <ul>
 <?php
     foreach ($this->act_feeds as $feed)
-       echo '<li><a href="'.ADMIN_URL.'/feeds/show/'.$feed['feed']->id.'">'.$feed['feed']->name.'</a></li>'; 
+       echo '<li><a href="'.ADMIN_URL.'/browse/show/'.$feed['feed']->id.'">'.$feed['feed']->name.'</a></li>'; 
 }
 ?>
 </ul>
@@ -45,7 +45,7 @@ if(is_array($this->wait_feeds))
 <ul>
 <?php
    foreach ($this->wait_feeds as $feed)
-      echo '<li><a href="'.ADMIN_URL.'/feeds/show/'.$feed['feed']->id.'">'.$feed['feed']->name.'</a></li>';
+      echo '<li><a href="'.ADMIN_URL.'/browse/show/'.$feed['feed']->id.'">'.$feed['feed']->name.'</a></li>';
 }
 ?>
 </ul>
@@ -58,7 +58,7 @@ if(is_array($this->denied_feeds))
 <ul>
 <?php
    foreach ($this->denied_feeds as $feed)
-      echo '<li><a href="'.ADMIN_URL.'/feeds/show/'.$feed['feed']->id.'">'.$feed['feed']->name.'</a></li>';
+      echo '<li><a href="'.ADMIN_URL.'/browse/show/'.$feed['feed']->id.'">'.$feed['feed']->name.'</a></li>';
 }
 ?>
 </ul>
