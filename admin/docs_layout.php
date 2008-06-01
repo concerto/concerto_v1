@@ -55,24 +55,23 @@ if(is_array($this->menu_links))
   <div id="footer">
     <div id="footer_padding">
       <p>Copyright &copy; 2008 Student Senate Web Technologies Group</p>
-      <p>Contact Support: <a href="mailto:concerto@union.rpi.edu">concerto@union.rpi.edu</a></p>
+      <p><a href="<?= ADMIN_URL ?>">Control Panel</a> | <a href="http://myrpi.org/webtech/list_posts">Web Tech Blog</a> | Contact Support: <a href="mailto:concerto@union.rpi.edu">concerto@union.rpi.edu</a></p>
     </div>
   </div>
 </body>
 </html>
 
-
 <?php
 function renderMessage($type, $msg)
 {
-   switch($type)
-   {
-      case "error": $col='red'; break;
-      case "warn": $col='yellow'; break;
-      case "stat": $col='green'; break;
-      case "info": default: $col='#069';$text='white'; break;
-   }
-   return '<div style="width:100%;background-color:'.$col.';color:'.$text.'"><p style="padding:3px">'.
-      $msg."</p></div>\n";
+	switch($type)
+	{
+		case "error": $col='red'; break;
+		case "warn": $col='yellow'; break;
+		case "stat": $col='green'; break;
+		case "info": default: $col='#069';$text='white'; break;
+	}
+	return '<div class="alertmess ' . $type . '"><p>'.
+		$msg."</p></div>\n";
 }
 ?>

@@ -56,7 +56,7 @@
 <div id="footer">
   <div id="footer_padding">
     <p>Copyright &copy; 2008 Student Senate Web Technologies Group</p>
-    <p><a href="<?= ADMIN_URL ?>pages/show/docs/">Support Center</a> | Contact Support: <a href="mailto:concerto@union.rpi.edu">concerto@union.rpi.edu</a></p>
+    <p><a href="<?= ADMIN_URL ?>pages/show/docs/">Support Center</a> | <a href="http://myrpi.org/webtech/list_posts">Web Tech Blog</a> | Contact Support: <a href="mailto:concerto@union.rpi.edu">concerto@union.rpi.edu</a></p>
   </div>
 </div>
 
