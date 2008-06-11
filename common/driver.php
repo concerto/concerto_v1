@@ -39,6 +39,7 @@ class ScreenDriver{
 class ContentDriver{
     var $screen_id;
     var $field_id;
+    var $content_id;
     var $type_id;
 	
     function __construct($screen_id, $field_id){
@@ -46,6 +47,11 @@ class ContentDriver{
 
         $this->screen_id = $screen_id;
         $this->field_id = $field_id;
+	$sql = "SELECT type_id FROM field WHERE id = $field_id";
+	$res = sql_query($sql);
+	$data = sql_row_keyed($res,0);
+	$this->type_id = $data['type_id'];
+
         if(!$_SESSION['timeline'][$field_id])
             $this->construct_timeline();
     }
@@ -77,8 +83,9 @@ class ContentDriver{
         }
 		
         $matrix = array();
-        foreach($content as $feed_id => $feed){
-            $row = array();
+	if(sizeof($content) > 0){
+	  foreach($content as $feed_id => $feed){
+            	$row = array();
             foreach(range(1, $weight[$feed_id]) as $i){
                 shuffle($feed);
                 $row = array_merge($row, $feed);
@@ -89,8 +96,10 @@ class ContentDriver{
             }
 		    
             $matrix[] = $row;
-        }
-		
+          }
+	}else{
+		exit(0); //There is no content. We cannot do anything
+	}
         while(count($matrix[0])) {
             foreach($matrix as &$row) {
                 $content_id = array_shift($row);
@@ -99,16 +108,16 @@ class ContentDriver{
             }
         }
     }
-	
+
     function content_details(){
-        if($_SESSION['timeline'][$this->field_id]){
-            if(count($_SESSION['timeline'][$this->field_id])){
-                $content_id = array_shift($_SESSION['timeline'][$this->field_id]);
-                $sql = "SELECT c.content, c.mime_type, fc.duration FROM content c
+        if($this->content_id){
+                $content_id = $this->content_id;
+                $sql = "SELECT c.id, c.content, c.mime_type, fc.duration FROM content c
                         LEFT JOIN feed_content fc ON c.id = fc.content_id WHERE c.id = $content_id AND moderation_flag = 1;";
                 $res = sql_query($sql);
                 if($res && sql_count($res)){
                     $data = (sql_row_keyed($res,0));
+                    $this->content_id = $data['id'];
                     $json['content'] = stripslashes($data['content']);
                     $json['mime_type'] = stripslashes($data['mime_type']);
                     $json['duration'] = $data['duration'];
@@ -117,22 +126,71 @@ class ContentDriver{
                         $json['mime_type'] = 'text/html';
                         $json['content'] = date($data['content']);
                     }
-                    $ip = $_SERVER['REMOTE_ADDR'];
-                    $sql = "UPDATE screen SET last_updated = NOW(), last_ip = '$ip' WHERE id = $this->screen_id LIMIT 1";
-                    sql_command($sql);
-			
+
                     return $json;
                 } else {
                     $this->construct_timeline();
+                    $this->get_content();
                     return $this->content_details();
                 }
+         } else {
+             $this->construct_timeline();
+             $this->get_content();
+             return $this->content_details();
+         }
+    }
+    
+    function get_content(){
+        if($_SESSION['timeline'][$this->field_id]){
+            if(count($_SESSION['timeline'][$this->field_id])){
+                $content_id = array_shift($_SESSION['timeline'][$this->field_id]);
             } else {
                 $this->construct_timeline();
-                return $this->content_details();
+                $content_id = array_shift($_SESSION['timeline'][$this->field_id]);
             }
+            $this->content_id = $content_id;
+            $this->log_back();
+            return true;
         } else {
             return false;
         }
     }
+
+    function log_back(){
+         $ip = $_SERVER['REMOTE_ADDR'];
+         $sql = "UPDATE screen SET last_updated = NOW(), last_ip = '$ip' WHERE id = $this->screen_id LIMIT 1";
+         sql_command($sql);
+
+         return true;
+    }
+
+    //EMS Display code.
+    //The feed defined in EMS_FEED_ID has priority over all other feeds.  If it has content it will be displayed.
+    function ems_check(){
+        if(defined('EMS_FEED_ID') && EMS_FEED_ID != 0){
+            $ems_feed = new Feed(EMS_FEED_ID);
+            if($ems_feed->content_count(1) > 0){
+		//It appears there is an emergency of sorts
+                $contents = $ems_feed->content_list_by_type($this->type_id,1);
+		if(!$contents){
+                    //There is no EMS content for this location
+                    return false;
+                } else {
+                    $ems_c_id = array_rand($contents,1);
+                    $this->content_id = $ems_c_id;
+                    $this->log_back(); //Let the system know we found this content and plan on using it
+                    return true;
+                }
+            } else {
+                //The feed is empty.  All is quiet on the western front
+                return false;
+            }
+        } else {
+            //EMS hasn't been setup
+            return false;
+        }
+    }
+    //End EMS Display Code.
+
 }
 ?>

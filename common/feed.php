@@ -212,6 +212,30 @@ class Feed{
 		}
 	}
 	//List all content in a feed based on type and moderation status
+	function content_list_by_type($type, $mod_flag=''){
+		if($mod_flag == 'NULL'){
+			$mod_where = "AND moderation_flag IS NULL";
+		} elseif($mod_flag != ''){
+			$mod_where = "AND moderation_flag LIKE '$mod_flag'";
+		} else {
+			$mod_where = "";
+		}
+		$sql = "SELECT feed_content.content_id, feed_content.moderation_flag FROM feed_content 
+				LEFT JOIN content ON feed_content.content_id = content.id
+				WHERE content.type_id = $type AND feed_id = $this->id $mod_where";		
+		$res = sql_query($sql);
+		$i=0;
+		while($row = sql_row_keyed($res,$i)){
+		    $data[$row['content_id']] = $row['moderation_flag'];
+		    $i++;
+		}
+		if(isset($data)){
+			return $data;
+		} else {
+			return false;
+		}
+	}
+	//Get all content in a feed based on type and moderation status
 	function content_get_by_type($type, $where='1'){
 		$sql = "SELECT feed_content.content_id, feed_content.moderation_flag FROM feed_content 
 				LEFT JOIN content ON feed_content.content_id = content.id
@@ -234,17 +258,17 @@ class Feed{
 		if($mod_in != 0 && $mod_in != 1){ //Don't let a stupid value in
 			$mod_in = 'NULL';
 		}
-      $updates[] = "moderation_flag = $mod_in";
-      if($duration != NULL)
-          $updates[] = "duration = $duration";
-      if($moderator != NULL)
-          $updates[] = "moderator_id = {$moderator->id}";
+		$updates[] = "moderation_flag = $mod_in";
+		if($duration != NULL)
+			$updates[] = "duration = $duration";
+		if($moderator != NULL)
+			$updates[] = "moderator_id = {$moderator->id}";
 		$sql = "UPDATE feed_content SET ".join($updates, ", ")." WHERE feed_id = {$this->id} AND content_id = $cid LIMIT 1";
 		$res = sql_query($sql);
 		if($res){
 			$notify = new Notification();
 			if($mod_in == 1){
-            $notify->notify('feed', $this->id, 'content', $cid, 'approve');
+            			$notify->notify('feed', $this->id, 'content', $cid, 'approve');
 			} elseif($mod_in == 0){
 				$notify->notify('feed', $this->id, 'content', $cid, 'deny');
 			}
@@ -275,7 +299,7 @@ class Feed{
 		}
     }
 	//List all feeds, optional WHERE syntax
-	static function list_all($where = ''){
+	function list_all($where = ''){
 		$sql = "SELECT * FROM feed $where";
 		$res = sql_query($sql);
 		$i=0;
@@ -294,7 +318,7 @@ class Feed{
 		}
 	}
 	//List all feeds, based on type
-	static function list_all_by_type($where = 'WHERE type.id IS NOT NULL'){
+	function list_all_by_type($where = 'WHERE type.id IS NOT NULL'){
 		$sql = "SELECT feed.id, feed.name, type.id as t_id, type.name as t_name
 				FROM feed
 				LEFT JOIN feed_content ON feed_content.feed_id = feed.id
@@ -319,7 +343,7 @@ class Feed{
 	}
 	
 	//List all feeds, optional WHERE syntax
-	static function get_all($where = ''){
+	function get_all($where = ''){
 		$sql = "SELECT * FROM feed $where";
 		$res = sql_query($sql);
 		$i=0;
