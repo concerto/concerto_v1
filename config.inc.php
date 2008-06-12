@@ -8,19 +8,21 @@
 
 //Database Connection
 $db_host = 'rpisenate.com';
-$db_login = 'concerto';
-$db_password = '';
-$db_database = 'concerto';
+$db_login = 'concerto_dev';
+$db_password = 'weveb4as';
+$db_database = 'concerto_development';
 
 //Important paths
-define('ROOT_DIR', '/var/www/ds/');              //server-side path where Concerto lives
-define('COMMON_DIR', ROOT_DIR.'common/');        //server-side path to dir with resources for multiple portions of Concerto
+
+define('ROOT_DIR', '/var/www/signage/');                    //server-side path where Concerto lives
+define('COMMON_DIR', ROOT_DIR.'common/');             //server-side path to dir with resources for
+                                                       //  multiple portions of Concerto
 define('CONTENT_DIR', ROOT_DIR.'content/');      //server-side path to content images
 define('IMAGE_DIR', CONTENT_DIR.'images/');      //server-side path to content images
 define('TEMPLATE_DIR', CONTENT_DIR.'templates/');//server-side path to screen templates
 
 //URLS for hyperlinks and the like
-define('ROOT_URL', '/');                         //the root location where Concerto lives
+define('ROOT_URL', '/signage/');                         //the root location where Concerto lives
 define('SCREEN_URL', ROOT_URL.'screen/');        //location of front-end screen program
 define('HARDWARE_URL', ROOT_URL.'hardware/');    //location of management for on-location machines
 define('ADMIN_BASE_URL', ROOT_URL.'admin/');     //base URL on server for images, css, etc. for interface

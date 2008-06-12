@@ -32,7 +32,7 @@ if(is_array($this->menu_links))
     <div style="clear:both; height:10px;"></div>
   </div>
   <div id="footer"><div id="footer_shadow"></div><div id="footer_padding">
-    <h1>Copyright &copy; 2008 RPI Web Technologies Group</h1>
+    <h1>Copyright &copy; 2008 Rensselaer Polytechnic Institute (Student Senate Web Technologies Group)</h1>
   </div></div>
 </div>
 
