@@ -119,7 +119,9 @@ class browseController extends Controller
         $this->duration = $this->content->get_duration($this->feed);
         $this->week_range = date('W',strtotime($this->content->end_time)) - date('W',strtotime($this->content->start_time));
         $this->submitter = new User($this->content->user_id);
-        $this->moderator = $this->content->get_moderator($this->feed);
+        if(isAdmin() || $_SESSION['user']->in_group($this->feed->group_id)) {
+            $this->moderator = $this->content->get_moderator($this->feed);
+        }
     }
 }
 ?>
