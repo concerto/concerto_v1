@@ -9,7 +9,7 @@
 //Database Connection
 $db_host = 'rpisenate.com';
 $db_login = 'concerto_dev';
-$db_password = '<password>';
+$db_password = 'ga6hufas';
 $db_database = 'concerto_development';
 
 //Important paths
