@@ -446,7 +446,7 @@ class Uploader{
 			if($u->in_group($f->group_id)){
 				$f->content_add($this->cid, 1, $u->id, $this->duration);
 			} else {
-				$f->content_add($this->cid, NULL, NULL, $this->duration);
+				$f->content_add($this->cid, 'NULL', 'NULL', $this->duration);
 			}
 		}
 	}

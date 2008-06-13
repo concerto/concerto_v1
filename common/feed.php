@@ -118,7 +118,7 @@ class Feed{
         }
     }
 	//Add a content to a feed
-	function content_add($content_in, $mod_in = 'NULL', $moderator_id = 'NULL'){
+	function content_add($content_in, $mod_in = 'NULL', $moderator_id = 'NULL', $duration_in){
 		if(!is_numeric($content_in)){
 				$this->status = "Please send the content id"; //Aka they are playing with the post data!
 				return false;
@@ -126,7 +126,8 @@ class Feed{
 		if($mod_in != 0 && $mod_in != 1 && $mod_in != 'NULL'){ //Don't let a stupid value in
 			$mod_in = 'NULL';
 		}
-		$sql = "INSERT INTO feed_content (feed_id, content_id, moderation_flag, moderator_id) VALUES ($this->id, $content_in, $mod_in, $moderator_id)";
+		$sql = "INSERT INTO feed_content (feed_id, content_id, moderation_flag, moderator_id, duration) ";
+		$sql = $sql . "VALUES ($this->id, $content_in, $mod_in, $moderator_id, $duration_in)";
 		$res = sql_query($sql);
 		if($res){
 			if($this->type == 0){  //Dont log dynamic feeds
