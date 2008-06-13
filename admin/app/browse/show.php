@@ -56,7 +56,7 @@
                 else
                     return $(obj).html();
             }
-        }).bind("sortStart",function() { 
+        }).bind("sortStart",function() {
             $(".details").remove();
             $(".listitem").removeData("loaded");
         });
@@ -122,20 +122,20 @@ if($this->contents){
         $submitter = new User($content->user_id);
 ?>
         <tr id="c<?= $content->id ?>" class="listitem">
-            <td class="listh_icon"><?php 
+            <td class="listh_icon"><?php
               if(preg_match('/image/',$content->mime_type)) {
-                echo "<img class=\"icon_border\" src=\"".ADMIN_URL."/content/image/$content->id?width=50&amp;height=37\" alt=\"Icon\" />";
+                echo "<img class=\"icon_border\" src=\"".CONTENT_DIR."image/$content->id?width=50&amp;height=37\" alt=\"Icon\" />";
               } elseif(preg_match('/text/',$content->mime_type)) {
                 echo "<img src=\"".ADMIN_BASE_URL."images/icon_text.gif\" alt=\"Icon\" />";
               } else {
                 echo "&nbsp;";
               } ?></td>
             <td class="listtitle">
-                <a href="<?= ADMIN_URL ?>/content/show/<?= $content->id ?>"><?= htmlspecialchars($content->name) ?></a>
+                <a href="http://signage.rpi.edu/content/show/<?= $content->id ?>"><?= htmlspecialchars($content->name) ?></a>
             </td>
             <td><?=date("m/j/Y",strtotime($content->start_time))?></td>
             <td><?=date("m/j/Y",strtotime($content->end_time))?></td>
-            <td><?php $user = new User($content->user_id); echo htmlspecialchars($user->name) ?></td>    
+            <td><?php $user = new User($content->user_id); echo htmlspecialchars($user->name) ?></td>
         </tr>
 <?php
     }

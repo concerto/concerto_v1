@@ -1,4 +1,5 @@
-<h2>Click on a type of content to show from a particular feed.</h2>
+<a href="<?=ADMIN_URL.'/feeds/edit/'.$this->feed->id ?>"><span class="buttonsel"><div class="buttonleft"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_left.gif" border="0" alt="" /></div><div class="buttonmid"><div class="buttonmid_padding">Edit Feed</div></div><div class="buttonright"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_right.gif" border="0" alt="" /></div></span></a>
+<br /><br /><br /><h2>Click on a type of content to show from a particular feed.</h2>
 <table class="edit_win" cellpadding="6" cellspacing="0">
 <?php
 foreach($this->feeds as $feed) {
@@ -16,11 +17,10 @@ foreach($this->feeds as $feed) {
           $num_act = sql_query1($sql_act);
           $sql_exp = "SELECT COUNT(id) FROM content LEFT JOIN feed_content on content.id = content_id WHERE feed_id = {$feed->id} AND type_id=$type_id AND content.end_time < NOW() AND feed_content.moderation_flag = 1;";
           $num_exp = sql_query1($sql_exp);
-          $list[] = "<span class=\"emph\"><a href=\"".ADMIN_URL."/browse/show/{$feed->id}/type/$type_id\" title=\"$num_act active and $num_exp expired $type_name items in the {$feed->name} feed\">$type_name</a></span> ($num_act)";
+          $list[] = "<a href=\"".ADMIN_URL."/browse/show/{$feed->id}/type/$type_id\" title=\"$num_act active and $num_exp expired $type_name items in the {$feed->name} feed\"><span class=\"buttonsel\"><div class=\"buttonleft\"><img src=\"".ADMIN_BASE_URL."/images/buttonsel_left.gif\" style=\"border:0px !important;\" border=\"0\" alt=\"\" /></div><div class=\"buttonmid\"><div class=\"buttonmid_padding\">$type_name ($num_act)</div></div><div class=\"buttonright\"><img src=\"".ADMIN_BASE_URL."/images/buttonsel_right.gif\" style=\"border:0px !important;\" border=\"0\" alt=\"\" /></div></span></a>";
       }
       if(sizeof($list)>0){
-          echo "Content types: ";
-          echo join($list, ", ");
+          echo join($list);
       }
       ?>
     </td>

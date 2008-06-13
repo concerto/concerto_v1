@@ -17,7 +17,7 @@
 <div class="roundcont">
   <div class="roundtop"><img src="<? echo ADMIN_BASE_URL ?>images/wc_tl.gif" alt="" width="6" height="6" class="corner topleft" style="display: none" /></div>
   <div class="roundcont_main">
-    <h1>Active Screens</h1>
+    <h1>Operational Status</h1>
     <p>Content on Concerto will currently be shown on the following displays around RPI'<!--'-->s Troy campus:</p>
     <br />
     <table class="edit_win" cellpadding="6" cellspacing="0">
@@ -36,7 +36,7 @@ foreach($this->screens as $screen) {
 
 ?>
       <tr valign="middle">
-      <?php if(strtotime($screen->last_updated)>strtotime('-1 minutes')) { 
+      <?php if(strtotime($screen->last_updated)>strtotime('-1 minutes')) {
          $image = "images/check_icon.gif";
          $status = "Online";
       } else {

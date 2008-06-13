@@ -1,12 +1,12 @@
-/*	
+/*
    CONCERTO
    CSS Document
    *************************
    These styles are used for all administrator panels (v2.0).
-	Copyright 2008 Brian R Zaik, Concerto Team
+   Copyright 2008 Brian R Zaik, Concerto Team
 */
 
-/*=========	GENERAL STYLES =========*/
+/*========= GENERAL STYLES =========*/
 body { background:url(../images/footer_bg.gif) repeat; }
 body, html { border:0;color:#000;font-family:Arial, Verdana, sans-serif;font-size:small;margin:0 auto;min-width:980px; padding:0; }
 a { color:#006699; font-weight:bold; text-decoration:none; }
@@ -59,7 +59,7 @@ div.menu_box h3, div.alert_box h3 { font-size:120%;margin:0 0 4px;padding:0; }
 #maincontent h2 { color:#666666; font-size:1.1em; font-weight:bold; margin:0px 0px 20px 0px; padding:0px; }
 #maincontent_padding { background:#FFF !important; padding:15px 8px 8px; }
 
-#footer_gutter { background:#FFF url(../images/footer_edge2.gif) bottom center repeat-x; clear:both; height:75px; }
+#footer_gutter { background:#FFF url(../images/footer_edge2.gif) bottom center repeat-x; clear:both; height:30px; }
 #footer { color:#333; background:url(../images/footer_bg.gif) repeat;font-size:0.7em;letter-spacing:0.08em;text-align:center;width:100%; }
 #footer_padding { padding:0px 13px 13px 13px; }
 #footer a:link, #footer a:visited { color:#333;font-size:100%;text-decoration:none; }
