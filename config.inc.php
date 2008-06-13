@@ -9,7 +9,7 @@
 //Database Connection
 $db_host = 'rpisenate.com';
 $db_login = 'concerto_dev';
-$db_password = 'ga6hufas';
+$db_password = '<password>';
 $db_database = 'concerto_development';
 
 //Important paths
@@ -33,4 +33,5 @@ define('CONCERTO_VERSION', '1.6 BETA');          //Version number.
 define('DEFAULT_DURATION', 5);                   //Default content duration, in seconds
 define('DEFAULT_WEIGHT', 3);                     //Default position weight
 
+define('EMS_FEED_ID', 19);                       //ID of the emergency feed.
 ?>
