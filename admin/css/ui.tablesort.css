@@ -10,14 +10,14 @@ color:#FFF;
 border: 1px solid #FFF;
 border-bottom:solid 8px #FFF;
 font-size: 8pt;
-padding-right:15px; 
+padding-right:15px;
 }
 
 table.content_listing thead tr th.driver {
 width: 100%;
 }
 table.content_listing thead tr th.driver_moderate {
-width:40%; 
+width:40%;
 }
 
 table.content_listing thead tr .header {
@@ -30,10 +30,10 @@ td.listh_icon { text-align:center; }
 tr.details { background:#FFF url(../images/details_bg.gif) top left repeat-x; }
 tr.details td { padding:12px; }
 td.preview { text-align:center; }
-td.text_bg { font-size:0.8em;text-align:center; background:url(../images/ticker_bg.gif) center center no-repeat; }
+td.text_bg { border:solid 1px #999; font-size:0.8em;text-align:center; background:#ccc url(../images/ticker_bg.gif) center center no-repeat; padding-top:35px; padding-bottom:35px; }
 
 table.content_listing tbody tr.listitem {
-background: url(../images/lightgray_bg.gif) repeat; 
+background: url(../images/lightgray_bg.gif) repeat;
 cursor: pointer;
 }
 
@@ -87,4 +87,4 @@ width: 50px;
 border: 1px solid #330000;
 text-align: center;
 }
- 
+

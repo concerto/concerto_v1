@@ -12,11 +12,11 @@ foreach($this->pages as $page){
    if($page['cat']!=$prev_cat) {
       if($open_table) {
 ?>
-</table> 
+</table>
 <?php
      }
 ?>
-<br /><h1><span class="emph"><a href="<?= ADMIN_URL?>/pages/show/<?=$page['path']?>"><?=$page['cat']?></a></span> 
+<br /><br /><h1><a href="<?= ADMIN_URL?>/pages/show/<?=$page['path']?>"><?=$page['cat']?></a>
 <?php
 if($this->canEdit) {
 ?>
@@ -46,25 +46,27 @@ if($this->canEdit) {
 <?php
 }
 ?>
-<table class="edit_win" cellpadding="6" cellspacing="0"> 
+<br />
+<table class="edit_win" cellpadding="6" cellspacing="0">
 <?php
     $prev_cat=$page['cat'];
     $open_table=1;
    }
 ?>
   <tr><td<? if (!$notfirst) {$notfirst =1;  echo ' class="firstrow"';} ?>>
-  <h1 style="float:left"><a href="<?= ADMIN_URL?>/pages/show/<?=$page['path']?>/<?= $page[0] ?>"><?= $page['name'] ?></a> <?=$page['in_menu']?"":"*"?></h1>
+  <span class="emph"><a href="<?= ADMIN_URL?>/pages/show/<?=$page['path']?>/<?= $page[0] ?>"><?= $page['name'] ?></a> <?=$page['in_menu']?"":"*"?></span></td>
+  <td style="text-align:right;">
   <?php if($this->canEdit) { ?>
-  <div style="float:right; display:inline">
+
      <a href="<?=ADMIN_URL?>/pages/edit/<?=$page['id']?>">edit</a> &nbsp;
      <a href="<?=ADMIN_URL?>/pages/delete/<?=$page['id']?>">del</a> &nbsp;
      <strong>
      <a href="<?=ADMIN_URL?>/pages/up/<?=$page['id']?>">&uarr;</a> &nbsp;
      <a href="<?=ADMIN_URL?>/pages/dn/<?=$page['id']?>">&darr;</a>
      </strong>
-  </div>
+  </td>
   <?php } ?>
-  </td></tr>
+  </tr>
 <?php
 }
 ?>
