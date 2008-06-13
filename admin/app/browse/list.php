@@ -1,5 +1,4 @@
-<a href="<?=ADMIN_URL.'/feeds/edit/'.$this->feed->id ?>"><span class="buttonsel"><div class="buttonleft"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_left.gif" border="0" alt="" /></div><div class="buttonmid"><div class="buttonmid_padding">Edit Feed</div></div><div class="buttonright"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_right.gif" border="0" alt="" /></div></span></a>
-<br /><br /><br /><h2>Click on a type of content to show from a particular feed.</h2>
+<h2>Click on a type of content to show from a particular feed.</h2>
 <table class="edit_win" cellpadding="6" cellspacing="0">
 <?php
 foreach($this->feeds as $feed) {
