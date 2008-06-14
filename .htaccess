@@ -1,0 +1,32 @@
+#Concerto .htaccess file
+#Enables clean URLs when running under apache server
+#NOTE: This file will only take effect if your webserver is using Apache,
+#   has mod_rewrite installed, and the webserver configuration allows settings
+#   in .htaccess files. If you use a different webserver, such as lighttpd,
+#   or cannot use .htaccess files, this file won't work.  You can still get the
+#   same behavior, though, if you modify your server configuration so that it
+#   redirects all request for non-existant file in the admin directory to
+#   index.php. This may sometimes be accomplished by setting index.php as the
+#   error handler for 404's.  Redirection is not required to run the Concerto 
+#   interface, but does help clean up the URLs.
+
+<IfModule mod_rewrite.c>
+
+   RewriteEngine On
+
+   #Check that the file does not exist, so we can still serve static stuff
+      RewriteCond %{REQUEST_FILENAME} !-f
+      RewriteCond %{REQUEST_FILENAME} !-d
+
+   #Actually perform the rewrite:
+      #The first 'admin' below, the one in the regexp, represents the path that will be
+      #   used by the client; it could match the actual directory or be totally fake - just
+      #   be sure config.inc.php is updated accordingly.
+      #The admin/index.php/ part should point to the actual location of index.php.
+      RewriteRule ^admin(.*)$ admin/index.php/$1 [L]
+
+   #End result: as long as the file doesn't actually exist, any requests for something in 
+   #   the admin directory will get sent to admin/index.php, with the path within the 
+   #   application that we're looking for stored in the PATH_INFO environment variable.
+
+</IfModule>
