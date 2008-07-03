@@ -8,7 +8,16 @@
 <? } ?>
 </td>
 <td>
-    <h1><a href="<?= ADMIN_URL ?>/content/show/<?= $this->content->id ?>"><?= $this->content->name ?></a></h1>
+    <h1><a href="<?= ADMIN_URL ?>/content/show/<?= $this->content->id ?>"><?= $this->content->name ?></a>
+<?php
+        if($this->feed->user_priv($_SESSION['user'], 'moderate')) {
+           if($this->status==0) {
+              echo '<small><a href="'.ADMIN_URL.'/moderate/approve/'.$this->feed->id.'/'.$this->content->id.'">(approve)</a></small>';
+           } elseif ($this->status==1) {
+              echo '<small><a href="'.ADMIN_URL.'/moderate/deny/'.$this->feed->id.'/'.$this->content->id.'">(remove)</a></small>';
+           }
+        }
+?>  </h1>
     <span style="font-size:1.5em;font-weight:bold;color:#333;margin-bottom:12px;"><?= date('M j, Y',strtotime($this->content->start_time)) ?> - <?= date('M j, Y',strtotime($this->content->end_time)) ?></span> <? if($this->week_range > 1) echo "({$this->week_range} Weeks)" ?>
     <h2>Display duration: <span class="emph"><img src="<?= ADMIN_BASE_URL ?>/images/stopwatch.gif" alt="Duration" /> <?=$this->duration/1000?> seconds</span></h2>
     <h2>Submitted by <strong><a href="<?= ADMIN_URL ?>/users/show/<?= $this->submitter->id ?>"><?= $this->submitter->name ?></a></strong></h2>

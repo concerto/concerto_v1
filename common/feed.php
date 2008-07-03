@@ -360,14 +360,22 @@ class Feed{
 			return false;
 		}
 	}
+
+    //Find out if a user has permission to 'browse', 'moderate', 
+    // submit content ($action='submittable'), or 'edit' this feed
     function user_priv($user, $action='browse'){
-        //Admins can always browse...everything!!!
+        //Admins can always do...everything!!!
         if($user->admin_privileges) return true;
-        foreach($user->groups as $group_id) {
-            if($this->group_id == $group_id)
-                return true;
+
+        //Group members get some perks...
+        if($action == 'moderate' || $action == 'browse' || $action =='submittable') {
+            foreach($user->groups as $group_id) {
+                if($this->group_id == $group_id)
+                    return true;
+            }
         }
-        //Members of Groups need some browsing too.  
+
+        //Everyoneone else can do stuff dependent on the feed's type.
         if($action == 'browse') {
             return $this->type != 3;
         } elseif($action == 'submittable') {
@@ -450,7 +458,7 @@ class Feed{
 		//Then we just clear the variables
 		$this->id = '';
 		$this->name = '';
-		$this->group_id-'';
+		$this->group_id='';
 		$this->set = false;
 		return true;
 	}

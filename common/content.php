@@ -160,6 +160,11 @@ class Content{
         $sql = "SELECT moderator_id FROM feed_content WHERE feed_content.content_id = {$this->id} AND feed_content.feed_id = {$feed->id} LIMIT 1;";
         return new User(sql_query1($sql));
     }
+    function get_moderation_status($feed){
+        $sql = "SELECT moderation_flag FROM feed_content WHERE feed_content.content_id = {$this->id} AND feed_content.feed_id = {$feed->id} LIMIT 1;";
+        return sql_query1($sql);
+    }
+
 	//Lists all feeds a content has been submitted to, as well as their moderation status
 	function list_feeds(){
 		$sql = "SELECT feed_id, moderation_flag FROM feed_content WHERE content_id = $this->id";

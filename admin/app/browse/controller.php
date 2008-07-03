@@ -18,7 +18,7 @@ class browseController extends Controller
 
     function listAction()
     {
-        $this->feeds=Feed::get_all();
+        $this->feeds=Feed::get_all("ORDER BY `type`, `name`");
     }
 
     function showAction()
@@ -117,9 +117,10 @@ class browseController extends Controller
         $this->feed = new Feed($_POST['feed_id']);
         if($this->content == false || $this->feed == false) exit();
         $this->duration = $this->content->get_duration($this->feed);
+        $this->status = $this->content->get_moderation_status($this->feed);
         $this->week_range = date('W',strtotime($this->content->end_time)) - date('W',strtotime($this->content->start_time));
         $this->submitter = new User($this->content->user_id);
-        if(isAdmin() || $_SESSION['user']->in_group($this->feed->group_id)) {
+        if($this->feed->user_priv($_SESSION['user'], 'moderate')) {
             $this->moderator = $this->content->get_moderator($this->feed);
         }
     }
