@@ -6,6 +6,7 @@
 <title>Concerto Support - <?=$this->getTitle()?></title>
 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 <link rel="stylesheet" type="text/css" href="<?= ADMIN_BASE_URL ?>css/docs.css" />
+<script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/jquery.js"></script>
 </head>
 
 <body>

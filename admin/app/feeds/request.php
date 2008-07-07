@@ -29,5 +29,5 @@
      </table>
      <br clear="all" />
 <!-- End Feed Form -->
-<input value="Create Feed" type="submit" name="submit" />
+<input value="Send Request" type="submit" name="submit" />
 </form>

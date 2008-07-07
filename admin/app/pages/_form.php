@@ -29,6 +29,13 @@
             <option value="1"<?=$page['in_menu']?" selected":""?>>Yes</option>
           </select></td>
        </tr>
+       <tr>
+         <td><h5>Show feedback form</h5></td>
+         <td><select name="page[feedback]">
+            <option value="0"<?=$page['get_feedback']?"":" selected"?>>No</option>
+            <option value="1"<?=$page['get_feedback']?" selected":""?>>Yes</option>
+          </select></td>
+       </tr>
        <tr> 
          <td class='firstrow'><h5>Page Content (HTML)</h5></td>
          <td class='edit_col firstrow'>

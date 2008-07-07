@@ -90,7 +90,7 @@ class feedsController extends Controller
    function requestAction()
    {
       if(isset($_POST['submit'])) {
-         $group=new Group(2);
+         $group=new Group(ADMIN_GROUP_ID);
          $dat = $_POST['feed'];
          $nm = escape($_SESSION['user']->name);
          $id = $_SESSION['user']->id;

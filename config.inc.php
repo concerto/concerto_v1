@@ -34,4 +34,5 @@ define('DEFAULT_DURATION', 5);                   //Default content duration, in 
 define('DEFAULT_WEIGHT', 3);                     //Default position weight
 
 define('EMS_FEED_ID', 19);                       //ID of the emergency feed.
+define('ADMIN_GROUP_ID', 0);                     //ID of the User Group for admin functions and contact
 ?>

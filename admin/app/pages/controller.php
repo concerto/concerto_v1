@@ -11,6 +11,7 @@ class pagesController extends Controller
    function setup()
    {
       $this->setName("Pages");
+      $this->setTemplate('blank_layout', Array('feedback'));
    }
 
    function indexAction()
@@ -150,10 +151,15 @@ class pagesController extends Controller
       $uid = $_SESSION['user']->id;
       if($_POST['page']['in_menu']) $in_menu = 1;
       else $in_menu = 0;
+      if($_POST['page']['feedback']) $feedback = 1;
+      else $feedback = 0;
       if(is_numeric($id) && is_numeric($cat) && is_string($name) && is_string($content) && is_numeric($uid)) {
          $res = sql_command("UPDATE `page` SET `page_category_id`='$cat', `name`='$name', ".
-                            "`content`='$content', `user_id`='$uid' ,`timestamp`=NOW(), `in_menu`=$in_menu ".
-                            "WHERE id=$id LIMIT 1");
+                            "`content`='$content', `user_id`='$uid' , `timestamp`=NOW(), `in_menu`=$in_menu, ".
+                            "`get_feedback`=$feedback WHERE id=$id LIMIT 1");
+         $sql =("UPDATE `page` SET `page_category_id`='$cat', `name`='$name', ".
+                            "`content`='$content', `user_id`='$uid' , `timestamp`=NOW(), `in_menu`=$in_menu, ".
+                            "`get_feedback`=$feedback WHERE id=$id LIMIT 1");
       }
       if($res>0) {
          $this->flash($name.' was updated successfully.');
@@ -163,6 +169,50 @@ class pagesController extends Controller
                       'Please check all fields and try again.','error');
          redirect_to(ADMIN_URL.'/pages/edit');
       }
+   }
+
+   function feedbackAction()
+   {
+      if(isset($_POST['submit']) && is_numeric($_POST['page_id'])) {
+         if(!preg_match('/person/i',$_POST['human'])) {
+            echo "Sorry, people only, please.  Feel free to try again.";
+            exit(1);
+         }
+
+         $group=new Group(ADMIN_GROUP_ID);
+         $dat = $_POST['feed'];
+         
+         if(isset($_POST['email']))
+            $email = escape($_POST['email']);
+         else
+            $email = escape($_SESSION['user']->email);
+         
+         if($_POST['helpful']) 
+            $helfpul = 1;
+         else 
+            $helpful = 0;
+         
+         if(isLoggedIn()) {
+            $submitter=$_SESSION['user']->name.' ('.$_SESSION['user']->username.' - '.$email.')';
+         } else {
+            $submitter=$email;
+         }
+
+         $page=sql_query1("SELECT CONCAT(page_category.name,' :: ',page.name) AS cat FROM `page`".
+                          " LEFT JOIN `page_category` ON page_category_id=page_category.id".
+                          " WHERE page.id='{$_POST['page_id']}'");
+
+         $msg ="New page feedback from {$submitter}\n";
+         $msg.="Page: {$page}\n";
+         $msg.='Found Helpful: '.($helfpul==1?'Yes':'No')."\n";
+         $msg.=''."\n";
+         $msg.='Feeback: '.escape($_POST['message'])."\n";
+         if($group->send_mail('New Feedback on '.$page, $msg,escape($email))) {
+            echo "<strong>Thanks!</strong> Your feedback will help us improve our service and support.";
+            exit(1);
+         }
+      }
+      echo "Sorry, there was an error processing your request.  You can contact support directly using the email address in this page's footer below.";
    }
 
    function upAction()
