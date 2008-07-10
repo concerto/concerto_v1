@@ -12,9 +12,9 @@
 <?php
         if($this->feed->user_priv($_SESSION['user'], 'moderate')) {
            if($this->status==0) {
-              echo '<small><a href="'.ADMIN_URL.'/moderate/approve/'.$this->feed->id.'/'.$this->content->id.'">(approve)</a></small>';
+              echo '&nbsp;&nbsp;&nbsp;<small><a title="Approve Content for Feed" href="'.ADMIN_URL.'/moderate/approve/'.$this->feed->id.'/'.$this->content->id.'"><img src="'. ADMIN_BASE_URL . '/images/icon_approve.gif" border="0" alt=""  /> <span style="color:green !important; font-size:0.8em;">Approve</span></a></small>';
            } elseif ($this->status==1) {
-              echo '<small><a href="'.ADMIN_URL.'/moderate/deny/'.$this->feed->id.'/'.$this->content->id.'">(remove)</a></small>';
+              echo '&nbsp;&nbsp;&nbsp;<small><a title="Remove Content from Feed" href="'.ADMIN_URL.'/moderate/deny/'.$this->feed->id.'/'.$this->content->id.'"><img src="'. ADMIN_BASE_URL . '/images/icon_disapprove.gif" border="0" alt="" /> <span style="color:red !important; font-size:0.8em;">Disapprove</span></a></small>';
            }
         }
 ?>  </h1>
