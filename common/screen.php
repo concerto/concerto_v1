@@ -91,7 +91,7 @@ class Screen{
 			//Begin testing/cleaning block
 			$name_in = escape($name_in);
 
-			$location = escape($location_in);
+			$location_in = escape($location_in);
 			
 			$mac_hex_in = eregi_replace("[\s|:]", '', $mac_hex_in);
 			$mac_address_in = hexdec($mac_hex_in);
@@ -101,6 +101,7 @@ class Screen{
 			}
 			//End testing/cleaning block
 			$sql = "INSERT INTO `screen` (name, group_id, location, mac_address, width, height, template_id) VALUES ('$name_in', $group_id_in, '$location_in', '$mac_address_in', $width_in, $height_in, $template_id_in)";
+                        //print $sql; die;
 			$res = sql_query($sql);
 			if($res){
 				$sql_id = sql_insert_id();
