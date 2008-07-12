@@ -36,8 +36,13 @@
           <a href="<?= ADMIN_URL.'/groups/show/'.$group->id ?>"><?=$group->name?></a>
           </span>
         </h3>
-<?php if(isAdmin()) { ?>
-        <h3>MAC: <span class="emph"><?=$this->screen->mac_inhex?></span></h3>
+<?php
+if(isAdmin()) { 
+   $mac=str_pad($this->screen->mac_inhex,12,'0',STR_PAD_LEFT);
+   $mac=join(str_split($mac,2),':');
+?>
+
+        <h3>MAC: <span class="emph"><?=$mac?></span></h3>
         <h3>Last IP: <span class="emph"><?=$this->screen->last_ip?></span></h3>
 <?php } ?>
       </td>

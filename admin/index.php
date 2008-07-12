@@ -8,6 +8,8 @@ Functionality: Sets up for output, parses URL, and dispatches controllers
                 Controller.
 */
 global $start_time;
+global $render_times;
+$render_times=Array();
 $start_time=microtime(true);
 
 include('../config.inc.php');
@@ -25,8 +27,11 @@ include(COMMON_DIR.'/dynamic.php');  //Functionality for dynamic content
 include(COMMON_DIR.'/notification.php');  //Functionality for notifications
 include(COMMON_DIR.'/image.inc.php');	//Image library, used for resizing images
 
+$render_times[] = Array('Includes', microtime(true));
 
 include('includes/login.php');  //Functionality for CAS, logins, and page authorization
+
+$render_times[] = Array('login', microtime(true));
 
 /* THESE MUST BE DEFINED FOR THIS TO WORK!
 define('ADMIN_BASE_URL','/mike_admin');      //base directory on server for images, css, etc.
@@ -39,14 +44,8 @@ define('HOMEPAGE','Home');     //Name of the homepage
 define('HOMEPAGE_URL', '');           //relative URL for frontpage (we'll link to ADMIN_URL.'/'.HOMEPAGE_URL)
 define('APP_PATH','app');
 
-global $include_time;
-$include_time=microtime(true);
 
 set_magic_quotes_runtime(0);
-
-//session variables visible to both controller and view
-//global $sess;
-global $rddesp;
 
 //parse request
 $request = split('/',trim($_SERVER['PATH_INFO'],'/'));
@@ -229,11 +228,11 @@ class Controller
       $this->doRequirements($action);
       
       //run the action
-      global $action_time;
-      $action_time=microtime(true);
+      global $render_times;
+      $render_times[] = Array('Init', microtime(true));
       call_user_func(array($this,$action.'Action'));
 
-      //set breadcrubs
+      //set breadcrumbs
       if(count($this->breadcrumbs)<=2) {
          if($this->subjectName)
             $this->breadcrumb($this->subjectName,$this->controller.'/show/'.$this->args[1]);
@@ -243,8 +242,7 @@ class Controller
       }
       
       //include the template, which will call back for view
-      global $template_time;
-      $template_time=microtime(true);
+      $render_times[] = Array('Action', microtime(true));
       if($this->template !== false)
          include $this->template;
       else //if this occurs, a 404 will be delivered but the
@@ -258,18 +256,21 @@ class Controller
       $viewpath=APP_PATH.'/'.
          $this->view[controller].'/'.
          $this->view[view].'.php';
-      $view_time=microtime(true);
       if(file_exists($viewpath))
          include($viewpath);
+
       if($_SESSION['stats']) {
-         global $start_time, $include_time, $action_time, $template_time;
+         global $start_time, $render_times;
          $end = microtime(true);
-         echo '<p>includes: '.number_format(($include_time-$start_time)*1000,3).
-            ' | init: '.number_format(($action_time-$include_time)*1000,3).
-            ' | action: '.number_format(($template_time-$action_time)*1000,3).
-            ' | template: '.number_format(($view_time-$template_time)*1000,3).
-            ' | view: '.number_format(($end-$view_time)*1000,3).
-            '| <strong>Total: '.number_format(($end-$start_time)*1000,3).' ms</strong></p>';
+         $render_times[] = Array('Template', microtime(true));
+         $prev_time = $start_time;
+         echo '<p>';
+         $prev_time = $start_time;
+         foreach($render_times as $ar) {
+            echo $ar[0].': '.number_format(($ar[1]-$prev_time)*1000,3).' | ';
+            $prev_time=$ar[1];
+         }
+         echo '<strong>Total: '.number_format(($end-$start_time)*1000,3).' ms</strong></p>';
       }
    }
    function setName($name)
