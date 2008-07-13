@@ -1,12 +1,12 @@
-/*	
+/*
    CONCERTO
    CSS Document
    *************************
    These styles are used for support pages.
-	Copyright 2008 Brian R Zaik, Concerto Team
+   Copyright 2008 Brian R Zaik, Concerto Team
 */
 
-/*=========	GENERAL STYLES =========*/
+/*========= GENERAL STYLES =========*/
 body { background:#FFF; }
 body, html { border:0;color:#000;font-family:Arial, Verdana, sans-serif;font-size:small;margin:0 auto;min-width:900px; padding:0; }
 a { color:#006699; font-weight:bold; text-decoration:none; }
@@ -89,3 +89,10 @@ div.stat { background:url(../images/alert_status.gif) center left no-repeat; }
 div.stat p { border-top:solid 4px green; color:green; background:#ccffcc; }
 div.info { background:url(../images/alert_info.gif) center left no-repeat; color:#006699; }
 div.info p { border-top:solid 4px #006699; color:#006699; background:url(../images/alert_box.gif) repeat; }
+
+
+/* Feedback form */
+#feedback_box { min-height:110px; background:url(../images/support_icon.gif) top left no-repeat; padding-left:125px; margin: 25px 0px; }
+#feedback_inner { border-left:2px solid #999; padding:20px 0px; padding-left:25px; }
+#feedback_box h1 { color:#006699; font-size:1.7em !important; margin:0px; padding:0px; margin-bottom: 4px; }
+#feedback_box h2 { color:#666; font-weight: normal; font-size: 1.1em !important; margin:0px; padding:0px; margin-bottom:12px; }

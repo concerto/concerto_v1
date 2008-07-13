@@ -44,7 +44,7 @@ div.alert_box a:hover { color:#003366; text-decoration:underline; }
 div.alert_box_inset { background:url(../images/alertbox_top.gif) top center no-repeat; }
 div.alert_box_padding { background:url(../images/alertbox_bottom.gif) bottom center no-repeat; }
 
-#fp_present { background:url(../images/present_new.jpg) center right no-repeat; padding-right:460px; min-height:400px; height:400px; }
+#fp_present { background:url(../images/present_new.jpg) center right no-repeat; padding-right:460px; min-height:400px; padding-bottom:25px; }
 #fp_present h1 { font-size:2em !important; color:#333; margin-left:6px !important; margin-bottom:30px !important; }
 #fp_present p.fp { margin:15px 6px !important; line-height:1.6em !important; }
 
