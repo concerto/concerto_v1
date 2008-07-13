@@ -16,7 +16,7 @@ class Group{
 	var $set;
 	
 	function __construct($id_in = ''){
-		if($id_in != ''){
+		if($id_in !== ''){
 			$sql = "SELECT * FROM `group` WHERE id = $id_in LIMIT 1";
 			$res = sql_query($sql);
 			if($res != 0){
