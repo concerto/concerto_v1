@@ -161,7 +161,6 @@ class Dynamic{
 				$this->feed->content_add($obj->id, 0, 0, $duration);
 				$existing_count++;
 			} else {
-			  print_r($obj); die;
 				$this->status .= "Error creating needed content. ";
 				return false; //Bomb bomb bomb.  There is a story behind that, yes
 			}
