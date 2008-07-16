@@ -154,14 +154,14 @@ class Dynamic{
 		if(!defined("NOTIF_OFF")){
 			define("NOTIF_OFF",1);
 		}
-
 		while($existing_count < count($this->content)){
 			$obj = new Content();
-			if($obj->create_content("New Content", $c_owner, "", $mime_type, $type_id, $duration, $start_time, $end_time)){
+			if($obj->create_content("New Content", $c_owner, "", $mime_type, $type_id, $start_time, $end_time)){
 				//We can't forget to add it to that feed!
-				$this->feed->content_add($obj->id, 0, 0);
+				$this->feed->content_add($obj->id, 0, 0, $duration);
 				$existing_count++;
 			} else {
+			  print_r($obj); die;
 				$this->status .= "Error creating needed content. ";
 				return false; //Bomb bomb bomb.  There is a story behind that, yes
 			}
