@@ -63,9 +63,9 @@ class moderateController extends Controller
         $content_id = $_POST['content_id'];
         $action = $_POST['action'];
         $duration = $_POST['duration'];
-        if($feed && $action="approve"){
+        if($feed && $action=="approve"){
             echo json_encode($feed->content_mod($content_id, 1, $_SESSION['user'], $duration));
-        } elseif($feed && $action="deny") {
+        } elseif($feed && $action=="deny") {
             echo json_encode($feed->content_mod($content_id, 0, $_SESSION['user'], $duration));
         } else {
             echo json_encode(false);
@@ -113,7 +113,7 @@ class moderateController extends Controller
         $cid = $this->args[2];
         $duration = $this->args[3];
 
-        if($feed->content_mod($cid, 0, $_SESSION['user'])) {
+        if($feed->content_mod($cid, 0, $_SESSION['user'], $duration)) {
             $this->flash('Content denied successfully.');
             redirect_to(ADMIN_URL.'/moderate/feed/'.$feed->id);
         } else {
