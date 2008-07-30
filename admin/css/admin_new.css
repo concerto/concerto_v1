@@ -20,7 +20,7 @@ a:hover { color:#666; text-decoration:underline; }
 #header a:link, #header a:visited { color:#ccc;text-decoration:none; }
 #header a:hover { color:#FFF;text-decoration:none;; }
 
-#content_header { background:#eaeaea;padding-left:195px; }
+#content_header { background:#FFF url(../images/content_header_bg.png) top left repeat-x;padding-left:195px; }
 #content_header h1 { color:#000;margin:0px; padding:30px 0px 0px 0px; }
 #content_header h2 { color:#333;font-weight:700;font-size:0.85em;margin:5px 0 0px 0px;padding:0px 0px 5px 0px; }
 #content_header h2 a { color:#069;text-decoration:none; }
@@ -142,7 +142,7 @@ ul.subscriptions h2 span.emph { color:#000 !important; padding-right:8px; }
 ul.subscriptions ul { list-style:none; }
 ul.subscriptions ul li { border:solid 2px #666; }
 
-/* New Content Tabs */
+/* New Content */
 #selectdisp_left { float:left; width:17%; }
 #selectdisp_right { border:solid 1px #999; padding:15px; float:right; width:78%;}
 #selectmenu { width: 100%; }

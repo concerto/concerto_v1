@@ -47,7 +47,7 @@ img.datepicker_trigger {
 	color: #fff;
 }
 .datepicker_control {
-	background: #400;
+	background: #006699;
 	padding: 2px 0px;
 }
 .datepicker_links {
@@ -139,7 +139,7 @@ img.datepicker_trigger {
 	color: #888;
 }
 .datepicker_today {
-	background: #fcc !important;
+	background: #99ccff !important;
 }
 .datepicker_currentDay {
 	background: #999 !important;
@@ -172,7 +172,7 @@ img.datepicker_trigger {
 	color: #eee !important;
 }
 .datepicker_control a:hover {
-	background: #fdd !important;
+	background: #99ccff !important;
 	color: #333 !important;
 }
 .datepicker_links a:hover, .datepicker_titleRow a:hover {

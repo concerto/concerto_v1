@@ -1,14 +1,14 @@
 /* Concerto */
 
 * { margin:0px; padding:0px; font-size:small; }
-body { background:#FFF; margin-left:auto; margin-right:auto; margin-top:25px; margin-bottom:25px; width:781px; }
+body { background:#FFF; margin-left:auto; margin-right:auto; margin-top:25px; margin-bottom:25px; width:900px; }
 p, h1, h2, h3, h4, h5, h6, h7, h8 { font-family:Myriad Pro, Arial, sans-serif; }
 a { color:#006699; text-decoration:none; }
 a:hover { color:#333; text-decoration:underline; }
 
-#wrap { background:#FFF; }
+#wrap { background:#f8f8f8 url(../images/public/body_bg_left.gif) top left repeat-y; }
 
-#main { background:#FFF url(../images/public/body_bg.gif) top center repeat-y; padding-left:10px; padding-right:10px; }
+#main { background:url(../images/public/body_bg_right.gif) top right repeat-y; padding-left:10px; padding-right:10px; }
 #fp_img { text-align:center; padding:25px; }
 #fp_img img { margin:15px 0px; }
 #fp_img h1 { font-size:2.2em !important; }
@@ -24,9 +24,9 @@ ul.menu li { list-style:none; float:left; }
 ul.menu a { font-size:1.3em; font-weight:bold; padding:4px 16px; }
 ul.menu a:hover { background:#006699; color:#FFF; text-decoration:none; }
 
-#footer { background: url(../images/public/footer_bg.gif) top center repeat-y; }
-#footer_padding { background:url(../images/public/footer_bottom.gif) bottom center no-repeat; padding:14px 25px 35px 25px; text-align:center; }
-#footer_shadow { background:url(../images/public/footer_shadow.gif) center center no-repeat; width:100%; height:5px; }
+#footer { background:#dadada/*  url(../images/public/footer_bg.gif) top center repeat-y */; }
+#footer_padding { background:url(../images/public/footer_bottom_bg.gif) bottom left repeat-x; padding:14px 25px 35px 25px; text-align:center; }
+#footer_shadow { background:url(../images/public/footer_shadow_bg.gif) top left repeat-x; width:100%; height:5px; }
 
 #footer h1 { font-size:0.9em; color:#666; margin-top:0px; margin-bottom:0px; }
 
