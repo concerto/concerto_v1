@@ -16,7 +16,7 @@
 
 /* Skin */
 .ui-tabs-nav, .ui-tabs-panel {
-    font-family: Arial, sans-serif;
+    font-family:"Lucida Grande",Calibri,Arial,sans-serif; 
     font-size: 12px;
 }
 .ui-tabs-nav {

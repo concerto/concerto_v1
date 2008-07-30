@@ -2,7 +2,7 @@
 
 * { margin:0px; padding:0px; font-size:small; }
 body { background:#FFF; margin-left:auto; margin-right:auto; margin-top:25px; margin-bottom:25px; width:900px; }
-p, h1, h2, h3, h4, h5, h6, h7, h8 { font-family:Myriad Pro, Arial, sans-serif; }
+p, h1, h2, h3, h4, h5, h6, h7, h8 { font-family:"Lucida Grande",Calibri,Arial,sans-serif;  }
 a { color:#006699; text-decoration:none; }
 a:hover { color:#333; text-decoration:underline; }
 
