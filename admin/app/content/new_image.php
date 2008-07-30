@@ -1,5 +1,6 @@
 <h1>Add Image</h1>
-<h2>Fill in these details to post a new graphical image to Concerto.  It could be contained within an image file (JPEG, PNG) or a PDF.</h2>
+<h2>Fill in these details to post a new graphical flyer to Concerto.</h2>
+<h2>Please review the <a href="http://signage.rpi.edu/admin/index.php/pages/show/docs/1">Style Guide for Graphical Content</a> before submitting graphics to Concerto.</h2>
 <img src="<?= ADMIN_BASE_URL ?>/images/graphic_icon.jpg" alt="" />
 <br />
 <form enctype="multipart/form-data" method="post" action="<?=ADMIN_URL?>/content/create">
@@ -15,7 +16,7 @@
   </tr>
 </table>
 <br />
-<?php 
+<?php
    include("_form.php");
 ?>
 <input value="Submit Content" type="submit" name="submit" />

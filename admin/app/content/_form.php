@@ -4,12 +4,12 @@
 ?>
 <!-- Begin Content Form -->
      <table class='edit_win' cellpadding='6' cellspacing='0'>
-       <tr> 
+       <tr>
          <td><h5>Title</h5><p>Enter some words that describe this piece of content to others.</p></td>
          <td colspan="2" class='edit_col'>
            <input type="text" class="extended" name="content[name]" value="<?=$content->name?>" />
          </td>
-       </tr> 
+       </tr>
        <tr>
          <td><h5>Start Date</h5><p>When should this piece of content start to be displayed on Concerto?</p></td>
          <td>
@@ -88,7 +88,7 @@
          </td>
        </tr>
        <tr>
-         <td><h5>Feeds</h5><p>In which content categories would this content fit the best?  <b>Please limit to the most relevant category.</b> <a href="#"><img class="icon" src="<?= ADMIN_BASE_URL ?>images/help_button.gif" alt="Help" /></a></p></td>
+         <td><h5>Feeds</h5><p>In which content categories would this content fit the best?  <b>Please limit to the most relevant category.</b> </p></td>
          <td>
            Submit to Feed:
            <select name="content[feeds][0]">
@@ -101,7 +101,7 @@ foreach ($this->feeds as $arr) {
            </select>
          </td>
          <td style="text-align:right;"><a class="click_add_feed" href="#">Add another feed</a></td>
-       </tr>       
+       </tr>
      </table>
    <br clear="all" />
 <!-- End Screen Form General Section -->
