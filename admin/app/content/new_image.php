@@ -10,7 +10,7 @@
   <td class="edit_col">
     <input name="content_file" class="extended" type="file" />
     <br /><br />
-    <p>Accepted file types: JPEG, PNG, GIF, PDF</p>
+    <p>Accepted file types: JPEG, PNG, GIF, PDF, Powerpoint*<br /> * <i>Experimental; please upload one slide at a time</i></p>
     <input name="content[upload_type]" value="file" type="hidden" />
   </td>
   </tr>
