@@ -40,20 +40,24 @@ class ContentDriver{
     var $screen_id;
     var $field_id;
     var $content_id;
+    var $feed_id;
     var $type_id;
 	
     function __construct($screen_id, $field_id){
         session_start();
+ 
+        if(is_numeric($screen_id) && is_numeric($field_id)){        
+             $this->screen_id = $screen_id;
+             $this->field_id = $field_id;
+	     $sql = "SELECT type_id FROM field WHERE id = $field_id";
+             $res = sql_query($sql);
+	     $data = sql_row_keyed($res,0);
+	     $this->type_id = $data['type_id'];
 
-        $this->screen_id = $screen_id;
-        $this->field_id = $field_id;
-	$sql = "SELECT type_id FROM field WHERE id = $field_id";
-	$res = sql_query($sql);
-	$data = sql_row_keyed($res,0);
-	$this->type_id = $data['type_id'];
-
-        if(!$_SESSION['timeline'][$field_id])
-            $this->construct_timeline();
+             if(!$_SESSION['timeline'][$field_id]){
+                $this->construct_timeline();
+             }
+        }
     }
 	
     private function construct_timeline(){
@@ -76,7 +80,9 @@ class ContentDriver{
         $size = 0;
         $i = 0;
         while($data = sql_row_keyed($res,$i++)){
-            $content[$data['feed_id']][] = $data['content_id'];
+            $item['c_id'] = $data['content_id'];
+            $item['f_id'] = $data['feed_id'];
+            $content[$data['feed_id']][] = $item;
             $weight[$data['feed_id']] = $data['weight'];
 
             $size = max($size, $weight[$data['feed_id']] * count($content[$data['feed_id']]));
@@ -102,9 +108,9 @@ class ContentDriver{
 	}
         while(count($matrix[0])) {
             foreach($matrix as &$row) {
-                $content_id = array_shift($row);
-                if(isset($content_id))
-                    $_SESSION['timeline'][$this->field_id][] = $content_id;
+                $content_itm = array_shift($row);
+                if(isset($content_itm))
+                    $_SESSION['timeline'][$this->field_id][] = $content_itm;
             }
         }
     }
@@ -143,12 +149,13 @@ class ContentDriver{
     function get_content(){
         if($_SESSION['timeline'][$this->field_id]){
             if(count($_SESSION['timeline'][$this->field_id])){
-                $content_id = array_shift($_SESSION['timeline'][$this->field_id]);
+                $content_itm = array_shift($_SESSION['timeline'][$this->field_id]);
             } else {
                 $this->construct_timeline();
-                $content_id = array_shift($_SESSION['timeline'][$this->field_id]);
+                $content_itm = array_shift($_SESSION['timeline'][$this->field_id]);
             }
-            $this->content_id = $content_id;
+            $this->content_id = $content_itm['c_id'];
+            $this->feed_id = $content_itm['f_id'];
             $this->log_back();
             return true;
         } else {
@@ -158,7 +165,14 @@ class ContentDriver{
 
     function log_back(){
          $ip = $_SERVER['REMOTE_ADDR'];
-         $sql = "UPDATE screen SET last_updated = NOW(), last_ip = '$ip' WHERE id = $this->screen_id LIMIT 1";
+         $sql = "UPDATE screen SET last_updated = NOW(), last_ip = '$ip', display_count = display_count + 1 WHERE id = $this->screen_id LIMIT 1";
+         sql_command($sql);
+         
+         $sql = "UPDATE position SET display_count = display_count + 1 ";
+         $sql .= "WHERE screen_id = $this->screen_id AND field_id = $this->field_id AND feed_id = $this->feed_id LIMIT 1"; 
+         sql_command($sql);
+
+         $sql = "UPDATE feed_content SET display_count = display_count + 1 WHERE feed_id = $this->feed_id AND content_id = $this->content_id LIMIT 1";
          sql_command($sql);
 
          return true;
