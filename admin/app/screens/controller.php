@@ -190,11 +190,15 @@ class screensController extends Controller
       if(isset($_GET['h'])) $h=$_GET['h'];
       if(isset($_GET['m'])) $m=$_GET['m'];
 
-      //aon means the on time has passed already today.  aoff means it is later than the off time
-      $aon = $h>=$on_h && $m>=$on_m;
-      $aoff = $h>=$off_h && $m>=$off_m;
+      //Convert to seconds-based timestamps for comparisons
+      $on_ts = $on_h*3600+$on_m*60;
+      $off_ts = $off_h*3600+$off_m*60;
+      $ts=$h*3600+$m*60+$s;
 
-      $reverse = $on_h>=$off_h && $on_m>=$off_m;
+      //aon means the on time has passed already today.  aoff means it is later than the off time
+      $aon = $ts > $on_ts;
+      $aoff = $ts > $off_ts;
+      $reverse = $on_ts > $off_ts;
 
       $this->status = ($aon xor $aoff);
       if($reverse) $this->status = !$this->status;
