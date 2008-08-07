@@ -31,6 +31,10 @@ class screensController extends Controller
    function showAction()
    {
       $this->screen = new Screen($this->args[1]);
+      if(!$this->screen->set) {
+         $this->flash("Screen not found","error");
+         redirect_to("../");
+      }
       $this->setTitle($this->screen->name);
       $this->setSubject($this->screen->name);
       $this->canEdit =$_SESSION['user']->can_write('screen',$this->args[1]);
@@ -39,6 +43,10 @@ class screensController extends Controller
    function editAction()
    {
       $this->screen = new Screen($this->args[1]);
+      if(!$this->screen->set) {
+         $this->flash("Screen not found","error");
+         redirect_to("../");
+      }
       $this->setTitle('Editing '.$this->screen->name);
       $this->setSubject($this->screen->name);
    }
@@ -46,6 +54,10 @@ class screensController extends Controller
    function subscriptionsAction()
    {
       $this->screen = new Screen($this->args[1]);
+      if(!$this->screen->set) {
+         $this->flash("Screen not found","error");
+         redirect_to("../");
+      }
       $this->setTitle('Managing Subscriptions for '.$this->screen->name);
       $this->setSubject($this->screen->name);
       $this->feeds=Feed::get_all();
@@ -77,6 +89,10 @@ class screensController extends Controller
    function subscribeAction()
    {
      $screen = new screen($this->args[1]);
+      if(!$screen->set) {
+         $this->flash("Screen not found","error");
+         redirect_to("../");
+      }
      $dat = $_POST['content']['freq'];
 
      $success = true;
@@ -123,6 +139,10 @@ class screensController extends Controller
    function updateAction()
    {
      $screen = new screen($this->args[1]);
+      if(!$screen->set) {
+         $this->flash("Screen not found","error");
+         redirect_to("../");
+      }
      $dat = $_POST['screen'];
      $screen->name = $dat['name'];
      $screen->group_id = $dat['group'];
@@ -167,41 +187,26 @@ class screensController extends Controller
          redirect_to(ADMIN_URL.'/screens/show/'.$this->args[1]);
       }
    }
-
+   
+   /* Interface for power management checks by screens.
+    */
    function powerstateAction()
    {
+      //Challenge string for generating signature
       $this->challenge=$_GET['challenge_string'];
-      if(!isset($_GET['mac'])) $_GET['mac'] = 0;
-      $mac = hexdec($_GET['mac']);
-      list($scr) = sql_select('screen',Array('id', 'time_on', 'time_off'),"mac_address = $mac",'LIMIT 1');
-      if($scr['id'] < 0){
-         echo "Bad MAC.";
-         exit(0);
+
+      //Optional hour and minute parameters for checking & testing
+      $h = isset($_GET['h']) ? $_GET['h'] : -1;
+      $m = isset($_GET['m']) ? $_GET['m'] : -1;
+      
+      $screen = new Screen($_GET['mac'],true);
+
+      if($screen->set) {
+         $this->status = $screen->get_powerstate($h, $m);
+      } else {
+         //Return "on" if screen is unknown.
+         $this->status = true;
       }
-
-      list($on_h,$on_m)=split(':',$scr['time_on']);
-      list($off_h,$off_m)=split(':',$scr['time_off']);
-      $localtime = localtime();
-
-      $h = $localtime[2];
-      $m = $localtime[1];
-      $s = $localtime[0];
-
-      if(isset($_GET['h'])) $h=$_GET['h'];
-      if(isset($_GET['m'])) $m=$_GET['m'];
-
-      //Convert to seconds-based timestamps for comparisons
-      $on_ts = $on_h*3600+$on_m*60;
-      $off_ts = $off_h*3600+$off_m*60;
-      $ts=$h*3600+$m*60+$s;
-
-      //aon means the on time has passed already today.  aoff means it is later than the off time
-      $aon = $ts > $on_ts;
-      $aoff = $ts > $off_ts;
-      $reverse = $on_ts > $off_ts;
-
-      $this->status = ($aon xor $aoff);
-      if($reverse) $this->status = !$this->status;
    }
 }
 ?>

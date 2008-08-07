@@ -43,12 +43,23 @@ class Screen{
 	 
 	 //The default constructor takes a screen ID and pulls all of the data out for quick and easy access
     //Note: This now takes the database ID, rather than the mac address.
-	 function __construct($sid = ''){
-		if($sid != ''){
-			$sql = "SELECT *, HEX(mac_address) as inhex from screen WHERE id = $sid LIMIT 1";
+	 function __construct($sid = '', $id_is_mac=false){
+       if($id_is_mac) {
+          if(preg_match('/^[a-fA-F0-9:]*$/',$sid)) {
+             $mac_hex_in = eregi_replace("[\s|:]", '', $sid);
+             $mac_address_in = hexdec($mac_hex_in);
+             $sql = "SELECT *, HEX(mac_address) as inhex from screen WHERE mac_address = '$mac_address_in' LIMIT 1";
+          }
+       } else {
+          if(is_numeric($sid)) {
+             $sql = "SELECT *, HEX(mac_address) as inhex from screen WHERE id = $sid LIMIT 1";
+          }
+       }
+
+		if(isset($sql)){
 			$res = sql_query($sql);
-			if($res != 0){
-				$data = (sql_row_keyed($res,0));
+			$data = (sql_row_keyed($res,0));
+			if($data != 0){
 				$this->id = $data['id'];
 				$this->name = $data['name'];
 				$this->group_id = $data['group_id'];
