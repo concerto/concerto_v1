@@ -201,13 +201,13 @@ class pagesController extends Controller
          $page=sql_query1("SELECT CONCAT(page_category.name,' :: ',page.name) AS cat FROM `page`".
                           " LEFT JOIN `page_category` ON page_category_id=page_category.id".
                           " WHERE page.id='{$_POST['page_id']}'");
-
-         $msg ="New page feedback from {$submitter}\n";
+         $ip = $_SERVER['REMOTE_ADDR'];
+         $msg ="New page feedback from {$submitter} [$ip]\n";
          $msg.="Page: {$page}\n";
          $msg.='Found Helpful: '.($helfpul==1?'Yes':'No')."\n";
          $msg.=''."\n";
-         $msg.='Feeback: '.escape($_POST['message'])."\n";
-         if($group->send_mail('New Feedback on '.$page, $msg,escape($email))) {
+         $msg.='Feeback: '.$_POST['message']."\n";
+         if($group->send_mail('New Feedback on '.$page, $msg,$email)) {
             echo "<strong>Thanks!</strong> Your feedback will help us improve our service and support.";
             exit(1);
          }
