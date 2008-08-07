@@ -4,6 +4,7 @@ include(COMMON_DIR."mysql.inc.php");
 include(COMMON_DIR."driver.php");
 include(COMMON_DIR."feed.php");
 include(COMMON_DIR."dynamic.php");
+include(COMMON_DIR."screen.php");
 //error_reporting(0);
 
 if(isset($_REQUEST['id'])){

@@ -1,53 +1,49 @@
 <?
 /*
 Class: Screen
-Status: Done maybe?
+Status: Done with powerstate
 Functionality:
 	set_properties		Writes all data back the the screen table
-	
 	add_position		[[Depreciated]]  use field -> position link.						
 	remove_position		[[Depreciated]]				
 	list_positions		[[Depreciated]]					
 	avail_positions		[[Depreciated]]
-	
-	list_fields			Lists all fields objects a screen has, based on template
-	
+	list_fields		Lists all fields objects a screen has, based on template
 	status_update		Sets the screen update time to now, should be called
-					whenever that screen refreshes content
-						
+				whenever that screen refreshes content		
 	status			Queries the status of a screen, returning the last time
-					the screen was updated.  Passing it a 0 will return a raw
-					sql timestamp, and a 1 [default] will return a pretty string.
-						
-	list_all			Lists all screens, optional where syntax
-	get_all        			 same, returns objects instead of array
-	destroy			 destroys a screen
+				the screen was updated.  Passing it a 0 will return a raw
+				sql timestamp, and a 1 [default] will return a pretty string.		
+	list_all		Lists all screens, optional where syntax
+	get_all			same, returns objects instead of array
+	get_powerstate		Tells us about the powerstate, should it be on or off
+	destroy			destroys a screen
 Comments:
-
+The powerstate function is a copy and paste of the logic in the screen controller with a few slight mods.
 */
 class Screen{
      var $id;
-	 var $name;
-	 var $group_id;
-	 var $location;
-	 var $mac_address; //Ignore me
-	 var $mac_inhex; //Use this
-	 var $width;
-	 var $height;
-	 var $template_id;
-	 var $last_updated; //read-only
-    var $last_ip;      //read-only
+     var $name;
+     var $group_id;
+     var $location;
+     var $mac_address; //Ignore me
+     var $mac_inhex; //Use this
+     var $width;
+     var $height;
+     var $template_id;
+     
+     var $last_updated; //read-only
+     var $last_ip;      //read-only
 
-    var $controls_display;
-    var $time_on;
-    var $time_off;
+     var $controls_display;
+     var $time_on;
+     var $time_off;
 	 
-	 var $set;
+     var $set;
 	 
 	 //The default constructor takes a screen ID and pulls all of the data out for quick and easy access
     //Note: This now takes the database ID, rather than the mac address.
 	 function __construct($sid = ''){
-	 	//Returns true for sucess, false for failure
 		if($sid != ''){
 			$sql = "SELECT *, HEX(mac_address) as inhex from screen WHERE id = $sid LIMIT 1";
 			$res = sql_query($sql);
@@ -66,11 +62,11 @@ class Screen{
 				$this->last_ip = $data['last_ip'];
 
 				
-            $this->controls_display = $data['controls_display'];
-            $this->time_on = $data['time_on'];
-            $this->time_off = $data['time_off'];
+				$this->controls_display = $data['controls_display'];
+				$this->time_on = $data['time_on'];
+				$this->time_off = $data['time_off'];
 
-            //This is done by sql because a mac is bigger than php's int.
+				//This is done by sql because a mac is bigger than php's int.
 				$this->mac_inhex = $data['inhex']; //You want to update this field only!
 				
 				$this->set = true;
@@ -139,9 +135,9 @@ class Screen{
 		//Begin Cleaning/Test Block
 		$name_clean = escape($this->name);
 		$location_clean = escape($this->location);
-      $time_on_clean = escape($this->time_on);
-      $time_off_clean = escape($this->time_off);
-      if($this->controls_display) $this->controls_display=1;
+      		$time_on_clean = escape($this->time_on);
+      		$time_off_clean = escape($this->time_off);
+      		if($this->controls_display) $this->controls_display=1;
 		if(!is_numeric($this->group_id)){
 				return false;
 		}
@@ -188,10 +184,16 @@ class Screen{
 	}
 	
 	//Updates the status of the screen
-	function status_update(){
-		$sql = "UPDATE screen SET last_updated = NOW() WHERE id = $this->id LIMIT 1";
+	function status_update($ip_in='', $update_content=false){
+    $ip = escape($ip_in);
+    if($update_content){
+      $sql = "UPDATE screen SET last_updated = NOW(), last_ip = '$ip', display_count = display_count + 1 WHERE id = $this->id LIMIT 1";
+    } else {
+		  $sql = "UPDATE screen SET last_updated = NOW(), last_ip = '$ip' WHERE id = $this->id LIMIT 1";
+		}
 		sql_query($sql);
 		$this->last_updated = date("Y-m-d G:i:s");
+		$this->last_ip = $ip;
 	}
 	
 	//Gets the status of the screen
@@ -205,7 +207,7 @@ class Screen{
 			$retval = date("g:i a", $upstamp);
 			
 			$diffstamp = $curstamp - $upstamp;
-            if($days=intval((floor($diffstamp/86400)))){
+            		if($days=intval((floor($diffstamp/86400)))){
 				$retval .= ", $days days ago";
 			}
 			return $retval;
@@ -218,11 +220,11 @@ class Screen{
 		$res = sql_query($sql);
 		$i=0;
 		while($row = sql_row_keyed($res,$i)){
-		    $data[$i]['id'] = $row['id'];
+			$data[$i]['id'] = $row['id'];
 			$data[$i]['name'] = $row['name'];
 			$data[$i]['group_id'] = $row['group_id'];
 			$data[$i]['location'] = $row['location'];
-		    $i++;
+			$i++;
 		}
 		return $data;
 	}
@@ -242,6 +244,36 @@ class Screen{
 		} else {
 			return false;
 		}
+	}
+	function get_powerstate($h_in = -1, $m_in = -1) {
+		if(!$this->controls_display){ //If we can't control the screen, it should always be on
+			return true;
+		}
+		list($on_h,$on_m)=split(':',$this->time_on);
+		list($off_h,$off_m)=split(':',$this->time_off);
+  		$localtime = localtime();
+
+  		$h = $localtime[2];
+  		$m = $localtime[1];
+  		$s = $localtime[0];
+
+  		if($h_in > -1) $h=$h_in;
+  		if($m_in > -1) $m=$m_in;
+
+  		//Convert to seconds-based timestamps for comparisons
+  		$on_ts = $on_h*3600+$on_m*60;
+  		$off_ts = $off_h*3600+$off_m*60;
+  		$ts=$h*3600+$m*60+$s;
+
+  		//aon means the on time has passed already today.  aoff means it is later than the off time
+  		$aon = $ts > $on_ts;
+  		$aoff = $ts > $off_ts;
+  		$reverse = $on_ts > $off_ts;
+
+  		$pwrstatus = ($aon xor $aoff);
+  		if($reverse) $pwrstatus = !$pwrstatus;
+  
+ 	 	return $pwrstatus;
 	}
 	function destroy(){
 		$sql = "DELETE FROM `position` WHERE screen_id = $this->id";

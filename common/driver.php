@@ -132,7 +132,7 @@ class ContentDriver{
                         $json['mime_type'] = 'text/html';
                         $json['content'] = date($data['content']);
                     }
-
+                    $this->log_back();
                     return $json;
                 } else {
                     $this->construct_timeline();
@@ -156,7 +156,6 @@ class ContentDriver{
             }
             $this->content_id = $content_itm['c_id'];
             $this->feed_id = $content_itm['f_id'];
-            $this->log_back();
             return true;
         } else {
             return false;
@@ -164,18 +163,21 @@ class ContentDriver{
     }
 
     function log_back(){
-         $ip = $_SERVER['REMOTE_ADDR'];
-         $sql = "UPDATE screen SET last_updated = NOW(), last_ip = '$ip', display_count = display_count + 1 WHERE id = $this->screen_id LIMIT 1";
-         sql_command($sql);
-         
-         $sql = "UPDATE position SET display_count = display_count + 1 ";
-         $sql .= "WHERE screen_id = $this->screen_id AND field_id = $this->field_id AND feed_id = $this->feed_id LIMIT 1"; 
-         sql_command($sql);
+        $ip = $_SERVER['REMOTE_ADDR'];
+	$screen = new Screen($this->screen_id);
+	if($screen->get_powerstate()){
+		$screen->status_update($ip, true); //Update the screen last updated, ip, and display count
 
-         $sql = "UPDATE feed_content SET display_count = display_count + 1 WHERE feed_id = $this->feed_id AND content_id = $this->content_id LIMIT 1";
-         sql_command($sql);
+	        $sql = "UPDATE position SET display_count = display_count + 1 ";
+		$sql .= "WHERE screen_id = $this->screen_id AND field_id = $this->field_id AND feed_id = $this->feed_id LIMIT 1"; 
+        	sql_command($sql);
 
-         return true;
+        	$sql = "UPDATE feed_content SET display_count = display_count + 1 WHERE feed_id = $this->feed_id AND content_id = $this->content_id LIMIT 1";
+        	sql_command($sql);
+	} else { //The screen is offline, just update the last updated and ip
+		$screen->status_update($ip,false);
+	}
+        return true;
     }
 
     //EMS Display code.
@@ -192,7 +194,6 @@ class ContentDriver{
                 } else {
                     $ems_c_id = array_rand($contents,1);
                     $this->content_id = $ems_c_id;
-                    $this->log_back(); //Let the system know we found this content and plan on using it
                     return true;
                 }
             } else {
