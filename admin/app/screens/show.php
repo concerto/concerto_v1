@@ -24,8 +24,12 @@
         <h3>Size: <span class="emph"><?php echo $this->screen->width.' x '.$this->screen->height.' ('.$ratio; ?>)</span></h3>
         <h3>Status: 
           <span class="emph">
-          <?php if(strtotime($this->screen->last_updated)>strtotime('-1 minutes')) { ?>
-            <span style="color:green;">Online</span>
+          <?php if($this->screen->is_connected()) { ?>
+             <? if($this->screen->get_powerstate()) { ?>
+                <span style="color:green;">Online</span>
+             <? } else { ?>
+                <span style="color:#aa0;">Asleep</span>
+             <? } ?>
           <?php } else { ?>
             <span style="color:red;">Offline</span>
           <?php } ?></span>(Last updated: <?php echo $this->screen->last_updated?>)
@@ -79,4 +83,3 @@ if(isAdmin()) {
 <?php   }
        }else echo "<p>No fields on this template</p>";
 ?> 
-

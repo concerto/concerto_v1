@@ -23,31 +23,33 @@
     <table class="edit_win" cellpadding="6" cellspacing="0">
 <?php
 foreach($this->screens as $screen) {
-   if($screen->width/$screen->height==(16/9)){
+   if($screen->is_connected() && !$screen->get_powerstate()) {
+      $scrimg="screen_169_sm_asleep.png";
+      $info="Screen is asleep";
+   } else if ($screen->width/$screen->height==(16/9)){
       $scrimg="screen_169_sm.png";
-      $ratio ="16:9";
    } else if ($screen->width/$screen->height==(16/10)) {
       $scrimg="screen_169_sm.png";
-      $ratio ="16:10";
-   }else{
+   } else {
       $scrimg="screen_43_sm.png";
-      $ratio ="4:3";
    }
 
 ?>
       <tr valign="middle">
-      <?php if(strtotime($screen->last_updated)>strtotime('-1 minutes')) {
+<?php 
+      if($screen->is_connected()) {
          $image = "images/check_icon.gif";
          $status = "Online";
       } else {
          $image = "images/ex_icon.gif";
          $status = "Offline";
-      } ?>
-<td class="icon" style="width:95px;"><img class="icon" src="<?= ADMIN_BASE_URL . $image ?>" alt="Screen <?=$status?>" />
-<div style="display:inline; margin-left:12px;width:50px; text-align:center">
-<a href="<?=url_for('screens','show',$screen->id)?>"><img class="icon" src="<?= ADMIN_BASE_URL ?>images/<?=$scrimg?>" alt="" /></a>
-</div></td>
-<td><span class="emph"><?=$screen->name?></span>, a <?=$screen->width.'x'.$screen->height?> display in <b><?=$screen->location?></b></td>
+      }
+?>
+      <td class="icon" style="width:95px;"><img class="icon" src="<?= ADMIN_BASE_URL . $image ?>" alt="<?=$status?>" title="Screen <?=$status?>" />
+      <div style="display:inline; margin-left:12px;width:50px; text-align:center">
+      <a href="<?=url_for('screens','show',$screen->id)?>"><img class="icon" src="<?= ADMIN_BASE_URL ?>images/<?=$scrimg?>" alt="<?=$info?>" title="<?=$info?>" /></a>
+      </div></td>
+      <td><span class="emph"><?=$screen->name?></span>, a <?=$screen->width.'x'.$screen->height?> display in <b><?=$screen->location?></b></td>
       </tr>
 <?php
 }

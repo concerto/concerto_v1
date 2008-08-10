@@ -21,8 +21,12 @@ foreach($this->screens as $screen){
       <h1><? echo $screen->name?></h1>
       <h2><? echo $screen->location?></h2>
       <h3><?php echo $screen->width.' x '.$screen->height.' ('.$ratio; ?>)</h3>
-      <?php if(strtotime($screen->last_updated)>strtotime('-1 minutes')) { ?>
-        <span style="color:green;font-size:1.3em;font-weight:bold;">Online</span>
+      <?php if($screen->is_connected()) { ?>
+         <? if($screen->get_powerstate()) { ?>
+            <span style="color:green;font-size:1.3em;font-weight:bold;">Online</span>
+         <? } else { ?>
+            <span style="color:#aa0;font-size:1.3em;font-weight:bold;">Asleep</span>
+         <? } ?>
       <?php } else { ?>
         <span style="color:red;font-size:1.3em;font-weight:bold;">Offline</span>
       <?php } ?>

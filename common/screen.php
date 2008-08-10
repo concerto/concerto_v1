@@ -197,13 +197,14 @@ class Screen{
 	//Updates the status of the screen
 	function status_update($ip_in='', $update_content=false){
     $ip = escape($ip_in);
+    $now = date('Y-m-d G:i:s');
     if($update_content){
-      $sql = "UPDATE screen SET last_updated = NOW(), last_ip = '$ip', display_count = display_count + 1 WHERE id = $this->id LIMIT 1";
+      $sql = "UPDATE screen SET last_updated = '$now', last_ip = '$ip', display_count = display_count + 1 WHERE id = $this->id LIMIT 1";
     } else {
-		  $sql = "UPDATE screen SET last_updated = NOW(), last_ip = '$ip' WHERE id = $this->id LIMIT 1";
+		  $sql = "UPDATE screen SET last_updated = '$now', last_ip = '$ip' WHERE id = $this->id LIMIT 1";
 		}
 		sql_query($sql);
-		$this->last_updated = date("Y-m-d G:i:s");
+		$this->last_updated = $now;
 		$this->last_ip = $ip;
 	}
 	
@@ -225,6 +226,11 @@ class Screen{
 		}
 	}
 	
+   function is_connected()
+   {
+      return (strtotime($this->last_updated)>strtotime('-30 seconds'));
+   }
+
 	//List all screens, optional WHERE syntax
 	function list_all($where = ''){
 		$sql = "SELECT * FROM screen $where";
