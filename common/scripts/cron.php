@@ -38,9 +38,24 @@ function weekly(){
 	clear_cache(TEMPLATE_DIR.'/cache/');
 }
 function nightly(){
-
 	//Cache any content we need to cache
 	cache_parse(100);
+
+	//Rollover the feed-content table's statistics
+	$sql = "UPDATE `feed_content` SET `yesterday_count` = `display_count`";
+	sql_command($sql);	
+
+	//Rolloever the position table's statistics
+	$sql = "UPDATE `position` SET `yesterday_count` = `display_count`";
+	sql_command($sql);
+
+	//Clear out the old data.  I tried making it 1 sql statement, but it didn't work consistently
+	$sql = "UPDATE `position` SET `display_count` = 0";
+	sql_command($sql);
+
+	$sql = "UPDATE `feed_content` SET `display_count` = 0";
+	sql_command($sql);
+
 }
 function hourly(){
 	//Rotate any screens that need a template rotation every 6 hours
@@ -70,6 +85,7 @@ function always(){
 			} else {
 				echo "Error updating $feed->name\n";
 				echo "Status: " . $feed->dyn->status . "\n";
+				print_r($feed);
 			}
 		}
 	}

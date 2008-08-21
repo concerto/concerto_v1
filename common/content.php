@@ -227,24 +227,27 @@ class Content{
 		}
 	}
 	
-	function stats_byscreen(){
-    $sql = "SELECT feed_id, display_count FROM feed_content WHERE content_id = $this->id AND display_count > 0";
+  function stats_byscreen($time_period_in='yesterday'){
+    
+    $time_period = escape($time_period_in);
+
+    $sql = "SELECT feed_id, " . $time_period . "_count FROM feed_content WHERE content_id = $this->id AND " . $time_period . "_count > 0";
     $res = sql_query($sql);
     $content_display_sum = 0;
     $i=0;
     while($row = sql_row_keyed($res, $i)){ //Generates a breakdown of displays per feed
-      $content_display_sum += $row['display_count'];
-      $feed_distribution[$row['feed_id']] = $row['display_count'];
+      $content_display_sum += $row[$time_period . '_count'];
+      $feed_distribution[$row['feed_id']] = $row[$time_period . '_count'];
       $i++;
     }
     foreach ($feed_distribution as $feed_id => $display_count){
-      $sql2 = "SELECT screen_id, SUM(display_count) as display_count FROM position WHERE feed_id = $feed_id AND display_count > 0 GROUP BY screen_id";
+      $sql2 = "SELECT screen_id, SUM(" . $time_period . "_count) as " . $time_period . "_count FROM position WHERE feed_id = $feed_id AND " . $time_period . "_count > 0 GROUP BY screen_id";
       $res2 = sql_query($sql2);
       $feed_display_sum = 0;
       $j = 0;
       while($row2 = sql_row_keyed($res2, $j)){ //Generates a breakdown of displays per feed
-        $feed_display_sum += $row2['display_count'];
-        $tempscreen_distribution[$row2['screen_id']] = $row2['display_count'] * $display_count / $content_display_sum;
+        $feed_display_sum += $row2[$time_period . '_count'];
+        $tempscreen_distribution[$row2['screen_id']] = $row2[$time_period . '_count'] * $display_count / $content_display_sum;
         $j++;
       }
       foreach ($tempscreen_distribution as $screen_id => $temp_calc){ //Reduce that to be on a per position percentage
@@ -256,6 +259,6 @@ class Content{
         $screen_distribution[$screen_id] = round($temp_calc * $content_display_sum);
     }
     return $screen_distribution;
-	}
+  }
 }	
 ?>
