@@ -240,25 +240,30 @@ class Content{
       $feed_distribution[$row['feed_id']] = $row[$time_period . '_count'];
       $i++;
     }
-    foreach ($feed_distribution as $feed_id => $display_count){
-      $sql2 = "SELECT screen_id, SUM(" . $time_period . "_count) as " . $time_period . "_count FROM position WHERE feed_id = $feed_id AND " . $time_period . "_count > 0 GROUP BY screen_id";
-      $res2 = sql_query($sql2);
-      $feed_display_sum = 0;
-      $j = 0;
-      while($row2 = sql_row_keyed($res2, $j)){ //Generates a breakdown of displays per feed
-        $feed_display_sum += $row2[$time_period . '_count'];
-        $tempscreen_distribution[$row2['screen_id']] = $row2[$time_period . '_count'] * $display_count / $content_display_sum;
-        $j++;
+    if($i > 0){  //Verify the content has been shown somewhere before we do all this math
+      foreach ($feed_distribution as $feed_id => $display_count){
+        $sql2 = "SELECT screen_id, SUM(" . $time_period . "_count) as " . $time_period . "_count FROM position WHERE feed_id = $feed_id AND " . $time_period . "_count > 0 GROUP BY screen_id";
+        $res2 = sql_query($sql2);
+        $feed_display_sum = 0;
+        $j = 0;
+        while($row2 = sql_row_keyed($res2, $j)){ //Generates a breakdown of displays per feed
+          $feed_display_sum += $row2[$time_period . '_count'];
+          $tempscreen_distribution[$row2['screen_id']] = $row2[$time_period . '_count'] * $display_count / $content_display_sum;
+          $j++;
+        }
+        foreach ($tempscreen_distribution as $screen_id => $temp_calc){ //Reduce that to be on a per position percentage
+          $screen_distribution[$screen_id] += $temp_calc / $feed_display_sum;
+        }
       }
-      foreach ($tempscreen_distribution as $screen_id => $temp_calc){ //Reduce that to be on a per position percentage
-        $screen_distribution[$screen_id] += $temp_calc / $feed_display_sum;
+      //Finally scale it up in terms of total content displayed
+      foreach ($screen_distribution as $screen_id => $temp_calc){
+          $screen_distribution[$screen_id] = round($temp_calc * $content_display_sum);
       }
-    }
-    //Finally scale it up in terms of total content displayed
-    foreach ($screen_distribution as $screen_id => $temp_calc){
-        $screen_distribution[$screen_id] = round($temp_calc * $content_display_sum);
-    }
-    return $screen_distribution;
+      return $screen_distribution;
+      } else {
+        return 0; //The content hasn't been shown anywhere
+
+      }
   }
 }	
 ?>
