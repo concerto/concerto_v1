@@ -165,17 +165,14 @@ class ContentDriver{
     function log_back(){
         $ip = $_SERVER['REMOTE_ADDR'];
 	$screen = new Screen($this->screen_id);
+	$screen->status_update($ip); //Update the screen last updated and ip stuff
 	if($screen->get_powerstate()){
-		$screen->status_update($ip, true); //Update the screen last updated, ip, and display count
-
 	        $sql = "UPDATE position SET display_count = display_count + 1 ";
 		$sql .= "WHERE screen_id = $this->screen_id AND field_id = $this->field_id AND feed_id = $this->feed_id LIMIT 1"; 
         	sql_command($sql);
 
         	$sql = "UPDATE feed_content SET display_count = display_count + 1 WHERE feed_id = $this->feed_id AND content_id = $this->content_id LIMIT 1";
         	sql_command($sql);
-	} else { //The screen is offline, just update the last updated and ip
-		$screen->status_update($ip,false);
 	}
         return true;
     }

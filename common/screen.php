@@ -195,17 +195,13 @@ class Screen{
 	}
 	
 	//Updates the status of the screen
-	function status_update($ip_in='', $update_content=false){
+	function status_update($ip_in=''){
     $ip = escape($ip_in);
     $now = date('Y-m-d G:i:s');
-    if($update_content){
-      $sql = "UPDATE screen SET last_updated = '$now', last_ip = '$ip', display_count = display_count + 1 WHERE id = $this->id LIMIT 1";
-    } else {
-		  $sql = "UPDATE screen SET last_updated = '$now', last_ip = '$ip' WHERE id = $this->id LIMIT 1";
-		}
-		sql_query($sql);
-		$this->last_updated = $now;
-		$this->last_ip = $ip;
+    $sql = "UPDATE screen SET last_updated = '$now', last_ip = '$ip' WHERE id = $this->id LIMIT 1";
+    sql_query($sql);
+    $this->last_updated = $now;
+    $this->last_ip = $ip;
 	}
 	
 	//Gets the status of the screen
