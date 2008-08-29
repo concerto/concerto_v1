@@ -1,23 +1,30 @@
 <?
 //Content Rendering API
-//Version 0.05
-//Notes: You shouldn't be touching this file directly.  You should be calling through the render/index.php handler and passing the version 005
+//Version 0.06
+//Notes: You shouldn't be touching this file directly.  You should be calling through the render/index.php handler and passing the version 006
+
+//This file is very similiar to 0.05 but the RSS has more details.
+//Support has also been added to nearly dynamic content (ndc)
 
 //Default Values
 $select = 'feed';
 $select_id = '';
 $type = 'all';
-$format = 'raw';
+$format = 'rss';
+$orderby= 'id';
 $width = '';
 $height = '';
 $props = '';
-$count = '1';
+$count = 'all';
+$range = 'all';
 //End default values
 
 //Define acceptable values
 $select_av = array('content', 'feed', 'user');
 $type_av = array('graphic', 'text', 'html', 'all');
-$format_av = array('raw','html','rss');
+$format_av = array('raw','html','rss','ndc');
+$orderby_av = array('id', 'rand', 'type_id', 'mime_type', 'submitted','start_time');
+$range_av = array('live', 'future', 'past', 'all');
 //End Acceptable values
 
 //Grab and check user values
@@ -46,15 +53,21 @@ if(is_numeric($_REQUEST['width']) && is_numeric($_REQUEST['height'])){
 if($_REQUEST['count'] == 'all' || is_numeric($_REQUEST['count'])){
 	$count = $_REQUEST['count'];
 }
+if(in_array($_REQUEST['orderby'], $orderby_av)){
+  $orderby = $_REQUEST['orderby'];
+}
+if(in_array($_REQUEST['range'], $range_av)){
+  $range = $_REQUEST['range'];
+}
+
 //End user value code
 
 //Generate the SQL
-$sql_base = 'SELECT content.id, content.name, content.content, content.mime_type, content.submitted, feed_content.feed_id, user.username
+$sql_base = 'SELECT content.id, content.name, content.content, content.type_id, content.mime_type, content.submitted, content.start_time, content.end_time, feed_content.feed_id, user.username
 FROM `content`
 LEFT JOIN feed_content ON content.id = feed_content.content_id
 LEFT JOIN user ON content.user_id = user.id
-WHERE content.start_time < NOW() AND content.end_time > NOW()
-AND feed_content.moderation_flag = 1';  //This base sql enforces some core rules that we should not lift such as moderation and live content only
+WHERE feed_content.moderation_flag = 1';  //This base sql enforces some core rules that we should not lift such as moderation
 if($select == 'feed'){
 	$sql_base .= " AND feed_content.feed_id = $select_id";
 }elseif($select == 'user'){
@@ -72,9 +85,24 @@ if($type == 'graphic'){
 }elseif($type == 'all'){
   $sql_base .= '';
 }
+
+if($range == 'live'){
+	$sql_base .= ' AND content.start_time < NOW() AND content.end_time > NOW()';
+}elseif($range == 'future'){
+	$sql_base .= ' AND content.end_time > NOW()';
+}elseif($range == 'past'){
+	$sql_base .= ' AND content.end_time < NOW()';	
+}elseif($range == 'all'){
+	$sql_base .= '';
+}
 //Don't forget the ordering
-$sql_base .= ' ORDER BY id';
+if($orderby == 'rand'){
+  $sql_base .= ' ORDER BY RAND()';
+} else {
+  $sql_base .= ' ORDER BY ' . $orderby;
+}
 //End ordering
+
 if(is_numeric($count)){
 	$sql_base .= " LIMIT $count";
 }
@@ -131,9 +159,15 @@ if($format == 'raw'){
 	foreach($data as $i=>$content){
 		$link = 'http://' . $_SERVER['SERVER_NAME'] .  $_SERVER['SCRIPT_NAME'] . '?select_id=' . $content['id'] . '&select=content' . $props;
 		$link = htmlspecialchars($link);
+		if(false===strpos($content['mime_type'],'image')){
+		  $desc = $content['content'];
+		} else {
+		  $desc = '<![CDATA[ <img src="' . $link . htmlspecialchars('&width=50&height=50') . '" /> ]]>';
+		}
 		echo '      <item>
          <title>' . htmlspecialchars($content['name']) . '</title>
          <link>' . $link . '</link>
+         <description>' . $desc . '</description>
          <pubDate>' . rssdate($content['submitted']) . '</pubDate>
          <author>' . $content['username'] . '</author>
          <guid>' . $content['id'] . '</guid>
@@ -141,6 +175,41 @@ if($format == 'raw'){
 ';
 	}
 	echo '   </channel>
+</rss>';
+}elseif($format == 'ndc'){
+        header("Content-type: text/xml");
+        echo '<?xml version="1.0"?>
+<rss version="2.0">
+   <channel>
+      <title>Dynamic Loopback</title>
+      <link>http://' . $_SERVER['SERVER_NAME'] .'</link>
+      <description>XML Feed from Concerto API</description>
+      <language>en-us</language>
+      <pubDate>' . rssdate("now") . '</pubDate>
+      <generator>Concerto API 1.0</generator>
+      <webMaster>concerto@union.rpi.edu</webMaster>
+';
+        foreach($data as $i=>$content){
+                $link = 'http://' . $_SERVER['SERVER_NAME'] .  $_SERVER['SCRIPT_NAME'] . '?select_id=' . $content['id'] . '&select=content' . $props;
+                $link = htmlspecialchars($link);
+                if(false===strpos($content['mime_type'],'image')){
+                  $desc = $content['content'];
+                } else {
+                  $desc = '<![CDATA[ <img src="' . $link . htmlspecialchars('&width=50&height=50') . '" /> ]]>';
+                }
+                echo '      <item>
+         <title>' . htmlspecialchars($content['name']) . '</title>
+         <link>' . $link . '</link>
+         <description>' . $desc . '</description>
+         <pubDate>' . rssdate($content['submitted']) . '</pubDate>
+         <author>' . $content['username'] . '</author>
+         <startdate>' . $content['start_time'] . '</startdate>
+         <enddate>' . $content['end_time'] . '</enddate>
+         <guid>' . $content['id'] . '</guid>
+      </item>
+';
+        }
+        echo '   </channel>
 </rss>';
 }
 
@@ -153,3 +222,4 @@ function rssdate($date){
  return $date;
 }
 ?>
+
