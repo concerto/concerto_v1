@@ -61,10 +61,19 @@
   </div>
 </div>
 <div id="selectdisp_right">
-  <div id="new_image" class="contentstyle">
-    <? include("new_image.php"); ?>
-  </div>
-  <div id="new_ticker" class="contentstyle">
-    <? include("new_ticker.php"); ?>
-  </div>
+	
+	<div class="roundcont">
+		<div class="roundtop"><span class="rt"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
+		<div class="roundcont_main">
+			<div id="new_image" class="contentstyle">
+				<? include("new_image.php"); ?>
+			</div>
+			<div id="new_ticker" class="contentstyle">
+				<? include("new_ticker.php"); ?>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="roundbottom"><span class="rb"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
+	</div>
+	
 </div>

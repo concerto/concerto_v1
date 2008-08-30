@@ -4,63 +4,88 @@
 <a href="<?=ADMIN_URL.'/screens/delete/'.$this->screen->id ?>"><span class="buttonsel"><div class="buttonleft"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_left.gif" border="0" alt="" /></div><div class="buttonmid"><div class="buttonmid_padding">Delete Screen</div></div><div class="buttonright"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_right.gif" border="0" alt="" /></div></span></a><div style="clear:both;height:12px;"></div>
 <?php
 }
-  if ($this->screen->width/$this->screen->height==(16/9)){
-    $scrimg="screen_169.png";
-    $ratio ="16:9";
-  } else if ($this->screen->width/$this->screen->height==(16/10)) {
-    $scrimg="screen_169.png";
-    $ratio ="16:10";
-  } else{
-    $scrimg="screen_43.png";
-    $ratio ="4:3";
-  }
+
+   if ($this->screen->width/$this->screen->height==(16/9)){
+      $ratio = "16:9";
+      if ($this->screen->is_connected()) {
+      	if (!$this->screen->get_powerstate()) {
+					$scrimg="screen_169_asleep_big.png";
+				}
+				else {
+					$scrimg="screen_169_on_big.png";
+				}
+      } else {
+      	$scrimg="screen_169_off_big.png";
+      }
+   } else if ($this->screen->width/$this->screen->height==(16/10)) {
+      $ratio = "16:10";
+      if ($this->screen->is_connected()) {
+      	if (!$this->screen->get_powerstate()) {
+					$scrimg="screen_169_asleep_big.png";
+				}
+				else {
+					$scrimg="screen_169_on_big.png";
+				}
+      } else {
+      	$scrimg="screen_169_off_big.png";
+      }
+   } else {
+      $ratio = "4:3";
+      if ($this->screen->is_connected()) {
+      	if (!$this->screen->get_powerstate()) {
+      		$scrimg="screen_43_asleep_big.png";
+      	} 
+      	else {
+      		$scrimg="screen_43_on_big.png";
+      	}
+      } else {
+      	$scrimg="screen_43_off_big.png";
+      }
+   }
+
 ?>
-  <table cellpadding="25" cellspacing="0" width="100%">
-    <tr valign="top">
-      <td width="250"><img style="float:left; padding-right:10px" src="<?echo ADMIN_BASE_URL?>/images/<?echo $scrimg?>" alt="" /></td>
-      <td>
-        <h3>Location: <span class="emph"><? echo $this->screen->location?></span></h3>
-	     <p></p>
-        <h3>Size: <span class="emph"><?php echo $this->screen->width.' x '.$this->screen->height.' ('.$ratio; ?>)</span></h3>
-        <h3>Status: 
-          <span class="emph">
-          <?php if($this->screen->is_connected()) { ?>
-             <? if($this->screen->get_powerstate()) { ?>
-                <span style="color:green;">Online</span>
-             <? } else { ?>
-                <span style="color:#aa0;">Asleep</span>
-             <? } ?>
-          <?php } else { ?>
-            <span style="color:red;">Offline</span>
-          <?php } ?></span>(Last updated: <?php echo $this->screen->last_updated?>)
-          </h3>
-        <h3>Group: 
-          <span class="emph">
-          <? $group = new Group($this->screen->group_id) ?>
-          <a href="<?= ADMIN_URL.'/groups/show/'.$group->id ?>"><?=$group->name?></a>
-          </span>
-        </h3>
+<div style="width:100%;">
+	<div style="float:left; text-align:center; width:300px;"><img src="<?echo ADMIN_BASE_URL?>/images/<?echo $scrimg?>" alt="" /></div>
+	<h3>Location: <span class="emph"><? echo $this->screen->location?></span></h3>
+	<h3>Size: <span class="emph"><?php echo $this->screen->width.' x '.$this->screen->height.' ('.$ratio; ?>)</span></h3>
+	<h3>Status: 
+		<span class="emph">
+			<?php if($this->screen->is_connected()) { ?>
+			 <? if($this->screen->get_powerstate()) { ?>
+					<span style="color:green;">Online</span>
+			 <? } else { ?>
+					<span style="color:#aa0;">Asleep</span>
+			 <? } ?>
+			<?php } else { ?>
+					<span style="color:red;">Offline</span>
+			<?php } ?></span>(Last updated: <?php echo $this->screen->last_updated?>)
+	</h3>
+	<h3>Group: 
+		<span class="emph">
+			<? $group = new Group($this->screen->group_id) ?>
+					<a href="<?= ADMIN_URL.'/groups/show/'.$group->id ?>"><?=$group->name?></a>
+		</span>
+	</h3>
 <?php
 if(isAdmin()) { 
-   $mac=str_pad($this->screen->mac_inhex,12,'0',STR_PAD_LEFT);
-   $mac=join(str_split($mac,2),':');
+ $mac=str_pad($this->screen->mac_inhex,12,'0',STR_PAD_LEFT);
+ $mac=join(str_split($mac,2),':');
 ?>
 
-        <h3>MAC: <span class="emph"><?=$mac?></span></h3>
-        <h3>Last IP: <span class="emph"><?=$this->screen->last_ip?></span></h3>
+	<h3>MAC: <span class="emph"><?=$mac?></span></h3>
+	<h3>Last IP: <span class="emph"><?=$this->screen->last_ip?></span></h3>
 <?php } ?>
-      </td>
-    </tr>
-  </table>
-  <h3>Subscriptions</h3>
+</div>
+  <h3>Subscriptions:</h3>
 
 <?php
 	$fields=$this->screen->list_fields();
 	if(is_array($fields)) {
  	 foreach ($fields as $field) { 
 ?>
+
 <div class="roundcont">
-  <div class="roundtop"><img src="<? echo ADMIN_BASE_URL ?>/images/wc_tl.gif" alt="" width="6" height="6" class="corner topleft" style="display: none" /></div>
+  <div class="roundtop"><span class="rt"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
   <div class="roundcont_main">
     <h1><span class="emph"><? echo $field->name ?></span> (Field)</h1>
     <ul>
@@ -77,7 +102,7 @@ if(isAdmin()) {
 	   ?>
 	 </ul>
   </div>
-  <div class="roundbottom"><img src="<? echo ADMIN_BASE_URL ?>/images/wc_bl.gif" alt="" width="6" height="6" class="corner botleft" style="display: none" /></div>
+  <div class="roundbottom"><span class="rb"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
 </div>
 
 <?php   }

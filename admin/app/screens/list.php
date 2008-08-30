@@ -4,33 +4,74 @@
 <h2>Click on the name of a screen to view its details. <a href="http://signage.rpi.edu/admin/index.php/pages/show/docs/19#s1"><img class="icon" border="0" src="<?= ADMIN_BASE_URL ?>images/help_button.gif" alt="Extra Help" title="Extra Help" /></a></h2>
 <?php
 foreach($this->screens as $screen){
-  if($screen->width/$screen->height==(16/9)){
-    $scrimg="screen_169_list.png";
-    $ratio ="16:9";
-  } else if ($screen->width/$screen->height==(16/10)) {
-    $scrimg="screen_169_list.png";
-    $ratio ="16:10";
-  }else{
-    $scrimg="screen_43_list.png";
-    $ratio ="4:3";
-  }
+   if ($screen->width/$screen->height==(16/9)){
+      if ($screen->is_connected()) {
+      	if (!$screen->get_powerstate()) {
+					$status = "Asleep";
+					$statcolor = "#aa0";
+					$scrimg="screen_169_asleep.png";
+				}
+				else {
+					$status = "Online";
+					$statcolor = "green";
+					$scrimg="screen_169_on.png";
+				}
+      } else {
+      	$statcolor = "red";
+      	$status = "Offline";
+      	$scrimg="screen_169_off.png";
+      }
+   } else if ($screen->width/$screen->height==(16/10)) {
+      if ($screen->is_connected()) {
+      	if (!$screen->get_powerstate()) {
+					$status = "Asleep";
+					$statcolor = "#aa0";
+					$scrimg="screen_169_asleep.png";
+				}
+				else {
+					$status = "Online";
+					$statcolor = "green";
+					$scrimg="screen_169_on.png";
+				}
+      } else {
+      	$statcolor = "red";
+      	$status = "Offline";
+      	$scrimg="screen_169_off.png";
+      }
+   } else {
+      if ($screen->is_connected()) {
+      	if (!$screen->get_powerstate()) {
+					$status = "Asleep";
+					$statcolor = "#aa0";
+					$scrimg="screen_43_asleep.png";
+      	} 
+      	else {
+					$status = "Online";
+					$statcolor = "green";
+					$scrimg="screen_43_on.png";
+      	}
+      } else {
+      	$statcolor = "red";
+      	$status = "Offline";
+      	$scrimg="screen_43_off.png";
+      }
+   }
+   
 ?>
   <a href="<?echo ADMIN_URL?>/screens/show/<? echo $screen->id ?>">
-    <div class="screenfloat"><div class="screenfloat_padding">
-      <img src="<?echo ADMIN_BASE_URL?>/images/<?echo $scrimg?>" style="height:132px" alt="" /><br /><br />
-      <h1><? echo $screen->name?></h1>
-      <h2><? echo $screen->location?></h2>
-      <h3><?php echo $screen->width.' x '.$screen->height.' ('.$ratio; ?>)</h3>
-      <?php if($screen->is_connected()) { ?>
-         <? if($screen->get_powerstate()) { ?>
-            <span style="color:green;font-size:1.3em;font-weight:bold;">Online</span>
-         <? } else { ?>
-            <span style="color:#aa0;font-size:1.3em;font-weight:bold;">Asleep</span>
-         <? } ?>
-      <?php } else { ?>
-        <span style="color:red;font-size:1.3em;font-weight:bold;">Offline</span>
-      <?php } ?>
-    </div></div>
+    <div class="roundcont roundcont_sf">
+			<div class="roundtop"><span class="rt"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
+			<div class="roundcont_main sf">
+				<img src="<?echo ADMIN_BASE_URL?>/images/<?echo $scrimg?>" height="100" alt="" /><br />
+				<div class="sf_header">
+					<p style="color:<? echo $statcolor ?>;"><? echo $status ?></p>
+					<h1><? echo $screen->name?></h1>
+					<h2><? echo $screen->location?></h2>
+				</div>
+				<div style="clear:both;"></div>
+			</div>
+			<div class="roundbottom"><span class="rb"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
+		</div>
   </a>
 
 <?php

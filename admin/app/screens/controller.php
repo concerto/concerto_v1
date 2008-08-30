@@ -69,6 +69,11 @@ class screensController extends Controller
    {
       $this->setTitle('Create new screen');
    }
+   
+   function templateAction()
+   {
+      $this->setTitle('Change Screen Template');
+   }
 
    function createAction()
    {
