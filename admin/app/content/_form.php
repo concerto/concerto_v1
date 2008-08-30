@@ -87,8 +87,12 @@
          <td width="30%" style="text-align:right;"><a class="click_duration" href="#">Set a different duration</a>
          </td>
        </tr>
+     </table>
+     <br /><br />
+     <h2>Not sure what feeds are?  <a TARGET="_blank" href="http://signage.rpi.edu/admin/pages/show/docs/23">Read this first!</a></h2>
+     <table class='edit_win' cellpadding='6' cellspacing='0'> 
        <tr>
-         <td><h5>Feeds</h5><p>In which content categories would this content fit the best?  <b>Please limit to the most relevant category.</b> </p></td>
+         <td width="30%"><h5>Feed(s)</h5><p>In which content categories would this content fit the best?  <b>Please limit to the most relevant category.</b> </p></td>
          <td>
            Submit to Feed:
            <select name="content[feeds][0]">

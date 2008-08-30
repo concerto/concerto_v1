@@ -1,6 +1,6 @@
 <h1>Add Image</h1>
 <h2>Fill in these details to post a new graphical flyer to Concerto.</h2>
-<h2>Please review the <a href="http://signage.rpi.edu/admin/index.php/pages/show/docs/1">Style Guide for Graphical Content</a> before submitting graphics to Concerto.</h2>
+<h2>Please review the <a TARGET="_blank" href="http://signage.rpi.edu/admin/index.php/pages/show/docs/1">Style Guide for Graphical Content</a> before submitting graphics to Concerto.</h2>
 <img src="<?= ADMIN_BASE_URL ?>/images/graphic_icon.jpg" alt="" />
 <br />
 <form enctype="multipart/form-data" method="post" action="<?=ADMIN_URL?>/content/create">
