@@ -16,18 +16,20 @@ src="<?php echo ADMIN_BASE_URL?>/images/conc_bluebg.gif" alt="Concerto" style=""
          <h2><a href="<?= ADMIN_URL ?>/frontpage/login">Login</a></h2>        
 	<? } else {
          ?>
-	   <?
-           if ( isAdmin() ) { ?>
-         <img src="<?=ADMIN_BASE_URL ?>images/user_1337.gif" alt="" /><br /><br />
+	   <?	 echo '<p>Welcome, <a href="'.ADMIN_URL.'/users/show/'.userName().'">'.firstName().'</a>!</p><br />';  ?>
+	   	<a href="<?= ADMIN_URL ?>/users/show/<?= userName() ?>" title="View your profile and past submissions">
+     <?  if ( isAdmin() ) { ?>
+         <img border="0" src="<?=ADMIN_BASE_URL ?>images/user_1337.gif" alt="" />
            <? } elseif ($_SESSION[user]->controls_afeed() || $_SESSION[user]->controls_ascreen()) { ?>
-         <img src="<?=ADMIN_BASE_URL ?>images/user_admin.gif" alt="" /><br /><br />
+         <img border="0" src="<?=ADMIN_BASE_URL ?>images/user_admin.gif" alt="" />
            <? } else { ?>
-         <img src="<?= ADMIN_BASE_URL ?>images/user_basic.gif" alt="" /><br /><br /> 
+         <img border="0" src="<?= ADMIN_BASE_URL ?>images/user_basic.gif" alt="" /> 
            <? } //This closes the non admin or moderator stuff 
-           echo '<p>Welcome, <a href="'.ADMIN_URL.'/users/show/'.userName().'">'.firstName().'</a>!</p>';
            ?>
            
-           <h3><a href="<?= ADMIN_URL ?>/frontpage/logout">Logout</a></h3>
+           <h4>View Account</h4></a>
+           <br />
+           <h3><a href="<?= ADMIN_URL ?>/frontpage/logout" title="Log out of Concerto">Logout</a></h3>
         <?
           }
         ?>
