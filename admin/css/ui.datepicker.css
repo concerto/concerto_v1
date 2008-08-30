@@ -30,6 +30,7 @@ button.datepicker_trigger {
 img.datepicker_trigger {
 	margin: 2px;
 	vertical-align: middle;
+	border:0px !important;
 }
 .datepicker_prompt {
 	float: left;
