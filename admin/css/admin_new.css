@@ -20,7 +20,7 @@ a:hover { color:#666; text-decoration:underline; }
 #header a:link, #header a:visited { color:#ccc;text-decoration:none; }
 #header a:hover { color:#FFF;text-decoration:none;; }
 
-#content_header { background:#FFF url(../images/content_header_bg.png) top left repeat-x;padding-left:195px; }
+#content_header { background:#FFF url(../images/content_header_bg.gif) bottom left repeat-x;padding-left:195px; }
 #content_header h1 { color:#000;margin:0px; padding:30px 0px 0px 0px; }
 #content_header h2 { color:#333;font-weight:700;font-size:0.85em;margin:5px 0 0px 0px;padding:0px 0px 5px 0px; }
 #content_header h2 a { color:#069;text-decoration:none; }
@@ -52,6 +52,7 @@ div.logo_box_padding, div.menu_box_padding, div.alert_box_padding { padding:8px;
 div.menu_box h1, div.alert_box h1 { font-size:1.2em; }
 div.menu_box h2, div.alert_box h2 { font-size:115%;margin:8px 0;padding:0; }
 div.menu_box h3, div.alert_box h3 { font-size:120%;margin:0 0 4px;padding:0; }
+div.menu_box h4 { font-size:0.9em; margin:8px 0px; padding:0px; }
 
 #maincontent_header { margin-left:185px; }
 #maincontent { background:#FFFFFF !important; margin:0px; padding:25px 25px 50px 195px; /*margin-left:195px;margin-bottom:50px;margin-right:25px; margin-top:25px; */text-align:left; }
@@ -64,6 +65,11 @@ div.menu_box h3, div.alert_box h3 { font-size:120%;margin:0 0 4px;padding:0; }
 #footer_padding { padding:0px 13px 13px 13px; }
 #footer a:link, #footer a:visited { color:#333;font-size:100%;text-decoration:none; }
 #footer a:hover { color:#69c;font-size:100%;text-decoration:underline; }
+
+/* DASHBOARD */
+#screenstat_hidden { display:none; }
+div.screenstat { height:45px; float:left; margin:6px; padding:0px; }
+div.screenstat p { margin:0px; padding-top:5px; }
 
 table.edit_win { background:url(../images/lightblue_bg.gif) repeat; border-left:solid 1px #ccc; border-right:solid 1px #ccc; border-top:solid 1px #ccc; margin:0px; padding:0px; width:100%; }
 table.edit_win td { border-bottom:solid 1px #ccc; padding:16px; text-align:left; vertical-align:top; }
@@ -91,7 +97,14 @@ div.view_right { width:100%; }
 
 table.item_details td { padding:2px; }
 
-/*======== Control Screens =========*/
+
+/* Control Screens */
+.roundcont_sf { cursor:hand; float:left; margin:6px; width:200px !important; text-align: center; }
+.roundcont_sf:hover { background:url(../images/medblue_bg.gif) repeat; }
+.roundcont_sf img { border:0px; margin-bottom:8px; }
+.sf { }
+.sf_header { display:block; height:100px; }
+.sf_header h2 { font-weight:normal !important; margin-bottom:18px !important; }
 div.screenfloat { float:left; cursor:hand; border:solid 2px #cccccc; margin:6px; text-align:center; width:300px; }
 div.screenfloat:hover { background:url(../images/medblue_bg.gif) top left repeat; border:solid 2px #006699; }
 div.screenfloat a { display:block; }
@@ -107,17 +120,25 @@ div.select { background:#006699 url(../images/menu_bg.gif) repeat; color:#FFF; m
 div.select_padding { padding:0px 15px; }
 div.select td { padding-right:25px; }
 
+
 /* ========= Common elements =========*/
 
 /* Rounded edges */
-.roundcont { border:solid 1px #999; width:100%; margin-bottom:20px; }
-.roundcont_main { padding:8px 14px; }
+.roundcont { width:100%; margin-bottom:20px !important; }
+.roundcont_main { border-left:solid 1px #999; border-right:solid 1px #999; padding:8px 14px; }
 .roundcont_main h1 { color:#333 !important; font-size:1.2em !important; font-weight:bold; }
 .roundcont_main h1.fp { padding-top:12px !important; }
 .roundcont p { margin: 0 10px; }
 
-.roundtop { background: url(../images/wc_tr.gif) no-repeat top right; margin-right:-1px; }
-.roundbottom { background: url(../images/wc_br.gif) no-repeat top right; margin-right:-1px; }
+.roundtop { background: url(../images/rc_tr.gif) no-repeat top right; text-align:left; height:6px; }
+.roundbottom { background: url(../images/rc_br.gif) no-repeat top right; text-align: left; height:6px; }
+.rt { width:6px; height:6px; background:url(../images/rc_tl.gif) no-repeat top left; display:block; }
+.rb { width:6px; height:6px; background:url(../images/rc_bl.gif) no-repeat top left; display:block; }
+a .roundcont:hover .roundtop { background: url(../images/rc_tr_hov.gif) no-repeat top right; }
+a .roundcont:hover .roundbottom { background: url(../images/rc_br_hov.gif) no-repeat top right; }
+a .roundcont:hover .rt { background:url(../images/rc_tl_hov.gif) no-repeat top left; }
+a .roundcont:hover .rb { background:url(../images/rc_bl_hov.gif) no-repeat top left; }
+.rt img, .rb img { zoom:1; margin:0px; padding:0px; }
 img.corner { width: 6px; height: 6px; border: none; display: block !important; }
 img.topleft { margin-left:-1px; margin-top:-1px; }
 img.botleft { margin-left:-1px; margin-bottom:-1px; }
@@ -143,16 +164,18 @@ ul.subscriptions ul { list-style:none; }
 ul.subscriptions ul li { border:solid 2px #666; }
 
 /* New Content */
-#selectdisp_left { float:left; width:17%; }
-#selectdisp_right { border:solid 1px #999; padding:15px; float:right; width:78%;}
+#selectdisp_left { padding-top:25px; float:left; width:17%; }
+#selectdisp_right { padding:15px; float:right; width:78%;}
 #selectmenu { width: 100%; }
-.shadetabs { margin-left:3px; margin-top: 10px; margin-bottom: 0; list-style-type: none; text-align: left; /*set to left, center, or right to align the menu as desired*/ }
+.shadetabs { margin-left:3px; margin-bottom: 0; list-style-type: none; text-align: left; }
 .shadetabs li { clear:both; margin:0; margin-bottom:2px; padding:0px; }
 .shadetabs li a { text-decoration: none; border: 1px solid #999999; color: #2d2b2b; background: white url(../images/shade.gif) top left repeat-x; }
 .shadetabs li a:visited { color: #2d2b2b; }
 .shadetabs li a:hover { text-decoration: underline; color: #2d2b2b; }
 #selectmenu li.selected a { /*selected main tab style */ background-image: url(../images/shadeactive.gif); }
 #selectmenu li.selected a:hover { /*selected main tab style */ text-decoration: none; }
+
+
 
 /* Moderate */
 td.actions { color:#006699; font-weight:bold; font-size:0.9em; background:#FFF url(../images/mod_bg.gif) top right repeat-y; width:100px; border-right:solid 1px #666; vertical-align:top !important; padding-top:25px !important; text-align:right; }
