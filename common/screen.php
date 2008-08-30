@@ -222,10 +222,33 @@ class Screen{
 		}
 	}
 	
-   function is_connected()
-   {
-      return (strtotime($this->last_updated)>strtotime('-30 seconds'));
-   }
+  function is_connected()
+  {
+    return (strtotime($this->last_updated)>strtotime('-30 seconds'));
+  }
+	
+	// Returns an array that contains the number of screens online, offline, and asleep (in that order, with the first array element being the number of online screens).  The final element in the array is the total number of screens registered.
+	function screenStats() {
+		$numOnline = 0;
+		$numOffline = 0;
+		$numAsleep = 0;
+		$sql = "SELECT * FROM screen";
+		$res = sql_query($sql);
+		$i = 0;
+		while ($row = sql_row_keyed($res, $i)) {
+			$temp = new Screen($row['id']);
+			if ($temp->is_connected()&&$temp->get_powerstate()) {		// screen is ONLINE
+				$numOnline++;
+			} else if ($temp->is_connected()&&!$temp->get_powerstate()) {  // screen is ASLEEP
+				$numAsleep++;
+			} else {	// screen is OFFLINE
+				$numOffline++;
+			}
+			$i++;
+			$total = $numOnline + $numOffline + $numAsleep;
+		}
+		return array($numOnline, $numOffline, $numAsleep, $total);
+	}
 
 	//List all screens, optional WHERE syntax
 	function list_all($where = ''){
