@@ -18,8 +18,12 @@ $(function()
 <div class="roundcont">
   <div class="roundtop"><span class="rt"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
   <div class="roundcont_main">
-    <h1>New Update Released!</h1>
-    <p>Concerto has been updated to version <b><?= CONCERTO_VERSION ?></b>.  Please view the release notes at the Concerto Support Center <a href="<?= ADMIN_BASE_URL ?>pages/show/docs/14">here</a>!</p>
+    <div style="float:left; width:75%;">
+    	<h1>New Update Released on September 2</h1>
+    	<p>Concerto has been updated to version <b><?= CONCERTO_VERSION ?></b>.  <a href="<?= ADMIN_BASE_URL ?>pages/show/docs/14">Check out the release notes.</a></p>
+    </div>
+    <div style="float:right; text-align:right; width:23%;"><img src="<?= ADMIN_BASE_URL ?>/images/v170.gif" alt="" /></div>
+    <div style="clear:both;"></div>
   </div>
   <div class="roundbottom"><span class="rb"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
 </div>
