@@ -46,6 +46,7 @@
 ?>
 <div style="width:100%;">
 	<div style="float:left; text-align:center; width:350px;"><br /><img src="<?echo ADMIN_BASE_URL?>/images/<?echo $scrimg?>" alt="" /></div>
+	<?php if(!isAdmin()) { ?><br /><?php } ?>
 	<h3>Location: <span class="emph"><? echo $this->screen->location?></span></h3>
 	<h3>Size: <span class="emph"><?php echo $this->screen->width.' x '.$this->screen->height.' ('.$ratio; ?>)</span></h3>
 	<h3>Status: 
@@ -76,6 +77,7 @@ if(isAdmin()) {
 	<h3>Last IP: <span class="emph"><?=$this->screen->last_ip?></span></h3>
 <?php } ?>
 </div>
+<div style="clear:both;"></div><br />
   <h3>Subscriptions:</h3>
 
 <?php
