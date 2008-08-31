@@ -1,16 +1,18 @@
 <script type="text/javascript"><!--
 $(function()
 {
+   
 	$("#trigger").click(function(event) {
 		event.preventDefault();
-		$("#screenstat_hidden").slideToggle();
-		if ($("$screenstat_hidden").css("display")=="none") {
-			$("#plus_icon").show();
-			$("#minus_icon").hide();
-		} else {
-			$("#plus_icon").hide();
-			$("#minus_icon").show();
-		}
+		$("#screenstat_hidden").slideToggle('normal',function(){
+            if ($("#screenstat_hidden").css("display")=="none") {
+               $("#plus_icon").show();
+               $("#minus_icon").hide();
+            } else {
+               $("#plus_icon").hide();
+               $("#minus_icon").show();
+            }
+      });
 	});
 }); 
 //--></script>
