@@ -47,7 +47,7 @@ class screensController extends Controller
          $this->flash("Screen not found","error");
          redirect_to("../");
       }
-      $this->setTitle('Editing '.$this->screen->name);
+      $this->setTitle('Editing Settings for '.$this->screen->name);
       $this->setSubject($this->screen->name);
    }
 
@@ -72,7 +72,13 @@ class screensController extends Controller
    
    function templateAction()
    {
-      $this->setTitle('Change Screen Template');
+      $this->screen = new Screen($this->args[1]);
+      if(!$this->screen->set) {
+         $this->flash("Screen not found","error");
+         redirect_to("../");
+      }
+      $this->setTitle('Change Screen Template for '.$this->screen->name);
+      $this->setSubject($this->screen->name);
    }
 
    function createAction()

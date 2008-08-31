@@ -45,7 +45,7 @@
 
 ?>
 <div style="width:100%;">
-	<div style="float:left; text-align:center; width:300px;"><img src="<?echo ADMIN_BASE_URL?>/images/<?echo $scrimg?>" alt="" /></div>
+	<div style="float:left; text-align:center; width:350px;"><br /><img src="<?echo ADMIN_BASE_URL?>/images/<?echo $scrimg?>" alt="" /></div>
 	<h3>Location: <span class="emph"><? echo $this->screen->location?></span></h3>
 	<h3>Size: <span class="emph"><?php echo $this->screen->width.' x '.$this->screen->height.' ('.$ratio; ?>)</span></h3>
 	<h3>Status: 
