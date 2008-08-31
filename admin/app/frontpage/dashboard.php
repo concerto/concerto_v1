@@ -41,7 +41,7 @@ $(function()
     			<div class="screenstat" style="width:100%;"><p><a href="#" id="trigger"><img id="plus_icon" src="<?= ADMIN_BASE_URL ?>images/round_plus.gif" alt="" border="0" /><img id="minus_icon" style="display:none;" src="<?= ADMIN_BASE_URL ?>images/round_minus.gif" alt="" border="0" /></a></p></div>
     		</td>
     		<td valign="middle" width="21%">
-    			<div class="screenstat" style="width:90%; margin-right:auto; margin-left:auto; border-right:solid 1px #666;"><p><a href="<?= ADMIN_URL ?>/screens/"><?php echo $this->screen_stats[3] ?> total screens</a></p></div>
+    			<div class="screenstat" style="width:90%; margin-right:auto; margin-left:auto; border-right:solid 1px #666;"><p><a href="<?= ADMIN_URL ?>/screens/"><?php echo $this->screen_stats[3] ?> screens</a></p></div>
     		</td>
     		<td valign="middle" width="25%" style="color:green;">
     			<div class="screenstat"><p><?php echo $this->screen_stats[0] ?></p></div>
