@@ -24,6 +24,7 @@ foreach($this->feeds as $feed) {
       ?>
     </td>
     <td>
+      <p><?= $feed->description ?></p>
       <h4>Moderated by <? $group = new Group($feed->group_id) ?><a href="<?= ADMIN_URL ?>/groups/show/<?= $group->id ?>"><?= $group->name ?></a></h4>
     </td>
 </tr>

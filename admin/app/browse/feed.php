@@ -5,6 +5,10 @@
 <?php
 if($this->feed->user_priv($_SESSION['user'], "moderate")){
 ?>
+<? if(strlen($this->feed->description)>0) { ?>
+   <h3>Description:</h3>
+   <p><?= $this->feed->description ?></p>
+<? } ?>
 <h3>Moderation status: <span class="emph"><a href="<?=ADMIN_URL?>/moderate/feed/<?=$this->feed->id?>"><?= $this->waiting > 0 ? $this->waiting : "No" ?> items awaiting moderation</a></span></h3>
 <?
 }

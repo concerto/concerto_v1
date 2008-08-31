@@ -112,7 +112,7 @@ class feedsController extends Controller
       $this->Settitle('Feed Creation');
       $feed=new Feed();
 
-      if($feed->create_feed($_POST[feed][name],$_POST[feed][group])) {
+      if($feed->create_feed($_POST[feed][name],$_POST[feed][group],0,$_POST[feed][description])) {
          $this->flash($feed->name.' was created successfully.');
          redirect_to(ADMIN_URL.'/feeds/show/'.$feed->id);
       } else {
@@ -127,6 +127,7 @@ class feedsController extends Controller
       $feed = new Feed($this->args[1]);
       $dat = $_POST['feed'];
       $feed->name = $dat['name'];
+      $feed->description = $dat['description'];
       $feed->group_id = $dat['group'];
 
       if($feed->set_properties()) {

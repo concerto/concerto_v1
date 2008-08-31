@@ -7,6 +7,10 @@
 <div style="clear:both;height:12px;"></div>
 <h3>Feed Name: <span class="emph"><?= $this->feed->name ?></span></h3>
 <h3>Group: <span class="emph"><a href="<?=ADMIN_URL.'/groups/show/'.$this->group->id?>"><?= $this->group->name ?></a></span></h3>
+<? if (strlen($this->feed->description)>0) { ?>
+<h3>Description: </h3>
+<p><?= $this->feed->description ?></p>
+<? } ?>
 <h3>Feed Statistics:</h3>
 <p><a href="<?=ADMIN_URL."/browse/show/{$this->feed->id}"?>">Active and Future Content: <?= $this->active_content ?></a></p>
 <p><a href="<?=ADMIN_URL."/browse/show/{$this->feed->id}/expired"?>">Expired Content: <?= $this->expired_content ?></a></p>

@@ -10,7 +10,12 @@
 if($this->feeds){
 	foreach($this->feeds as $feed){
 ?>
-  <tr><td><h1><a href="<?= ADMIN_URL?>/feeds/show/<?= $feed->id ?>"><?= $feed->name ?></a></h1></td></tr>
+  <tr><td>
+    <h1><a href="<?= ADMIN_URL?>/feeds/show/<?= $feed->id ?>"><?= $feed->name ?></a></h1>
+    <? if (strlen($feed->description)>0) { ?>
+      <p><?= $feed->description ?></p>
+    <? } ?>
+  </td></tr>
 <?php
 	}
 }

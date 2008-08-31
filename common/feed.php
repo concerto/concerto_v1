@@ -30,7 +30,8 @@ class Feed{
 	var $type; //Stores the type of the feed, basic or advanced
 	var $dyn_id; //Stores the id of the feed if has a reference in the dynamic feed table (for type == advanced)
 	var $dyn;	//Holds a Dynamic object if the feed is dynamic
-    
+
+   var $description; //description of feed for human consumption
 	var $status;
 	var $set;
 
@@ -44,6 +45,7 @@ class Feed{
                 $this->name = $data['name'];
 				$this->group_id = $data['group_id'];
 				$this->type = $data['type'];
+            $this->description = $data['description'];
 				if($this->type != 0){
 					$this->dyn_id = $data['dynamic_id'];
 					if($dyn_allowed){ //We do this to prevent a loop of feeds ->dynamic ->feeds->...
@@ -64,24 +66,26 @@ class Feed{
 
 	}
 
-	function create_feed($name_in, $group_in, $type_in = 0){
+    function create_feed($name_in, $group_in, $type_in = 0, $desc_in = ''){
 		if($this->set == true){
 			return false; //We already have a feed established here
 		} else {
 			//Begin testing/cleaning block
 			$name_in = escape($name_in);
+         $desc_in = escape($desc_in);
 			if(!is_numeric($group_in) || !is_numeric($type_in)){
 				$this->status = "Unknown Error"; //Aka they are playing with the post data!
 				return false;
 			}
 			//End testing/cleaning block
-			$sql = "INSERT INTO feed (name, group_id, type) VALUES ('$name_in', $group_in, $type_in)";
+			$sql = "INSERT INTO feed (name, group_id, type, description) VALUES ('$name_in', $group_in, $type_in, $desc_in)";
             		$res = sql_query($sql);
                 	if($res){
                     		$sql_id = sql_insert_id();
 
                     		$this->id = $sql_id;
                     		$this->name = stripslashes($name_in);
+                        $this->description = stripslashes($desc_in);
                     		$this->group_id = $group_in;
 				$this->type = $type_in;
 							
@@ -99,6 +103,7 @@ class Feed{
 	//Sets the properties back to the database
 	function set_properties(){
 		$name_clean = escape($this->name);
+		$desc_clean = escape($this->description);
 		if(!is_numeric($this->group_id)){
 				$this->status = "Unknown Error"; //Aka they are playing with the post data!
 				return false;
@@ -107,7 +112,7 @@ class Feed{
 				$this->status = "Unknown Error"; //Aka they are playing with the post data!
 				return false;
 		}
-		$sql = "UPDATE feed SET name = '$name_clean', group_id = '$this->group_id', type = '$this->type' WHERE id = $this->id LIMIT 1";
+		$sql = "UPDATE feed SET name = '$name_clean', group_id = '$this->group_id', type = '$this->type', description = '$this->description' WHERE id = $this->id LIMIT 1";
 		$res = sql_query($sql);
         if($res){
 	    $notify = new Notification();
@@ -458,6 +463,7 @@ class Feed{
 		//Then we just clear the variables
 		$this->id = '';
 		$this->name = '';
+      $this->description = '';
 		$this->group_id='';
 		$this->set = false;
 		return true;

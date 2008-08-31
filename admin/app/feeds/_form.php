@@ -10,6 +10,12 @@
            <input type="text" id="name" name="feed[name]" value="<?=$feed->name?>">
          </td>
        </tr>
+       <tr> 
+         <td class='firstrow'><h5>Description</h5></td>
+         <td class='edit_col firstrow'>
+           <input type="text" id="description" name="feed[description]" value="<?=$feed->description?>">
+         </td>
+       </tr>
        <tr>
          <td><h5>Controlling Group</h5></td>
          <td><select name="feed[group]">
