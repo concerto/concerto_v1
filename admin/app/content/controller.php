@@ -54,6 +54,8 @@ class contentController extends Controller
       $this->canEdit =$_SESSION['user']->can_write('content',$this->args[1]);
       $this->submitter = new User($this->content->user_id);
       $feeds = $this->content->list_feeds();
+      $this->stats = $this->content->stats_byscreen("display");
+      
       if(is_array($feeds)) {
          foreach ($feeds as $feed) {
             if($feed['moderation_flag']==1)

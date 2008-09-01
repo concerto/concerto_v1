@@ -7,9 +7,11 @@
 foreach($this->users as $user){
    ?>
 <tr>
-   <td<? if (!$notfirst) {$notfirst =1;  echo ' class="firstrow"';} ?>>
-   <h1><a href="<?= ADMIN_URL?>/users/show/<? echo $user->username ?>"><?= $user->name ?></a></h1>
-   <?php
+  <td<? if (!$notfirst) {$notfirst =1;  echo ' class="firstrow"';} ?>>
+  	<h1><a href="<?= ADMIN_URL?>/users/show/<? echo $user->username ?>"><?= $user->name ?></a></h1>
+  </td>
+	<td>
+   	<h4>&nbsp;<?php
      $groups=array();
      if($user->admin_privileges) 
         $groups[]= "<strong>Concerto Administrators</strong>";
@@ -19,7 +21,9 @@ foreach($this->users as $user){
            $groups[] = '<a href="'.ADMIN_URL."/groups/show/$group->id\">$group->name</a>";
      if(count($groups)>0)
         echo 'Member of: '.join(", ", $groups);
-   ?></td>
+   ?> 	
+   	</h4>
+  </td>
 </tr>
 
 <?php

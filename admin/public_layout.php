@@ -34,6 +34,7 @@ if(is_array($this->menu_links))
   <div id="footer"><div id="footer_shadow"></div><div id="footer_padding">
     <h1>Copyright &copy; 2008 Rensselaer Polytechnic Institute (Student Senate Web Technologies Group)</h1>
   </div></div>
+  <div style="clear:both;"></div>
 </div>
 
 </body>

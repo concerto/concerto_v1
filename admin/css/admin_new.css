@@ -8,7 +8,7 @@
 
 /*========= GENERAL STYLES =========*/
 body { background:url(../images/footer_bg.gif) repeat; }
-body, html { border:0;color:#000;font-family:"Lucida Grande",Calibri,Arial,sans-serif; /* font-family:Arial, Verdana, sans-serif; */font-size:small;margin:0 auto;min-width:980px; padding:0; }
+body, html { border:0;color:#000;font-family:"Lucida Grande",Arial,sans-serif; /* font-family:Arial, Verdana, sans-serif; */font-size:small;margin:0 auto;min-width:980px; padding:0; }
 a { color:#006699; font-weight:bold; text-decoration:none; }
 a:hover { color:#666; text-decoration:underline; }
 
@@ -56,7 +56,7 @@ div.menu_box h4 { font-size:0.9em; margin:8px 0px; padding:0px; }
 
 #maincontent_header { margin-left:185px; }
 #maincontent { background:#FFFFFF !important; margin:0px; padding:25px 25px 50px 195px; /*margin-left:195px;margin-bottom:50px;margin-right:25px; margin-top:25px; */text-align:left; }
-#maincontent h1, #maincontent h1 a { font-size:1.3em; font-weight:bold; margin:0px 0px 8px 0px; padding:0px; }
+#maincontent h1, #maincontent h1 a { font-size:1.1em; font-weight:bold; margin:0px 0px 8px 0px; padding:0px; }
 #maincontent h2 { color:#666666; font-size:1.1em; font-weight:bold; margin:0px 0px 20px 0px; padding:0px; }
 #maincontent_padding { background:#FFF !important; padding:15px 8px 8px; }
 
@@ -71,8 +71,9 @@ div.menu_box h4 { font-size:0.9em; margin:8px 0px; padding:0px; }
 div.screenstat { height:45px; float:left; margin:6px; padding:0px; }
 div.screenstat p { margin:0px; padding-top:5px; }
 
-table.edit_win { background:url(../images/lightblue_bg.gif) repeat; border-left:solid 1px #ccc; border-right:solid 1px #ccc; border-top:solid 1px #ccc; margin:0px; padding:0px; width:100%; }
-table.edit_win td { border-bottom:solid 1px #ccc; padding:16px; text-align:left; vertical-align:top; }
+table.edit_win { background:url(../images/lightblue_bg.gif) repeat; border-left:solid 1px #ccc; border-right:solid 1px #ccc; border-bottom:solid 1px #ccc; margin:0px; padding:0px; width:100%; }
+table.edit_win td { border-top:solid 1px #ccc; padding:16px; text-align:left; vertical-align:top; }
+table.edit_win td.merged { border-top:none !important; padding-top:0px; }
 table.edit_win td p { color:#666666; line-height:normal; margin:0px 0px 6px 0px; padding:0px; }
 table.edit_win td h4 { color:#666; font-weight:normal; margin:0px; }
 table.edit_win td h5 { color:#333333; font-size:1.15em; font-weight:bold; line-height:normal; margin:0px 0px 6px 0px; padding:0px; }

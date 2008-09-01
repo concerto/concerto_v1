@@ -8,9 +8,6 @@ if(isLoggedIn()) { //We will change this!
     <li><a href="<?= ADMIN_URL ?>/content/new" title="Add new content to the system"><span>Add Content</span></a></li>
     <li><a href="<?= ADMIN_URL ?>/browse/" title="Browse all content in the system, sorted by feed"><span>Browse Content</span></a></li>
     <li><a style="margin-left:12px" href="<?= ADMIN_URL ?>/screens/" title="View and Edit Concerto Screens"><span>Screens</span></a></li>
-<? if(isAdmin()) { ?>
-    <li><a href="<?= ADMIN_URL ?>/feeds/" title="View and Edit Concerto Feeds"><span>Feeds</span></a></li>
-<? } ?>
 <?  if($controlsstuff) { ?>
     <li><a style="margin-left:12px;" href="<?= ADMIN_URL ?>/users/" title="Browse and edit user profiles"><span>Users</span></a></li>
 <?  } ?>

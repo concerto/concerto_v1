@@ -71,7 +71,7 @@
 <?php
 if($this->canEdit && $this->screen->controls_display) {
 ?>
-   <h3>Hours: <span class="emph"><?=$this->screen->time_on?> - <?=$this->screen->time_off?></span></h3>
+   <h3>Hours of Operation: <span class="emph"><?= $this->screen->time_on ?> - <?= $this->screen->time_off ?></span></h3>
 <?php
 }
 ?>
