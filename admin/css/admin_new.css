@@ -186,7 +186,7 @@ span.deny { color:red; font-weight;bold; display:block; margin-bottom:8px; font-
 a:hover span.approve, a:hover span.deny { text-decoration:underline; }
 
 /* Alert Messages */
-div.alertmess { width:99%; margin:0px 0px 8px 0px; font-size:1.35em; padding:3px 12px; }
+div.alertmess { width:99%; margin:0px 0px 8px 0px; font-size:1.35em; padding:1px 12px; }
 div.alertmess p { margin-left:55px; font-weight:bold; padding:8px; }
 div.error { background:url(../images/alert_error.gif) center left no-repeat; color:red; }
 div.error p { border-top:solid 4px #ff0000; color:#ff0000; background:#ffcccc; }

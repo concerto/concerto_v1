@@ -8,6 +8,8 @@ div.alert_box h1 { margin-top:6px !important; }
 td.preview a img { border:solid 2px #006699; }
 td.preview a img:hover { border:solid 2px #666; }
 
+div.alertmess { padding:12px 12px; }
+
 #maincontent { zoom:1; }
 
 .roundcont_main h1:hover { text-decoration: none !important; }
