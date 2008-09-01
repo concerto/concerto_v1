@@ -42,10 +42,11 @@
       	$scrimg="screen_43_off_big.png";
       }
    }
-
 ?>
+
 <div style="width:100%;">
 	<div style="float:left; text-align:center; width:350px;"><br /><img src="<?echo ADMIN_BASE_URL?>/images/<?echo $scrimg?>" alt="" /></div>
+   <div style="float:left">
 	<?php if(!isAdmin()) { ?><br /><?php } ?>
 	<h3>Location: <span class="emph"><? echo $this->screen->location?></span></h3>
 	<h3>Size: <span class="emph"><?php echo $this->screen->width.' x '.$this->screen->height.' ('.$ratio; ?>)</span></h3>
@@ -68,15 +69,24 @@
 		</span>
 	</h3>
 <?php
+if($this->canEdit && $this->screen->controls_display) {
+?>
+   <h3>Hours: <span class="emph"><?=$this->screen->time_on?> - <?=$this->screen->time_off?></span></h3>
+<?php
+}
+?>
+
+<?php
 if(isAdmin()) { 
  $mac=str_pad($this->screen->mac_inhex,12,'0',STR_PAD_LEFT);
  $mac=join(str_split($mac,2),':');
 ?>
-
 	<h3>MAC: <span class="emph"><?=$mac?></span></h3>
 	<h3>Last IP: <span class="emph"><?=$this->screen->last_ip?></span></h3>
 <?php } ?>
+   </div>
 </div>
+
 <div style="clear:both;"></div><br />
   <h3>Subscriptions:</h3>
 

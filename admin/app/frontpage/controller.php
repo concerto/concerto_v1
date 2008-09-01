@@ -23,9 +23,9 @@ class frontpageController extends Controller
    
 	function dashboardAction()
 	{
-		$this->setTitle("Concerto Dashboard");
-    $this->screens= Screen::get_all();
-    $this->screen_stats = Screen::screenStats();
+     $this->setTitle("Concerto Dashboard");
+     $this->screens= Screen::get_all('ORDER BY `name`');
+     $this->screen_stats = Screen::screenStats();
 	}
 
 	function adminAction()

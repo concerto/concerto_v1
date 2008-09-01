@@ -62,7 +62,8 @@ foreach($this->screens as $screen){
     <div class="roundcont roundcont_sf">
 			<div class="roundtop"><span class="rt"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
 			<div class="roundcont_main sf">
-				<img src="<?echo ADMIN_BASE_URL?>/images/<?echo $scrimg?>" height="100" alt="" /><br />
+				<img src="<?echo ADMIN_BASE_URL?>/images/<?echo $scrimg?>" 
+                 height="100" alt="" onclick="window.location='<?=ADMIN_URL?>/screens/show/<?=$screen->id?>'" /><br />
 				<div class="sf_header">
 					<p style="color:<? echo $statcolor ?>;"><? echo $status ?></p>
 					<h1><? echo $screen->name?></h1>
