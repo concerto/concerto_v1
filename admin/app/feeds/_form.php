@@ -28,6 +28,20 @@
              <?php   } ?>
              </select></td>
        </tr>
+      <tr>
+         <td><h5>Feed Type</h5></td>
+         <td><?php if($feed->type == 1) { echo "Dynamic Feed"; } else { ?>
+             <select name="feed[type]">
+             <?php 
+                  $types[0] = "Normal";
+                  $types[2] = "Hidden";
+                  $types[3] = "Private";
+                  foreach($types as $t_id => $t_name) {
+             ?>
+                <option value="<?= $t_id ?>"<?php if($feed->type==$t_id) echo ' SELECTED'; ?>><?=$t_name?></option>
+             <?php   } ?>
+             </select> <?php } ?></td>
+       </tr>
      </table>
      <br clear="all" />
 <!-- End Feed Form -->

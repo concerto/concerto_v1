@@ -78,7 +78,7 @@ class Feed{
 				return false;
 			}
 			//End testing/cleaning block
-			$sql = "INSERT INTO feed (name, group_id, type, description) VALUES ('$name_in', $group_in, $type_in, $desc_in)";
+			$sql = "INSERT INTO feed (name, group_id, type, description) VALUES ('$name_in', $group_in, $type_in, '$desc_in')";
             		$res = sql_query($sql);
                 	if($res){
                     		$sql_id = sql_insert_id();
