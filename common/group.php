@@ -4,8 +4,9 @@ Class: Group
 Status: Working
 Functionality: 
        create_group       		Creates a new group
-        get_members			Lists all the members in a group
-        destroy			Destroys a group, can 'remove' or 'reown' everything owned by that group
+       get_members			Gets all the members in a group
+       list_members			Lists all members in a group
+       destroy				Destroys a group, can 'remove' or 'reown' everything owned by that group
 Comments: 
   
 */
@@ -76,6 +77,24 @@ class Group{
 		} else {
 			return false;
 		}
+	}
+
+	function list_members(){
+	        $sql = "SELECT username FROM user_group LEFT JOIN user ON user_group.user_id = user.id WHERE group_id = $this->id";
+                $res = sql_query($sql);
+                $i = 0;
+                $found = false;
+                while($row = sql_row_keyed($res,$i)){
+                        $found = true;
+                        $username = $row['username'];
+                        $data[] = $username;
+                        $i++;
+                }
+                if($found){
+                        return $data;
+                } else {
+                        return false;
+                }
 	}
 	
 	function destroy($type = 'reown', $new_owner = 0){
