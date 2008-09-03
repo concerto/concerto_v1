@@ -90,21 +90,32 @@
      </table>
      <br /><br />
      <h2>Not sure what feeds are?  <a TARGET="_blank" href="http://signage.rpi.edu/admin/pages/show/docs/23">Read this first!</a></h2>
-     <table class='edit_win' cellpadding='6' cellspacing='0'> 
+     <table class='edit_win' cellpadding='6' cellspacing='0'>
        <tr>
-         <td width="30%"><h5>Feed(s)</h5><p>In which content categories would this content fit the best?  <b>Please limit to the most relevant category.</b> </p></td>
          <td>
-           Submit to Feed:
-           <select name="content[feeds][0]">
-           <option></option>
+           <div style="float:right;"><a class="click_add_feed" href="#">Add another feed</a></div>
+           <h5>Submit to Feed(s)</h5>
+           <p><b>Please limit to the most relevant category for your message.</b></p>
+           <br/>
+           <div class="feeddiv">
+             <div style="float:left; width:38%;">
+               <select class="feedsel" name="content[feeds][0]"
+                       onChange="">
+                 <option title=" " class="feedopt"> </option>
 <?php
 foreach ($this->feeds as $arr) {
     list($feed, $value) = $arr;?>
-           <option value="<?=$feed->id?>"><?=$feed->name?></option>
+                 <option class="feedopt"
+                   title="<?=$feed->description ? $feed->description : ' '?>"
+                   value="<?=$feed->id?>"><?=$feed->name?></option>
+
 <? } ?>
-           </select>
+               </select>
+             </div>
+             <div style="float:right; width:58%;"><p class="feeddesc"> </p></div>
+             <div style="clear:both;"></div>
+           </div>
          </td>
-         <td style="text-align:right;"><a class="click_add_feed" href="#">Add another feed</a></td>
        </tr>
      </table>
    <br clear="all" />

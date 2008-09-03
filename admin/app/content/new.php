@@ -37,13 +37,55 @@
             return false;
         });
 
+        $(".feeddesc").each(function() {
+              $(this).data("desc","");
+           });
+
+        $(".feedopt").mouseover(function() {
+              update($(this),$(this).attr('title'));
+           });
+
+        $(".feedopt").mouseout(function() {
+              update($(this),$(this).parents(".feeddiv").find(".feeddesc").data("desc"));
+           });
+
+        $(".feedsel").change(function() {
+              var desc=$(this).find("option:selected").attr('title');
+              $(this).parents(".feeddiv").find(".feeddesc").data("desc", desc);
+              update($(this),desc);
+           });
+
+        $(".feedsel").keyup(function() {
+              var desc=$(this).find("option:selected").attr('title');
+              $(this).parents(".feeddiv").find(".feeddesc").data("desc", desc);
+              update($(this),desc);
+           });
+
+        update_all($("#maincontent"));
+
+        function update_all(parent) {
+           $(parent).find(".feedsel").each(function() {
+                 update($(this),$(this).find("option:selected").attr('title'));
+              });
+        }
+
+        function update(child, desc) {
+           $(child).parents('.feeddiv').find('.feeddesc').html(desc);
+        }
+
         $(".click_add_feed").click(function() {
             var count = $(this).data("count");
             if(count == undefined)
                 count = 0;
-            var select = $(this).parents("tr").find("select:last");
-            if(count < $(select).children().length - 2)
-                $(select).clone().attr("name", "content[feeds][" + ++count + "]").insertAfter(select);
+            var feeddiv = $(this).parents("tr").find(".feeddiv:last");
+            var select = $(feeddiv).find(".feedsel:first");
+            if(count < $(select).children().length - 2) {
+               var newdiv = $(feeddiv).clone(true);
+               $(newdiv).find(".feedsel:first").attr("name","content[feeds][" + ++count + "]");
+               $(newdiv).find(".feeddesc").html('');
+               $(newdiv).insertAfter(feeddiv);
+            }
+
             $(this).data("count", count);
             return false;
         });

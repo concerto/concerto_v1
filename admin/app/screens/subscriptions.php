@@ -19,10 +19,11 @@
             var field_id = $(anchor).find("input:hidden[name=field]").attr("value");
             var feed_id = $(anchor).find("select.add_feed").val();
             if(feed_id != "") {
+                var feed_desc = $(anchor).find("select.add_feed option:selected").attr("title");
                 var feed_name = $(anchor).find("select.add_feed option:selected").remove().text();
                 $(anchor).find("li.no_sub").remove();
                 $(anchor).find("ul")
-                    .append('<li><select name="content[freq][' + field_id + '][' + feed_id + ']"><option value="1">Very Seldom</option><option value="2">Occasionally</option><option value="3" selected="selected">Regularly</option><option value="4">Frequently</option><option value="5">Very Often</option></select><input type="hidden" name="System Time & Date" value="0" /> display content from <a href="/tom/admin/index.php/feeds/show/' + feed_id + '">' + feed_name + '</a> (<a class="remove_feed" href="#">remove</a>)</li>')
+                    .append('<li><select name="content[freq][' + field_id + '][' + feed_id + ']"><option value="1">Very Seldom</option><option value="2">Occasionally</option><option value="3" selected="selected">Regularly</option><option value="4">Frequently</option><option value="5">Very Often</option></select><input type="hidden" name="System Time & Date" value="0" /> display content from <a href="/tom/admin/index.php/feeds/show/' + feed_id + '" title="'+feed_desc+'">' + feed_name + '</a> (<a class="remove_feed" href="#">remove</a>)</li>')
                     .find("a.remove_feed").click(remove_feed);
             }
             return false;
@@ -66,7 +67,7 @@ if(is_array($positions)) {
       echo '<option value="5"'.($value==5?' selected="selected"':'').'>Very Often</option>';
       echo '</select>';
       echo '<input type="hidden" name="'.htmlspecialchars($feed->name).'" value="'.$feed->id.'" />';
-?> display content from <a href="<?=ADMIN_URL.'/feeds/show/'.$feed->id?>"><?=htmlspecialchars($feed->name)?></a> (<a class="remove_feed" href="#">remove</a>)</li>
+?> display content from <a href="<?=ADMIN_URL.'/feeds/show/'.$feed->id?>" title="<?=htmlspecialchars($feed->description)?>"><?=htmlspecialchars($feed->name)?></a> (<a class="remove_feed" href="#">remove</a>)</li>
 <?php
    }
 } else echo '    <li class="no_sub">(no current subscriptions)</li>'; ?>
@@ -74,9 +75,9 @@ if(is_array($positions)) {
 	 <p>
 	  Add a feed to this field: 
 	  <select class="add_feed">
-          <option value="" selected="selected"></option>
+          <option value="" selected="selected" title="Select a feed"></option>
      <? foreach($field->avail_feeds() as $feed) { ?>
-     <option value="<?=$feed->id?>"><?=htmlspecialchars($feed->name)?></option>
+     <option value="<?=$feed->id?>" title="<?=htmlspecialchars($feed->description)?>"><?=htmlspecialchars($feed->name)?></option>
      <? } ?>
 	  </select>
      <a class="add_feed" href="#">Add</a>
