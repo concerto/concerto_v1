@@ -4,7 +4,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <title><?php echo join(' - ',array('Concerto Interface v'.CONCERTO_VERSION, $this->getTitle()));?></title>
-<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 <link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/admin_new.css" />
 <link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/menu_tabs.css" />
 <link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/ui.datepicker.css" />
@@ -32,6 +31,8 @@
 <meta name="application-url" content="http://signage.rpi.edu"/>
 <link rel="icon" href="<?=ADMIN_BASE_URL?>images/concerto_32x32.png" sizes="32x32"/>
 <link rel="icon" href="<?=ADMIN_BASE_URL?>images/concerto_48x48.png" sizes="48x48"/>
+
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 
 <?php //renderHeadExtras() ?>
 </head>

@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <title>Concerto Support - <?=$this->getTitle()?></title>
-<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+
 <link rel="stylesheet" type="text/css" href="<?= ADMIN_BASE_URL ?>css/docs.css" />
 <script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/jquery.js"></script>
 
@@ -13,6 +13,8 @@
 <meta name="application-url" content="http://signage.rpi.edu/admin/pages/show/docs/"/>
 <link rel="icon" href="<?=ADMIN_BASE_URL?>images/concerto_32x32.png" sizes="32x32"/>
 <link rel="icon" href="<?=ADMIN_BASE_URL?>images/concerto_48x48.png" sizes="48x48"/>
+
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 
 </head>
 
