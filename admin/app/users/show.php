@@ -1,84 +1,3 @@
-<script type="text/javascript"><!--
-(function($) {
-    $.fn.extend({
-        expand_details: function(){
-            if($(this).data("loaded") == undefined) {
-                $(this).data("loaded", 0);
-                var parent = this;
-                $.ajax({type: "POST",
-                        url: "<?=ADMIN_URL?>/browse/details",
-                        data: {"content_id": $(parent).attr("id").replace(/c/,""),
-                               "feed_id": <?=$this->feed->id?>
-                        },
-                        success: function(html){
-                            $("<tr>").attr("class", "details")
-                            .append($("<td colspan=4>").html(html))
-                            .hide()
-                            .insertAfter(parent)
-                            .find("#i-preview").lightBox({
-                                overlayBgColor: "#000",
-                                imageLoading: "<?=ADMIN_BASE_URL?>images/lightbox-ico-loading.gif",
-                                imageBtnClose: "<?=ADMIN_BASE_URL?>images/lightbox-btn-close.gif"
-                            });
-                            $(parent).data("loaded", 1).expand_details();
-                        },
-                        dataType: "html"
-                });
-            } else if($(this).data("loaded") == 1) {
-                $(this).addClass("listitem_sel").next().fadeIn("slow", function(){$(this).data("visible", true);});
-            }
-        },
-
-        collapse_details: function(){
-            if($(this).data("loaded") == 1) {
-                $(this).removeClass("listitem_sel").next().fadeOut("slow", function(){$(this).data("visible", false);});
-            }
-        },
-
-        toggle_details: function(){
-            if($(this).next().data("visible")) {
-                $(this).collapse_details();
-            } else {
-                $(this).expand_details();
-            }
-        }
-    });
-
-    $(document).ready(function() {
-        $("table.content_listing").tablesorter({
-            sortList: [[1,0]],
-            headers: {
-                0: {sorter: false}
-            },
-            textExtraction: function(obj) {
-                if($(obj).attr("class") == "listtitle")
-                    return $(obj).children(0).html();
-                else
-                    return $(obj).html();
-            }
-        }).bind("sortStart",function() {
-            $(".details").remove();
-            $(".listitem").removeData("loaded");
-        });
-
-        $(".listitem").click(function() {
-            $(this).toggle_details();
-            return false;
-        });
-
-        $("#expandall").click(function() {
-            $(".listitem").each(function(){$(this).expand_details();});
-            return false;
-        });
-
-        $("#collapseall").click(function() {
-            $(".listitem").each(function(){$(this).collapse_details();});
-            return false;
-        });
-    });
-})(jQuery);
-//--></script>
-
 
 <?php if ($this->canEdit) {?>
 <a href="<?=ADMIN_URL.'/users/edit/'.$this->user->username ?>"><span class="buttonsel"><div class="buttonleft"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_left.gif" border="0" alt="" /></div><div class="buttonmid"><div class="buttonmid_padding">Edit Profile</div></div><div class="buttonright"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_right.gif" border="0" alt="" /></div></span></a><div style="clear:both;height:12px;"></div>
@@ -133,7 +52,7 @@ foreach($this->contents as $field=>$contents)
 	if($contents){
 			foreach($contents as $content) {
 					$submitter = new User($content->user_id); ?>
-					<tr id="c<?= $content->id ?>" class="listitem">
+					<tr id="c<?= $content->id ?>" class="listitem listitem_none">
 							<td class="listh_icon"><?php
 								if(preg_match('/image/',$content->mime_type)) {
 									echo "<a href=\"http://signage.rpi.edu/admin/content/show/$content->id\"><img class=\"icon_border\" src=\"".ADMIN_URL."/content/image/$content->id?width=50&amp;height=37\" alt=\"Icon\" /></a>";

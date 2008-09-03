@@ -43,6 +43,10 @@ table.content_listing tbody tr.listitem:hover {
 background:#ccccff url(../images/listitem_sel_bg.gif) repeat; /* #cee2f0; url(../images/alert_box.gif) repeat; */
 }
 
+table.content_listing tbody tr.listitem_none { cursor:default !important; }
+table.content_listing tbody tr.listitem_none:hover { background:url(../images/lightgray_bg.gif) repeat !important; }
+
+
 table.content_listing tbody tr.listitem_sel, table.content_listing tbody tr.sel_listitem {
 background:url(../images/alert_box.gif) repeat;
 cursor:pointer;
