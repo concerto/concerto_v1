@@ -45,7 +45,7 @@ foreach($fields_list as $field) {
 ?>
 
 <div class="roundcont">
-  <div class="roundtop"><img src="<? echo ADMIN_BASE_URL ?>/images/wc_tl.gif" alt="" width="6" height="6" class="corner topleft" style="display: none" /></div>
+  <div class="roundtop"><span class="rt"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
   <div class="roundcont_main">
     <input type="hidden" name="field" value="<?=$field->id?>" />
     <h1><span class="emph"><? echo $field->name ?></span> (Field)</h1>
@@ -83,7 +83,7 @@ if(is_array($positions)) {
 	 </p>
 
   </div>
-  <div class="roundbottom"><img src="<? echo ADMIN_BASE_URL ?>/images/wc_bl.gif" alt="" width="6" height="6" class="corner botleft" style="display: none" /></div>
+  <div class="roundbottom"><span class="rb"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
 </div>
 <?php
 }
