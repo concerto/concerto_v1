@@ -118,14 +118,7 @@ foreach($this->contents as $field=>$contents)
 {
 	echo "<br /><br />";
 ?>
-	<div style="float:left; width:50%;">
-		<?php echo "<a name=\"$field\"></a><h1>$field</h1>"; ?>
-	</div>
-	<div style="float:right:width:50%;text-align:right;">
-		<h3>
-			<a id="expandall" href="#">Expand All</a> | <a id="collapseall" href="#">Collapse All</a>
-		</h3>
-	</div>
+	<?php echo "<a name=\"$field\"></a><h1>$field</h1>"; ?>
 	<table class="content_listing" cellpadding="6" cellspacing="0">
 			<thead>
 					<tr>
@@ -143,14 +136,14 @@ foreach($this->contents as $field=>$contents)
 					<tr id="c<?= $content->id ?>" class="listitem">
 							<td class="listh_icon"><?php
 								if(preg_match('/image/',$content->mime_type)) {
-									echo "<img class=\"icon_border\" src=\"".ADMIN_URL."/content/image/$content->id?width=50&amp;height=37\" alt=\"Icon\" />";
+									echo "<a href=\"http://signage.rpi.edu/admin/content/show/$content->id\"><img class=\"icon_border\" src=\"".ADMIN_URL."/content/image/$content->id?width=50&amp;height=37\" alt=\"Icon\" /></a>";
 								} elseif(preg_match('/text/',$content->mime_type)) {
 									echo "<img src=\"".ADMIN_BASE_URL."images/icon_text.gif\" alt=\"Icon\" />";
 								} else {
 									echo "&nbsp;";
 								} ?></td>
 							<td class="listtitle">
-									<a href="http://signage.rpi.edu/content/show/<?= $content->id ?>"><?= htmlspecialchars($content->name) ?></a>
+									<a href="http://signage.rpi.edu/admin/content/show/<?= $content->id ?>"><?= htmlspecialchars($content->name) ?></a>
 							</td>
 							<td><?=date("m/j/Y",strtotime($content->start_time))?></td>
 							<td><?=date("m/j/Y",strtotime($content->end_time))?></td>
