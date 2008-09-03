@@ -7,6 +7,13 @@
 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 <link rel="stylesheet" type="text/css" href="<?= ADMIN_BASE_URL ?>css/docs.css" />
 <script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/jquery.js"></script>
+
+<meta name="application-name" content="Concerto Support"/>
+<meta name="description" content="One-Stop Support for the RPI Digital Signage Network."/>
+<meta name="application-url" content="http://signage.rpi.edu"/>
+<link rel="icon" href="<?=ADMIN_BASE_URL?>images/concerto_32x32.png" sizes="32x32"/>
+<link rel="icon" href="<?=ADMIN_BASE_URL?>images/concerto_48x48.png" sizes="48x48"/>
+
 </head>
 
 <body>

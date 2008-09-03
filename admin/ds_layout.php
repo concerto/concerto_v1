@@ -27,6 +27,12 @@
 <script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/ui.tablesort.js"></script>
 <script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/ui.tabs.js"></script>
 
+<meta name="application-name" content="Concerto"/>
+<meta name="description" content="RPI Digital Signage for Everyone."/>
+<meta name="application-url" content="http://signage.rpi.edu"/>
+<link rel="icon" href="<?=ADMIN_BASE_URL?>images/concerto_32x32.png" sizes="32x32"/>
+<link rel="icon" href="<?=ADMIN_BASE_URL?>images/concerto_48x48.png" sizes="48x48"/>
+
 <?php //renderHeadExtras() ?>
 </head>
 
