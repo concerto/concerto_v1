@@ -46,7 +46,7 @@
 				?>
 			</td>
 			<td>
-				<h4>Expired Concent: ###</h4>
+         <h4>Expired Content: <?=$feed->content_count('1','expired');?></h4>
 			</td>
 	</tr>
 	<? } ?>

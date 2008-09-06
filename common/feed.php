@@ -157,13 +157,30 @@ class Feed{
 	}
 
 	//Count # of content in a feed based on moderation status
-	function content_count($mod_flag=''){
+	function content_count($mod_flag='',$type='all'){
 		if($mod_flag != ''){
 			$mod_where = "AND moderation_flag LIKE '$mod_flag'";
 		} else {
 			$mod_where = "";
 		}
-		$sql = "SELECT COUNT(content_id) FROM feed_content WHERE feed_id = $this->id $mod_where";
+      
+      if($type == 'expired') {
+         $mod_where .= " AND end_time <= NOW()";
+         $join=1;
+      } elseif ($type == 'active') {
+         $mod_where .= " AND end_time > NOW() AND end_time <= NOW()";
+         $join=1;
+      } elseif ($type == 'future') {
+         $mod_where .= " AND end_time > NOW()";
+         $join=1;
+      }
+
+      if($join) {
+         $sql = "SELECT COUNT(content_id) FROM feed_content LEFT JOIN content ON `content_id`=`content`.`id` WHERE feed_id = $this->id $mod_where";
+      } else {
+         $sql = "SELECT COUNT(content_id) FROM feed_content WHERE feed_id = $this->id $mod_where";
+      }
+
 		if($res = sql_query($sql)){
 			$data = (sql_row_keyed($res,0));
 			return $data['COUNT(content_id)'];
