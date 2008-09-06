@@ -29,10 +29,11 @@ define('ADMIN_BASE_URL', ROOT_URL.'admin/');     //base URL on server for images
 define('ADMIN_URL', ADMIN_BASE_URL.'index.php'); //URL that can access this page (may be same as ADMIN_BASE_URL if mod_rewrite configured)
 
 //Various configuration
-define('CONCERTO_VERSION', '1.6 BETA');          //Version number.
+define('CONCERTO_VERSION', '1.7');               //Version number.
 define('DEFAULT_DURATION', 5);                   //Default content duration, in seconds
 define('DEFAULT_WEIGHT', 3);                     //Default position weight
 
 define('EMS_FEED_ID', 19);                       //ID of the emergency feed.
 define('ADMIN_GROUP_ID', 0);                     //ID of the User Group for admin functions and contact
+define('GA_TRACKING', false);                    //Define a Google Tracking id if applicable
 ?>

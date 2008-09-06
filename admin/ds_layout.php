@@ -66,7 +66,7 @@
     <p><a href="<?= ADMIN_URL ?>/pages/show/docs/">Support Center</a> | <a href="http://myrpi.org/webtech/list_posts">Web Tech Blog</a> | Contact Support: <a href="mailto:concerto@union.rpi.edu">concerto@union.rpi.edu</a></p>
   </div>
 </div>
-<?php if(defined('GA_TRACKING')) { ?>
+<?php if(defined('GA_TRACKING') && GA_TRACKING) { ?>
 <script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
