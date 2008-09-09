@@ -20,14 +20,14 @@ class Group{
 		if($id_in !== ''){
 			$sql = "SELECT * FROM `group` WHERE id = $id_in LIMIT 1";
 			$res = sql_query($sql);
-			if($res != 0){
-				$data = (sql_row_keyed($res,0));
+			if($res && ($data = sql_row_keyed($res,0))){
 				$this->id = $data['id'];
 				$this->name = $data['name'];
 				
 				$this->set = true;
 				return true;
 			} else {
+			  $this->set = false;
 				return false;
 			}
 		} else {

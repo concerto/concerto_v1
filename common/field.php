@@ -114,7 +114,9 @@ class Field{
 			$new_pos = new Position();
 			if($new_pos->create_position($this->screen_id, $feed_id_in, $this->id)){
 				$this->screen_pos[] = $new_pos;
-				return true;
+				$notify = new Notification();
+				$notify->notify('screen', $this->screen_id, 'feed', $feed_id_in, 'subscribe');	
+                                return true;
 			} else {
 				return false;
 			}
