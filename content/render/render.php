@@ -9,6 +9,18 @@ function render($type, $filename, $width = false, $height = false, $stretch = fa
 		$cache_path = TEMPLATE_DIR . 'cache/' . $fileinfo[0] . '_' . $width . '_' . $height . '.' . $fileinfo[1];
 		$path = TEMPLATE_DIR . $filename;
 	}
+	
+	$timestamp = filemtime($path);
+	
+    //send not modified headers if the image has not been modified since 
+    if(isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) >= $timestamp) {
+        header('HTTP/1.0 304 Not Modified');
+        return;
+    }
+        
+    //lets render the image!
+    header("Last-Modified: ".gmdate("D, d M Y H:i:s", $timestamp)." GMT");
+	
 	if($width && $height){
 		if(file_exists($cache_path) && $size = getimagesize($cache_path)){ //Do we already have a cached copy at the ready?
 			$fp = fopen($cache_path, "rb");
