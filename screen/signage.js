@@ -157,13 +157,13 @@
         fadeGlobal: function(prevdiv, callback){
             //if the previous div exists then fade it out
             if(prevdiv != undefined){
-                prevdiv.animate({opacity: 0.0}, "slow", "swing", function(){
+                prevdiv.animate({opacity: 0.0}, "normal", "swing", function(){
                     $(this).remove();
                 });
             }
 	
 	        //fades the new div in waits the duration and calls the callback function
-	        $(this).animate({opacity: 1.0}, "slow", "swing", callback);
+	        $(this).animate({opacity: 1.0}, "normal", "swing", callback);
 	        return $(this);
         },
         
