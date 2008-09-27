@@ -22,13 +22,15 @@ class Newsfeed{
     if($id == ''){
 			$this->set = false;
 		} else {
-      $sql = 'SELECT newsfeed.id, notifications.text, notifications.timestamp, newsfeed.hidden FROM `newsfeed` LEFT JOIN notifications ON newsfeed.notification_id = notifications.id WHERE newsfeed.id = ' . $id;
+      $sql = 'SELECT newsfeed.id, notifications.text, notifications.timestamp, notifications.type, notifications.msg, newsfeed.hidden FROM `newsfeed` LEFT JOIN notifications ON newsfeed.notification_id = notifications.id WHERE newsfeed.id = ' . $id;
       $res = sql_query($sql);
       if($res != 0){
 				$data = (sql_row_keyed($res,0));
       
         $this->id = $data['id'];
         $this->timestamp = strtotime($data['timestamp']);
+        $this->type = $data['type'];
+        $this->msg = $data['msg'];
         $this->hidden = $data['hidden'];
         $this->text = $data['text'];
         $this->text = str_replace('%ADMIN_URL%', ADMIN_URL, $this->text); //If the URL changes, we want to be ready!

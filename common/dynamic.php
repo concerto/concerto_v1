@@ -130,7 +130,7 @@ class Dynamic{
 		$c_owner = 0; //Content is owned by the system
 		$mime_type = "text/html";
 		$type_id = 1;
-		$duration = 10000;
+		$duration = 14000;
 		$start_time = date("Y-m-d") . " 00:00:00";
 		$end_time = date("Y-m-d", strtotime("tomorrow")) . " 00:00:00";
 		//End Generic properties for all content
