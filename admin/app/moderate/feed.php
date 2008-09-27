@@ -118,6 +118,12 @@ if(isset($this->contents)) {
     <h1><a href="<?= ADMIN_URL ?>/content/show/<?= $content->id ?>"><?= $content->name ?></a></h1>
     <span style="font-size:1.5em;font-weight:bold;color:#333;margin-bottom:12px;"><?= date('M j, Y h:i:s A',strtotime($content->start_time)) ?> - <?= date('M j, Y h:i:s A',strtotime($content->end_time)) ?></span> <? if($week_range > 1) echo "({$week_range} Weeks)" ?>
     <h2>Submitted by <strong><a href="<?= ADMIN_URL ?>/users/show/<?= $submitter->id ?>"><?= $submitter->name ?></a></strong></h2>
+    <h1>Already approved on feeds: <b>
+    <?php $content->content = new Content($content->args[1]); ?>
+    <?php foreach ($content->content->act_feeds as $feed)
+       echo ''.$feed['feed']->name.'';
+    ?>
+    </b></h1> 
 </td>
 <td>
 </td>

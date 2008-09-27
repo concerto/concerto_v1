@@ -136,11 +136,13 @@ div.select td { padding-right:25px; }
 .newsfeed p { margin:11px 18px; padding-left:30px; }
 .newsfeed p.feed_approve { background:url(../images/nf_check.gif) center left no-repeat; }
 .newsfeed p.feed_add { background:url(../images/nf_addcontent.gif) center left no-repeat; }
+.newsfeed p.feed_new { background:url(../images/nf_newfeed.gif) center left no-repeat; }
 .newsfeed p.feed_deny { background:url(../images/nf_ex.gif) center left no-repeat; }
 .newsfeed p.feed_update { background:url(../images/nf_feedupdate.gif) center left no-repeat; }
 .newsfeed p.screen_update { background:url(../images/nf_screen.gif) center left no-repeat; }
 .newsfeed p.screen_subscribe { background:url(../images/nf_screenadd.gif) center left no-repeat; }
 .newsfeed p.screen_new { background:url(../images/nf_screennew.gif) center left no-repeat; }
+.newsfeed p.group_join { background:url(../images/nf_joingroup.gif) center left no-repeat; }
 .newsfeed span.datesub { color:#666; font-size: 0.75em !important; padding-left:12px; }
 
 .roundtop { background: url(../images/rc_tr.gif) no-repeat top right; text-align:left; height:6px; }

@@ -20,6 +20,7 @@ $(function()
 <div class="roundcont newsfeed">
   <div class="roundtop"><span class="rt"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
   <div class="roundcont_main">
+    <div style="text-align:right; float:right; width:150px;"><a href="<?= ADMIN_URL ?>/users/show/<?= userName() ?>#notifications">View all...</a></div>
     <h1>News Feed</h1>
     <?php 
     foreach($this->notifications as $newsfeed) {

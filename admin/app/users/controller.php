@@ -60,6 +60,7 @@ class usersController extends Controller
             foreach($contentids as $id)
                $this->contents[$type['name']][] = new Content($id['content_id']);
       }
+      $this->notifications = Newsfeed::get_for_user($this->user->id, 0, '', 0, 9999999999);
 
    }
    

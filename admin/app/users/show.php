@@ -81,6 +81,25 @@ foreach($this->contents as $field=>$contents)
 <?php
 }
 ?>
-
-
-
+<br /><br /><br />
+<div id="notifications" class="roundcont newsfeed">
+  <div class="roundtop"><span class="rt"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
+  <div class="roundcont_main">
+		<h1>All Notifications</h1>
+		<p><i>Viewing all of your notifications to date.</i></p><br />
+		<?php 
+		$speccount = 0;
+		foreach($this->notifications as $newsfeed) {
+			$speccount += 1;
+		?>
+			
+			<p class="<?= $newsfeed->type ?>_<?= $newsfeed->msg ?>"><?= $newsfeed->text ?><span class="datesub"><?= date('M j', $newsfeed->timestamp) ?></span></p>
+		<?php
+		}
+		?>
+		<br />
+		<p>---</p>
+		<p><b><?= $speccount ?></b> Items</p>
+  </div>
+  <div class="roundbottom"><span class="rb"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
+</div>
