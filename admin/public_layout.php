@@ -6,7 +6,29 @@
 <title>Concerto - <?= $this->getTitle() ?></title>
 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 <link rel="stylesheet" type="text/css" href="<?= ADMIN_BASE_URL ?>css/public.css" />
-
+<script src="<?=ADMIN_BASE_URL?>js/jquery-1.2.6.min.js" type="text/javascript"></script>
+<script src="<?=ADMIN_BASE_URL?>js/jquery.localscroll-1.2.6-min.js" type="text/javascript"></script>
+<script src="<?=ADMIN_BASE_URL?>js/jquery.scrollTo-1.4.0-min.js" type="text/javascript"></script>
+<script src="<?=ADMIN_BASE_URL?>js/jquery.serialScroll-1.2.1-min.js" type="text/javascript"></script>
+<script src="<?=ADMIN_BASE_URL?>js/ui.slider.js" type="text/javascript"></script>
+<script src="<?=ADMIN_BASE_URL?>js/jquery.dimensions.js" type="text/javascript"></script>  
+<script src="<?=ADMIN_BASE_URL?>js/jquery.accordion.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+<!--
+$(function () {
+  $('UL.drawers').accordion({
+    // the drawer handle
+    header: 'H2.drawer-handle',
+    
+    // our selected class
+    selectedClass: 'open',
+    
+    // match the Apple slide out effect
+    event: 'mouseover'
+  });
+});
+-->
+</script>
 </head>
 
 <body>
@@ -27,13 +49,20 @@ if(is_array($this->menu_links))
   <div id="main">
     <!-- main content begins here -->
       <?php renderMessages() ?>
-      <?php $this->render(); ?>
+      <?php $this->render(); ?>   
     <!-- main content ends here -->
-    <div style="clear:both; height:10px;"></div>
+    <div style="clear:both;"></div>
+    
   </div>
-  <div id="footer"><div id="footer_shadow"></div><div id="footer_padding">
-    <h1>Copyright &copy; 2008 Rensselaer Polytechnic Institute (Student Senate Web Technologies Group)</h1>
-  </div></div>
+  
+  <div id="footer">
+  	<div id="footer_inset">
+  		<div id="footer_padding">
+  			<div style="float:left; width:48%; text-align:left;"><h1><b>Copyright &copy; 2008 RPI Web Tech Group.</b>  All rights reserved.</h1></div>
+  			<div style="float:right; width:48%; text-align:right;"><a href="http://myrpi.org/webtech"><img border="0" src="<?= ADMIN_BASE_URL ?>images/wtg_logo.gif" alt="" /></a></div>
+  		</div>
+  	</div>
+  </div>
   <div style="clear:both;"></div>
 </div>
 

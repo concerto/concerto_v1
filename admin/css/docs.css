@@ -8,7 +8,7 @@
 
 /*========= GENERAL STYLES =========*/
 body { background:#FFF; }
-body, html { border:0;color:#000;font-family:"Lucida Grande",Calibri,Arial,sans-serif; font-size:small;margin:0 auto;min-width:900px; padding:0; }
+body, html { border:0;color:#000;font-family:"Lucida Grande",Arial,sans-serif; font-size:small;margin:0 auto;min-width:900px; padding:0; }
 a { color:#006699; font-weight:bold; text-decoration:none; }
 a:hover { color:#666; text-decoration:underline; }
 

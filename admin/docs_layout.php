@@ -6,7 +6,7 @@
 <title>Concerto Support - <?=$this->getTitle()?></title>
 
 <link rel="stylesheet" type="text/css" href="<?= ADMIN_BASE_URL ?>css/docs.css" />
-<script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/jquery.js"></script>
+<script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/jquery-1.2.6.min.js"></script>
 
 <meta name="application-name" content="Concerto Support"/>
 <meta name="description" content="One-Stop Support for the RPI Digital Signage Network."/>

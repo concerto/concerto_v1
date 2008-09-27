@@ -24,6 +24,7 @@ class frontpageController extends Controller
    
 	function dashboardAction()
 	{
+     $this->notifications = Newsfeed::get_for_user($_SESSION['user']->id);
      $this->setTitle("Concerto Dashboard");
      $this->screens= Screen::get_all('ORDER BY `name`');
      $this->screen_stats = Screen::screenStats();

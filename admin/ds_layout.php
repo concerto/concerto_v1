@@ -13,6 +13,7 @@
 
 <!--[if IE]>
 <link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/ieonly.css" />
+<script language="javascript" type="text/javascript" src="<?=ADMIN_BASE_URL?>js/excanvas.pack.js"></script>
 <![endif]-->
 
 <!--[if lt IE 7.]>
@@ -20,11 +21,13 @@
 <script defer type="text/javascript" src="<?=ADMIN_BASE_URL?>js/pngfix.js"></script>
 <![endif]-->
 
-<script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/jquery.js"></script>
+<script src="<?=ADMIN_BASE_URL?>js/jquery-1.2.6.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/ui.datepicker.js"></script>
 <script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/ui.lightbox.js"></script>
 <script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/ui.tablesort.js"></script>
 <script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/ui.tabs.js"></script>
+<script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/jquery.flot.js"></script>
+<script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/jquery.flot.pack.js"></script>
 
 <meta name="application-name" content="Concerto"/>
 <meta name="description" content="RPI Digital Signage for Everyone."/>

@@ -25,6 +25,7 @@ include(COMMON_DIR.'/upload.php');   //Helps uploading
 include(COMMON_DIR.'/group.php');    //Class to represent user groups
 include(COMMON_DIR.'/dynamic.php');  //Functionality for dynamic content
 include(COMMON_DIR.'/notification.php');  //Functionality for notifications
+include(COMMON_DIR.'/newsfeed.php');  //Functionality for notifications
 include(COMMON_DIR.'/image.inc.php');	//Image library, used for resizing images
 
 $render_times[] = Array('Includes', microtime(true));
