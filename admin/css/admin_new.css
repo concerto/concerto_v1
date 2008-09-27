@@ -133,12 +133,24 @@ div.select td { padding-right:25px; }
 .roundcont p { margin: 0 10px; }
 .newsfeed { background:url(../images/lightgray_bg.gif) repeat; }
 .newsfeed a { font-weight: normal !important; }
-.newsfeed p { margin:7px 13px; }
+.newsfeed p { margin:11px 18px; padding-left:30px; }
+.newsfeed p.feed_approve { background:url(../images/nf_check.gif) center left no-repeat; }
+.newsfeed p.feed_add { background:url(../images/nf_addcontent.gif) center left no-repeat; }
+.newsfeed p.feed_deny { background:url(../images/nf_ex.gif) center left no-repeat; }
+.newsfeed p.feed_update { background:url(../images/nf_feedupdate.gif) center left no-repeat; }
+.newsfeed p.screen_update { background:url(../images/nf_screen.gif) center left no-repeat; }
+.newsfeed p.screen_subscribe { background:url(../images/nf_screenadd.gif) center left no-repeat; }
+.newsfeed p.screen_new { background:url(../images/nf_screennew.gif) center left no-repeat; }
+.newsfeed span.datesub { color:#666; font-size: 0.75em !important; padding-left:12px; }
 
 .roundtop { background: url(../images/rc_tr.gif) no-repeat top right; text-align:left; height:6px; }
 .roundbottom { background: url(../images/rc_br.gif) no-repeat top right; text-align: left; height:6px; }
 .rt { width:6px; height:6px; background:url(../images/rc_tl.gif) no-repeat top left; display:block; }
 .rb { width:6px; height:6px; background:url(../images/rc_bl.gif) no-repeat top left; display:block; }
+.newsfeed .roundtop { background: url(../images/rc_tr_nf.gif) no-repeat top right; text-align:left; height:6px; }
+.newsfeed .roundbottom { background: url(../images/rc_br_nf.gif) no-repeat top right; text-align: left; height:6px; }
+.newsfeed .rt { width:6px; height:6px; background:url(../images/rc_tl_nf.gif) no-repeat top left; display:block; }
+.newsfeed .rb { width:6px; height:6px; background:url(../images/rc_bl_nf.gif) no-repeat top left; display:block; }
 a .roundcont:hover .roundtop { background: url(../images/rc_tr_hov.gif) no-repeat top right; }
 a .roundcont:hover .roundbottom { background: url(../images/rc_br_hov.gif) no-repeat top right; }
 a .roundcont:hover .rt { background:url(../images/rc_tl_hov.gif) no-repeat top left; }

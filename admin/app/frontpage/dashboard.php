@@ -24,7 +24,7 @@ $(function()
     <?php 
     foreach($this->notifications as $newsfeed) {
     ?>
-    	<p><?= $newsfeed->text ?></p>
+    	<p class="<?= $newsfeed->type ?>_<?= $newsfeed->msg ?>"><?= $newsfeed->text ?><span class="datesub"><?= date('M j', $newsfeed->timestamp) ?></span></p>
     <?php
     }
     ?>
