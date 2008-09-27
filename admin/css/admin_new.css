@@ -131,6 +131,9 @@ div.select td { padding-right:25px; }
 .roundcont_main h1 { color:#333 !important; font-size:1.2em !important; font-weight:bold; }
 .roundcont_main h1.fp { padding-top:12px !important; }
 .roundcont p { margin: 0 10px; }
+.newsfeed { background:url(../images/lightgray_bg.gif) repeat; }
+.newsfeed a { font-weight: normal !important; }
+.newsfeed p { margin:7px 13px; }
 
 .roundtop { background: url(../images/rc_tr.gif) no-repeat top right; text-align:left; height:6px; }
 .roundbottom { background: url(../images/rc_br.gif) no-repeat top right; text-align: left; height:6px; }

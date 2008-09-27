@@ -62,22 +62,3 @@ if(is_array($this->denied_feeds))
 }
 ?>
 </ul>
-
-<h3>Display Statistics</h3>
-
-<div id="placeholder" style="width:600px;height:300px"></div>
-
-<script id="source" language="javascript" type="text/javascript">
-$(function () {
-
-    var d2 = [[1, 3], [2, 8]];
-    
-    $.plot($("#placeholder"), [
-        {
-            data: d2,
-            bars: { show: true }
-        }
-    ]);
-});
-</script>
-
