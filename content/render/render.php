@@ -94,20 +94,21 @@ function generate_cache($filename, $width, $height){
 		$cache_path = TEMPLATE_DIR . 'cache/' . $fileinfo[0] . '_' . $width . '_' . $height . '.' . $fileinfo[1];
 	}
 	if(!file_exists($cache_path)){ //Maybe we already got it and the log it out of date
+		echo 'Handling ' . $types . ' -- ' . $file . "\n";
 		$new_width = $width;
 		$new_height = $height;
 		
 		list($old_width, $old_height) = getimagesize($filename);
-        $old_ratio = $old_width / $old_height;
-        $new_ratio = $new_width / $new_height;
+  	$old_ratio = $old_width / $old_height;
+  	$new_ratio = $new_width / $new_height;
 
-        if($old_ratio < $new_ratio) {
-            $new_height = $new_height;
-            $new_width = $new_height * $old_ratio;
-        } else {
-            $new_width = $new_width;
-            $new_height = $new_width / $old_ratio;
-        }
+  	if($old_ratio < $new_ratio) {
+  		$new_height = $new_height;
+  		$new_width = $new_height * $old_ratio;
+  	} else {
+  		$new_width = $new_width;
+  		$new_height = $new_width / $old_ratio;
+  	}
 
 		$new_image = imagecreatetruecolor($new_width, $new_height);
 		
@@ -116,29 +117,37 @@ function generate_cache($filename, $width, $height){
 		$image = @imagecreatefromgif($filename) or //Read GIF
 		$image = false;
 
+    $cache_path_tmp = $cache_path . '.tmp'; //Store the cache in a working file until we know how the resize went
+
 		if($image) {
 			imagecopyresampled($new_image, $image, 0, 0, 0, 0, $new_width, $new_height, $old_width, $old_height);
 			imagedestroy($image);
 			if($fileinfo[1] == 'jpg' || $fileinfo[1] == 'jpeg'){
-				imagejpeg($new_image, $cache_path, 80);
+				$ret = imagejpeg($new_image, $cache_path_tmp, 80);
 			} elseif($fileinfo[1] == 'png'){
-				imagepng($new_image, $cache_path, 1);
+				$ret = imagepng($new_image, $cache_path_tmp, 1);
 			} elseif($fileinfo[1] == 'gif'){
-				imagegif($new_image, $cache_path);
+				$ret = imagegif($new_image, $cache_path_tmp);
+			}
+			if(!$ret && file_exists($cache_path_tmp)){ //The file started to get generated but hit an error
+				unlink($cache_path_tmp);
+			}else{
+			 rename($cache_path_tmp, $cache_path); //The resize went ok, so we'll move it to its normal home
 			}
 			imagedestroy($new_image);
 		}
+		echo "Ok.\n";
 	}
 }
 
 function clear_cache($dirname){
 	$dir = opendir($dirname);
-    while ($file = readdir($dir)){
+    	while ($file = readdir($dir)){
             if (($file != ".") && ($file != "..") && !is_dir($dirname . $file)){
                     unlink($dirname . $file);
             }
 
-    }
-    closedir($dir);
+    	}
+    	closedir($dir);
 }
 ?>

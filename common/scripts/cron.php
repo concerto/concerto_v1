@@ -14,10 +14,10 @@ include(COMMON_DIR.'upload.php');   //Helps uploading
 include(COMMON_DIR.'group.php');    //Class to represent user groups
 include(COMMON_DIR.'dynamic.php');  //Functionality for dynamic content
 include(COMMON_DIR.'image.inc.php');//Image library, used for resizing images
-include(COMMON_DIR.'notification.php');//Image library, used for resizing images
+include(COMMON_DIR.'notification.php');//Class to represent notifications
 
 include(CONTENT_DIR.'render/render.php'); //Functions to generate the cache
-//include(COMMON_DIR.'scripts/mail.php'); //Used to do the email magic
+
 
 if(date("D Hi") == 'Sun 0010' || $_REQUEST['weekly']){
 	weekly();
@@ -34,14 +34,14 @@ if(date("i") == '10' || $_REQUEST['hourly']){
 always();
 
 function weekly(){
+	echo "Clearing cache directories.\n";
 	clear_cache(IMAGE_DIR.'/cache/');
 	clear_cache(TEMPLATE_DIR.'/cache/');
+	echo "Cache cleared.\n";
 }
 function nightly(){
-	//Cache any content we need to cache
-	cache_parse(100);
-
 	//Rollover the feed-content table's statistics
+	echo "Rolling over statistics...\n";
 	$sql = "UPDATE `feed_content` SET `yesterday_count` = `display_count`";
 	sql_command($sql);	
 
@@ -55,11 +55,18 @@ function nightly(){
 
 	$sql = "UPDATE `feed_content` SET `display_count` = 0";
 	sql_command($sql);
+	echo "Statistic rollover complete.\n";
+
+	echo "Parsing cache...\n";
+	//Parse the cache!
+        parse_cache(25);
+	echo "Completed cache parsing.\n";
 
 }
 function hourly(){
 	//Rotate any screens that need a template rotation every 6 hours
 	if(date('H') % 6 == 0) {
+		echo "Executing template rotation.\n";
 		//The array should be setup as follows, $screen[screen_id][] = template_id
 		//Make sure you have subscriptions setup!
 		$screens[5][] = 1;
@@ -71,6 +78,7 @@ function hourly(){
 			$scr->template_id = $templates[$new_key];
 			$scr->set_properties();
 		}
+		echo "Template rotation complete.\n";
 	}
 	//End template rotation
 }
@@ -89,7 +97,11 @@ function always(){
 			}
 		}
 	}
-	//go_mail();
+	//Then generate the newsfeed!
+	echo "Begin notification processing...\n";
+	$notif = new Notification();
+	$notif->process(20); //If more than 20 are generated the system might be under high load.
+        echo "Done processing notifications. \n";
 }
 
 //Tiny helper function for the template rotation

@@ -15,6 +15,8 @@ class Newsfeed{
 	var $activity_date;
 	var $hidden;
 	var $text;
+	var $type;
+	var $msg;
 	
 	var $set;
 
