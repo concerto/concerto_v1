@@ -59,7 +59,7 @@ function nightly(){
 
 	echo "Parsing cache...\n";
 	//Parse the cache!
-        parse_cache(25);
+        cache_parse(25);
 	echo "Completed cache parsing.\n";
 
 }
