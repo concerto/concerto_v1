@@ -55,14 +55,14 @@ foreach($this->contents as $field=>$contents)
 					<tr id="c<?= $content->id ?>" class="listitem listitem_none">
 							<td class="listh_icon"><?php
 								if(preg_match('/image/',$content->mime_type)) {
-									echo "<a href=\"http://signage.rpi.edu/admin/content/show/$content->id\"><img class=\"icon_border\" src=\"".ADMIN_URL."/content/image/$content->id?width=50&amp;height=37\" alt=\"Icon\" /></a>";
+									echo "<a href=\"" .ADMIN_URL. "/content/show/$content->id\"><img class=\"icon_border\" src=\"".ADMIN_URL."/content/image/$content->id?width=50&amp;height=37\" alt=\"Icon\" /></a>";
 								} elseif(preg_match('/text/',$content->mime_type)) {
 									echo "<img src=\"".ADMIN_BASE_URL."images/icon_text.gif\" alt=\"Icon\" />";
 								} else {
 									echo "&nbsp;";
 								} ?></td>
 							<td class="listtitle">
-									<a href="http://signage.rpi.edu/admin/content/show/<?= $content->id ?>"><?= htmlspecialchars($content->name) ?></a>
+									<a href="<?= ADMIN_URL ?>/content/show/<?= $content->id ?>"><?= htmlspecialchars($content->name) ?></a>
 							</td>
 							<td><?=date("m/j/Y",strtotime($content->start_time))?></td>
 							<td><?=date("m/j/Y",strtotime($content->end_time))?></td>

@@ -131,7 +131,7 @@ if($this->contents){
                 echo "&nbsp;";
               } ?></td>
             <td class="listtitle">
-                <a href="http://signage.rpi.edu/content/show/<?= $content->id ?>"><?= htmlspecialchars($content->name) ?></a>
+                <a href="<?= ADMIN_URL ?>/content/show/<?= $content->id ?>"><?= htmlspecialchars($content->name) ?></a>
             </td>
             <td><?=date("m/j/Y",strtotime($content->start_time))?></td>
             <td><?=date("m/j/Y",strtotime($content->end_time))?></td>
