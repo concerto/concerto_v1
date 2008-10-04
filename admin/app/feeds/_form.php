@@ -30,11 +30,11 @@
        </tr>
       <tr>
          <td><h5>Feed Type</h5></td>
-         <td><?php if($feed->type == 1) { echo "Dynamic Feed"; } else { ?>
+         <td><?php if($feed->type == 1) { echo "Dynamic Feed"; } elseif($feed->type == 4) { echo "Dynamic Data Feed"; } else { ?>
              <select name="feed[type]">
              <?php 
                   $types[0] = "Normal";
-                  $types[2] = "Hidden";
+                  $types[2] = "Restricted";
                   $types[3] = "Private";
                   foreach($types as $t_id => $t_name) {
              ?>
