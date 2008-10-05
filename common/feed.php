@@ -385,9 +385,9 @@ class Feed{
 
     //Find out if a user has permission to 'browse', 'moderate', 
     // submit content ($action='submittable'), or 'edit' this feed
-    function user_priv($user, $action='browse'){
+    function user_priv($user, $action='browse', $ignore_admin=false){
         //Admins can always do...everything!!!
-        if($user->admin_privileges) return true;
+        if(!$ignore_admin && $user->admin_privileges) return true;
 
         //Group members get some perks...
         if($action == 'moderate' || $action == 'browse' || $action =='submittable') {
