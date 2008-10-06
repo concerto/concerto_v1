@@ -160,6 +160,7 @@ class usersController extends Controller
          $this->num=25;
          $this->page=$this->args[2]?$this->args[2]:0;
          $this->start = $this->num*$this->page;
+         $this->notification_count = Newsfeed::count_for_user($user->id);  
          $this->notifications = Newsfeed::get_for_user($user->id , 0, '', $this->start, $this->num);
       } else {
          $this->flash("User not found.");

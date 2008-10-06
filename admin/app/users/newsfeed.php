@@ -31,7 +31,7 @@ $(function()
     <? } ?>
     </div>
 <? if ($num>0) { ?>
-    <h2>Showing items <?= $this->start+1 ?> to <?= $this->start + count($this->notifications) ?> of [#] total notifications</h2>
+    <h2>Showing items <?= $this->start+1 ?> to <?= $this->start + count($this->notifications) ?> of <?= $this->notification_count ?> total notifications</h2>
     <?php 
     if(is_array($this->notifications)) {
        foreach($this->notifications as $newsfeed) {
