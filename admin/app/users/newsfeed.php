@@ -21,18 +21,15 @@ $(function()
   <div class="roundcont_main">
     <div style="text-align:right; float:right; width:200px;">
     <? $num = count($this->notifications) ?>
+   
     <? if($this->page > 0) {?>
-       <span class="prev">
-         <a href="<?= ADMIN_URL ?>/users/newsfeed/<?= userName() ?>/<?= $this->page - 1?>">&lt; prev</a>
-       </span>
+			<a href="<?= ADMIN_URL ?>/users/newsfeed/<?= userName() ?>/<?= $this->page - 1?>"><span class="buttonsel"><div class="buttonleft"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_left.gif" border="0" alt="" /></div><div class="buttonmid"><div class="buttonmid_padding">Previous Page</div></div><div class="buttonright" style="width:10px;"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_right.gif" border="0" alt="" /></div></span></a>
     <? } ?>
     <? if($num>1) {?>
-       <span class="next">
-         <a href="<?= ADMIN_URL ?>/users/newsfeed/<?= userName() ?>/<?= $this->page + 1?>">next &gt;</a>
-       </span>
+			<img src="<?= ADMIN_BASE_URL ?>/images/blsp.gif" width="5" height="1" alt="" />
+			<a href="<?= ADMIN_URL ?>/users/newsfeed/<?= userName() ?>/<?= $this->page + 1?>"><span class="buttonsel"><div class="buttonleft"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_left.gif" border="0" alt="" /></div><div class="buttonmid"><div class="buttonmid_padding">Next Page</div></div><div class="buttonright" style="width:10px;"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_right.gif" border="0" alt="" /></div></span></a>
     <? } ?>
     </div>
-    <h1>News Feed</h1>
 <? if ($num>0) { ?>
     <h2>Showing items <?= $this->start+1 ?> to <?= $this->start + count($this->notifications) ?> of [#] total notifications</h2>
     <?php 
