@@ -152,7 +152,11 @@ div.select td { padding-right:25px; }
 .newsfeed .roundtop { background: url(../images/rc_tr_nf.gif) no-repeat top right; text-align:left; height:6px; }
 .newsfeed .roundbottom { background: url(../images/rc_br_nf.gif) no-repeat top right; text-align: left; height:6px; }
 .newsfeed .rt { width:6px; height:6px; background:url(../images/rc_tl_nf.gif) no-repeat top left; display:block; }
-.newsfeed .rb { width:6px; height:6px; background:url(../images/rc_bl_nf.gif) no-repeat top left; display:block; }
+.newsfeed .rb { width:6px; width:100%; text-align:center; height:6px; background:url(../images/rc_bl_nf.gif) no-repeat top left; display:block; }
+a.seemore-div { color:#666; font-weight:bold !important; font-size:0.75em; }
+a.seemore-div .roundbottom { height:24px; display:block; border-top:solid 1px #c4c4c4; background:#d8d8d8 url(../images/rc_bl_sm.gif) bottom left no-repeat; padding:0; padding-left:48px; margin:0px; }
+a.seemore-div .rb { height:24px; display:block; background: url(../images/rc_br_sm.gif) bottom right no-repeat; padding:0 !important; margin:0px !important; }
+a.seemore-div span.seemore-padding { padding:5px 53px 5px 5px !important; display:block; }
 a .roundcont:hover .roundtop { background: url(../images/rc_tr_hov.gif) no-repeat top right; }
 a .roundcont:hover .roundbottom { background: url(../images/rc_br_hov.gif) no-repeat top right; }
 a .roundcont:hover .rt { background:url(../images/rc_tl_hov.gif) no-repeat top left; }
