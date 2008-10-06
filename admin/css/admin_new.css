@@ -133,7 +133,7 @@ div.select td { padding-right:25px; }
 .roundcont p { margin: 0 10px; }
 .newsfeed { background:url(../images/lightgray_bg.gif) repeat; }
 .newsfeed a { font-weight: normal !important; }
-.newsfeed p { margin:11px 18px; padding-left:30px; }
+.newsfeed p { padding:5px 0 5px 30px; }
 .newsfeed p.feed_approve { background:url(../images/nf_check.gif) center left no-repeat; }
 .newsfeed p.feed_add { background:url(../images/nf_addcontent.gif) center left no-repeat; }
 .newsfeed p.feed_new { background:url(../images/nf_newfeed.gif) center left no-repeat; }

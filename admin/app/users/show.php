@@ -1,3 +1,25 @@
+<script type="text/javascript"><!--
+$(function()
+{
+   $(document).ready(function() {
+         //Show controls for interactive elements, which are hidden from scripting-disabled browsers
+         $(".newsfeed .roundcont_main").append($("<a>").attr("id","news_expand").attr("href","<?= ADMIN_URL ?>/users/newsfeed/<?= $_SESSION['user']->username ?>").html("Display next 5 items..."));
+      });
+
+   $("#news_expand").data('items', 5);
+   
+   $("#news_expand").click(function(event) {
+		event.preventDefault();
+               $.post("<?= ADMIN_URL ?>/users/notifications/<?= $_SESSION['user']->username?>", {'start': $("#news_expand").data('items'), 'num': 5}, function(data) {
+               $("<div>").css("overflow", "hidden").html(data).hide().insertBefore($("#news_expand")).slideDown("slow");
+               $("#news_expand").data('items',$("#news_expand").data('items')+5);
+               if( data == "" )
+                 $("#news_expand").before($("<span>").html("No more news")).remove();
+            });
+         return false;
+	});
+}); 
+//--></script>
 
 <?php if ($this->canEdit) {?>
 <a href="<?=ADMIN_URL.'/users/edit/'.$this->user->username ?>"><span class="buttonsel"><div class="buttonleft"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_left.gif" border="0" alt="" /></div><div class="buttonmid"><div class="buttonmid_padding">Edit Profile</div></div><div class="buttonright"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_right.gif" border="0" alt="" /></div></span></a><div style="clear:both;height:12px;"></div>
@@ -16,17 +38,42 @@
 </ul>
 <?php if($this->canEdit) {?>
 <h3>Contact: <span class="emph"><a href="mailto:<?php echo $this->user->email?>"><?php echo $this->user->email?></a></h3>
-<? } ?>
+
 <br />
 
-<h3>Submissions</h3>
+<div id="notifications" class="roundcont newsfeed">
+  <div class="roundtop"><span class="rt"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
+  <div class="roundcont_main">
+      <div style="text-align:right; float:right; width:150px;"><a href="<?= ADMIN_URL ?>/users/newsfeed/<?= userName() ?>">View all...</a></div>
+		<h1>News Feed</h1>
+		<?php 
+		$speccount = 0;
+		foreach($this->notifications as $newsfeed) {
+			$speccount += 1;
+		?>
+			
+			<p class="<?= $newsfeed->type ?>_<?= $newsfeed->msg ?>"><?= $newsfeed->text ?><span class="datesub"><?= date('M j', $newsfeed->timestamp) ?></span></p>
+		<?php
+		}
+		?>
+  </div>
+  <div class="roundbottom"><span class="rb"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
+</div>
+
+<? } ?>
+
+<div id="submissions" class="roundcont">
+  <div class="roundtop"><span class="rt"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
+  <div class="roundcont_main">
+
+<h1>Submissions</h1>
 
 <?php
 if(is_array($this->contents) && count($this->contents>1))
 {
 foreach(array_keys($this->contents) as $field)
   $urls[]='<a href="#'.$field.'">'.$field.'</a>'; ?>
-	<p><em>Only content approved on one or more feeds is shown.</em></p>
+	<p><em>Only content approved on one or more feeds is shown.</em><br/></p>
 	<p>Jump to: <?=join(" | ", $urls)?></p>
 	<?php
 } else {
@@ -81,25 +128,6 @@ foreach($this->contents as $field=>$contents)
 <?php
 }
 ?>
-<br /><br /><br />
-<div id="notifications" class="roundcont newsfeed">
-  <div class="roundtop"><span class="rt"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
-  <div class="roundcont_main">
-		<h1>All Notifications</h1>
-		<p><i>Viewing all of your notifications to date.</i></p><br />
-		<?php 
-		$speccount = 0;
-		foreach($this->notifications as $newsfeed) {
-			$speccount += 1;
-		?>
-			
-			<p class="<?= $newsfeed->type ?>_<?= $newsfeed->msg ?>"><?= $newsfeed->text ?><span class="datesub"><?= date('M j', $newsfeed->timestamp) ?></span></p>
-		<?php
-		}
-		?>
-		<br />
-		<p>---</p>
-		<p><b><?= $speccount ?></b> Items</p>
   </div>
   <div class="roundbottom"><span class="rb"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
 </div>

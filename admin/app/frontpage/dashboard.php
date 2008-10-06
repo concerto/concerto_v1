@@ -1,6 +1,24 @@
 <script type="text/javascript"><!--
 $(function()
 {
+   $(document).ready(function() {
+         //Show controls for interactive elements, which are hidden from scripting-disabled browsers
+         $(".newsfeed .roundcont_main").append($("<a>").attr("id","news_expand").attr("href","<?= ADMIN_URL ?>/users/newsfeed/<?= $_SESSION['user']->username ?>").html("Display next 5 items..."));
+         $("#plus_icon").show();
+      });
+
+   $("#news_expand").data('items', 5);
+   
+   $("#news_expand").click(function(event) {
+		event.preventDefault();
+         $.post("<?= ADMIN_URL ?>/users/notifications/<?= $_SESSION['user']->username ?>", {'start': $("#news_expand").data('items'), 'num': 5}, function(data) {
+               $("<div>").css("overflow", "hidden").html(data).hide().insertBefore($("#news_expand")).slideDown("slow");
+               $("#news_expand").data('items',$("#news_expand").data('items')+5);
+               if( data == "" )
+                 $("#news_expand").before($("<span>").html("No more news")).remove();
+            });
+         return false;
+      });
    
 	$("#trigger").click(function(event) {
 		event.preventDefault();
@@ -20,15 +38,19 @@ $(function()
 <div class="roundcont newsfeed">
   <div class="roundtop"><span class="rt"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
   <div class="roundcont_main">
-    <div style="text-align:right; float:right; width:150px;"><a href="<?= ADMIN_URL ?>/users/show/<?= userName() ?>#notifications">View all...</a></div>
+    <div style="text-align:right; float:right; width:150px;"><a href="<?= ADMIN_URL ?>/users/newsfeed/<?= userName() ?>">View all...</a></div>
     <h1>News Feed</h1>
+    <div>
     <?php 
-    foreach($this->notifications as $newsfeed) {
+    if(is_array($this->notifications)) {
+       foreach($this->notifications as $newsfeed) {
     ?>
-    	<p class="<?= $newsfeed->type ?>_<?= $newsfeed->msg ?>"><?= $newsfeed->text ?><span class="datesub"><?= date('M j', $newsfeed->timestamp) ?></span></p>
-    <?php
+    	<p class="<?= $newsfeed->type ?>_<?= $newsfeed->msg ?>"><?= $newsfeed->text ?><span class="datesub"><?= date('M j', $newsfeed->timestamp) ?></span>
+      </p><?php
+       }
     }
     ?>
+    </div>
   </div>
   <div class="roundbottom"><span class="rb"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
 </div>
@@ -53,7 +75,7 @@ $(function()
     <table style="text-align:center; font-size:1.3em; font-weight:bold;" cellpadding="6" cellspacing="0" width="100%">
     	<tr>
     		<td valign="middle" width="4%">
-    			<div class="screenstat" style="width:100%;"><p><a href="#" id="trigger"><img id="plus_icon" src="<?= ADMIN_BASE_URL ?>images/round_plus.gif" alt="" border="0" /><img id="minus_icon" style="display:none;" src="<?= ADMIN_BASE_URL ?>images/round_minus.gif" alt="" border="0" /></a></p></div>
+    			<div class="screenstat" style="width:100%;"><p><a href="#" id="trigger"><img id="plus_icon" style="display:none;" src="<?= ADMIN_BASE_URL ?>images/round_plus.gif" alt="" border="0" /><img id="minus_icon" style="display:none;" src="<?= ADMIN_BASE_URL ?>images/round_minus.gif" alt="" border="0" /></a></p></div>
     		</td>
     		<td valign="middle" width="21%">
     			<div class="screenstat" style="width:90%; margin-right:auto; margin-left:auto; border-right:solid 1px #666;"><p><a href="<?= ADMIN_URL ?>/screens/"><?php echo $this->screen_stats[3] ?> screens</a></p></div>

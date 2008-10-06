@@ -1,17 +1,18 @@
 <?php
 class usersController extends Controller
 {
-   public $actionNames = Array( 'list'=> 'Users Listing', 'show'=>'Details',
+   public $actionNames = Array( 'list'=> 'Users Listing', 'show'=>'Details', 'newsfeed'=>'News Feed',
                                 'edit'=> 'Edit', 'signup'=>'Create Profile', 'new'=>'New');
 
    public $require = Array( 'require_login'=>Array('index' ,'list','show'),
-                           'require_action_auth'=>Array('edit', 'new', //'list', 'index', 'show',
-                                                         'update', 'destroy') );
+                           'require_action_auth'=>Array('edit', 'new', 
+                                                        'update', 'destroy', 'newsfeed', 'notifications') );
    //note: it is only with great care that we don't have any requirements to create or signup
 
    function setup()
    {
       $this->setName("Users");
+      $this->setTemplate('blank_layout', Array('notifications'));
    }
 
    function indexAction()
@@ -42,7 +43,7 @@ class usersController extends Controller
       $this->setTitle($this->user->name);
       $this->setSubject($this->user->name);
 //    $this->canEdit =$_SESSION['user']->can_write('user',$this->args[1]);
-      $this->canEdit = has_action_auth('users',$this->args[1]);
+      $this->canEdit = has_action_auth('users',$this->user->id);
       $this->groups=array();
       if($this->user->admin_privileges)
          $this->groups[]= "<strong>Concerto Administrators</strong>";
@@ -60,8 +61,7 @@ class usersController extends Controller
             foreach($contentids as $id)
                $this->contents[$type['name']][] = new Content($id['content_id']);
       }
-      $this->notifications = Newsfeed::get_for_user($this->user->id, 0, '', 0, 9999999999);
-
+      $this->notifications = Newsfeed::get_for_user($this->user->id, 0);
    }
    
    function editAction()
@@ -141,6 +141,29 @@ class usersController extends Controller
       } else {
          $_SESSION['flash'][]=Array('error', 'Your submission failed. Please check all fields and try again.');
          redirect_to(ADMIN_URL.'/users/show/'.$this->args[1]);
+      }
+   }
+
+   function notificationsAction()
+   {
+      $start = $_REQUEST['start'] ? $_REQUEST['start'] : 0;
+      $num = $_REQUEST['num'] ? $_REQUEST['num'] : 999999999999;
+      $userid = $_REQUEST['user'] ? $_REQUEST['user'] : $_SESSION['user']->id;
+      if(isAdmin() || $_SESSION['user']->id == $userid)
+         $this->notifications = Newsfeed::get_for_user($userid , 0, '', $start, $num);
+   }
+
+   function newsfeedAction()
+   {
+      if($user = new User($this->args[1])) {
+         $this->setSubject($user->name);         
+         $this->num=25;
+         $this->page=$this->args[2]?$this->args[2]:0;
+         $this->start = $this->num*$this->page;
+         $this->notifications = Newsfeed::get_for_user($user->id , 0, '', $this->start, $this->num);
+      } else {
+         $this->flash("User not found.");
+         redirect_to(ADMIN_URL.'/users/');
       }
    }
 
