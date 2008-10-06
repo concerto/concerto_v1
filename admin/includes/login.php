@@ -94,17 +94,15 @@ function has_action_auth($target, $id)
    if(!isLoggedIn()) return false;
    $grant=false;
 
-   if($target=='users') {
-      $target='user';
-      $grant=(isAdmin() || 
-              (phpCAS::isAuthenticated() && $id==phpCAS::getUser()));
-   } else {
-      if($target=='screens') $target='screen';
-      elseif($target=='feeds') $target='feed';
-      elseif($target=='groups') $target='group';
-      if($_SESSION['user']->can_write($target,$id)) 
-         $grant=true;
+   if($target=='screens') $target='screen';
+   elseif($target=='feeds') $target='feed';
+   elseif($target=='groups') $target='group';
+   elseif($target=='users') $target='user';
+
+   if($_SESSION['user']->can_write($target,$id)) {
+      $grant=true;
    }
+
    return $grant;
 }
 

@@ -266,7 +266,10 @@ allow_email = '$this->allow_email' WHERE id = $this->id LIMIT 1";
 			}
 		} else if($type == 'group'){
       		      return $this->in_group($item_id);
-      		}
+      } else if($type == 'user'){
+         return ($this->username == $item_id) || ($this->id == $item_id);
+      }
+
 	}
 	function send_mail($subject, $msg_in, $from='', $forward = false){
 		if($this->allow_email){
