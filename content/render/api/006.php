@@ -34,7 +34,7 @@ if(in_array($_REQUEST['select'],$select_av)){
 if(($select == 'feed' && is_numeric($_REQUEST['select_id'])) ||
  ($select == 'user' && is_string($_REQUEST['select_id'])) ||
  ($select == 'content' && is_numeric($_REQUEST['select_id']))){
-	$select_id = $_REQUEST['select_id'];
+	$select_id = escape($_REQUEST['select_id']);
 } else {
 	return false;
 }
