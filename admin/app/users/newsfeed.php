@@ -27,11 +27,11 @@ $(function()
     <? if($this->page > 0) {?>
 			<a href="<?= ADMIN_URL ?>/users/newsfeed/<?= userName() ?>/<?= $this->page - 1?>"><span class="buttonsel"><div class="buttonleft"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_left.gif" border="0" alt="" /></div><div class="buttonmid"><div class="buttonmid_padding"><<</div></div><div class="buttonright" style="width:10px; padding-right:12px;"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_right.gif" border="0" alt="" /></div></span></a>
     <? } ?>
-    <? if($num>1) {?>
+    <? if(($num>1) && $this->page < floor($this->notification_count / 25)) {?>
 			<a href="<?= ADMIN_URL ?>/users/newsfeed/<?= userName() ?>/<?= $this->page + 1?>"><span class="buttonsel"><div class="buttonleft"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_left.gif" border="0" alt="" /></div><div class="buttonmid"><div class="buttonmid_padding">>></div></div><div class="buttonright" style="width:10px; padding-right:12px;"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_right.gif" border="0" alt="" /></div></span></a>
     <? } ?>
-   	<? if($this->page < $num) { ?>
-   		<a href="<?= ADMIN_URL ?>/users/newsfeed/<?= userName() ?>/<?= floor($this->notification_count / $num) ?>"><span class="buttonsel"><div class="buttonleft"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_left.gif" border="0" alt="" /></div><div class="buttonmid"><div class="buttonmid_padding">>|</div></div><div class="buttonright" style="width:10px; padding-right:12px;"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_right.gif" border="0" alt="" /></div></span></a>
+   	<? if($this->page < $num && $this->page < floor($this->notification_count / 25)) { ?>
+   		<a href="<?= ADMIN_URL ?>/users/newsfeed/<?= userName() ?>/<?= floor($this->notification_count / 25) ?>"><span class="buttonsel"><div class="buttonleft"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_left.gif" border="0" alt="" /></div><div class="buttonmid"><div class="buttonmid_padding">>|</div></div><div class="buttonright" style="width:10px; padding-right:12px;"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_right.gif" border="0" alt="" /></div></span></a>
    	<? } ?>
     </div>
 <? if ($num>0) { ?>

@@ -54,7 +54,7 @@ $(function()
     ?>
     </div>
   </div>
-	<a id="news_expand" class="seemore-div" href="<?= ADMIN_URL ?>/users/newsfeed/<?= $_SESSION['user']->username ?>"><div class="roundbottom"><span class="rb"><span class="seemore-padding">View More...</span></span></div></a>
+	<span id="seemore"><span id="seemore-inner">View more...</span></span>
 </div>
 
 <div class="roundcont">
