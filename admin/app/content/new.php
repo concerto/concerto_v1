@@ -74,6 +74,9 @@
         }
 
         $(".click_add_feed").click(function() {
+            if (!confirm("You are strongly encouraged to submit to only one feed, except in extraordinary situations. Please use discretion when choosing feeds to submit to, and carefully read the help page on feeds before adding additional feeds. Note specifically that feeds and screen locations are not equivalent. Are you sure you want to continue?")) {
+                return false;
+            }
             var count = $(this).data("count");
             if(count == undefined)
                 count = 0;
