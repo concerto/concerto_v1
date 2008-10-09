@@ -54,7 +54,7 @@ $(function()
     ?>
     </div>
   </div>
-	<span id="seemore"><span id="seemore-inner">View more...</span></span>
+	<span style="display:none;" id="seemore"><span id="seemore-inner">View more...</span></span>
 </div>
 
 <div class="roundcont">
