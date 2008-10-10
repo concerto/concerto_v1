@@ -47,23 +47,23 @@ if(isLoggedIn()) {
    $res = sql_query($sql);
 
    $more_waiting = 0;
-   
    for($i = 0;$row = sql_row_keyed($res,$i);++$i){
       $count = $row['cnt'];
       $feed = new Feed($row['feed_id']);
-      if($feed->user_priv($_SESSION['user'], 'moderate',true))
+      if($feed->user_priv($_SESSION['user'], 'moderate',true)) {
          $mod_feeds[]="<p><a href=\"".ADMIN_URL."/moderate/feed/{$feed->id}\">{$feed->name} ({$row['cnt']})</a></p>";
-      else
+      } else {
          $more_waiting += $row['cnt'];
+      }
    }
 }
-if(isset($mod_feeds)) {
+if(isset($mod_feeds) || ($more_waiting && isAdmin())) {
 ?>
     <div class="alert_box">
 	   <div class="alert_box_inset">
         <div class="alert_box_padding">
           <h1><a href="<?=ADMIN_URL?>/moderate">Awaiting Moderation</a></h1>
-          <?= join("\n", $mod_feeds) ?>
+          <?= isset($mod_feeds) ? join("\n", $mod_feeds) : "Nothing in your feeds." ?>
           <? if ($more_waiting > 0 && isAdmin()) {?>
              <p><a href="<?=ADMIN_URL?>/moderate"><?=$more_waiting?> items in other feeds...</a></p>
           <? } ?>
