@@ -61,6 +61,17 @@
               update($(this),desc);
            });
 
+        $("#content").keyup(function() {
+              var length = $(this).val().length;
+              var limit = <?= TICKER_LIMIT ?>;
+              if( length > limit ) {
+                  $(this).val($(this).val().substring(0, limit));
+                  return false;
+              }
+              $(this).siblings(".content_msg").html("You have " + (limit - $(this).val().length) + " characters left.");
+              return true;
+           });
+
         update_all($("#maincontent"));
 
         function update_all(parent) {

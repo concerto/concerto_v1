@@ -7,8 +7,9 @@
   <tr>
   <td><h5>Ticker Text</h5><p><b>Enter the text announcement or message that will be displayed.</b></p></td>
   <td class="edit_col">
-    <input name="content[content]" id="content" class="extended" type="text" size="40" />
+    <textarea name="content[content]" id="content" rows="3" cols="40"></textarea>
     <input name="content[upload_type]" value="text" type="hidden" />
+    <p id="content_count" class="content_msg">Please limit your ticker text to <?= TICKER_LIMIT ?> characters.</p>
   </td>
   </tr>
 </table>
