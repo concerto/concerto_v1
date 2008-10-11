@@ -36,4 +36,5 @@ define('DEFAULT_WEIGHT', 3);                     //Default position weight
 define('EMS_FEED_ID', 19);                       //ID of the emergency feed.
 define('ADMIN_GROUP_ID', 0);                     //ID of the User Group for admin functions and contact
 define('GA_TRACKING', false);                    //Define a Google Tracking id if applicable
+define('TICKER_LIMIT', 150);                     //Ticket Text character limit
 ?>
