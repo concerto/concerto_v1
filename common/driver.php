@@ -3,6 +3,9 @@ class ScreenDriver{
     var $screen_id;
 	
     function __construct($screen_id){
+        if(!is_numeric($screen_id)){
+          return false;
+        }
         $sql = "SELECT COUNT(id) FROM screen WHERE id = $screen_id;";
         if(sql_query1($sql)){
             $this->screen_id = $screen_id;

@@ -35,7 +35,7 @@ class Field{
 	var $set;
 	
 	function __construct($id_in='', $screen_id_in=''){
-		if($id_in != ''){
+		if($id_in != '' && is_numeric($id_in)){
 			$sql = "SELECT * FROM field WHERE id = '$id_in' LIMIT 1";
 			$res = sql_query($sql);
 			if($res != 0){
@@ -52,7 +52,7 @@ class Field{
 				
 				$this->set = true;
 				
-				if($screen_id_in != ''){
+				if($screen_id_in != '' && is_numeric($screen_id_in)){
 					$this->screen_id = $screen_id_in;
 					$sql = "SELECT id FROM position WHERE screen_id = $this->screen_id AND field_id = $this->id";
 					$res2 = sql_query($sql);
@@ -77,7 +77,14 @@ class Field{
 	}
 	
 	function set_properties(){
-		$sql = "UPDATE `field` SET `name` = '$this->name', `template_id` = '$this->template_id', `type_id` = '$this->type_id', `style` = '$this->style', `left` = '$this->left', `top` = '$this->top', `width` = '$this->width', `height` = '$this->height' WHERE `id` = $this->id LIMIT 1";
+	  $name_clean = escape($this->name);
+	  $style_clean = escape($this->style);
+	  if(!is_numeric($this->template_id) || !is_numeric($this->type_id) || !is_numeric($this->left) || !is_numeric($this->top) || !is_numeric($this->width) || 
+!is_numeric($this->height)){
+	   return false;
+	  }
+	  
+		$sql = "UPDATE `field` SET `name` = '$name_clean', `template_id` = '$this->template_id', `type_id` = '$this->type_id', `style` = '$style_clean', `left` = '$this->left', `top` = '$this->top', `width` = '$this->width', `height` = '$this->height' WHERE `id` = $this->id LIMIT 1";
 		$res = sql_query($sql);
 		if($res != 0){
 			$poss = 1;

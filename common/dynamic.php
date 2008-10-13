@@ -34,7 +34,7 @@ class Dynamic{
   
   function __construct($id = '', $feed_id=''){
     $this->status = "";
-    if($id != ''){
+    if($id != '' && is_numeric($id)){
       $sql = "SELECT * FROM dynamic WHERE id = $id LIMIT 1";
       $res = sql_query($sql);
       if($res){

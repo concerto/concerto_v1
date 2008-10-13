@@ -29,7 +29,7 @@ class Content{
 	var $set;
 	
 	function __construct($contentid = ''){
-		if($contentid != ''){
+		if($contentid != '' && is_numeric($contentid)){
 			$sql = "SELECT * FROM content WHERE id = $contentid LIMIT 1";
 			$res = sql_query($sql);
 			if($res != 0){

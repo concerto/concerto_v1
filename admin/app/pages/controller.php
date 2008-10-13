@@ -94,7 +94,7 @@ class pagesController extends Controller
    function setdefaultAction()
    {
       $nm = escape($this->args[1]);
-      $page = $_GET['page'];
+      $page = escape($_GET['page']);
       if(sql_command("UPDATE page_category SET `default_page` = $page WHERE `path` LIKE \"$nm\" LIMIT 1")==1) {
          $this->flash("Default page successfully updated");
       } else {
@@ -183,9 +183,9 @@ class pagesController extends Controller
          $dat = $_POST['feed'];
          
          if(isset($_POST['email']))
-            $email = escape($_POST['email']);
+            $email = $_POST['email'];
          else
-            $email = escape($_SESSION['user']->email);
+            $email = $_SESSION['user']->email;
          
          if($_POST['helpful']) 
             $helfpul = 1;

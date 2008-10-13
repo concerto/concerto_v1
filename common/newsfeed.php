@@ -21,7 +21,7 @@ class Newsfeed{
 	var $set;
 
   function __construct($id = ''){
-    if($id == ''){
+    if($id == '' || !is_numeric($id)){
 			$this->set = false;
 		} else {
       $sql = 'SELECT newsfeed.id, notifications.text, notifications.timestamp, notifications.type, notifications.msg, newsfeed.hidden FROM `newsfeed` LEFT JOIN notifications ON newsfeed.notification_id = notifications.id WHERE newsfeed.id = ' . $id;

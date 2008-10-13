@@ -92,9 +92,9 @@ class feedsController extends Controller
       if(isset($_POST['submit'])) {
          $group=new Group(ADMIN_GROUP_ID);
          $dat = $_POST['feed'];
-         $nm = escape($_SESSION['user']->name);
+         $nm = $_SESSION['user']->name;
          $id = $_SESSION['user']->id;
-         $email = escape($_SESSION['user']->email);
+         $email = $_SESSION['user']->email;
          $msg ="There has been a new feed request from {$nm} - {$email} (".ADMIN_URL."/users/show/{$id})\n";
          $msg.='Name: '.escape($dat['name'])."\n";
          $msg.='Organization: '.escape($dat['org'])."\n";

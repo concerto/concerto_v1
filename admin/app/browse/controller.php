@@ -23,7 +23,7 @@ class browseController extends Controller
 
     function showAction()
     {
-        if(!isset($this->args[1]))
+        if(!isset($this->args[1]) && !is_numeric($this->args[1]))
             redirect_to(ADMIN_URL."/browse");
         $this->feed = new Feed($this->args[1]);
         if(!isset($this->feed->id)) {
@@ -42,7 +42,7 @@ class browseController extends Controller
             return;
         }
 
-        $this->type_id = $this->args[3];
+        $this->type_id = escape($this->args[3]);
 
         if($this->args[4] == "expired") {
             $where = "content.end_time < NOW() AND feed_content.moderation_flag = 1";

@@ -36,7 +36,7 @@ class Feed{
 	var $set;
 
     function __construct($id = '', $dyn_allowed = true){
-		if($id != ''){
+		if($id != '' && is_numeric($id)){
 			$sql = "SELECT * FROM feed WHERE id = $id LIMIT 1";
             $res = sql_query($sql);
             if($res){
@@ -112,7 +112,7 @@ class Feed{
 				$this->status = "Unknown Error"; //Aka they are playing with the post data!
 				return false;
 		}
-		$sql = "UPDATE feed SET name = '$name_clean', group_id = '$this->group_id', type = '$this->type', description = '$this->description' WHERE id = $this->id LIMIT 1";
+		$sql = "UPDATE feed SET name = '$name_clean', group_id = '$this->group_id', type = '$this->type', description = '$desc_clean' WHERE id = $this->id LIMIT 1";
 		$res = sql_query($sql);
         if($res){
 	    $notify = new Notification();
@@ -131,6 +131,9 @@ class Feed{
 		if($mod_in != 0 && $mod_in != 1 && $mod_in != 'NULL'){ //Don't let a stupid value in
 			$mod_in = 'NULL';
 		}
+		if(!is_numeric($moderator_id) && !is_null($moderator_id) || !is_numeric($duration_in)){
+		  return false;
+		}
 		$sql = "INSERT INTO feed_content (feed_id, content_id, moderation_flag, moderator_id, duration) ";
 		$sql = $sql . "VALUES ($this->id, $content_in, $mod_in, $moderator_id, $duration_in)";
 		$res = sql_query($sql);
@@ -147,6 +150,9 @@ class Feed{
 	
 	//Remove content from a feed
 	function content_remove($content_in){
+	   if(!is_numeric($content_in)){
+	     return false;
+	   }
 		$sql = "DELETE FROM feed_content WHERE feed_id = $this->id AND content_id = $content_in LIMIT 1";
 		sql_query($sql);
 		if($this->type == 0){  //Dont log dynamic feeds
@@ -260,6 +266,9 @@ class Feed{
 	}
 	//Get all content in a feed based on type and moderation status
 	function content_get_by_type($type, $where='1'){
+	  if(!is_numeric($type)){
+	   return false;
+	  }
 		$sql = "SELECT feed_content.content_id, feed_content.moderation_flag FROM feed_content 
 				LEFT JOIN content ON feed_content.content_id = content.id
 				WHERE content.type_id = $type AND feed_content.feed_id = $this->id AND $where";
@@ -282,7 +291,7 @@ class Feed{
 			$mod_in = 'NULL';
 		}
 		$updates[] = "moderation_flag = $mod_in";
-		if($duration != NULL)
+		if($duration != NULL && is_numeric($duration))
 			$updates[] = "duration = $duration";
 		if($moderator != NULL)
 			$updates[] = "moderator_id = {$moderator->id}";
@@ -442,6 +451,9 @@ class Feed{
 	}
 	//Test if a user has access to see a specific feed
 	function priv_test($obj, $feed_id){
+		if(!is_numeric($feed_id)){
+			return false;
+		}
 		$group_string = implode(',',$obj->groups);
 		$sql = "SELECT COUNT(id) FROM feed WHERE id = $feed_id AND (type = 0 OR type = 1 OR type = 2 OR (type = 3 AND group_id IN ($group_string)))";
 		if($res = sql_query1($sql)){

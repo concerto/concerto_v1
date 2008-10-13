@@ -23,7 +23,7 @@ class Position{
 	var $set;
 	
 	function __construct($id_in = ''){
-		if($id_in != ''){
+		if($id_in != '' && is_numeric($id_in)){
 			$sql = "SELECT * FROM `position` WHERE id = $id_in LIMIT 1";
 			$res = sql_query($sql);
 			if($res != 0){
@@ -50,6 +50,9 @@ class Position{
 		if($this->set){
 			return true; //You've already got an object!
 		} else {
+		  if(!is_numeric($screen_id_in) || !is_numeric($feed_id_in) || !is_numeric($field_id_in) || !is_numeric($weight_in)){
+		    return false;
+		  }
 			$sql = "SELECT COUNT(id) FROM position WHERE screen_id = $screen_id_in AND feed_id = $feed_id_in AND field_id = $field_id_in";
 			$res = sql_query($sql);
 			$data = (sql_row_keyed($res,0));
@@ -77,6 +80,9 @@ class Position{
 	
 	//Updates weights ONLY!
 	function set_properties(){
+	  if(!is_numeric($this->weight)){
+	   return false;
+	  }
 		$sql = "UPDATE position SET weight = '$this->weight' WHERE id = $this->id LIMIT 1";
 		$res = sql_query($sql);
 		if($res != 0){

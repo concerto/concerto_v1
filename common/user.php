@@ -36,7 +36,7 @@ class User{
 	        	if(is_numeric($username_in))
             			$sql = "SELECT * FROM user WHERE id = '$username_in' LIMIT 1";
          		else
-            			$sql = "SELECT * FROM user WHERE username = '$username_in' LIMIT 1";
+            			$sql = "SELECT * FROM user WHERE username = '" . escape($username_in) . "' LIMIT 1";
 			$res = sql_query($sql);
 			if($res != 0){
 				$data = (sql_row_keyed($res,0));
@@ -166,7 +166,7 @@ allow_email = '$this->allow_email' WHERE id = $this->id LIMIT 1";
 	}
 	//Adds a person to a group
 	function add_to_group($group_id){
-		if(!in_array($group_id, $this->groups)){
+		if(is_numeric($group_id) && !in_array($group_id, $this->groups)){
 			$sql = "INSERT INTO user_group (user_id, group_id) VALUES ($this->id, $group_id)";
 			$res = sql_query($sql);
 			if($res != 0){
@@ -227,6 +227,7 @@ allow_email = '$this->allow_email' WHERE id = $this->id LIMIT 1";
 		if($this->admin_privileges){
 			return true;
 		}
+		$item_id = escape($item_id);
 		//Feed Test
 		if($type == 'feed'){
 			$sql = "SELECT group_id FROM feed WHERE id = $item_id";

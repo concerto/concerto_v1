@@ -29,7 +29,7 @@ class Notification{
 	var $lost_items;
 
 	function __construct($id = ''){
-		if($id == ''){
+		if($id == '' || !is_numeric($id)){
 			$this->set = false;
 		} else {
 			$sql = "SELECT * FROM `notifications` WHERE id = $id LIMIT 1";

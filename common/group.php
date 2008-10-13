@@ -17,7 +17,7 @@ class Group{
 	var $set;
 	
 	function __construct($id_in = ''){
-		if($id_in !== ''){
+		if($id_in !== '' && is_numeric($id_in)){
 			$sql = "SELECT * FROM `group` WHERE id = $id_in LIMIT 1";
 			$res = sql_query($sql);
 			if($res && ($data = sql_row_keyed($res,0))){
@@ -99,6 +99,9 @@ class Group{
 	
 	function destroy($type = 'reown', $new_owner = 0){
 		$ret = true;
+		if(!is_numeric($new_owner)){
+		  return false;
+		}
 		if($users = $this->get_members()){
 			foreach($users as $user){
 				$ret = $ret * $user->remove_from_group($this->id);
