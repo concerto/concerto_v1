@@ -113,6 +113,26 @@ class Uploader{
 				$this->status = $this->status . $content->status;
 				return false; //Failure making a content isn't a good thing
 			}
+		} elseif($this->ctype == 'dynamic'){
+			//Awsome, this is equi easy to handle as well
+			$this->content_o = $this->content_i;
+			$this->mime_type = 'text/html';
+			$this->type_id = 4; //SELF: THIS IS BAD AND DUMB AND STUPID
+			$content = new Content();
+			if($content->create_content($this->name, $this->user_id, $this->content_o, $this->mime_type, $this->type_id, $this->start_date, $this->end_date)){
+
+				$this->cid = $content->id;
+				
+				$this->submit_tofeeds();
+				
+				$this->status = "";
+				$this->retval = true;
+				return true; //The content is finished uploading
+			} else {
+				$this->retval = false;
+				$this->status = $this->status . $content->status;
+				return false; //Failure making a content isn't a good thing
+			}
 		} elseif($this->ctype == 'file'){
 			//echo "Identified a file upload";
 			if($this->content_i['error'] == 0 && is_uploaded_file($this->content_i['tmp_name'])){

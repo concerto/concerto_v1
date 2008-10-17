@@ -18,7 +18,7 @@ class browseController extends Controller
 
     function listAction()
     {
-        $this->feeds=Feed::get_all("ORDER BY `type`, `name`");
+        $this->feeds=Feed::get_all("ORDER BY `name`");
     }
 
     function showAction()

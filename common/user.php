@@ -14,6 +14,7 @@ Functionality:  Create users, allows access to user properties, group stuff, etc
 	 controls_afeed		Tests to see if a user is in a group that owns any feeds.
 	 controls_ascreen		Tests to see if a user is in a group that owns screens.
 	 is_special			If controls_afeed or controls_ascreen.
+   has_ndc_rights
 
 Comments: 
 	can_write is my basic implementation of 'privledges', essentially it combines owner + group to test if the user is an owner who can write
@@ -335,5 +336,17 @@ allow_email = '$this->allow_email' WHERE id = $this->id LIMIT 1";
 			return false;
 		}
 	}
+  function has_ndc_rights(){
+    if($this->set){
+			$groups = implode(',',$this->groups);
+			$sql = "SELECT COUNT(id) AS f_count FROM feed WHERE type = 4 AND group_id IN ($groups)";
+			$res = sql_query($sql);
+			if(($res && $data = sql_row_keyed($res,0)) && $data['f_count'] > 0){
+				return true;
+			} else {
+				return false;
+			}
+		}
+  }
 }
 ?>

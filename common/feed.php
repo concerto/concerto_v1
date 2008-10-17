@@ -408,9 +408,9 @@ class Feed{
 
         //Everyoneone else can do stuff dependent on the feed's type.
         if($action == 'browse') {
-            return $this->type != 3;
+            return $this->type != 3 && $this->type != 4;
         } elseif($action == 'submittable') {
-            return $this->type != 2 && $this->types != 3;
+            return $this->type != 2 && $this->type != 3 && $this->type != 4;
         } else {
             return false;
         }
@@ -419,11 +419,11 @@ class Feed{
 	function priv_get($obj, $action='list'){
 		if($action == 'subscribe'){
 			$scr_group = $obj->group_id;
-			$sql = "SELECT id FROM feed WHERE type = 0 OR type = 1 OR type = 2 OR (type = 3 AND group_id = $scr_group)";
+			$sql = "SELECT id FROM feed WHERE type = 0 OR type = 1 OR type = 2 OR type = 4 OR (type = 3 AND group_id = $scr_group)";
 		}elseif($action == 'content'){
 			$group_string = implode(',',$obj->groups);
 			if($group_string != ""){ //We can only check for groups if they are in one!
-				$group_string = "OR (type = 2 AND group_id IN ($group_string)) OR (type = 3 AND group_id IN ($group_string))";
+				$group_string = "OR ((type = 2 OR type = 3) AND group_id IN ($group_string))";
 			}
 			$sql = "SELECT id FROM feed WHERE type = 0 $group_string";
 		}elseif($action == 'list'){
@@ -431,7 +431,10 @@ class Feed{
 			if($group_string != ""){
 				$group_string = "OR (type = 3 AND group_id IN ($group_string))";
 			}
-			$sql = "SELECT id FROM feed WHERE type = 0 OR type = 1 OR type = 2 $group_string";
+			$sql = "SELECT id FROM feed WHERE type = 0 OR type = 1 OR type = 2 OR type = 4 $group_string";
+		}elseif($action == 'dynamic'){
+			$group_string = implode(',',$obj->groups);
+			$sql = "SELECT id FROM feed WHERE type = 4 AND group_id IN ($group_string)";
 		}else{
 			return false;
 		}
@@ -455,7 +458,7 @@ class Feed{
 			return false;
 		}
 		$group_string = implode(',',$obj->groups);
-		$sql = "SELECT COUNT(id) FROM feed WHERE id = $feed_id AND (type = 0 OR type = 1 OR type = 2 OR (type = 3 AND group_id IN ($group_string)))";
+		$sql = "SELECT COUNT(id) FROM feed WHERE id = $feed_id AND (type = 0 OR type = 1 OR type = 2 OR type = 4 OR (type = 3 AND group_id IN ($group_string)))";
 		if($res = sql_query1($sql)){
 			return $res;
 		} else {
