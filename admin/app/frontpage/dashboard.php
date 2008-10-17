@@ -7,12 +7,14 @@ $(function()
          $("#plus_icon").show();
       });
 
+   $("#seemore").show();
+
    $("#news_expand").data('items', 7);
    
-   $("#news_expand").click(function(event) {
+   $("#seemore").click(function(event) {
 		event.preventDefault();
-         $.post("<?= ADMIN_URL ?>/users/notifications/<?= $_SESSION['user']->username ?>", {'start': $("#news_expand").data('items'), 'num': 7}, function(data) {
-               $("<div>").css("overflow", "hidden").html(data).hide().appendTo($("#insertinto")).slideDown("slow");
+      $.post("<?= ADMIN_URL ?>/users/notifications/<?= $_SESSION['user']->username ?>", {'start': $("#news_expand").data('items'), 'num': 7}, function(data) {
+         $("<div>").css("overflow", "hidden").html(data).hide().appendTo($("#news_expand")).slideDown("slow");
                $("#news_expand").data('items',$("#news_expand").data('items')+7);
                if( data == "" )
                  $("#news_expand").before($("<span>").html("No more news")).remove();
@@ -23,13 +25,13 @@ $(function()
 	$("#trigger").click(function(event) {
 		event.preventDefault();
 		$("#screenstat_hidden").slideToggle('normal',function(){
-            if ($("#screenstat_hidden").css("display")=="none") {
-               $("#plus_icon").show();
-               $("#minus_icon").hide();
-            } else {
-               $("#plus_icon").hide();
-               $("#minus_icon").show();
-            }
+        if ($("#screenstat_hidden").css("display")=="none") {
+          $("#plus_icon").show();
+          $("#minus_icon").hide();
+        } else {
+          $("#plus_icon").hide();
+          $("#minus_icon").show();
+        }
       });
 	});
 }); 
@@ -42,7 +44,7 @@ $(function()
     	<a href="<?= ADMIN_URL ?>/users/newsfeed/<?= userName() ?>"><span class="buttonsel"><div class="buttonleft"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_left.gif" border="0" alt="" /></div><div class="buttonmid"><div class="buttonmid_padding">View All</div></div><div class="buttonright" style="width:10px;"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_right.gif" border="0" alt="" /></div></span></a>
     </div>
     <h1>News Feed</h1>
-    <div id="insertinto">
+    <div id="news_expand">
     <?php 
     if(is_array($this->notifications)) {
        foreach($this->notifications as $newsfeed) {
@@ -54,7 +56,8 @@ $(function()
     ?>
     </div>
   </div>
-	<span style="display:none;" id="seemore"><span id="seemore-inner">View more...</span></span>
+  <span style="display:none;" id="seemore"><span id="seemore-inner">View more...</span></span>
+  <noscript><div class="roundbottom"><span class="rb"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div></noscript>
 </div>
 
 <div class="roundcont">
