@@ -19,6 +19,9 @@ class browseController extends Controller
     function listAction()
     {
         $this->feeds=Feed::get_all("ORDER BY `name`");
+        if(!is_array($this->feeds)){
+          $this->feeds = array();
+        }
     }
 
     function showAction()

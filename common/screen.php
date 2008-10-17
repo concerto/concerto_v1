@@ -232,6 +232,7 @@ class Screen{
 		$numOnline = 0;
 		$numOffline = 0;
 		$numAsleep = 0;
+		$total = 0;
 		$sql = "SELECT * FROM screen";
 		$res = sql_query($sql);
 		$i = 0;

@@ -26,6 +26,9 @@ class screensController extends Controller
    function listAction()
    {
       $this->screens=Screen::get_all('ORDER BY `name');
+      if(!is_array($this->screens)){
+        $this->screens = array();
+      }
    }
 
    function showAction()
