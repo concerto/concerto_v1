@@ -123,7 +123,7 @@ class Feed{
         }
     }
 	//Add a content to a feed
-	function content_add($content_in, $mod_in = 'NULL', $moderator_id = 'NULL', $duration_in){
+	function content_add($content_in, $mod_in = 'NULL', $moderator_id = 'NULL', $duration_in = DEFAULT_DURATION){
 		if(!is_numeric($content_in)){
 				$this->status = "Please send the content id"; //Aka they are playing with the post data!
 				return false;
@@ -131,7 +131,8 @@ class Feed{
 		if($mod_in != 0 && $mod_in != 1 && $mod_in != 'NULL'){ //Don't let a stupid value in
 			$mod_in = 'NULL';
 		}
-		if(!is_numeric($moderator_id) && !is_null($moderator_id) || !is_numeric($duration_in)){
+		if(!is_numeric($moderator_id) && !is_null($moderator_id) && $moderator_id != 'NULL' || !is_numeric($duration_in)){
+		  echo "Moderator_id: $moderator_id Duration: $duration_in END";
 		  return false;
 		}
 		$sql = "INSERT INTO feed_content (feed_id, content_id, moderation_flag, moderator_id, duration) ";

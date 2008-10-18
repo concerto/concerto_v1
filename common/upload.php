@@ -89,7 +89,7 @@ class Uploader{
 				return true; //The content is finished uploading
 			} else {
 				$this->retval = false;
-				$this->status = $this->status . $content->status;
+				$this->status = $this->status . 'Content Failed: ' . $content->status;
 				return false; //Failure making a content isn't a good thing
 			}
 		

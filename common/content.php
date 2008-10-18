@@ -110,6 +110,7 @@ class Content{
 
 			return true;
            		} else {
+           		    $this->status = "DB error";
                 	return false;
             	}
 		}

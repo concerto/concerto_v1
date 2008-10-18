@@ -18,7 +18,7 @@ if($this->feed->user_priv($_SESSION['user'], "moderate")){
 
 <h3>Content</h3>
 <ul>
-<? foreach($this->feed->get_types() as $type_id => $type){ ?>
+<? if(is_array($this->feed->get_types())) foreach($this->feed->get_types() as $type_id => $type){ ?>
 <li><a href="<?= ADMIN_URL ?>/browse/show/<?= $this->feed->id ?>/type/<?= $type_id ?><?= isset($this->args[2]) ? "/{$this->args[2]}" : "" ?>"><?= $type ?></a></li>
 <? } ?>
 </ul>
