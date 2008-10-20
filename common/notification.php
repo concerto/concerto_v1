@@ -206,9 +206,10 @@ class Notification{
 				  $user = new User($username);
 				  $sql = 'INSERT INTO `newsfeed` (`notification_id`, `user_id`) VALUES (' . $this->id . ', ' . $user->id . ')';
 				  sql_command($sql);
+				}
 				  $sql2 = 'UPDATE `notifications` SET `processed` = 1 WHERE `id` = ' . $this->id;
 				  sql_command($sql2);
-				}
+				
 				return true; 
 		  }
 		}
