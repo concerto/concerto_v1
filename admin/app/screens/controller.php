@@ -2,10 +2,11 @@
 class screensController extends Controller
 {
    public $actionNames = Array( 'list'=> 'Screens Listing', 'show'=>'Details',
-                                'edit'=> 'Edit', 'new'=>'New', 'subscriptions'=>'Subscriptions');
+                                'edit'=> 'Edit', 'new'=>'New', 'subscriptions'=>'Subscriptions',
+                                'livecd'=>'New LiveCD Screen');
 
    public $require = Array( 'require_login'=>Array('index','list','show','edit','subscriptions','new','create','subscribe',
-                                                   'update','delete','destroy'),
+                                                   'update','delete','destroy','livecd'),
                             'require_action_auth'=>Array('edit','create',
                                                          'new', 'update',
                                                          'delete','destroy',
@@ -15,6 +16,8 @@ class screensController extends Controller
    {
       $this->setName('Screens');
       $this->setTemplate('blank_layout','powerstate');
+      $this->setTemplate('livecd_layout','livecd');
+
    }
 
    function indexAction()
@@ -25,7 +28,13 @@ class screensController extends Controller
 
    function listAction()
    {
-      $this->screens=Screen::get_all('ORDER BY `name');
+      $group_str = implode(',',$_SESSION['user']->groups);
+      if(count($_SESSION['user']->groups) > 0){
+        $group_str = 'OR group_id IN (' . $group_str . ')';
+      } else {
+        $group_str = "";
+      }
+      $this->screens=Screen::get_all('WHERE type = 0 ' . $group_str . ' ORDER BY `name`');
       if(!is_array($this->screens)){
         $this->screens = array();
       }
@@ -90,7 +99,7 @@ class screensController extends Controller
       $screen=new Screen();
 
       if($screen->create_screen($_POST[screen][name],$_POST[screen][group],$_POST[screen][location],$_POST[screen][mac_inhex],
-		$_POST[screen][width],$_POST[screen][height],$_POST[screen][template])) {
+		$_POST[screen][width],$_POST[screen][height],$_POST[screen][template],0,$_POST[screen][latitude],$_POST[screen][longitude])) {
          $this->flash($screen->name.' was created successfully.');
          redirect_to(ADMIN_URL.'/screens/show/'.$screen->id);
       } else {
@@ -165,6 +174,8 @@ class screensController extends Controller
      $screen->width = $dat['width'];
      $screen->height = $dat['height'];
      $screen->template_id = $dat['template'];
+     $screen->latitude = $dat['latitude'];
+     $screen->longitude = $dat['longitude'];
      if(isAdmin()) {
         $screen->controls_display = $dat['controls_display'];
      }
@@ -242,6 +253,68 @@ class screensController extends Controller
         //EMS hasn't been setup
         return false;
       }
+   }
+   function livecdAction(){
+      if(!defined("LIVE_CD_SUPPORT") || LIVE_CD_SUPPORT == false){
+        $this->flash('Live CD support has not been configured yet.  Please contact an administrator.','error');
+        redirect_to(ADMIN_URL);
+      }
+   
+     $this->livecd['width'] = $_REQUEST['w'];
+     $this->livecd['height'] = $_REQUEST['h'];
+     $this->livecd['mac'] = $_REQUEST['mac'];
+
+     $this->groups = $_SESSION['user']->list_groups();
+     $this->nogroups = false;
+     if(!is_array($this->groups)){
+       $this->flash('You do not belong to any groups permitted to register live cd screens on the system.  Please contact an administrator for more information.','error');
+       $this->nogroups = true;
+     }
+     
+   
+   }
+    function livecdcreateAction(){
+    
+        if(!defined("NOTIF_OFF")){ //Lets keep liveCD screens private for now
+          define("NOTIF_OFF",1);
+        }
+        
+        $this->setTitle('Screen Creation');
+        $screen=new Screen();
+        
+        //Defaults for live cds
+        /*
+        $default_template = 22;
+        $default_subscriptions[73][] = 0;
+        $default_subscriptions[74][] = 1;
+        $default_subscriptions[74][] = 30;
+        $default_subscriptions[75][] = 8;
+        $default_subscriptions[75][] = 11;
+        */
+        
+        if(!isset($default_template) || !isset($default_subscriptions) || !is_array($default_subscriptions)){
+            $this->flash('Live CD support has not been configured yet.  Please contact an administrator.','error');
+            redirect_to(ADMIN_URL);
+        }
+        
+        if($screen->create_screen($_POST[screen][name],$_POST[screen][group],$_POST[screen][location],$_POST[screen][mac_inhex],$_POST[screen][width],$_POST[screen][height],$default_template,1)){
+            
+            //Now setup some sample subscriptions
+            foreach($default_subscriptions as $field_id => $subscriptions){
+              foreach($subscriptions as $feed_id){
+                $pos = new Position;
+                $pos->create_position($screen->id, $feed_id, $field_id);
+              }
+            }
+           
+            
+            redirect_to(ROOT_URL. '/?mac='. $_POST[screen][mac_inhex]. '&w=' .$_POST[screen][width]. '&h=' . $_POST[screen][height] . '&livecd=1');
+      } else {
+         $this->flash('The screen creation failed. '.
+                      'Please check all fields and try again; contact an administrator if all else fails.','error');
+         redirect_to(ADMIN_URL.'/screens/livecd?mac='. $_POST[screen][mac_inhex]. '&w=' .$_POST[screen][width]. '&h=' . $_POST[screen][height] . '&livecd=1');
+      }
+   
    }
 }
 ?>

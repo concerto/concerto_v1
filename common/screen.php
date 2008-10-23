@@ -31,6 +31,9 @@ class Screen{
      var $width;
      var $height;
      var $template_id;
+     var $type;
+     var $latitude;
+     var $longitude;
      
      var $last_updated; //read-only
      var $last_ip;      //read-only
@@ -69,6 +72,9 @@ class Screen{
 				$this->width = $data['width'];
 				$this->height = $data['height'];
 				$this->template_id = $data['template_id'];
+				$this->type = $data['type'];
+        $this->latitude = $data['latitude'];
+        $this->longitude = $data['longitude'];
 				$this->last_updated = $data['last_updated'];
 				$this->last_ip = $data['last_ip'];
 
@@ -91,7 +97,7 @@ class Screen{
 		}
 	}
 	
-	function create_screen($name_in, $group_id_in, $location_in, $mac_hex_in, $width_in='', $height_in='', $template_id_in=''){
+	function create_screen($name_in, $group_id_in, $location_in, $mac_hex_in, $width_in='', $height_in='', $template_id_in='', $type_in = 0, $latitude_in = 'NULL', $longitude_in = 'NULL'){
 		if($this->set){
 			return false;
 		} else {
@@ -103,12 +109,17 @@ class Screen{
 			$mac_hex_in = eregi_replace("[\s|:]", '', $mac_hex_in);
 			$mac_address_in = hexdec($mac_hex_in);
 			
-			if(!is_numeric($group_id_in) || !is_numeric($width_in) || !is_numeric($height_in) || !is_numeric($template_id_in)){
+			if(!is_numeric($group_id_in) || !is_numeric($width_in) || !is_numeric($height_in) || !is_numeric($template_id_in) || !is_numeric($type_in)){
 				return false;
 			}
+      if($latitude_in == ''){ $latitude_in = 'NULL'; }
+      if($longitude_in == ''){ $longitude_in = 'NULL'; }
+      if(($latitude_in != 'NULL' && $longitude_in != 'NULL') && (!is_numeric($latitude_in) && !is_numeric($longitude_in))){
+        return false;
+      }
 			//End testing/cleaning block
-			$sql = "INSERT INTO `screen` (name, group_id, location, mac_address, width, height, template_id) VALUES ('$name_in', $group_id_in, '$location_in', '$mac_address_in', $width_in, $height_in, $template_id_in)";
-                        //print $sql; die;
+			$sql = "INSERT INTO `screen` (name, group_id, location, mac_address, width, height, template_id, type, latitude, longitude) VALUES ('$name_in', $group_id_in, '$location_in', '$mac_address_in', $width_in, $height_in, $template_id_in, $type_in, $latitude_in, $longitude_in)";
+            //            print $sql; die;
 			$res = sql_query($sql);
 			if($res){
 				$sql_id = sql_insert_id();
@@ -122,6 +133,9 @@ class Screen{
 				$this->width = $width_in;
 				$this->height = $height_in;
 				$this->template_id = $template_id_in;
+				$this->type = $type_in;
+        $this->latitude = $latitude_in;
+        $this->longitude = $longitude_in;
 				$this->last_updated = 0;
 				
 				$this->set = true;
@@ -161,6 +175,14 @@ class Screen{
 		if(!is_numeric($this->template_id)){
 				return false;
 		}
+		if(!is_numeric($this->type)){
+				return false;
+		}
+    if($this->latitude == ''){ $this->latitude = 'NULL'; }
+    if($this->longitude == ''){ $this->longitude = 'NULL'; }
+    if(($this->latitude != 'NULL' && $this->longitude != 'NULL') && (!is_numeric($this->latitude) && !is_numeric($this->longitude))){
+      return false;
+    }
 		$this->mac_inhex = eregi_replace('[\s|:]', '', $this->mac_inhex);
 		//End Cleaning/Test Block
 		
@@ -168,7 +190,7 @@ class Screen{
 			$this->mac_address = hexdec($this->mac_inhex);
 		}
 		
-		$sql = "UPDATE screen SET name = '$name_clean',  group_id = '$this->group_id', location = '$location_clean', mac_address = '$this->mac_address', width = '$this->width', height = $this->height, template_id = $this->template_id, controls_display = $this->controls_display, time_on = '$time_on_clean', time_off = '$time_off_clean' WHERE id = $this->id LIMIT 1";
+		$sql = "UPDATE screen SET name = '$name_clean',  group_id = '$this->group_id', location = '$location_clean', mac_address = '$this->mac_address', width = '$this->width', height = $this->height, template_id = $this->template_id, type = $this->type, latitude = $this->latitude, longitude = $this->longitude, controls_display = $this->controls_display, time_on = '$time_on_clean', time_off = '$time_off_clean' WHERE id = $this->id LIMIT 1";
 		//echo $sql;
 		$res = sql_query($sql);
 		if($res){
@@ -224,16 +246,16 @@ class Screen{
 	
   function is_connected()
   {
-    return (strtotime($this->last_updated)>strtotime('-30 seconds'));
+    return (strtotime($this->last_updated)>strtotime('-45 seconds'));
   }
 	
 	// Returns an array that contains the number of screens online, offline, and asleep (in that order, with the first array element being the number of online screens).  The final element in the array is the total number of screens registered.
-	function screenStats() {
+	function screenStats($where = '') {
 		$numOnline = 0;
 		$numOffline = 0;
 		$numAsleep = 0;
 		$total = 0;
-		$sql = "SELECT * FROM screen";
+		$sql = "SELECT * FROM screen $where";
 		$res = sql_query($sql);
 		$i = 0;
 		while ($row = sql_row_keyed($res, $i)) {
@@ -312,6 +334,19 @@ class Screen{
   
  	 	return $pwrstatus;
 	}
+	
+	//Has a screen recently gone down?
+    function went_down() {
+    if ( strtotime($this->last_updated) > strtotime('-45 seconds') ) {
+        return false; // screen updated in last 45 seconds - it's not down
+    } else if ( strtotime($this->last_updated) < strtotime('-340 seconds') ) {
+        return false; // screen last updated more than 5 minutes + 30 seconds ago - been down a while
+                      // note that this creates a 10 second window every 5 minutes, in which a screen
+                      // could go down causing 2 emails. Better this than missing one.
+    } else {
+        return true; // screen must have gone down in last 2 hours to fall through here
+    }
+  }
 	function destroy(){
 		$sql = "DELETE FROM `position` WHERE screen_id = $this->id";
 		$res = sql_query($sql);

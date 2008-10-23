@@ -25,12 +25,18 @@ class frontpageController extends Controller
 	function dashboardAction()
 	{
      $this->notifications = Newsfeed::get_for_user($_SESSION['user']->id);
+     $group_str = implode(',',$_SESSION['user']->groups);
      $this->setTitle("Concerto Dashboard");
-     $this->screens= Screen::get_all('ORDER BY `name`');
+     if(count($_SESSION['user']->groups) > 0){
+        $group_str = 'OR group_id IN (' . $group_str . ')';
+     } else {
+        $group_str = "";
+     }
+     $this->screens= Screen::get_all('WHERE type = 0 ' . $group_str . ' ORDER BY `name`');
      if(!is_array($this->screens)){
        $this->screens = array();
      }
-     $this->screen_stats = Screen::screenStats();
+     $this->screen_stats = Screen::screenStats('WHERE type = 0 ' . $group_str . ' ORDER BY `name`');
 	}
 
 	function adminAction()

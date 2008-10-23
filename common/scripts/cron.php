@@ -109,35 +109,23 @@ function always(){
         echo "Done scanning for downed screens.\n";
 }
 
-
-# Function to determine if a screen went down recently
-function screen_went_down($screen) {
-    $update_time = $screen->status(0); // get last update timestamp
-    if ( strtotime($update_time) > strtotime('-30 seconds') ) {
-        return false; // screen updated in last 30 seconds - it's not down
-    } else if ( strtotime($update_time) < strtotime('-340 seconds') ) {
-        return false; // screen last updated more than 5 minutes + 30 seconds ago - been down a while
-                      // note that this creates a 10 second window every 5 minutes, in which a screen
-                      // could go down causing 2 emails. Better this than missing one.
-    } else {
-        return true; // screen must have gone down in last 2 hours to fall through here
-    }
-}
-
 function screen_offline_mail( ) {
     # Query all screens and mail a report if any are offline
+    $screens = Array( );
     $screens = Screen::get_all( );
     $downed_screens = Array( );
     foreach ($screens as $screen) {
-        if (screen_went_down($screen)) {
+        if ($screen->went_down()) {
             $downed_screens[] = $screen;
         }
     }
 
     # construct email report if any screens have gone down in last 2 hours
     if (count($downed_screens) > 0) {
+        $admin = new Group(ADMIN_GROUP_ID);
+
         $mail_body = "The following Concerto screens have gone offline. Please investigate.\n";
-        $mail_body .= "NOTE: THIS EMAIL IS A TEST, IT IS ONLY A TEST. FEEL FREE TO IGNORE.\n";
+        //$mail_body .= "NOTE: THIS EMAIL IS A TEST, IT IS ONLY A TEST. FEEL FREE TO IGNORE.\n";
         foreach ($downed_screens as $screen) {
             $name = $screen->name;
             echo "Found downed screen $name.\n";
@@ -146,15 +134,8 @@ function screen_offline_mail( ) {
 
             $mail_body .= "$name (at $location, mac $mac)\n";
         }
-        # ripped off from user.php but t should work
-        $headers  = 'MIME-Version: 1.0' . "\r\n";
-        $headers .= 'Content-Type: text/plain; charset="UTF-8"' . "\r\n";
-        $headers .= "From: $from\r\n";
-        $headers .= "Reply-To: $from\r\n";
-        $headers .= 'X-Mailer: Concerto';
-
-        # send the email out
-        mail(SCREEN_OUTAGE_ADDRESS, "Screen Outage Detected", $mail_body, $headers);
+       
+       $admin->send_mail("Screen Outage Detected", $mail_body);
     }
 }
 

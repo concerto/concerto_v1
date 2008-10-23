@@ -64,6 +64,13 @@
 			</td>
 		</tr>
 		<tr>
+			<td><h5>Screen Latitude, Longitude</h5></td>
+			<td>
+				<input type="text" id="latitude" name="screen[latitude]" size="8" value="<?=$screen->latitude?>">&nbsp; , &nbsp;
+				<input type="text" id="longitude" name="screen[longitude]" size="8" value="<?=$screen->longitude?>">
+			</td>
+		</tr>
+		<tr>
 			<td><h5>Screen Size<br />(W x H, in pixels)</h5></td>
 			<td>
 				<input type="text" id="width" name="screen[width]" size="6" value="<?=$screen->width?>">&nbsp; x &nbsp;
