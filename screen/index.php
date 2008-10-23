@@ -6,11 +6,11 @@ if(!isset($_GET['mac'])) $_GET['mac'] = 0;
 $mac = hexdec($_GET['mac']);
 $sql = "SELECT id FROM screen WHERE mac_address = $mac LIMIT 1;";
 $screenId = sql_query1($sql);
-if(isset($_REQUEST['livecd']) && $_REQUEST['livecd'] == 1){
-    header('Location: ' . ADMIN_URL . '/screens/livecd?' . $_SERVER["QUERY_STRING"]);
-    exit(0);
-}
 if($screenId < 0){
+    if(isset($_REQUEST['livecd']) && $_REQUEST['livecd'] == 1){
+        header('Location: ' . ADMIN_URL . '/screens/livecd?' . $_SERVER["QUERY_STRING"]);
+        exit(0);
+    }
     header("Location: missing.php?mac={$_GET['mac']}");
     exit(0);
 }
