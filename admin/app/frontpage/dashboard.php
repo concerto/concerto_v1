@@ -1,12 +1,8 @@
 <script type="text/javascript"><!--
 $(function()
 {
-   $(document).ready(function() {
-         //Show controls for interactive elements, which are hidden from scripting-disabled browsers
-         //$(".newsfeed").append($("<a>").attr("id","news_expand").attr("class","seemore-div").attr("href","= ADMIN_URL ?>/users/newsfeed/= $_SESSION['user']->username ?>").html("<div class='roundbottom'><span class='rb'><span class='seemore-padding'>View More...</span></span></div>"));    this doesn't work in IE
-         $("#plus_icon").show();
-      });
-
+   //Show controls for interactive elements, which are hidden from scripting-disabled browsers
+   $("#plus_icon").show();
    $("#seemore").show();
 
    $("#news_expand").data('items', 7);

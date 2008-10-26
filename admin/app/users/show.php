@@ -1,23 +1,22 @@
 <script type="text/javascript"><!--
 $(function()
 {
-   $(document).ready(function() {
-         //Show controls for interactive elements, which are hidden from scripting-disabled browsers
-         //$(".newsfeed").append($("<a>").attr("id","news_expand").attr("class","seemore-div").attr("href","= ADMIN_URL ?>/users/newsfeed/= $_SESSION['user']->username ?>").html("<div class='roundbottom'><span class='rb'><span class='seemore-padding'>View More...</span></span></div>"));    this doesn't work in IE
-      });
+   //Show controls for interactive elements, which are hidden from scripting-disabled browsers
+   $("#plus_icon").show();
+   $("#seemore").show();
 
    $("#news_expand").data('items', 7);
    
-   $("#news_expand").click(function(event) {
+   $("#seemore").click(function(event) {
 		event.preventDefault();
-               $.post("<?= ADMIN_URL ?>/users/notifications/<?= $_SESSION['user']->username?>", {'start': $("#news_expand").data('items'), 'num': 7}, function(data) {
-               $("<div>").css("overflow", "hidden").html(data).hide().appendTo($("#insertinto")).slideDown("slow");
+      $.post("<?= ADMIN_URL ?>/users/notifications/<?= $_SESSION['user']->username ?>", {'start': $("#news_expand").data('items'), 'num': 7}, function(data) {
+         $("<div>").css("overflow", "hidden").html(data).hide().appendTo($("#news_expand")).slideDown("slow");
                $("#news_expand").data('items',$("#news_expand").data('items')+7);
                if( data == "" )
                  $("#news_expand").before($("<span>").html("No more news")).remove();
             });
          return false;
-	});
+      });
 }); 
 //--></script>
 
@@ -40,28 +39,27 @@ $(function()
 <h3>Contact: <span class="emph"><a href="mailto:<?php echo $this->user->email?>"><?php echo $this->user->email?></a></h3>
 
 <br />
-
-<div id="notifications" class="roundcont newsfeed">
+<div class="roundcont newsfeed">
   <div class="roundtop"><span class="rt"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
   <div class="roundcont_main">
     <div style="text-align:right; float:right; width:85px;">
-      <a href="<?= ADMIN_URL ?>/users/newsfeed/<?= userName() ?>"><span class="buttonsel"><div class="buttonleft"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_left.gif" border="0" alt="" /></div><div class="buttonmid"><div class="buttonmid_padding">View All</div></div><div class="buttonright" style="width:10px;"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_right.gif" border="0" alt="" /></div></span></a>
-		</div>
-		<h1>News Feed</h1>
-		<div id="insertinto">
-		<?php 
-		$speccount = 0;
-		foreach($this->notifications as $newsfeed) {
-			$speccount += 1;
-		?>
-			
-			<p class="<?= $newsfeed->type ?>_<?= $newsfeed->msg ?>"><?= $newsfeed->text ?><span class="datesub"><?= date('M j', $newsfeed->timestamp) ?></span></p>
-		<?php
-		}
-		?>
-		</div>
+    	<a href="<?= ADMIN_URL ?>/users/newsfeed/<?= userName() ?>"><span class="buttonsel"><div class="buttonleft"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_left.gif" border="0" alt="" /></div><div class="buttonmid"><div class="buttonmid_padding">View All</div></div><div class="buttonright" style="width:10px;"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_right.gif" border="0" alt="" /></div></span></a>
+    </div>
+    <h1>News Feed</h1>
+    <div id="news_expand">
+    <?php 
+    if(is_array($this->notifications)) {
+       foreach($this->notifications as $newsfeed) {
+    ?>
+    	<p class="<?= $newsfeed->type ?>_<?= $newsfeed->msg ?>"><?= $newsfeed->text ?><span class="datesub"><?= date('M j', $newsfeed->timestamp) ?></span>
+      </p><?php
+       }
+    }
+    ?>
+    </div>
   </div>
-	<a id="news_expand" class="seemore-div" href="<?= ADMIN_URL ?>/users/newsfeed/<?= $_SESSION['user']->username ?>"><div class="roundbottom"><span class="rb"><span class="seemore-padding">View More...</span></span></div></a>
+  <span style="display:none;" id="seemore"><span id="seemore-inner">View more...</span></span>
+  <noscript><div class="roundbottom"><span class="rb"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div></noscript>
 </div>
 
 <? } ?>
