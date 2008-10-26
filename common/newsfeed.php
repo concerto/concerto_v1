@@ -24,7 +24,7 @@ class Newsfeed{
     if($id == '' || !is_numeric($id)){
 			$this->set = false;
 		} else {
-      $sql = 'SELECT newsfeed.id, notifications.text, notifications.timestamp, notifications.type, notifications.msg, newsfeed.hidden FROM `newsfeed` LEFT JOIN notifications ON newsfeed.notification_id = notifications.id WHERE newsfeed.id = ' . $id;
+      $sql = 'SELECT newsfeed.id, notifications.text, notifications.timestamp, notifications.type, notifications.msg, notifications.additional, newsfeed.hidden FROM `newsfeed` LEFT JOIN notifications ON newsfeed.notification_id = notifications.id WHERE newsfeed.id = ' . $id;
       $res = sql_query($sql);
       if($res != 0){
 				$data = (sql_row_keyed($res,0));
@@ -35,7 +35,15 @@ class Newsfeed{
         $this->msg = $data['msg'];
         $this->hidden = $data['hidden'];
         $this->text = $data['text'];
+        $this->additional = $data['additional'];
         $this->text = str_replace('%ADMIN_URL%', ADMIN_URL, $this->text); //If the URL changes, we want to be ready!
+        
+        //A simple boolean to check if there is extra data to show
+        $this->has_extra = false;
+        
+        if($this->additional > "" || strlen($this->additional) > 0){
+            $this->had_extra = true;
+        }
         
         $this->set = true;
       } else {

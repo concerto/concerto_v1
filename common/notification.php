@@ -44,6 +44,7 @@ class Notification{
 				$this->by_id = $data['by_id'];
 				$this->processed = $data['processed'];
 				$this->msg = $data['msg'];
+				$this->additional = $data['additional'];
 				$this->text = $data['text'];
 
 				$this->set = true;				
@@ -54,12 +55,13 @@ class Notification{
 	}
 	
 	//Log a notification in the table
-	function notify($type_in, $type_id_in, $by_in, $by_id_in, $msg_in){
+	function notify($type_in, $type_id_in, $by_in, $by_id_in, $msg_in, $additional_in = ''){
 		if(defined("NOTIF_OFF") && NOTIF_OFF == 1){ //Incase we don't want notifications
 			return true;
 		} else {
-			$sql = "INSERT INTO `notifications` (`type`, `type_id`, `by_type`, `by_id`, `msg`, `processed`, `timestamp`) 
-			VALUES ('$type_in', $type_id_in, '$by_in', $by_id_in, '$msg_in', 0, NOW())";
+			$additional = escape($additional_in);
+			$sql = "INSERT INTO `notifications` (`type`, `type_id`, `by_type`, `by_id`, `msg`,`additional`, `processed`, `timestamp`) 
+			VALUES ('$type_in', $type_id_in, '$by_in', $by_id_in, '$msg_in', '$additional', 0, NOW())";
 			$res = sql_query($sql);
 			return true;
 		}
