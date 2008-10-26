@@ -409,7 +409,7 @@ class Feed{
 
         //Everyoneone else can do stuff dependent on the feed's type.
         if($action == 'browse') {
-            return $this->type != 3 && $this->type != 4;
+            return $this->type != 3;
         } elseif($action == 'submittable') {
             return $this->type != 2 && $this->type != 3 && $this->type != 4;
         } else {

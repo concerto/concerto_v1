@@ -109,7 +109,7 @@ class Dynamic{
       $this->status .= "No feed defined. ";
       return false;
     }
-    $content_arr = $this->feed->content_get_by_type(4,'feed_content.moderation_flag = 1');
+    $content_arr = $this->feed->content_get_by_type(4,'feed_content.moderation_flag = 1 ' . $this->path);
     $xml = new SimpleXMLElement('<xml></xml>');
     foreach($content_arr as $content){
       $c_xml = $xml->addChild('content');
@@ -153,7 +153,6 @@ class Dynamic{
     } else {
       $header = '';
     }
-    
     //Process Glue
     if(array_key_exists('glue', $this->rules)){
       $glue_arr = $this->rules['glue'];
@@ -217,6 +216,7 @@ class Dynamic{
     }
     //echo "HEADER: $header <hr /> GLUE: $glue <hr /> FOOTER: $footer <hr />";
     //print_r($this->content);
+    //print_r($data);
     return true;
   }
   
@@ -395,7 +395,28 @@ class Dynamic{
       return false;  //Errors adding content!
     }
   }
+    function preview($name = '', $user_id = '', $content = '', $start_time = '', $end_time = '', $submitted = ''){
+        $xml = new SimpleXMLElement('<xml></xml>');
+        $c_xml = $xml->addChild('content');
+        $c_xml->addChild('id', 0);
+        $c_xml->addChild('title', $name);
+        $c_xml->addChild('user_id', $user_id);
+        $c_xml->addChild('body', $content);
+        $c_xml->addChild('start_time', $start_time);
+        $c_xml->addChild('end_time', $end_time);
+        $c_xml->addChild('submitted', $submitted);
 
+        if($this->xml_handler($xml) && sizeof($this->content) > 0){
+            $preview_string = "";
+            foreach($this->content as $preview_content){
+                $preview_string .= $preview_content;
+            }
+            return $preview_string;
+        } else {
+            return false; //A preview could not be generated
+        }
+    
+    }
   //Log the sucessful update
   function log_update(){
     $sql = "UPDATE dynamic SET last_update = NOW() WHERE id = $this->id LIMIT 1";

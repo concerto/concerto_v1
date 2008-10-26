@@ -173,7 +173,7 @@ class Content{
 		$res = sql_query($sql);
 		$i = 0;
 		while($row = sql_row_keyed($res,$i)){
-			$data[$i]['feed'] = new Feed($row['feed_id']);
+			$data[$i]['feed'] = new Feed($row['feed_id'], false);
 			$data[$i]['moderation_flag'] = $row['moderation_flag'];
 		    	$i++;
 		}
