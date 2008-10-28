@@ -41,6 +41,11 @@ $(function()
        foreach($this->notifications as $newsfeed) {
     ?>
     	<p class="<?= $newsfeed->type ?>_<?= $newsfeed->msg ?>"><?= $newsfeed->text ?><span class="datesub"><?= date('M j', $newsfeed->timestamp) ?></span>
+        <?php
+          if($newsfeed->has_extra){
+            echo '<br/><span class="newsfeed_reason">'.$newsfeed->additional.'</span>';
+          }
+        ?>
       </p><?php
        }
     }

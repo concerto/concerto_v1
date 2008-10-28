@@ -42,7 +42,7 @@ class Newsfeed{
         $this->has_extra = false;
         
         if($this->additional > "" || strlen($this->additional) > 0){
-            $this->had_extra = true;
+            $this->has_extra = true;
         }
         
         $this->set = true;
