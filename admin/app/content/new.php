@@ -112,6 +112,9 @@
       <ul id="maintab" class="shadetabs">
         <li><a href="#new_image">Image</a></li>
         <li><a href="#new_ticker">Ticker Text</a></li>
+        <? if($_SESSION['user']->has_ndc_rights()){ ?>
+        <li><a href="#new_dynamic">Dynamic Data</a></li>
+        <? } ?>
       </ul>
     </div>      
   </div>
@@ -126,6 +129,9 @@
 			</div>
 			<div id="new_ticker" class="contentstyle">
 				<? include("new_ticker.php"); ?>
+			</div>
+			<div id="new_dynamic" class="contentstyle">
+				<? include("new_dynamic.php"); ?>
 			</div>
 			<div style="clear:both;"></div>
 		</div>

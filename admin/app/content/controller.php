@@ -4,13 +4,13 @@ class contentController extends Controller
    public $actionNames = Array( 'list'=> 'Content Listing', 'show'=>'Details',
                                 'edit'=> 'Edit', 'new'=>'Submit Content', 'remove'=>'Delete');
 
-   public $require = Array( 'require_login'=>Array('index','list','show','new','create','new_ticker','new_image'),
+   public $require = Array( 'require_login'=>Array('index','list','show','new','create','new_ticker','new_image', 'new_dynamic'),
                             'require_action_auth'=>Array('edit', 'update', 'destroy', 'remove') );
 
    function setup()
    {
       $this->setName('Content');
-      $this->setTemplate('blank_layout', Array('image','new_image','new_ticker','ajax_details'));
+      $this->setTemplate('blank_layout', Array('image','new_image','new_ticker','new_dynamic','ajax_details'));
    }
 
    function indexAction()
@@ -81,32 +81,39 @@ class contentController extends Controller
    
    function newAction()
    {
-      $this->readFeeds(Feed::priv_get($_SESSION['user'], 'content'));
+      $this->readFeeds(&$this->feeds, Feed::priv_get($_SESSION['user'], 'content'));
+      $this->readFeeds(&$this->ndc_feeds, Feed::priv_get($_SESSION['user'], 'dynamic'));
       $this->setTitle("Add Content");
    }
 
    function new_imageAction()
    {
-      $this->readFeeds(Feed::priv_get($_SESSION['user'], 'content'));
+      $this->readFeeds(&$this->feeds, Feed::priv_get($_SESSION['user'], 'content'));
    }
 
    function new_tickerAction()
    {
-      $this->readFeeds(Feed::priv_get($_SESSION['user'], 'content'));      
+      $this->readFeeds(&$this->feeds,Feed::priv_get($_SESSION['user'], 'content'));      
+   }
+
+   function new_dynamicAction()
+   {
+      $this->setTitle("Add DYNAMIC Content");
+      $this->readFeeds(&$this->ndc_feeds,Feed::priv_get($_SESSION['user'], 'dynamic'));      
    }
 
    //just a helper to store feeds for listing in form
-   function readFeeds($unsub_feeds, $sub_feeds="")
+   function readFeeds($dest, $unsub_feeds, $sub_feeds="")
    {
-      $this->feeds = Array();
+      $dest = Array();
       if(is_array($unsub_feeds))
          foreach ($unsub_feeds as $feed) 
-            $this->feeds[$feed->name]=Array($feed,0);
+            $dest[$feed->name]=Array($feed,0);
       if(is_array($sub_feeds))
          foreach ($sub_feeds as $feed)
-            $this->feeds[$feed->name]=Array($feed,1);
+            $dest[$feed->name]=Array($feed,1);
 
-      ksort($this->feeds); //sort all feeds by feed name
+      ksort($dest); //sort all feeds by feed name
    }
 
    function createAction()
