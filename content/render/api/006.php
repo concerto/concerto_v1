@@ -218,7 +218,7 @@ function rssdate($date){
   $newdate = strtotime($date);
   
  //returns the date ready for the rss feed
- $date = date('D, d M Y H:i:s T',$newdate);;
+ $date = date('D, d M Y H:i:s T',$newdate);
  return $date;
 }
 ?>
