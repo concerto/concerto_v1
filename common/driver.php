@@ -171,7 +171,10 @@ class ContentDriver{
         $screen = new Screen($this->screen_id);
         $screen->status_update($ip); //Update the screen last updated and ip stuff
         if($screen->get_powerstate()){
-            $sql = "UPDATE content SET display_count = display_count + 1 WHERE id = $this->content_id LIMIT 1;";
+            $sql = "UPDATE position SET display_count = display_count + 1 WHERE screen_id = $this->screen_id AND field_id = $this->field_id AND feed_id = $this->feed_id LIMIT 1"; 
+            sql_command($sql);
+
+            $sql = "UPDATE feed_content SET display_count = display_count + 1 WHERE feed_id = $this->feed_id AND content_id = $this->content_id LIMIT 1";
             sql_command($sql);
         }
         return true;
