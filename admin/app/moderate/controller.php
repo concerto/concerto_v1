@@ -2,8 +2,7 @@
 class moderateController extends Controller
 {
     public $actionNames = Array( 'feed'=> 'Feeds Moderation',
-                                 'approve' => 'Approve Content',
-                                 'deny' => 'Deny Content');
+                                 'confirm' => 'Confirm Content' );
 
     public $require = Array( 'require_login'=>1 );
 
@@ -63,63 +62,55 @@ class moderateController extends Controller
         $content_id = $_POST['content_id'];
         $action = $_POST['action'];
         $duration = $_POST['duration'];
+        $notification = $_POST['notification'];
         if($feed && $action=="approve"){
-            echo json_encode($feed->content_mod($content_id, 1, $_SESSION['user'], $duration));
+            $return_code = $feed->content_mod($content_id, 1, $_SESSION['user'], $duration, $notification);
         } elseif($feed && $action=="deny") {
-            echo json_encode($feed->content_mod($content_id, 0, $_SESSION['user'], $duration));
+            if($_POST['information'])
+                $notification = $_POST['information'] . " - " . $notification;
+            $return_code = $feed->content_mod($content_id, 0, $_SESSION['user'], $duration, $notification);
         } else {
-            echo json_encode(false);
+            $return_code = false;
+        }
+        if($_POST['ajax']) {
+            echo json_encode($return_code);
+        } else {
+            if($return_code) {
+                if($action == "approve")
+                    $this->flash('Content approved successfully.');
+                else
+                    $this->flash('Content denied successfully.');                
+            } else {
+                if($action == "approve")
+                    $this->flash('Content approval failed.','error');
+                else
+                    $this->flash('Content denial failed.','error');                
+            }
+            redirect_to(ADMIN_URL.'/moderate/feed/'.$feed->id);            
         }
     }
-
-    function approveAction()
+    
+    function confirmAction()
     {
-        $feed = new Feed($this->args[1]);
-        if(!$feed){
+        $this->feed = new Feed($_GET['feed_id']);
+        if(!$this->feed){
             $this->flash('Feed not found', 'error');
             redirect_to(ADMIN_URL."/moderate");
         }
 
-        if(!$feed->user_priv($_SESSION['user'], 'moderate')){
+        if(!$this->feed->user_priv($_SESSION['user'], 'moderate')){
             $this->flash('You do not have enough privileges to moderate this feed', 'error');
             redirect_to(ADMIN_URL."/moderate");
         }
 
-        $cid = $this->args[2];
-        $duration = $this->args[3];
-
-        if($feed->content_mod($cid, 1, $_SESSION['user'], $duration)) {
-            $this->flash('Content approved successfully.');
-            redirect_to(ADMIN_URL.'/moderate/feed/'.$feed->id);
-        } else {
-            $this->flash('Content approval failed.','error');
-            redirect_to(ADMIN_URL.'/moderate/feed/'.$feed->id);
-        }
-    }
-
-    function denyAction()
-    {
-        $feed = new Feed($this->args[1]);
-        if(!$feed){
-            $this->flash('Feed not found', 'error');
+        if(!$this->args[1] == "approve" || !$this->args[1] == "deny"){
+            $this->flash('You did not select an action for the moderation process', 'error');
             redirect_to(ADMIN_URL."/moderate");
         }
 
-        if(!$feed->user_priv($_SESSION['user'], 'moderate')){
-            $this->flash('You do not have enough privileges to moderate this feed', 'error');
-            redirect_to(ADMIN_URL."/moderate");
-        }
-
-        $cid = $this->args[2];
-        $duration = $this->args[3];
-
-        if($feed->content_mod($cid, 0, $_SESSION['user'], $duration)) {
-            $this->flash('Content denied successfully.');
-            redirect_to(ADMIN_URL.'/moderate/feed/'.$feed->id);
-        } else {
-            $this->flash('Content denial failed.','error');
-            redirect_to(ADMIN_URL.'/moderate/feed/'.$feed->id);
-        }
+        if($this->args[2] == "ajax")
+            $this->template="blank_layout.php";
+        $this->content = new Content($_GET['content_id']);
     }
 }
 ?>

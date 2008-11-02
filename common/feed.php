@@ -287,7 +287,7 @@ class Feed{
 		}
 	}
 	//Moderate content: Approve or deny
-	function content_mod($cid, $mod_in = NULL, $moderator = NULL, $duration = NULL){
+	function content_mod($cid, $mod_in = NULL, $moderator = NULL, $duration = NULL, $notification = NULL){
 		if($mod_in != 0 && $mod_in != 1){ //Don't let a stupid value in
 			$mod_in = 'NULL';
 		}
@@ -301,9 +301,9 @@ class Feed{
 		if($res){
 			$notify = new Notification();
 			if($mod_in == 1){
-            			$notify->notify('feed', $this->id, 'content', $cid, 'approve');
+             $notify->notify('feed', $this->id, 'content', $cid, 'approve', $notification);
 			} elseif($mod_in == 0){
-				$notify->notify('feed', $this->id, 'content', $cid, 'deny');
+             $notify->notify('feed', $this->id, 'content', $cid, 'deny', $notification);
 			}
 			return true;
 		} else {

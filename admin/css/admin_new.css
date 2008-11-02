@@ -1,8 +1,8 @@
 /*
-   CONCERTO
+   CONCERTO PANEL STYLES
    CSS Document
    *************************
-   These styles are used for all administrator panels (v2.0).
+   These styles are used for all non-jQuery elements of the Concerto Panel.
    2008, Concerto Team.
 */
 
@@ -93,7 +93,7 @@ table.edit_win td img.icon { border:0px; }
 img.icon_border { border:solid 1px #666 !important; }
 td.edit_col { width:70%; }
 
-div.feeddiv { border-top:solid 1px #999; padding-top:8px; height:70px; }
+div.feeddiv {  }
 div.view_left { float:left; margin-right:20px; height:160px; }
 div.view_right { width:100%; }
 
@@ -126,14 +126,15 @@ div.select td { padding-right:25px; }
 /* ========= Common elements =========*/
 
 /* Rounded edges */
-.roundcont { width:100%; margin-bottom:20px !important; }
+.roundcont { width:100%; margin:0px; padding:0px; margin-bottom:20px !important; }
 .roundcont_main { border-left:solid 1px #999; border-right:solid 1px #999; padding:8px 14px; }
 .roundcont_main h1 { color:#333 !important; font-size:1.2em !important; font-weight:bold; }
+.roundcont_main h1.addcontent { font-size:1.5em !important; }
 .roundcont_main h1.fp { padding-top:12px !important; }
-.roundcont p { margin: 0 10px; }
+.roundcont p { margin: 0 0§px; }
 .newsfeed { background:url(../images/lightgray_bg.gif) repeat; }
 .newsfeed a { font-weight: normal !important; }
-.newsfeed p { padding:5px 0 5px 30px; }
+.newsfeed p { margin-top:0px; margin-left:10px; margin-bottom:0px; padding:5px 0 5px 30px; }
 .newsfeed p.feed_approve { background:url(../images/nf_check.gif) center left no-repeat; }
 .newsfeed p.feed_add { background:url(../images/nf_addcontent.gif) center left no-repeat; }
 .newsfeed p.feed_new { background:url(../images/nf_newfeed.gif) center left no-repeat; }
@@ -144,6 +145,7 @@ div.select td { padding-right:25px; }
 .newsfeed p.screen_new { background:url(../images/nf_screennew.gif) center left no-repeat; }
 .newsfeed p.group_join { background:url(../images/nf_joingroup.gif) center left no-repeat; }
 .newsfeed span.datesub { color:#666; font-size: 0.75em !important; padding-left:12px; }
+br.funkybreak { clear:both; height:1px !important; }
 
 .roundtop { background: url(../images/rc_tr.gif) no-repeat top right; text-align:left; height:6px; }
 .roundbottom { background: url(../images/rc_br.gif) no-repeat top right; text-align: left; height:6px; }
@@ -184,23 +186,11 @@ ul.subscriptions h2 span.emph { color:#000 !important; padding-right:8px; }
 ul.subscriptions ul { list-style:none; }
 ul.subscriptions ul li { border:solid 2px #666; }
 
-/* New Content */
-#selectdisp_left { padding-top:25px; float:left; width:17%; }
-#selectdisp_right { padding:15px; float:right; width:78%;}
-#selectmenu { width: 100%; }
-.shadetabs { margin-left:3px; margin-bottom: 0; list-style-type: none; text-align: left; }
-.shadetabs li { clear:both; margin:0; margin-bottom:2px; padding:0px; }
-.shadetabs li a { text-decoration: none; border: 1px solid #999999; color: #2d2b2b; background: white url(../images/shade.gif) top left repeat-x; }
-.shadetabs li a:visited { color: #2d2b2b; }
-.shadetabs li a:hover { text-decoration: underline; color: #2d2b2b; }
-#selectmenu li.selected a { /*selected main tab style */ background-image: url(../images/shadeactive.gif); }
-#selectmenu li.selected a:hover { /*selected main tab style */ text-decoration: none; }
-
 
 
 /* Moderate */
 td.actions { color:#006699; font-weight:bold; font-size:0.9em; background:#FFF url(../images/mod_bg.gif) top right repeat-y; width:100px; border-right:solid 1px #666; vertical-align:top !important; padding-top:25px !important; text-align:right; }
-td.actions h3 { background:url(../images/dur_med.gif) center right no-repeat; padding:3px 0px; padding-right:30px; }
+span.mod_confirm { display:block; width:120px; background:url(../images/dur_med.gif) top center no-repeat; padding:3px 0px; }
 span.approve { color:green; font-weight:bold;  display:block; font-size:1.2em; margin-bottom:8px; }
 span.deny { color:red; font-weight;bold; display:block; margin-bottom:8px; font-size:1.2em; }
 a:hover span.approve, a:hover span.deny { text-decoration:underline; }

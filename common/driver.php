@@ -127,6 +127,7 @@ class ContentDriver{
                 if($res && sql_count($res)){
                     $data = (sql_row_keyed($res,0));
                     $this->content_id = $data['id'];
+
                     $json['content'] = stripslashes($data['content']);
                     $json['mime_type'] = stripslashes($data['mime_type']);
                     $json['duration'] = $data['duration'];
@@ -167,16 +168,12 @@ class ContentDriver{
 
     function log_back(){
         $ip = $_SERVER['REMOTE_ADDR'];
-	$screen = new Screen($this->screen_id);
-	$screen->status_update($ip); //Update the screen last updated and ip stuff
-	if($screen->get_powerstate()){
-	        $sql = "UPDATE position SET display_count = display_count + 1 ";
-		$sql .= "WHERE screen_id = $this->screen_id AND field_id = $this->field_id AND feed_id = $this->feed_id LIMIT 1"; 
-        	sql_command($sql);
-
-        	$sql = "UPDATE feed_content SET display_count = display_count + 1 WHERE feed_id = $this->feed_id AND content_id = $this->content_id LIMIT 1";
-        	sql_command($sql);
-	}
+        $screen = new Screen($this->screen_id);
+        $screen->status_update($ip); //Update the screen last updated and ip stuff
+        if($screen->get_powerstate()){
+            $sql = "UPDATE content SET display_count = display_count + 1 WHERE id = $this->content_id LIMIT 1;";
+            sql_command($sql);
+        }
         return true;
     }
 

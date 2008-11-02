@@ -1,53 +1,79 @@
 <script type="text/javascript"><!--
 (function($) {
     $(document).ready(function() {
-        $(".approve").click(function() {
-            var parent = $(this).parents("tr.details");
-            var action = $(parent).prev().find("td.actions");
+        var moderate = function(parent, action) {
             var content_id = $(parent).attr("id").replace(/c/,"");
-            var duration = parseInt($(parent).find("input[name=duration]").attr("value")) * 1000;
-            var onError = function(){window.location = "<?=ADMIN_URL?>/moderate/approve/<?=$this->feed->id?>/" + content_id + "/" + duration;};
-            $.ajax({type: "POST",
-                    url: "<?=ADMIN_URL?>/moderate/post",
+            var loading = $("<div>").html("<h5>Loading.  Please wait...</h5>")
+                .dialog({ autoResize: true,
+                          draggable: false,
+                          height: "auto",
+                          modal: true,
+                          overlay: { opacity: 0.5, background: "black" },
+                          resizable: false,
+                          title: "Loading..."
+                        });
+            $.ajax({type: "GET",
+                    url: "<?=ADMIN_URL?>/moderate/confirm/" + action + "/ajax",
                     data: {"feed_id": <?=$this->feed->id?>,
-                           "content_id": content_id,
-                           "action": "approve",
-                           "duration": duration},
-                    success: function(json){
-                        if(json == true) $(action).html("Content Approved");
-                        else onError();
+                           "content_id": content_id},
+                    success: function(html){
+                        $("<div>").html(html)
+                            .dialog({
+                                autoResize: true,
+                                buttons: {
+                                    "Submit": function(){
+                                        var posts = $(this).find("form").serializeArray();
+                                        var actions = $(parent).prev().find("td.actions");
+                                        var onError = function(){
+                                            window.location = "<?=ADMIN_URL?>/moderate/confirm/" + action + "?feed_id=<?=$this->feed->id?>&content_id=" + content_id;
+                                        };
+                                        $.ajax({type: "POST",
+                                                url: "<?=ADMIN_URL?>/moderate/post",
+                                                data: posts,
+                                                success: function(json){
+                                                    if(json == true) {
+                                                        if(action == "approve")
+                                                            $(actions).html("Content Approved");
+                                                        else
+                                                            $(actions).html("Content Denied");
+                                                    }
+                                                    else onError();
+                                                },
+                                                error: onError,
+                                                beforeSend: function(){
+                                                    $(actions).html("Please Wait...");
+                                                    $(parent).fadeOut("normal", function(){$(this).remove()});
+                                                },
+                                                dataType: "json"
+                                        });
+                                        $(this).dialog("destroy");
+                                    },
+                                    "Cancel": function(){ $(this).dialog("destroy"); }
+                                },
+                                draggable: false,
+                                height: "auto",
+                                modal: true,
+                                overlay: { opacity: 0.5, background: "black" },
+                                resizable: false,
+                                title: "Moderate Content"
+                            });
+                        $(loading).dialog("destroy");
                     },
-                    error: onError,
-                    beforeSend: function(){
-                        $(action).html("Approving...");
-                        $(parent).fadeOut("slow", function(){$(this).remove()});
-                    },
-                    dataType: "json"
-            });
+                    dataType: "html"
+            });        
+        }
+
+        $(".approve").click(function(e) {
+            e.preventDefault();
+            var parent = $(this).parents("tr.details");
+            moderate(parent, "approve");
             return false;
         });
 
-        $(".deny").click(function() {
+        $(".deny").click(function(e) {
+            e.preventDefault();
             var parent = $(this).parents("tr.details");
-            var action = $(parent).prev().find("td.actions");
-            var content_id = $(parent).attr("id").replace(/c/,"");
-            var onError = function(){window.location = "<?=ADMIN_URL?>/moderate/deny/<?=$this->feed->id?>/" + content_id;};
-            $.ajax({type: "POST",
-                    url: "<?=ADMIN_URL?>/moderate/post",
-                    data: {"feed_id": <?=$this->feed->id?>,
-                           "content_id": content_id,
-                           "action": "deny"},
-                    success: function(json){
-                        if(json == true)  $(action).html("Content Denied");
-                        else onError();
-                    },
-                    error: onError,
-                    beforeSend: function(){
-                        $(action).html("Denying...");
-                        $(parent).fadeOut("slow", function(){$(this).remove()});
-                    },
-                    dataType: "json"
-            });
+            moderate(parent, "deny");
             return false;
         });
 
@@ -99,12 +125,11 @@ if(isset($this->contents)) {
         </tr>
         <tr id="c<?=$content->id?>" class="details">
             <td class="actions">
-                <a class="approve" title="Approve Content" href="<?=ADMIN_URL?>/moderate/approve/<?=$this->feed->id?>/<?=$content->id?>"><span class="approve">Approve <img border="0" src="<?= ADMIN_BASE_URL ?>images/mod_check.gif" alt="" /></span></a>
-                <a class="deny" title="Deny Content" href="<?=ADMIN_URL?>/moderate/deny/<?=$this->feed->id?>/<?=$content->id?>"><span class="deny">Deny <img border="0" src="<?= ADMIN_BASE_URL ?>images/mod_ex.gif" alt="" /></span></a>
-                <h3 title="Duration (seconds)"><input type="text" name="duration" value="<?=$content->get_duration($this->feed)/1000?>" size="2" /></h3>
+                <a class="approve" title="Approve Content" href="<?=ADMIN_URL?>/moderate/confirm/approve?feed_id=<?=$this->feed->id?>&content_id=<?=$content->id?>"><span class="approve">Approve <img border="0" src="<?= ADMIN_BASE_URL ?>images/mod_check.gif" alt="" /></span></a>
+                <a class="deny" title="Deny Content" href="<?=ADMIN_URL?>/moderate/confirm/deny?feed_id=<?=$this->feed->id?>/&content_id=<?=$content->id?>"><span class="deny">Deny <img border="0" src="<?= ADMIN_BASE_URL ?>images/mod_ex.gif" alt="" /></span></a>
+                <!--<h3 title="Duration (seconds)"><input type="text" name="duration" value="<?=$content->get_duration($this->feed)/1000?>" size="2" /></h3>-->
             </td>
             <td colspan="5">
-<form>
 <table>
 <tr>
 <td class="preview <? if(preg_match('/text/',$content->mime_type)) { echo " text_bg"; } ?>" style="width:250px">
@@ -147,7 +172,6 @@ if(isset($this->contents)) {
 </td>
 </tr>
 </table>
-</form>
             </td>
         </tr>
 <?

@@ -6,10 +6,9 @@
 <title><?php echo join(' - ',array('Concerto Interface v'.CONCERTO_VERSION, $this->getTitle()));?></title>
 <link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/admin_new.css" />
 <link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/menu_tabs.css" />
-<link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/ui.datepicker.css" />
 <link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/ui.lightbox.css" />
 <link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/ui.tablesort.css" />
-<link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/ui.tabs.css" />
+<link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/ui.jquery.css" />
 
 <!--[if IE]>
 <link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/ieonly.css" />
@@ -21,11 +20,10 @@
 <script defer type="text/javascript" src="<?=ADMIN_BASE_URL?>js/pngfix.js"></script>
 <![endif]-->
 
-<script src="<?=ADMIN_BASE_URL?>js/jquery.js" type="text/javascript"></script>
-<script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/ui.datepicker.js"></script>
+<script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/jquery.js"></script>
 <script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/ui.lightbox.js"></script>
 <script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/ui.tablesort.js"></script>
-<script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/ui.tabs.js"></script>
+<script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/ui.jquery.js"></script>
 
 <meta name="application-name" content="Concerto"/>
 <meta name="description" content="RPI Digital Signage for Everyone."/>

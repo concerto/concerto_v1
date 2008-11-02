@@ -1,7 +1,7 @@
 <script type="text/javascript"><!--
 (function($) {
     $(document).ready(function() {
-        $("#selectmenu > ul").tabs();
+        $("ul#maintab").tabs();
 
         $.datepicker.setDefaults({showOn: 'both',
                                   buttonImageOnly: true,
@@ -106,36 +106,33 @@
     });
 })(jQuery);
 //--></script>
-<div id="selectdisp_left">
-  <div id="shadetabs">
-    <div id="selectmenu">
-      <ul id="maintab" class="shadetabs">
-        <li><a href="#new_image">Image</a></li>
-        <li><a href="#new_ticker">Ticker Text</a></li>
-        <? if($_SESSION['user']->has_ndc_rights()){ ?>
-        <li><a href="#new_dynamic">Dynamic Data</a></li>
-        <? } ?>
-      </ul>
-    </div>      
-  </div>
-</div>
-<div id="selectdisp_right">
-	
-	<div class="roundcont">
-		<div class="roundtop"><span class="rt"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
-		<div class="roundcont_main">
-			<div id="new_image" class="contentstyle">
-				<? include("new_image.php"); ?>
-			</div>
-			<div id="new_ticker" class="contentstyle">
-				<? include("new_ticker.php"); ?>
-			</div>
-			<div id="new_dynamic" class="contentstyle">
-				<? include("new_dynamic.php"); ?>
-			</div>
-			<div style="clear:both;"></div>
+<ul id="maintab">
+	<li class="first"><a class="graphic" href="#new_image"><h1>Image</h1></a></li>
+   <? if($_SESSION['user']->has_ndc_rights()){ ?>
+   <li class="middle"><a class="dynamic" href="#new_dynamic"><h1>Dynamic Data</h1></a></li>
+   <? } ?>
+	<li class="last"><a class="ticker" href="#new_ticker"><h1>Ticker Text</h1></a></li>
+</ul>
+<br class="funkybreak" />
+<div class="roundcont">
+	<div class="roundtop"><span class="rt"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
+	<div class="roundcont_main">
+		<div id="new_image" class="contentstyle">
+			<? include("new_image.php"); ?>
 		</div>
-		<div class="roundbottom"><span class="rb"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
+		<div id="new_ticker" class="contentstyle">
+			<? include("new_ticker.php"); ?>
+		</div>
+      <div id="new_dynamic" class="contentstyle">
+			<?
+			if($_SESSION['user']->has_ndc_rights())
+			{
+				include("new_dynamic.php"); 
+			}
+			?>
+		</div>
+		<div style="clear:both;"></div>
 	</div>
-	
+	<div class="roundbottom"><span class="rb"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
 </div>
+

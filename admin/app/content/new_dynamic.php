@@ -1,38 +1,42 @@
-<h1>Add Dynamic Data</h1>
+<div style="height:220px; width:330px; float:left;">
+	<img src="<?= ADMIN_BASE_URL ?>images/ticker_icon.jpg" alt="" />
+</div>
+<h1 class="addcontent">Add Dynamic Data</h1>
 <h2>Fill in these details to post a dynamic data item to Concerto.</h2>
-<img src="<?= ADMIN_BASE_URL ?>/images/ticker_icon.jpg" alt="" />
-<br />
+<div style="clear:both;"></div>
 <form method="post" action="<?=ADMIN_URL?>/content/create">
 <br /><br />
 <table class='edit_win' cellpadding='6' cellspacing='0'>
        <tr>
-         <td>
+         <td width="384">
            <h5>Submit to Feed</h5>
            <p><b>Choose the feed your content belongs to</b></p>
            <br/>
+                    </td>
+         <td align="left">&nbsp;
            <div class="feeddiv">
              <div style="float:left; width:38%;">
-               <select class="feedsel" name="content[feeds][0]"
+               <select name="content[feeds][0]"
                        onChange="">
 <?php
 foreach ($this->ndc_feeds as $arr) {
     list($feed, $value) = $arr;?>
-                 <option class="feedopt"
+                 <option
                    title="<?=$feed->description ? $feed->description : ' '?>"
                    value="<?=$feed->id?>"><?=$feed->name?></option>
 
 <? } ?>
-                 <option title=" " class="feedopt"> </option>
+                
                </select>
              </div>
              <div style="float:right; width:58%;"><p class="feeddesc"> </p></div>
              <div style="clear:both;"></div>
            </div>
-         </td>
+		</td>
        </tr>
      </table>
 <table class='edit_win' style="margin-top:-18px" cellpadding='6' cellspacing='0'>
-  <tr>
+<tr>
          <td><h5>Title</h5><p>Enter the title.</p></td>
          <td colspan="2" class='edit_col'>
            <input type="text" class="extended" name="content[name]" value="<?=$content->name?>" />
