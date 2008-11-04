@@ -17,7 +17,7 @@
                     data: {"feed_id": <?=$this->feed->id?>,
                            "content_id": content_id},
                     success: function(html){
-                        $("<div>").html(html)
+                        $(html)
                             .dialog({
                                 autoResize: true,
                                 buttons: {
@@ -55,7 +55,8 @@
                                 modal: true,
                                 overlay: { opacity: 0.5, background: "black" },
                                 resizable: false,
-                                title: "Moderate Content"
+                                title: "Moderate Content",
+                                width: "auto"
                             });
                         $(loading).dialog("destroy");
                     },
@@ -126,8 +127,7 @@ if(isset($this->contents)) {
         <tr id="c<?=$content->id?>" class="details">
             <td class="actions">
                 <a class="approve" title="Approve Content" href="<?=ADMIN_URL?>/moderate/confirm/approve?feed_id=<?=$this->feed->id?>&content_id=<?=$content->id?>"><span class="approve">Approve <img border="0" src="<?= ADMIN_BASE_URL ?>images/mod_check.gif" alt="" /></span></a>
-                <a class="deny" title="Deny Content" href="<?=ADMIN_URL?>/moderate/confirm/deny?feed_id=<?=$this->feed->id?>/&content_id=<?=$content->id?>"><span class="deny">Deny <img border="0" src="<?= ADMIN_BASE_URL ?>images/mod_ex.gif" alt="" /></span></a>
-                <!--<h3 title="Duration (seconds)"><input type="text" name="duration" value="<?=$content->get_duration($this->feed)/1000?>" size="2" /></h3>-->
+                <a class="deny" title="Deny Content" href="<?=ADMIN_URL?>/moderate/confirm/deny?feed_id=<?=$this->feed->id?>&content_id=<?=$content->id?>"><span class="deny">Deny <img border="0" src="<?= ADMIN_BASE_URL ?>images/mod_ex.gif" alt="" /></span></a>
             </td>
             <td colspan="5">
 <table>

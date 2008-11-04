@@ -9,9 +9,15 @@
 <h1>Reason for Rejection:</h1>
 <p>
 <select name="information">
-<option value="Your content is too hard to read.">Your content is too hard to read.</option>
-<option value="Your content is redundant with something else already on my screen.">Your content is redundant with something else already on my screen.</option>
-<option value="Your content is inappropriate.">Your content is inappropriate.</option>
+<?
+$choices = array("Your content is not applicable to my feed.",
+                 "Your content is too hard to read.",
+                 "Your content is redundant.",
+                 "Your content is inappropriate.");
+foreach($choices as $choice) {
+?>
+<option value="<?= $choice ?>"><?= $choice ?></option>
+<? } ?>
 </select>
 </p>
 <? } ?>
