@@ -116,9 +116,9 @@
 //--></script>
 <ul id="maintab">
 	<li class="first"><a class="graphic" href="#new_image"><h1>Image</h1></a></li>
-	<li class="middle"><a class="ticker" href="#new_ticker"><h1>Ticker Text</h1></a></li>
+	<li class="<? if($_SESSION['user']->has_ndc_rights()){ ?>middle<? } else { ?>last<? } ?>"><a class="ticker" href="#new_ticker"><h1>Ticker Text</h1></a></li>
 	<? if($_SESSION['user']->has_ndc_rights()){ ?>
-  <li class="last"><a class="dynamic" href="#new_dynamic"><h1>NetText</h1></a></li>
+  <li class="last"><a class="dynamic" href="#new_dynamic"><h1>Dynamic Text</h1></a></li>
   <? } ?>
 </ul>
 <br class="funkybreak" />

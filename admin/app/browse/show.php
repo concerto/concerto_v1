@@ -78,72 +78,70 @@
     });
 })(jQuery);
 //--></script>
+  
+<div style="float:left; width:70%;">
+	<ul id="maintab" class="ui-tabs-nav">
+		<li class="first<?php if(!isset($this->args[4])) { ?> ui-tabs-selected<?php } ?>"><a class="approved" href="<?= ADMIN_URL ?>/browse/show/<?= $this->feed->id ?>/type/<?= $this->type_id ?>"><h1>Active</h1></a></li>
+		<li class="<?php if($this->feed->user_priv($_SESSION['user'], "moderate")) { ?>middle<?php } else { ?>last<?php } ?><?php if($this->args[4] == "expired") { ?> ui-tabs-selected<?php } ?>"><a class="expired" href="<?= ADMIN_URL ?>/browse/show/<?= $this->feed->id ?>/type/<?= $this->type_id ?>/expired"><h1>Expired</h1></a></li>
+<?php if($this->feed->user_priv($_SESSION['user'], "moderate")) { ?>
+		<li class="last<?php if($this->args[4] == "declined") { ?> ui-tabs-selected<?php } ?>"><a class="denied" href="<?= ADMIN_URL ?>/browse/show/<?= $this->feed->id ?>/type/<?= $this->type_id ?>/declined"><h1>Declined</h1></a></li>
+<?php } ?>
+	</ul>
 
-<div style="float:left; width:50%;">
-  <h3>
-<?php
-if(!isset($this->args[4]))
-    echo "Active Content";
-else
-    echo "<a href=\"".ADMIN_URL."/browse/show/{$this->feed->id}/type/{$this->type_id}/\">Active Content</a>";
-echo " | ";
-if($this->args[4] == "expired")
-    echo "Expired Content";
-else
-    echo "<a href=\"".ADMIN_URL."/browse/show/{$this->feed->id}/type/{$this->type_id}/expired/\">Expired Content</a>";
-if($this->feed->user_priv($_SESSION['user'], "moderate")) {
-    echo " | ";
-    if($this->args[4] == "declined")
-        echo "Declined Content";
-    else
-        echo "<a href=\"".ADMIN_URL."/browse/show/{$this->feed->id}/type/{$this->type_id}/declined/\">Declined Content</a>";
-}
-?></h3>
 </div>
-<div style="float:right:width:50%;text-align:right;">
-  <h3>
+<div style="float:right:width:30%;padding:25px 15px 0px 0px; text-align:right;">
+  
     <a id="expandall" href="#">Expand All</a> | <a id="collapseall" href="#">Collapse All</a>
-  </h3>
+  
 </div>
-<table class="content_listing" cellpadding="6" cellspacing="0">
-    <thead>
-        <tr>
-            <th>Preview</th>
-            <th class="driver">Name</th>
-            <th>Start Time</th>
-            <th>End Time</th>
-            <th>Submitted</th>
-        </tr>
-    </thead>
-    <tbody>
-<?php
-if($this->contents){
-    foreach($this->contents as $content) {
-        $submitter = new User($content->user_id);
-?>
-        <tr id="c<?= $content->id ?>" class="listitem">
-            <td class="listh_icon"><?php
-              if(preg_match('/image/',$content->mime_type)) {
-                echo "<img class=\"icon_border\" src=\"".ADMIN_URL."/content/image/$content->id?width=50&amp;height=37\" alt=\"Icon\" />";
-              } elseif(preg_match('/text/',$content->mime_type)) {
-                echo "<img src=\"".ADMIN_BASE_URL."images/icon_text.gif\" alt=\"Icon\" />";
-              } else {
-                echo "&nbsp;";
-              } ?></td>
-            <td class="listtitle">
-                <a href="<?= ADMIN_URL ?>/content/show/<?= $content->id ?>"><?= htmlspecialchars($content->name) ?></a>
-            </td>
-            <td><?=date("m/j/Y",strtotime($content->start_time))?></td>
-            <td><?=date("m/j/Y",strtotime($content->end_time))?></td>
-            <td><?php $user = new User($content->user_id); echo htmlspecialchars($user->name) ?></td>
-        </tr>
-<?php
-    }
-} else {
-?>
-        <tr><td colspan="5">No Content Found</td></tr>
-<?php
-}
-?>
-    </tbody>
-</table>
+<br class="funkybreak" />
+<div class="roundcont">
+  <div class="roundtop"><span class="rt"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
+  <div class="roundcont_main" style="padding:14px 18px;">
+  
+		<table class="content_listing" cellpadding="6" cellspacing="0">
+				<thead>
+						<tr>
+								<th>Preview</th>
+								<th class="driver">Name</th>
+								<th>Start Time</th>
+								<th>End Time</th>
+								<th>Submitted</th>
+						</tr>
+				</thead>
+				<tbody>
+		<?php
+		if($this->contents){
+				foreach($this->contents as $content) {
+						$submitter = new User($content->user_id);
+		?>
+						<tr id="c<?= $content->id ?>" class="listitem">
+								<td class="listh_icon"><?php
+									if(preg_match('/image/',$content->mime_type)) {
+										echo "<img class=\"icon_border\" src=\"".ADMIN_URL."/content/image/$content->id?width=50&amp;height=37\" alt=\"Icon\" />";
+									} elseif(preg_match('/text/',$content->mime_type)) {
+										echo "<img src=\"".ADMIN_BASE_URL."images/icon_text.gif\" alt=\"Icon\" />";
+									} else {
+										echo "&nbsp;";
+									} ?></td>
+								<td class="listtitle">
+										<a href="<?= ADMIN_URL ?>/content/show/<?= $content->id ?>"><?= htmlspecialchars($content->name) ?></a>
+								</td>
+								<td><?=date("m/j/Y",strtotime($content->start_time))?></td>
+								<td><?=date("m/j/Y",strtotime($content->end_time))?></td>
+								<td><?php $user = new User($content->user_id); echo htmlspecialchars($user->name) ?></td>
+						</tr>
+		<?php
+				}
+		} else {
+		?>
+						<tr><td colspan="5">No Content Found</td></tr>
+		<?php
+		}
+		?>
+				</tbody>
+		</table>
+		
+  </div>
+  <div class="roundbottom"><span class="rb"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
+</div>

@@ -77,8 +77,6 @@ table.edit_win td.merged { border-top:none !important; padding-top:0px; }
 table.edit_win td p { color:#666666; line-height:normal; margin:0px 0px 6px 0px; padding:0px; }
 table.edit_win td h4 { color:#666; font-weight:normal; margin:0px; }
 table.edit_win td h5 { color:#333333; font-size:1.15em; font-weight:bold; line-height:normal; margin:0px 0px 6px 0px; padding:0px; }
-table.edit_win td img { border:solid 2px #99ccff; }
-table.edit_win td img:hover { border:solid 2px #006699; }
 table.edit_win td.icon { width:90px; }
 table.edit_win tr.minlist { padding:0px; font-size:1.05em; vertical-align:middle; background:url(../images/alert_box.gif) repeat; }
 table.edit_win tr.minlist td { padding:4px; border-bottom:solid 1px #FFF; text-align:center; }

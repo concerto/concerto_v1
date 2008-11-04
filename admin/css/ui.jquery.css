@@ -85,9 +85,10 @@ ul#maintab li.last { background:url(../images/addtab_bgright.gif) top right no-r
 ul#maintab li a.graphic { background:url(../images/graphics_icon_sm.jpg) bottom left no-repeat !important; }
 ul#maintab li a.ticker { background:url(../images/ticker_icon_sm.jpg) bottom left no-repeat !important; }
 ul#maintab li a.dynamic { background:url(../images/nettext_icon_sm.gif) bottom left no-repeat !important; }
-ul#maintab li a.approved { background:url(../images/tabicon_check.jpg) bottom left no-repeat !important; }
-ul#maintab li a.denied { background:url(../images/tabicon_ex.jpg) bottom left no-repeat !important; }
-ul#maintab li a.pending { background:url(../images/tabicon_mod.jpg) bottom left no-repeat !important; }
+ul#maintab li a.approved { background:url(../images/tabicon_check.gif) bottom left no-repeat !important; }
+ul#maintab li a.denied { background:url(../images/tabicon_ex.gif) bottom left no-repeat !important; }
+ul#maintab li a.expired { background:url(../images/tabicon_expired.gif) bottom left no-repeat !important; }
+ul#maintab li a.pending { background:url(../images/tabicon_mod.gif) bottom left no-repeat !important; }
 ul#maintab li a.dynamic h1 { padding-left:30px; }
 .ui-tabs-nav {
 	/*resets*/margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none;
@@ -354,7 +355,7 @@ body .ui-resizable-autohide .ui-resizable-handle { display: none; } /* use 'body
 	/*resets*/margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none;
 	font-family: Lucida Grande, Lucida Sans, Arial, sans-serif;
 	background: #f3f3f3 url(../images/ui/f3f3f3_40x100_textures_01_flat_0.png) 0 0 repeat-x;
-	font-size: 1.2em;
+	font-size: 1em;
 	border: 4px solid #dddddd;
 	width: 15.5em;
 	padding: 2.5em .5em .5em .5em;

@@ -1,6 +1,8 @@
+
 <script type="text/javascript"><!--
 $(function()
 {
+   $("ul#maintab").tabs();
    //Show controls for interactive elements, which are hidden from scripting-disabled browsers
    $("#plus_icon").show();
    $("#seemore").show();
@@ -68,11 +70,18 @@ $(function()
 </div>
 
 <? } ?>
-
+<br />
+<ul id="maintab">
+	<li class="first"><a class="approved" href="#approved"><h1>Approved</h1></a></li>
+	<li class="middle"><a class="denied" href="#denied"><h1>Denied</h1></a></li>
+  <li class="last"><a class="pending" href="#pending"><h1>Pending</h1></a></li>
+</ul>
+<br class="funkybreak" />
 <div id="submissions" class="roundcont">
   <div class="roundtop"><span class="rt"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
   <div class="roundcont_main">
 
+<div id="approved" class="contentstyle">
 <h1>Approved Submissions</h1>
 
 <?php
@@ -81,7 +90,6 @@ if(is_array($this->contents['approved']) && count($this->contents['approved']>=1
 {
 foreach(array_keys($this->contents['approved']) as $field)
   $urls[]='<a href="#approved_'.$field.'">'.$field.'</a>'; ?>
-	<p><em>Only content approved on one or more feeds is shown.</em><br/></p>
 	<p>Jump to: <?=join(" | ", $urls)?></p>
 	<?php
 } else {
@@ -92,7 +100,7 @@ foreach($this->contents['approved'] as $field=>$contents)
 {
 	echo "<br /><br />";
 ?>
-	<?php echo "<a name=\"approved_$field\"></a><h1>$field</h1>"; ?>
+	<?php echo "<a name=\"approved_$field\"></a><h2>$field<span class=\"toplink\"><a href=\"#submissions\">top</a></span></h2>"; ?>
 	<table class="content_listing" cellpadding="6" cellspacing="0">
 			<thead>
 					<tr>
@@ -136,8 +144,9 @@ foreach($this->contents['approved'] as $field=>$contents)
 <?php
 }
 ?>
-  </div>
-  <div class="roundcont_main">
+
+</div>
+<div id="denied" class="contentstyle">
 
 <h1>Denied Submissions</h1>
 
@@ -147,7 +156,6 @@ if(is_array($this->contents['denied']) && count($this->contents['denied']>=1))
 {
 foreach(array_keys($this->contents['denied']) as $field)
   $urls[]='<a href="#denied_'.$field.'">'.$field.'</a>'; ?>
-	<p><em>Only content denied on all feeds is shown.</em><br/></p>
 	<p>Jump to: <?=join(" | ", $urls)?></p>
 	<?php
 } else {
@@ -158,7 +166,7 @@ foreach($this->contents['denied'] as $field=>$contents)
 {
 	echo "<br /><br />";
 ?>
-	<?php echo "<a name=\"denied_$field\"></a><h1>$field</h1>"; ?>
+	<?php echo "<a name=\"denied_$field\"></a><h2>$field<span class=\"toplink\"><a href=\"#submissions\">top</a></span></h2>"; ?>
 	<table class="content_listing" cellpadding="6" cellspacing="0">
 			<thead>
 					<tr>
@@ -202,9 +210,9 @@ foreach($this->contents['denied'] as $field=>$contents)
 <?php
 }
 ?>
-  </div>
 
-<div class="roundcont_main">
+</div>
+<div id="pending" class="contentstyle">
 
 <h1>Pending Submissions</h1>
 
@@ -214,7 +222,6 @@ if(is_array($this->contents['pending']) && count($this->contents['pending']>=1))
 {
 foreach(array_keys($this->contents['pending']) as $field)
   $urls[]='<a href="#pending_'.$field.'">'.$field.'</a>'; ?>
-	<p><em>Only content pending moderation on all feeds is shown.</em><br/></p>
 	<p>Jump to: <?=join(" | ", $urls)?></p>
 	<?php
 } else {
@@ -225,7 +232,7 @@ foreach($this->contents['pending'] as $field=>$contents)
 {
 	echo "<br /><br />";
 ?>
-	<?php echo "<a name=\"pending_$field\"></a><h1>$field</h1>"; ?>
+	<?php echo "<a name=\"pending_$field\"></a><h2>$field<span class=\"toplink\"><a href=\"#submissions\">top</a></span></h2>"; ?>
 	<table class="content_listing" cellpadding="6" cellspacing="0">
 			<thead>
 					<tr>
@@ -269,6 +276,7 @@ foreach($this->contents['pending'] as $field=>$contents)
 <?php
 }
 ?>
+</div>
   </div>
 
   <div class="roundbottom"><span class="rb"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
