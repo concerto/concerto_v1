@@ -104,15 +104,24 @@
                  <option title=" " class="feedopt"> </option>
 <?php
 foreach ($this->feeds as $arr) {
-    list($feed, $value) = $arr;?>
+    list($feed, $value) = $arr;
+    $screens = array();
+    $screen_objs = $feed->get_screens($content_type);
+    if(count($screen_objs)>0) {
+      foreach($screen_objs as $screen) {
+        $screens[] = $screen->name;
+      }
+    }
+    $scrcnt = count($screens);
+?>
                  <option class="feedopt"
-                   title="<?=$feed->description ? $feed->description : ' '?>"
+                   title="<?=$feed->description ? $feed->description : ' '?>   Displays on <?=$scrcnt?> screen<?= $scrcnt!=1 ? 's' : ''?><?= (count($screens)>0) ? ': '.join(', ',$screens) : '. ' ?>" 
                    value="<?=$feed->id?>"><?=$feed->name?></option>
 
 <? } ?>
                </select>
              </div>
-             <div style="float:right; width:58%;"><p class="feeddesc"> </p></div>
+             <div style="float:right; width:58%;" class="feeddesc"><p> </p></div>
              <div style="clear:both;"></div>
            </div>
          </td>

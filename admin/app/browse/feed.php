@@ -1,3 +1,4 @@
+
 <? if ($this->feed->user_priv($_SESSION['user'], "edit")) { ?>
 <a href="<?=ADMIN_URL.'/feeds/edit/'.$this->feed->id ?>"><span class="buttonsel"><div class="buttonleft"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_left.gif" border="0" alt="" /></div><div class="buttonmid"><div class="buttonmid_padding">Edit Feed</div></div><div class="buttonright"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_right.gif" border="0" alt="" /></div></span></a>
 <a href="<?=ADMIN_URL.'/feeds/delete/'.$this->feed->id ?>"><span class="buttonsel"><div class="buttonleft"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_left.gif" border="0" alt="" /></div><div class="buttonmid"><div class="buttonmid_padding">Delete Feed</div></div><div class="buttonright"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_right.gif" border="0" alt="" /></div></span></a>
@@ -15,6 +16,7 @@ if($this->feed->user_priv($_SESSION['user'], "moderate")){
 <?
 }
 ?>
+<p>This feed is moderated by <a href="<?=ADMIN_URL.'/groups/show/'.$this->group->id?>"><?= htmlspecialchars($this->group->name) ?></a>.</p>
 
 <h3>Content</h3>
 <ul>
@@ -28,4 +30,29 @@ if($this->feed->user_priv($_SESSION['user'], "moderate")){
 <li>Active and Future Content: <?= $this->active_content ?></li>
 <li>Expired Content: <?= $this->expired_content ?></li>
 </ul>
-<p>This feed is moderated by <a href="<?=ADMIN_URL.'/groups/show/'.$this->group->id?>"><?= htmlspecialchars($this->group->name) ?></a>.</p>
+
+<? $screens = $this->feed->get_screens(); ?>
+<? if(count($screens)>0) { ?>
+<h3>Active Screens</h3>
+<ul>
+<?php
+foreach ($screens as $screen) {
+  if($prev!=$screen->id) { 
+    if(isset($prev)) {
+      echo ')</li>';
+    }
+    $prev=$screen->id;
+?>
+<li><?= $screen->name ?> 
+(<?
+  } else echo ', ';
+?>
+<?= $screen->field_name ?>
+<? } ?>
+<?
+if(isset($prev)) {
+   echo ')</li>';
+}
+?>
+</ul>
+<? } ?>

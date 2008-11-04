@@ -81,7 +81,15 @@
         }
 
         function update(child, desc) {
-           $(child).parents('.feeddiv').find('.feeddesc').html(desc);
+           console.log('update');
+           var descdiv = $(child).parents('.feeddiv').find('.feeddesc');
+           descdiv.html('');
+           if(desc.length>0) {
+              var pars = desc.split('   ');
+              for (var i=0; i<pars.length; i++) {
+                 descdiv.append($('<p>').html(pars[i]));
+              }
+           }           //$(child).parents('.feeddiv').find('.feeddesc').html(desc);
         }
 
         $(".click_add_feed").click(function() {
@@ -118,15 +126,18 @@
 	<div class="roundtop"><span class="rt"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
 	<div class="roundcont_main">
 		<div id="new_image" class="contentstyle">
+         <? $content_type = 3; // for displaying feed subscription info ?>
 			<? include("new_image.php"); ?>
 		</div>
 		<div id="new_ticker" class="contentstyle">
+         <? $content_type = 2; // for displaying feed subscription info ?>
 			<? include("new_ticker.php"); ?>
 		</div>
       <div id="new_dynamic" class="contentstyle">
 			<?
 			if($_SESSION['user']->has_ndc_rights())
 			{
+            $content_type = NULL; //hmm.
 				include("new_dynamic.php"); 
 			}
 			?>

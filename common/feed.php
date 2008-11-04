@@ -17,6 +17,7 @@ Functionality:
         get_all		Gets all the feeds in the system, optional WHERE syntax
         priv_get		Gets all the feeds that an object (usr/scr) can access on a per action basis
         priv_test		Test if a user can see a specific feed
+        get_feeds    Get all Screens (arr of objects) currently subscribing to feed
         destroy		Deletes a feed, all content mapped to the feed, and scales all the fields up appropriately
 Comments:
 	Added the ability to list feeds based on a type, for content listing
@@ -466,6 +467,38 @@ class Feed{
 			return false;
 		}
 	}
+
+   function get_screens($type=NULL) {
+      $sql = 'SELECT screen.id, field.name FROM feed '.
+         'LEFT JOIN position ON position.feed_id = feed.id '.
+         'LEFT JOIN screen ON position.screen_id = screen.id '.
+         'LEFT JOIN field ON position.field_id = field.id '.
+         'WHERE field.template_id = screen.template_id '.
+         "AND feed.id = $this->id";
+
+      if(isset($type)) {
+         $sql .= " AND field.type_id = $type";
+      }
+      $sql .= ' ORDER BY screen.name';
+		$res = sql_query($sql);
+		$i=0;
+		$found = false;
+		while($row = sql_row_keyed($res,$i)) {
+			$found = true;
+         $scr = new Screen($row['id']);
+         $scr->field_name = $row['name'];
+         $objects[] = $scr;
+         $i++;
+		}
+
+		if($found){
+			return $objects;
+		} else {
+			return false;
+		}
+      
+   }
+
 	//Destroys a feed.  Roar
 	function destroy(){
 		$sql = "DELETE FROM feed_content WHERE feed_id = $this->id";
