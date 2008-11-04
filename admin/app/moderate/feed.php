@@ -55,8 +55,7 @@
                                 modal: true,
                                 overlay: { opacity: 0.5, background: "black" },
                                 resizable: false,
-                                title: "Moderate Content",
-                                width: "auto"
+                                title: "Moderate Content"
                             });
                         $(loading).dialog("destroy");
                     },

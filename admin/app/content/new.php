@@ -118,7 +118,7 @@
                     modal: true,
                     overlay: { opacity: 0.5, background: "black" },
                     resizable: false,
-                    title: "Add Feed",
+                    title: "Add Feed"
             });
             return false;
         });
