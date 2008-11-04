@@ -93,22 +93,34 @@
         }
 
         $(".click_add_feed").click(function() {
-            if (!confirm("You are strongly encouraged to submit to only one feed, except in extraordinary situations. Please use discretion when choosing feeds to submit to, and carefully read the help page on feeds before adding additional feeds. Note specifically that feeds and screen locations are not equivalent. Are you sure you want to continue?")) {
-                return false;
-            }
             var count = $(this).data("count");
             if(count == undefined)
                 count = 0;
             var feeddiv = $(this).parents("tr").find(".feeddiv:last");
-            var select = $(feeddiv).find(".feedsel:first");
-            if(count < $(select).children().length - 2) {
-               var newdiv = $(feeddiv).clone(true);
-               $(newdiv).find(".feedsel:first").attr("name","content[feeds][" + ++count + "]");
-               $(newdiv).find(".feeddesc").html('');
-               $(newdiv).insertAfter(feeddiv);
-            }
-
-            $(this).data("count", count);
+            $("<p>").html("You are strongly encouraged to submit to only one feed, except in extraordinary situations. Please use discretion when choosing feeds to submit to, and carefully read the help page on feeds before adding additional feeds. Note specifically that feeds and screen locations are not equivalent. Are you sure you want to continue?<br/><br/>")
+                .dialog({
+                    autoResize: true,
+                    buttons: {
+                            "Submit": function(){
+                                $(this).dialog("destroy");
+                                var select = $(feeddiv).find(".feedsel:first");
+                                if(count < $(select).children().length - 2) {
+                                    var newdiv = $(feeddiv).clone(true);
+                                    $(newdiv).find(".feedsel:first").attr("name","content[feeds][" + ++count + "]");
+                                    $(newdiv).find(".feeddesc").html('');
+                                    $(newdiv).insertAfter(feeddiv);
+                                }
+                                $(this).data("count", count);
+                            },
+                            "Cancel": function(){ $(this).dialog("destroy"); }
+                        },
+                    draggable: false,
+                    height: "auto",
+                    modal: true,
+                    overlay: { opacity: 0.5, background: "black" },
+                    resizable: false,
+                    title: "Add Feed",
+            });
             return false;
         });
     });
