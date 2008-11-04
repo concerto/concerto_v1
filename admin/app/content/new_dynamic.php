@@ -1,7 +1,7 @@
 <div style="height:220px; width:330px; float:left;">
-	<img src="<?= ADMIN_BASE_URL ?>images/ticker_icon.jpg" alt="" />
+	<img src="<?= ADMIN_BASE_URL ?>images/net_text_logo.jpg" alt="" />
 </div>
-<h1 class="addcontent">Add Dynamic Data</h1>
+<h1 class="addcontent">Add NetText</h1>
 <h2>Fill in these details to post a dynamic data item to Concerto.</h2>
 <div style="clear:both;"></div>
 <form method="post" action="<?=ADMIN_URL?>/content/create">

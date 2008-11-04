@@ -61,7 +61,16 @@ class moderateController extends Controller
         $feed = new Feed($_POST['feed_id']);
         $content_id = $_POST['content_id'];
         $action = $_POST['action'];
-        $duration = $_POST['duration'];
+        if(!is_numeric($_POST['duration'])) {
+            $this->flash('Please enter a valid duration', 'error');
+            if($_POST['ajax']) {
+                echo "false";
+                return;
+            } else {
+                redirect_to(ADMIN_URL.'/moderate/confirm/'.$action.'?feed_id='.$feed->id.'&content_id='.$content_id);
+            }
+        }
+        $duration = $_POST['duration'] * 1000;
         $notification = $_POST['notification'];
         if($feed && $action=="approve"){
             $return_code = $feed->content_mod($content_id, 1, $_SESSION['user'], $duration, $notification);

@@ -112,7 +112,7 @@ class Newsfeed{
     }
     return 0;
   }
-  function get_for_user($user_id, $hidden = 0, $since= '', $offset=0,$count = 7){
+  function get_for_user($user_id, $hidden = 0, $since= '', $offset=0,$count = 5){
     if(!is_numeric($user_id) || !is_numeric($offset) || !is_numeric($count)){
       return false;
     }

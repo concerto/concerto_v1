@@ -5,13 +5,13 @@ $(function()
    $("#plus_icon").show();
    $("#seemore").show();
 
-   $("#news_expand").data('items', 7);
+   $("#news_expand").data('items', 5);
    
    $("#seemore").click(function(event) {
 		event.preventDefault();
-      $.post("<?= ADMIN_URL ?>/users/notifications/<?= $_SESSION['user']->username ?>", {'start': $("#news_expand").data('items'), 'num': 7}, function(data) {
+      $.post("<?= ADMIN_URL ?>/users/notifications/<?= $_SESSION['user']->username ?>", {'start': $("#news_expand").data('items'), 'num': 5}, function(data) {
          $("<div>").css("overflow", "hidden").html(data).hide().appendTo($("#news_expand")).slideDown("slow");
-               $("#news_expand").data('items',$("#news_expand").data('items')+7);
+               $("#news_expand").data('items',$("#news_expand").data('items')+5);
                if( data == "" )
                  $("#news_expand").before($("<span>").html("No more news")).remove();
             });

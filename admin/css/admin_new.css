@@ -131,20 +131,21 @@ div.select td { padding-right:25px; }
 .roundcont_main h1 { color:#333 !important; font-size:1.2em !important; font-weight:bold; }
 .roundcont_main h1.addcontent { font-size:1.5em !important; }
 .roundcont_main h1.fp { padding-top:12px !important; }
-.roundcont p { margin: 0 0§px; }
+.roundcont p { margin: 0 15px; }
 .newsfeed { background:url(../images/lightgray_bg.gif) repeat; }
 .newsfeed a { font-weight: normal !important; }
-.newsfeed p { margin-top:0px; margin-left:10px; margin-bottom:0px; padding:5px 0 5px 30px; }
-.newsfeed p.feed_approve { background:url(../images/nf_check.gif) center left no-repeat; }
-.newsfeed p.feed_add { background:url(../images/nf_addcontent.gif) center left no-repeat; }
-.newsfeed p.feed_new { background:url(../images/nf_newfeed.gif) center left no-repeat; }
-.newsfeed p.feed_deny { background:url(../images/nf_ex.gif) center left no-repeat; }
-.newsfeed p.feed_update { background:url(../images/nf_feedupdate.gif) center left no-repeat; }
-.newsfeed p.screen_update { background:url(../images/nf_screen.gif) center left no-repeat; }
-.newsfeed p.screen_subscribe { background:url(../images/nf_screenadd.gif) center left no-repeat; }
-.newsfeed p.screen_new { background:url(../images/nf_screennew.gif) center left no-repeat; }
-.newsfeed p.group_join { background:url(../images/nf_joingroup.gif) center left no-repeat; }
+.newsfeed p { margin-top:0px; margin-left:10px; margin-bottom:0px; padding:0px 0 12px 30px; }
+.newsfeed p.feed_approve { background:url(../images/nf_check.gif) top left no-repeat; }
+.newsfeed p.feed_add { background:url(../images/nf_addcontent.gif) top left no-repeat; }
+.newsfeed p.feed_new { background:url(../images/nf_newfeed.gif) top left no-repeat; }
+.newsfeed p.feed_deny { background:url(../images/nf_ex.gif) top left no-repeat; }
+.newsfeed p.feed_update { background:url(../images/nf_feedupdate.gif) top left no-repeat; }
+.newsfeed p.screen_update { background:url(../images/nf_screen.gif) top left no-repeat; }
+.newsfeed p.screen_subscribe { background:url(../images/nf_screenadd.gif) top left no-repeat; }
+.newsfeed p.screen_new { background:url(../images/nf_screennew.gif) top left no-repeat; }
+.newsfeed p.group_join { background:url(../images/nf_joingroup.gif) top left no-repeat; }
 .newsfeed span.datesub { color:#666; font-size: 0.75em !important; padding-left:12px; }
+.newsfeed span.newsfeed_reason { background:url(../images/nf_quotes.gif) top left no-repeat; display:block; margin:5px 0px; padding:5px 12px 5px 40px; color:#666; border:solid 1px #dedede; border-bottom:0px; border-left:0px; border-right:0px; }
 br.funkybreak { clear:both; height:1px !important; }
 
 .roundtop { background: url(../images/rc_tr.gif) no-repeat top right; text-align:left; height:6px; }
