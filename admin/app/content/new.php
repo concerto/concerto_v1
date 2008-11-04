@@ -81,7 +81,6 @@
         }
 
         function update(child, desc) {
-           console.log('update');
            var descdiv = $(child).parents('.feeddiv').find('.feeddesc');
            descdiv.html('');
            if(desc.length>0) {
