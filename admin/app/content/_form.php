@@ -56,7 +56,7 @@
 <?php
       echo "<option value=\"00:00\">12:00am</option>\n";
       echo "<option value=\"00:30\">12:30am</option>\n";
-      for ($i = 1; $i < 12; $i += 2)
+      for ($i = 1; $i < 12; $i += 1)
       {
          $tempi = str_pad($i, 2, "0", STR_PAD_LEFT);
          echo "<option value=\"{$tempi}:00\">{$i}:00am</option>\n";
@@ -64,7 +64,7 @@
       }
       echo "<option value=\"12:00\">12:00pm</option>\n";
       echo "<option value=\"12:30\">12:30pm</option>\n";
-      for ($i = 1; $i < 12; $i += 2)
+      for ($i = 1; $i < 12; $i += 1)
       {
          $tempi = str_pad($i, 2, "0", STR_PAD_LEFT);
          $rtime = $i+12;
