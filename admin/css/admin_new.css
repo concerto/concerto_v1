@@ -98,6 +98,7 @@ div.view_left { float:left; margin-right:20px; height:160px; }
 div.view_right { width:100%; }
 
 table.item_details td { padding:2px; }
+#submissions h2 span.toplink { font-size:0.85em; padding-left:10px; }
 
 
 /* Control Screens */
