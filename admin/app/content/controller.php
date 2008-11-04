@@ -129,9 +129,14 @@ class contentController extends Controller
          if(is_array($dat['feeds'])) $feed_ids=array_unique(array_values($dat['feeds']));
          else $feed_ids=Array();
 
-         $start=$dat['start_date'].' '.$dat['start_time'];
-         $end=$dat['end_date'].' '.$dat['end_time'];
-
+         if($dat['upload_type'] == 'dynamic'){
+             $start=$dat['start_date'].' '.$dat['start_time_hr'].':'.$dat['start_time_min'].' '.$dat['start_time_ampm'];
+             $end=$dat['end_date'].' '.$dat['end_time_hr'].':'.$dat['end_time_min'].' '.$dat['end_time_ampm'];
+         } else {
+             $start=$dat['start_date'].' '.$dat['start_time'];
+             $end=$dat['end_date'].' '.$dat['end_time'];
+         }
+         $dat['duration'] = strtotime($end) - strtotime($start);
          $uploader = new Uploader($dat['name'], $start,
                                   $end, $feed_ids, $dat['duration']*1000, 
                                   $content_val, $dat['upload_type'], $_SESSION[user]->id, 1);
