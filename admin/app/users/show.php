@@ -73,25 +73,26 @@ $(function()
   <div class="roundtop"><span class="rt"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
   <div class="roundcont_main">
 
-<h1>Submissions</h1>
+<h1>Approved Submissions</h1>
 
 <?php
-if(is_array($this->contents) && count($this->contents>1))
+unset($urls);
+if(is_array($this->contents['approved']) && count($this->contents['approved']>=1))
 {
-foreach(array_keys($this->contents) as $field)
-  $urls[]='<a href="#'.$field.'">'.$field.'</a>'; ?>
+foreach(array_keys($this->contents['approved']) as $field)
+  $urls[]='<a href="#approved_'.$field.'">'.$field.'</a>'; ?>
 	<p><em>Only content approved on one or more feeds is shown.</em><br/></p>
 	<p>Jump to: <?=join(" | ", $urls)?></p>
 	<?php
 } else {
 	echo "<p><em>This user has had no content approved on one or more feeds.</em></p>";
 }
-if(is_array($this->contents))
-foreach($this->contents as $field=>$contents)
+if(is_array($this->contents['approved']))
+foreach($this->contents['approved'] as $field=>$contents)
 {
 	echo "<br /><br />";
 ?>
-	<?php echo "<a name=\"$field\"></a><h1>$field</h1>"; ?>
+	<?php echo "<a name=\"approved_$field\"></a><h1>$field</h1>"; ?>
 	<table class="content_listing" cellpadding="6" cellspacing="0">
 			<thead>
 					<tr>
@@ -136,5 +137,139 @@ foreach($this->contents as $field=>$contents)
 }
 ?>
   </div>
+  <div class="roundcont_main">
+
+<h1>Denied Submissions</h1>
+
+<?php
+unset($urls);
+if(is_array($this->contents['denied']) && count($this->contents['denied']>=1))
+{
+foreach(array_keys($this->contents['denied']) as $field)
+  $urls[]='<a href="#denied_'.$field.'">'.$field.'</a>'; ?>
+	<p><em>Only content denied on all feeds is shown.</em><br/></p>
+	<p>Jump to: <?=join(" | ", $urls)?></p>
+	<?php
+} else {
+	echo "<p><em>This user has had no content denied on all feeds.</em></p>";
+}
+if(is_array($this->contents['denied']))
+foreach($this->contents['denied'] as $field=>$contents)
+{
+	echo "<br /><br />";
+?>
+	<?php echo "<a name=\"denied_$field\"></a><h1>$field</h1>"; ?>
+	<table class="content_listing" cellpadding="6" cellspacing="0">
+			<thead>
+					<tr>
+							<th>Preview</th>
+							<th class="driver">Name</th>
+							<th>Start Time</th>
+							<th>End Time</th>
+					</tr>
+			</thead>
+			<tbody>
+	<?php
+	if($contents){
+			foreach($contents as $content) {
+					$submitter = new User($content->user_id); ?>
+					<tr id="c<?= $content->id ?>" class="listitem listitem_none">
+							<td class="listh_icon"><?php
+								if(preg_match('/image/',$content->mime_type)) {
+									echo "<a href=\"" .ADMIN_URL. "/content/show/$content->id\"><img class=\"icon_border\" src=\"".ADMIN_URL."/content/image/$content->id?width=50&amp;height=37\" alt=\"Icon\" /></a>";
+								} elseif(preg_match('/text/',$content->mime_type)) {
+									echo "<img src=\"".ADMIN_BASE_URL."images/icon_text.gif\" alt=\"Icon\" />";
+								} else {
+									echo "&nbsp;";
+								} ?></td>
+							<td class="listtitle">
+									<a href="<?= ADMIN_URL ?>/content/show/<?= $content->id ?>"><?= htmlspecialchars($content->name) ?></a>
+							</td>
+							<td><?=date("m/j/Y",strtotime($content->start_time))?></td>
+							<td><?=date("m/j/Y",strtotime($content->end_time))?></td>
+					</tr>
+	<?php
+			}
+	} else {
+	?>
+					<tr><td colspan="4">This user has had no content denied on all feeds.</td></tr>
+	<?php
+	}
+	?>
+			</tbody>
+	</table>
+
+<?php
+}
+?>
+  </div>
+
+<div class="roundcont_main">
+
+<h1>Pending Submissions</h1>
+
+<?php
+unset($urls);
+if(is_array($this->contents['pending']) && count($this->contents['pending']>=1))
+{
+foreach(array_keys($this->contents['pending']) as $field)
+  $urls[]='<a href="#pending_'.$field.'">'.$field.'</a>'; ?>
+	<p><em>Only content pending moderation on all feeds is shown.</em><br/></p>
+	<p>Jump to: <?=join(" | ", $urls)?></p>
+	<?php
+} else {
+	echo "<p><em>This user has had no content pending moderation on all feeds.</em></p>";
+}
+if(is_array($this->contents['pending']))
+foreach($this->contents['pending'] as $field=>$contents)
+{
+	echo "<br /><br />";
+?>
+	<?php echo "<a name=\"pending_$field\"></a><h1>$field</h1>"; ?>
+	<table class="content_listing" cellpadding="6" cellspacing="0">
+			<thead>
+					<tr>
+							<th>Preview</th>
+							<th class="driver">Name</th>
+							<th>Start Time</th>
+							<th>End Time</th>
+					</tr>
+			</thead>
+			<tbody>
+	<?php
+	if($contents){
+			foreach($contents as $content) {
+					$submitter = new User($content->user_id); ?>
+					<tr id="c<?= $content->id ?>" class="listitem listitem_none">
+							<td class="listh_icon"><?php
+								if(preg_match('/image/',$content->mime_type)) {
+									echo "<a href=\"" .ADMIN_URL. "/content/show/$content->id\"><img class=\"icon_border\" src=\"".ADMIN_URL."/content/image/$content->id?width=50&amp;height=37\" alt=\"Icon\" /></a>";
+								} elseif(preg_match('/text/',$content->mime_type)) {
+									echo "<img src=\"".ADMIN_BASE_URL."images/icon_text.gif\" alt=\"Icon\" />";
+								} else {
+									echo "&nbsp;";
+								} ?></td>
+							<td class="listtitle">
+									<a href="<?= ADMIN_URL ?>/content/show/<?= $content->id ?>"><?= htmlspecialchars($content->name) ?></a>
+							</td>
+							<td><?=date("m/j/Y",strtotime($content->start_time))?></td>
+							<td><?=date("m/j/Y",strtotime($content->end_time))?></td>
+					</tr>
+	<?php
+			}
+	} else {
+	?>
+					<tr><td colspan="4">This user has had no content pending moderation on all feeds.</td></tr>
+	<?php
+	}
+	?>
+			</tbody>
+	</table>
+
+<?php
+}
+?>
+  </div>
+
   <div class="roundbottom"><span class="rb"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
 </div>

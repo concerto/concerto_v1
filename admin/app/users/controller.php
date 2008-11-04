@@ -54,12 +54,16 @@ class usersController extends Controller
 
       $types = sql_select('type',Array('id','name'), NULL, 'ORDER BY name');
       foreach($types as $type) {
-         $contentids = sql_select('feed_content','DISTINCT content_id', '', 'INNER JOIN `content`'.
-      ' ON content_id=content.id AND moderation_flag=1 AND type_id = '.$type['id'].
-      ' AND content.user_id='.$this->user->id.' ORDER BY name');
+         $contentids = sql_select('content','content.id, content.user_id, SUM(moderation_flag) as mod_status', '', 'LEFT JOIN feed_content ON content.id = feed_content.content_id WHERE content.type_id = '.$type['id'].' AND content.user_id='.$this->user->id .' GROUP BY content.id ORDER BY content.name');
          if(is_array($contentids))
             foreach($contentids as $id)
-               $this->contents[$type['name']][] = new Content($id['content_id']);
+              if($id['mod_status'] >= 1){
+                  $this->contents['approved'][$type['name']][] = new Content($id['id']);
+              }else if($id['mod_status'] == 0 && !is_null($id['mod_status'])){
+                  $this->contents['denied'][$type['name']][] = new Content($id['id']);
+              }else{
+                  $this->contents['pending'][$type['name']][] = new Content($id['id']);
+              }
       }
       $this->notifications = Newsfeed::get_for_user($this->user->id, 0);
    }
