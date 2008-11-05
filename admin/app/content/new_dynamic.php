@@ -1,5 +1,5 @@
 <div style="height:220px; width:330px; float:left;">
-	<img src="<?= ADMIN_BASE_URL ?>images/net_text_logo.jpg" alt="" />
+   <img src="<?= ADMIN_BASE_URL ?>images/dynamic_text_icon.jpg" alt="" />
 </div>
 <h1 class="addcontent">Add Dynamic Text</h1>
 <h2>Fill in these details to post a dynamic data item to Concerto.</h2>
@@ -26,13 +26,13 @@ foreach ($this->ndc_feeds as $arr) {
                    value="<?=$feed->id?>"><?=$feed->name?></option>
 
 <? } ?>
-                
+
                </select>
              </div>
              <div style="float:right; width:58%;"><p class="feeddesc"> </p></div>
              <div style="clear:both;"></div>
            </div>
-		</td>
+      </td>
        </tr>
      </table>
 <table class='edit_win' style="margin-top:-18px" cellpadding='6' cellspacing='0'>
@@ -62,7 +62,7 @@ foreach ($this->ndc_feeds as $arr) {
          <td>
            Date:
            <input type="text" class="start_date" name="content[start_date]" value="<?=$content->start_time?>" />
-					 Time:
+                Time:
            <select name="content[start_time_hr]">
            <option value="12">12</option>
 <?php
@@ -72,7 +72,7 @@ foreach ($this->ndc_feeds as $arr) {
          echo "<option value=\"{$tempi}\">{$i}</option>\n";
       }
      ?>
-           </select> : 
+           </select> :
            <select name="content[start_time_min]">
 <?php
       for ($i = 0; $i < 60; $i ++)
@@ -94,7 +94,7 @@ foreach ($this->ndc_feeds as $arr) {
          <td>
            Date:
            <input type="text" class="end_date" name="content[end_date]" value="<?=$content->end_time?>" />
-					 Time:
+                Time:
            <select name="content[end_time_hr]">
            <option value="12">12</option>
 <?php
@@ -104,7 +104,7 @@ foreach ($this->ndc_feeds as $arr) {
          echo "<option value=\"{$tempi}\">{$i}</option>\n";
       }
      ?>
-           </select> : 
+           </select> :
            <select name="content[end_time_min]">
 <?php
       for ($i = 0; $i < 60; $i ++)
@@ -121,7 +121,7 @@ foreach ($this->ndc_feeds as $arr) {
          </td>
        </tr>
      </table>
-     <br /><br />     
+     <br /><br />
    <br clear="all" />
 <!-- End Screen Form General Section -->
 <input value="Submit Content" type="submit" name="submit" />

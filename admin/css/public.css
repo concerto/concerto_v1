@@ -8,13 +8,13 @@ a:hover { color:#333; text-decoration:underline; }
 
 #wrap { background:#f8f8f8 url(../images/public/body_bg_left.gif) top left repeat-y; }
 #main { background:url(../images/public/body_bg_right.gif) top right repeat-y; padding-left:10px; padding-right:10px; }
-#main h1 { font-weight:normal !important; font-size:2.5em; margin:0px; padding:0px 0px 50px 0px; text-align:center; }
+#main h1 { font-weight:normal; font-size:2.5em; margin:0px; padding:0px 0px 50px 0px; text-align:center; }
 
 #fp_img { height:411px; background:url(../images/public/fp_splash1.jpg) bottom left no-repeat; text-align:center; padding:0px; margin:0px 2px; }
 #fp_img h1 { font-weight:normal !important; font-size:2.5em; margin:0px 15px 0px 0px; padding:30px 0px 10px 0px; text-align:center; }
 #fp_header { margin:0px 90px 50px 90px; padding:0px; text-align:center; }
 #fp_header h1 { margin:0px 0px 25px 0px; padding:0px; }
-#slider h1 { text-align:left; font-size:1.5em; margin:0px 0px 20px 0px; padding:0px; }
+#slider h1 { text-align:left; font-size:1.5em; margin:0px 0px 12px 0px; padding:0px; }
 
 div.hrule { clear:both; margin:5px 2px 25px 2px; background:#ccc url(../images/public/hrule_bg.gif) center center repeat-x; height:3px; }
 
@@ -45,16 +45,16 @@ div.floatright img { border:solid 1px #666; }
 /* SLIDER */
 
 #slider {
-    width: 700px;
+    width: 760px;
     margin: 50px auto 0px auto;
     position: relative;
-    background: #f8f8f8 url(../images/public/screen_sliderbg.jpg) bottom center no-repeat;
+    background: #f8f8f8 url(../images/public/screen_sliderbg.jpg) center center no-repeat;
 }
 
 .scroll {
     margin:26px 26px 0px 26px; 
-    height: 460px;
-    width: 648px;
+    height: 533px;
+    width: 708px;
     overflow: auto;
     overflow-x: hidden;
     position: relative;
@@ -63,13 +63,15 @@ div.floatright img { border:solid 1px #666; }
 
 .scrollContainer div.panel {
 		padding:20px; 
-    height: 320px;
-    width: 609px;
+    height: 358px;
+    width: 669px;
 }
-
+.scrollContainer h1 { font-size:1.6em !important; }
+.scrollContainer p { font-size:1.05em; }
 .scrollContainer div.bg1 {
-		background:silver;
+		background:#FFF url(../images/public/fp_bg1.jpg) center center no-repeat;
 }
+.scrollContainer div.bg1 span { padding-left:85px !important; display:block; margin-bottom:35px; }
 .scrollContainer div.bg2 {
 		background:teal;
 }
@@ -77,6 +79,15 @@ div.floatright img { border:solid 1px #666; }
 		background:yellow;
 }
 .scrollContainer div.bg4 {
+		background:#FFF;
+}
+.scrollContainer div.bg5 {
+		background:#FFF url(../images/public/fp_bg5.jpg) center center no-repeat;
+}
+span#bg5_1 { margin:16px 80px 0px 120px; display:block; }
+span#bg5_1 p { margin-left:80px; }
+span#bg5_2 { margin-top:105px; display:block; }
+.scrollContainer div.bg6 {
 		background:lime;
 }
 
@@ -119,7 +130,7 @@ ul.navigation a:focus {
 
 .scrollButtons {
     position: absolute;
-    top: 210px;
+    top: 240px;
     cursor: pointer;
 }
 
