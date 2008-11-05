@@ -28,7 +28,7 @@ foreach ($this->ndc_feeds as $arr) {
 
                </select>
 			 <br />
-			 <div class="feeddesc"><p> </p></div>
+			 <div style="margin-top:4px;" class="feeddesc"><p> </p></div>
 			 <div style="clear:both;"></div>
 		 </div>
 	 </td>

@@ -92,6 +92,7 @@ img.icon_border { border:solid 1px #666 !important; }
 td.edit_col { width:70%; }
 
 div.feeddiv {  }
+p.feeddesc_screens { color:#000 !important; }
 div.view_left { float:left; margin-right:20px; height:160px; }
 div.view_right { width:100%; }
 
