@@ -100,7 +100,7 @@ table.item_details td { padding:2px; }
 
 
 /* Control Screens */
-.roundcont_sf { cursor:hand; float:left; margin:6px; width:200px !important; text-align: center; }
+.roundcont_sf { cursor:hand; float:left; margin:6px; margin-right:16px !important; width:200px !important; text-align: center; }
 .roundcont_sf:hover { background:url(../images/medblue_bg.gif) repeat; }
 .roundcont_sf img { border:0px; margin-bottom:8px; }
 .sf { }

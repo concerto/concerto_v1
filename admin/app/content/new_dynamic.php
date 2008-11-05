@@ -6,35 +6,35 @@
 <div style="clear:both;"></div>
 <form method="post" action="<?=ADMIN_URL?>/content/create">
 <br /><br />
+
 <table class='edit_win' cellpadding='6' cellspacing='0'>
-       <tr>
-         <td width="384">
-           <h5>Submit to Feed</h5>
-           <p><b>Choose the feed your content belongs to</b></p>
-           <br/>
-                    </td>
-         <td align="left">&nbsp;
-           <div class="feeddiv">
-             <div style="float:left; width:38%;">
-               <select name="content[feeds][0]"
+ <tr>
+	 <td>
+		 <h5>Submit to Dynamic Feed</h5>
+		 <p><b>Select the dynamic feed to which you would like to add this text item.</b></p>
+	</td>
+	<td class="edit_col">
+		 <div class="feeddiv">
+               <select class="feedsel" name="content[feeds][0]"
                        onChange="">
 <?php
 foreach ($this->ndc_feeds as $arr) {
     list($feed, $value) = $arr;?>
-                 <option
+                 <option class="feedopt"
                    title="<?=$feed->description ? $feed->description : ' '?>"
                    value="<?=$feed->id?>"><?=$feed->name?></option>
 
 <? } ?>
 
                </select>
-             </div>
-             <div style="float:right; width:58%;"><p class="feeddesc"> </p></div>
-             <div style="clear:both;"></div>
-           </div>
-      </td>
-       </tr>
-     </table>
+			 <br />
+			 <div class="feeddesc"><p> </p></div>
+			 <div style="clear:both;"></div>
+		 </div>
+	 </td>
+ </tr>
+</table>
+<br clear="all" />
 <table class='edit_win' style="margin-top:-18px" cellpadding='6' cellspacing='0'>
 <tr>
          <td><h5>Title</h5><p>Enter the title.</p></td>
@@ -59,7 +59,7 @@ foreach ($this->ndc_feeds as $arr) {
      <table class='edit_win' cellpadding='6' cellspacing='0'>
        <tr>
          <td><h5>Start Date</h5><p>When does the event start?</p></td>
-         <td>
+         <td class="edit_col">
            Date:
            <input type="text" class="start_date" name="content[start_date]" value="<?=$content->start_time?>" />
                 Time:
