@@ -15,53 +15,53 @@
 
 /*UI accordion*/
 .ui-accordion {
-	/*resets*/margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none;
-	font-family: Lucida Grande, Lucida Sans, Arial, sans-serif;
-	font-size: 1.2em;
-	border-bottom: 1px solid #cccccc;
+   /*resets*/margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none;
+   font-family: Lucida Grande, Lucida Sans, Arial, sans-serif;
+   font-size: 1.2em;
+   border-bottom: 1px solid #cccccc;
 }
 .ui-accordion-group {
-	/*resets*/margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none;
-	border: 1px solid #cccccc;
-	border-bottom: none;
+   /*resets*/margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none;
+   border: 1px solid #cccccc;
+   border-bottom: none;
 }
 .ui-accordion-header {
-	/*resets*/margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none;
-	cursor: pointer;
-	background: #e0e0e0 url(../images/ui/e0e0e0_40x100_textures_02_glass_80.png) 0 50% repeat-x;
+   /*resets*/margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none;
+   cursor: pointer;
+   background: #e0e0e0 url(../images/ui/e0e0e0_40x100_textures_02_glass_80.png) 0 50% repeat-x;
 }
 .ui-accordion-header a {
-	/*resets*/margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none;
-	display: block;
-	font-size: 1em;
-	font-weight: normal;
-	text-decoration: none;
-	padding: .5em .5em .5em 1.7em;
-	color: #444444;
-	background: url(../images/ui/888888_7x7_arrow_right.gif) .5em 50% no-repeat;
+   /*resets*/margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none;
+   display: block;
+   font-size: 1em;
+   font-weight: normal;
+   text-decoration: none;
+   padding: .5em .5em .5em 1.7em;
+   color: #444444;
+   background: url(../images/ui/888888_7x7_arrow_right.gif) .5em 50% no-repeat;
 }
 .ui-accordion-header a:hover {
-	background: url(../images/ui/222222_7x7_arrow_right.gif) .5em 50% no-repeat;
-	color: #111111;
+   background: url(../images/ui/222222_7x7_arrow_right.gif) .5em 50% no-repeat;
+   color: #111111;
 }
 .ui-accordion-header:hover {
-	background: #d8d8d8 url(../images/ui/d8d8d8_40x100_textures_02_glass_90.png) 0 50% repeat-x;
-	color: #111111;
+   background: #d8d8d8 url(../images/ui/d8d8d8_40x100_textures_02_glass_90.png) 0 50% repeat-x;
+   color: #111111;
 }
 .selected .ui-accordion-header, .selected .ui-accordion-header:hover {
-	background: #8ab9ff url(../images/ui/8ab9ff_40x100_textures_02_glass_50.png) 0 50% repeat-x;
+   background: #8ab9ff url(../images/ui/8ab9ff_40x100_textures_02_glass_50.png) 0 50% repeat-x;
 }
 .selected .ui-accordion-header a, .selected .ui-accordion-header a:hover {
-	color: #000000;
-	background: url(../images/ui/ffffff_7x7_arrow_down.gif) .5em 50% no-repeat;
+   color: #000000;
+   background: url(../images/ui/ffffff_7x7_arrow_down.gif) .5em 50% no-repeat;
 }
 .ui-accordion-content {
-	background: #f3f3f3 url(../images/ui/f3f3f3_40x100_textures_01_flat_0.png) 0 0 repeat-x;
-	color: #362b36;
-	font-size: 1em;
+   background: #f3f3f3 url(../images/ui/f3f3f3_40x100_textures_01_flat_0.png) 0 0 repeat-x;
+   color: #362b36;
+   font-size: 1em;
 }
 .ui-accordion-content p {
-	padding: 1em 1.7em 0.6em;
+   padding: 1em 1.7em 0.6em;
 }
 
 
@@ -84,54 +84,54 @@ ul#maintab li.middle {border-right:solid 1px #b2b2b2; background:url(../images/a
 ul#maintab li.last { background:url(../images/addtab_bgright.gif) top right no-repeat !important}
 ul#maintab li a.graphic { background:url(../images/graphics_icon_sm.jpg) bottom left no-repeat !important; }
 ul#maintab li a.ticker { background:url(../images/ticker_icon_sm.jpg) bottom left no-repeat !important; }
-ul#maintab li a.dynamic { background:url(../images/nettext_icon_sm.gif) bottom left no-repeat !important; }
+ul#maintab li a.dynamic { background:url(../images/dynamic_text_icon_sm.jpg) bottom left no-repeat !important; }
 ul#maintab li a.approved { background:url(../images/tabicon_check.gif) bottom left no-repeat !important; }
 ul#maintab li a.denied { background:url(../images/tabicon_ex.gif) bottom left no-repeat !important; }
 ul#maintab li a.expired { background:url(../images/tabicon_expired.gif) bottom left no-repeat !important; }
 ul#maintab li a.pending { background:url(../images/tabicon_mod.gif) bottom left no-repeat !important; }
 ul#maintab li a.dynamic h1 { padding-left:30px; }
 .ui-tabs-nav {
-	/*resets*/margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none;
-	font-family: Lucida Grande, Lucida Sans, Arial, sans-serif;
-	font-size: 1.2em;
-	float: left;
-	position: relative;
-	z-index: 1;
-	bottom: -1px;
+   /*resets*/margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none;
+   font-family: Lucida Grande, Lucida Sans, Arial, sans-serif;
+   font-size: 1.2em;
+   float: left;
+   position: relative;
+   z-index: 1;
+   bottom: -1px;
 }
 .ui-tabs-nav li {
-	/*resets*/margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none;
-	float: left;
-	border-bottom:solid 6px #b2b2b2; 
+   /*resets*/margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none;
+   float: left;
+   border-bottom:solid 6px #b2b2b2;
 }
 .ui-tabs-nav li a {
-	/*resets*/margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none;
-	float: left;
-	font-size: 1em;
-	font-weight: normal;
-	text-decoration: none;
-	padding:0 1.6em;
-	color: #444444;
+   /*resets*/margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none;
+   float: left;
+   font-size: 1em;
+   font-weight: normal;
+   text-decoration: none;
+   padding:0 1.6em;
+   color: #444444;
 }
 .ui-tabs-nav li a:hover {
-	color: #111111;
+   color: #111111;
 }
 .ui-tabs-nav li.ui-tabs-selected {
-	border-bottom:solid 6px #0099cc;
+   border-bottom:solid 6px #0099cc;
 }
 .ui-tabs-nav li.ui-tabs-selected a, .ui-tabs-nav li.ui-tabs-selected a:hover {
-	color: #000000;
+   color: #000000;
 }
 .ui-tabs-panel {
-	/*resets*/margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none;
-	font-family: Lucida Grande, Lucida Sans, Arial, sans-serif;
-	clear:left;
-	background: #FFF;
-	color: #362b36;
-	padding: 1em;	
+   /*resets*/margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none;
+   font-family: Lucida Grande, Lucida Sans, Arial, sans-serif;
+   clear:left;
+   background: #FFF;
+   color: #362b36;
+   padding: 1em;
 }
 .ui-tabs-hide {
-	display: none;/* for accessible hiding: position: absolute; left: -99999999px*/;
+   display: none;/* for accessible hiding: position: absolute; left: -99999999px*/;
 }
 
 
@@ -140,44 +140,44 @@ ul#maintab li a.dynamic h1 { padding-left:30px; }
 
 /*slider*/
 .ui-slider {
-	/*resets*/margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none;
-	font-family: Lucida Grande, Lucida Sans, Arial, sans-serif;
-	font-size: 1.2em;
-	background: #f3f3f3 url(../images/ui/f3f3f3_40x100_textures_01_flat_0.png) 0 0 repeat-x;
-	border: 1px solid #dddddd;
-	height: .8em;
-	position: relative;
+   /*resets*/margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none;
+   font-family: Lucida Grande, Lucida Sans, Arial, sans-serif;
+   font-size: 1.2em;
+   background: #f3f3f3 url(../images/ui/f3f3f3_40x100_textures_01_flat_0.png) 0 0 repeat-x;
+   border: 1px solid #dddddd;
+   height: .8em;
+   position: relative;
 }
 .ui-slider-handle {
-	/*resets*/margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none;
-	position: absolute;
-	z-index: 2;
-	top: -3px;
-	width: 1.2em;
-	height: 1.2em;
-	background: #e0e0e0 url(../images/ui/e0e0e0_40x100_textures_02_glass_80.png) 0 50% repeat-x;
-	border: 1px solid #cccccc;
+   /*resets*/margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none;
+   position: absolute;
+   z-index: 2;
+   top: -3px;
+   width: 1.2em;
+   height: 1.2em;
+   background: #e0e0e0 url(../images/ui/e0e0e0_40x100_textures_02_glass_80.png) 0 50% repeat-x;
+   border: 1px solid #cccccc;
 }
 .ui-slider-handle:hover {
-	background: #d8d8d8 url(../images/ui/d8d8d8_40x100_textures_02_glass_90.png) 0 50% repeat-x;
-	border: 1px solid #888888;
+   background: #d8d8d8 url(../images/ui/d8d8d8_40x100_textures_02_glass_90.png) 0 50% repeat-x;
+   border: 1px solid #888888;
 }
 .ui-slider-handle-active, .ui-slider-handle-active:hover {
-	background: #8ab9ff url(../images/ui/8ab9ff_40x100_textures_02_glass_50.png) 0 50% repeat-x;
-	border: 1px solid #2694e8;
+   background: #8ab9ff url(../images/ui/8ab9ff_40x100_textures_02_glass_50.png) 0 50% repeat-x;
+   border: 1px solid #2694e8;
 }
 .ui-slider-range {
-	/*resets*/margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none;
-	height: .8em;
-	background: #d8d8d8 url(../images/ui/d8d8d8_40x100_textures_02_glass_90.png) 0 50% repeat-x;
-	position: absolute;
-	border: 1px solid #cccccc;
-	border-left: 0;
-	border-right: 0;
-	top: -1px;
-	z-index: 1;
-	opacity:.7;
-	filter:Alpha(Opacity=70);
+   /*resets*/margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none;
+   height: .8em;
+   background: #d8d8d8 url(../images/ui/d8d8d8_40x100_textures_02_glass_90.png) 0 50% repeat-x;
+   position: absolute;
+   border: 1px solid #cccccc;
+   border-left: 0;
+   border-right: 0;
+   top: -1px;
+   z-index: 1;
+   opacity:.7;
+   filter:Alpha(Opacity=70);
 }
 
 
@@ -188,160 +188,160 @@ ul#maintab li a.dynamic h1 { padding-left:30px; }
 /*dialog
 .ui-dialog {
 margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none;
-	font-family: Lucida Grande, Lucida Sans, Arial, sans-serif;
-	font-size: 1.2em;
-	background: #f3f3f3 url(../images/ui/f3f3f3_40x100_textures_01_flat_0.png) 0 0 repeat-x;
-	color: #362b36;
-	border: 4px solid #dddddd;
-	position: relative;
+   font-family: Lucida Grande, Lucida Sans, Arial, sans-serif;
+   font-size: 1.2em;
+   background: #f3f3f3 url(../images/ui/f3f3f3_40x100_textures_01_flat_0.png) 0 0 repeat-x;
+   color: #362b36;
+   border: 4px solid #dddddd;
+   position: relative;
 }
 */
 .ui-resizable-handle {
-	position: absolute;
-	font-size: 0.1px;
-	z-index: 99999;
+   position: absolute;
+   font-size: 0.1px;
+   z-index: 99999;
 }
 .ui-resizable .ui-resizable-handle {
-	display: block; 
+   display: block;
 }
 body .ui-resizable-disabled .ui-resizable-handle { display: none; } /* use 'body' to make it more specific (css order) */
 body .ui-resizable-autohide .ui-resizable-handle { display: none; } /* use 'body' to make it more specific (css order) */
-.ui-resizable-n { 
-	cursor: n-resize; 
-	height: 7px; 
-	width: 100%; 
-	top: -5px; 
-	left: 0px;  
+.ui-resizable-n {
+   cursor: n-resize;
+   height: 7px;
+   width: 100%;
+   top: -5px;
+   left: 0px;
 }
-.ui-resizable-s { 
-	cursor: s-resize; 
-	height: 7px; 
-	width: 100%; 
-	bottom: -5px; 
-	left: 0px; 
+.ui-resizable-s {
+   cursor: s-resize;
+   height: 7px;
+   width: 100%;
+   bottom: -5px;
+   left: 0px;
 }
-.ui-resizable-e { 
-	cursor: e-resize; 
-	width: 7px; 
-	right: -5px; 
-	top: 0px; 
-	height: 100%; 
+.ui-resizable-e {
+   cursor: e-resize;
+   width: 7px;
+   right: -5px;
+   top: 0px;
+   height: 100%;
 }
-.ui-resizable-w { 
-	cursor: w-resize; 
-	width: 7px; 
-	left: -5px; 
-	top: 0px; 
-	height: 100%;
+.ui-resizable-w {
+   cursor: w-resize;
+   width: 7px;
+   left: -5px;
+   top: 0px;
+   height: 100%;
 }
-.ui-resizable-se { 
-	cursor: se-resize; 
-	width: 13px; 
-	height: 13px; 
-	right: 0px; 
-	bottom: 0px; 
-	background: url(../images/ui/222222_11x11_icon_resize_se.gif) no-repeat 0 0;
+.ui-resizable-se {
+   cursor: se-resize;
+   width: 13px;
+   height: 13px;
+   right: 0px;
+   bottom: 0px;
+   background: url(../images/ui/222222_11x11_icon_resize_se.gif) no-repeat 0 0;
 }
-.ui-resizable-sw { 
-	cursor: sw-resize; 
-	width: 9px; 
-	height: 9px; 
-	left: 0px; 
-	bottom: 0px;  
+.ui-resizable-sw {
+   cursor: sw-resize;
+   width: 9px;
+   height: 9px;
+   left: 0px;
+   bottom: 0px;
 }
-.ui-resizable-nw { 
-	cursor: nw-resize; 
-	width: 9px; 
-	height: 9px; 
-	left: 0px; 
-	top: 0px; 
+.ui-resizable-nw {
+   cursor: nw-resize;
+   width: 9px;
+   height: 9px;
+   left: 0px;
+   top: 0px;
 }
-.ui-resizable-ne { 
-	cursor: ne-resize; 
-	width: 9px; 
-	height: 9px; 
-	right: 0px; 
-	top: 0px; 
+.ui-resizable-ne {
+   cursor: ne-resize;
+   width: 9px;
+   height: 9px;
+   right: 0px;
+   top: 0px;
 }
 /* ui- dialog box */
 
 
 .ui-dialog {
-	background-color: #A2C6D9;
-	font-family:"Lucida Grande",Arial,sans-serif;
-	
+   background-color: #A2C6D9;
+   font-family:"Lucida Grande",Arial,sans-serif;
+
 }
 
 .ui-dialog .ui-dialog-titlebar {
-	border-bottom: 1px solid #4794BB; /*d8d2aa*/
-	background: #326b87 url(../images/ui/dialog_images/dialog-title.gif) repeat-x;
-	padding: 0px;
-	height: 28px;
-	_height: 29px;
-	font-size:small;
+   border-bottom: 1px solid #4794BB; /*d8d2aa*/
+   background: #326b87 url(../images/ui/dialog_images/dialog-title.gif) repeat-x;
+   padding: 0px;
+   height: 28px;
+   _height: 29px;
+   font-size:small;
 }
 
 .ui-draggable .ui-dialog-titlebar {
-	cursor: move;
+   cursor: move;
 }
 
 .ui-draggable-disabled .ui-dialog-titlebar {
-	cursor: default;
+   cursor: default;
 }
 
 .ui-dialog .ui-dialog-titlebar-close {
-	width: 16px;
-	height: 16px;
-	background: url(../images/ui/dialog_images/dialog-close.gif) no-repeat;
-	position:absolute;
-	top: 6px;
-	right: 7px;
-	cursor: default;
+   width: 16px;
+   height: 16px;
+   background: url(../images/ui/dialog_images/dialog-close.gif) no-repeat;
+   position:absolute;
+   top: 6px;
+   right: 7px;
+   cursor: default;
 }
 
 .ui-dialog .ui-dialog-titlebar-close span {
-	display: none;
+   display: none;
 }
 
 .ui-dialog .ui-dialog-titlebar-close-hover {
-	background: url(../images/ui/dialog_images/dialog-close-hover.gif) no-repeat;
+   background: url(../images/ui/dialog_images/dialog-close-hover.gif) no-repeat;
 }
 
 .ui-dialog .ui-dialog-title {
-	margin-left: 5px;
-	color: white;
-	font-weight: bold;
-	position: relative;
-	top: 7px;
-	left: 4px;
+   margin-left: 5px;
+   color: white;
+   font-weight: bold;
+   position: relative;
+   top: 7px;
+   left: 4px;
 }
 
 .ui-dialog .ui-dialog-content {
-	
-	padding-bottom: 10px;
-	margin-top: 10px;
-	margin-left: 10px;
-	margin-right: 10px;
-	font-size:12px;
-	
+
+   padding-bottom: 10px;
+   margin-top: 10px;
+   margin-left: 10px;
+   margin-right: 10px;
+   font-size:12px;
+
 }
 .ui-dialog h1 { font-size:0.9em !important; color:#333; }
 .ui-dialog .ui-dialog-text {
-	font-size: 13px;
-	font-style:italic;
-	font-weight:bold;
+   font-size: 13px;
+   font-style:italic;
+   font-weight:bold;
 }
 
 .ui-dialog .ui-dialog-buttonpane {
-	position: absolute;
-	bottom: 8px;
-	right: 0px;
-	width: 100%;
-	text-align: left;
+   position: absolute;
+   bottom: 8px;
+   right: 0px;
+   width: 100%;
+   text-align: left;
 }
 
 .ui-dialog .ui-dialog-buttonpane button {
-	margin: 6px;
+   margin: 6px;
 }
 
 /* end ui-dialog */
@@ -352,129 +352,129 @@ body .ui-resizable-autohide .ui-resizable-handle { display: none; } /* use 'body
 /*datepicker*/
 /* Main Style Sheet for jQuery UI date picker */
 .ui-datepicker-div, .ui-datepicker-inline, #ui-datepicker-div {
-	/*resets*/margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none;
-	font-family: Lucida Grande, Lucida Sans, Arial, sans-serif;
-	background: #f3f3f3 url(../images/ui/f3f3f3_40x100_textures_01_flat_0.png) 0 0 repeat-x;
-	font-size: 1em;
-	border: 4px solid #dddddd;
-	width: 15.5em;
-	padding: 2.5em .5em .5em .5em;
-	position: relative;
+   /*resets*/margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none;
+   font-family: Lucida Grande, Lucida Sans, Arial, sans-serif;
+   background: #f3f3f3 url(../images/ui/f3f3f3_40x100_textures_01_flat_0.png) 0 0 repeat-x;
+   font-size: 1em;
+   border: 4px solid #dddddd;
+   width: 15.5em;
+   padding: 2.5em .5em .5em .5em;
+   position: relative;
 }
 .ui-datepicker-div, #ui-datepicker-div {
-	z-index: 9999; /*must have*/
-	display: none;
+   z-index: 9999; /*must have*/
+   display: none;
 }
 .ui-datepicker-inline {
-	float: left;
-	display: block;
+   float: left;
+   display: block;
 }
 .ui-datepicker-control {
-	display: none;
+   display: none;
 }
 .ui-datepicker-current {
-	display: none;
+   display: none;
 }
 .ui-datepicker-next, .ui-datepicker-prev {
-	position: absolute;
-	left: .5em;
-	top: .5em;
-	background: #e0e0e0 url(../images/ui/e0e0e0_40x100_textures_02_glass_80.png) 0 50% repeat-x;
+   position: absolute;
+   left: .5em;
+   top: .5em;
+   background: #e0e0e0 url(../images/ui/e0e0e0_40x100_textures_02_glass_80.png) 0 50% repeat-x;
 }
 .ui-datepicker-next {
-	left: 14.6em;
+   left: 14.6em;
 }
 .ui-datepicker-next:hover, .ui-datepicker-prev:hover {
-	background: #d8d8d8 url(../images/ui/d8d8d8_40x100_textures_02_glass_90.png) 0 50% repeat-x;
+   background: #d8d8d8 url(../images/ui/d8d8d8_40x100_textures_02_glass_90.png) 0 50% repeat-x;
 }
 .ui-datepicker-next a, .ui-datepicker-prev a {
-	text-indent: -999999px;
-	width: 1.3em;
-	height: 1.4em;
-	display: block;
-	font-size: 1em;
-	background: url(../images/ui/888888_7x7_arrow_left.gif) 50% 50% no-repeat;
-	border: 1px solid #cccccc;
-	cursor: pointer;
+   text-indent: -999999px;
+   width: 1.3em;
+   height: 1.4em;
+   display: block;
+   font-size: 1em;
+   background: url(../images/ui/888888_7x7_arrow_left.gif) 50% 50% no-repeat;
+   border: 1px solid #cccccc;
+   cursor: pointer;
 }
 .ui-datepicker-next a {
-	background: url(../images/ui/888888_7x7_arrow_right.gif) 50% 50% no-repeat;
+   background: url(../images/ui/888888_7x7_arrow_right.gif) 50% 50% no-repeat;
 }
 .ui-datepicker-prev a:hover {
-	background: url(../images/ui/222222_7x7_arrow_left.gif) 50% 50% no-repeat;
+   background: url(../images/ui/222222_7x7_arrow_left.gif) 50% 50% no-repeat;
 }
 .ui-datepicker-next a:hover {
-	background: url(../images/ui/222222_7x7_arrow_right.gif) 50% 50% no-repeat;
+   background: url(../images/ui/222222_7x7_arrow_right.gif) 50% 50% no-repeat;
 }
 .ui-datepicker-prev a:active {
-	background: url(../images/ui/ffffff_7x7_arrow_left.gif) 50% 50% no-repeat;
+   background: url(../images/ui/ffffff_7x7_arrow_left.gif) 50% 50% no-repeat;
 }
 .ui-datepicker-next a:active {
-	background: url(../images/ui/ffffff_7x7_arrow_right.gif) 50% 50% no-repeat;
+   background: url(../images/ui/ffffff_7x7_arrow_right.gif) 50% 50% no-repeat;
 }
 .ui-datepicker-header select {
-	border: 1px solid #cccccc;
-	color: #444444;
-	background: #e0e0e0;
-	font-size: 1em;
-	line-height: 1.4em;
-	position: absolute;
-	top: .5em;
-	margin: 0 !important;
+   border: 1px solid #cccccc;
+   color: #444444;
+   background: #e0e0e0;
+   font-size: 1em;
+   line-height: 1.4em;
+   position: absolute;
+   top: .5em;
+   margin: 0 !important;
 }
 .ui-datepicker-header option:focus, .ui-datepicker-header option:hover {
-	background: #d8d8d8;
+   background: #d8d8d8;
 }
 .ui-datepicker-header select.ui-datepicker-new-month {
-	width: 7em;
-	left: 2.2em;
+   width: 7em;
+   left: 2.2em;
 }
 .ui-datepicker-header select.ui-datepicker-new-year {
-	width: 5em;
-	left: 9.4em;
+   width: 5em;
+   left: 9.4em;
 }
 table.ui-datepicker {
-	width: 15.5em;
-	text-align: right;
+   width: 15.5em;
+   text-align: right;
 }
 table.ui-datepicker td a {
-	padding: .1em .3em .1em 0;
-	display: block;
-	color: #444444;
-	background: #e0e0e0 url(../images/ui/e0e0e0_40x100_textures_02_glass_80.png) 0 50% repeat-x;
-	cursor: pointer;
-	border: 1px solid #f3f3f3;
+   padding: .1em .3em .1em 0;
+   display: block;
+   color: #444444;
+   background: #e0e0e0 url(../images/ui/e0e0e0_40x100_textures_02_glass_80.png) 0 50% repeat-x;
+   cursor: pointer;
+   border: 1px solid #f3f3f3;
 }
 table.ui-datepicker td a:hover {
-	border: 1px solid #888888;
-	color: #111111;
-	background: #d8d8d8 url(../images/ui/d8d8d8_40x100_textures_02_glass_90.png) 0 50% repeat-x;
+   border: 1px solid #888888;
+   color: #111111;
+   background: #d8d8d8 url(../images/ui/d8d8d8_40x100_textures_02_glass_90.png) 0 50% repeat-x;
 }
 table.ui-datepicker td a:active {
-	border: 1px solid #2694e8;
-	color: #000000;
-	background: #8ab9ff url(../images/ui/8ab9ff_40x100_textures_02_glass_50.png) 0 50% repeat-x;
+   border: 1px solid #2694e8;
+   color: #000000;
+   background: #8ab9ff url(../images/ui/8ab9ff_40x100_textures_02_glass_50.png) 0 50% repeat-x;
 }
 table.ui-datepicker .ui-datepicker-title-row td {
-	padding: .3em 0;
-	text-align: center;
-	font-size: .9em;
-	color: #362b36;
-	text-transform: uppercase;
+   padding: .3em 0;
+   text-align: center;
+   font-size: .9em;
+   color: #362b36;
+   text-transform: uppercase;
 }
 table.ui-datepicker .ui-datepicker-title-row td a {
-	color: #362b36;
+   color: #362b36;
 }
 .ui-datepicker-cover {
-	display: none;
-	display/**/: block;
-	position: absolute;
-	z-index: -1;
-	filter: mask();
-	top: -4px;
-	left: -4px;
-	width: 193px;
-	height: 200px;
+   display: none;
+   display/**/: block;
+   position: absolute;
+   z-index: -1;
+   filter: mask();
+   top: -4px;
+   left: -4px;
+   width: 193px;
+   height: 200px;
 }
 
 
@@ -490,59 +490,59 @@ table.ui-datepicker .ui-datepicker-title-row td a {
 /* ui-autocomplete */
 /*
 .ui-autocomplete-input {
-	border: 1px solid #dddddd;
-	color: #362b36;
-	background: #f3f3f3;
+   border: 1px solid #dddddd;
+   color: #362b36;
+   background: #f3f3f3;
 }
 */
 .ui-autocomplete-results {
-	/*resets*/margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none;
-	font-family: Lucida Grande, Lucida Sans, Arial, sans-serif;
-	font-size: 1.2em;
-	z-index: 9999;	
+   /*resets*/margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none;
+   font-family: Lucida Grande, Lucida Sans, Arial, sans-serif;
+   font-size: 1.2em;
+   z-index: 9999;
 }
 .ui-autocomplete-results ul, .ui-autocomplete-results li {
-	margin: 0; 
-	padding: 0; 
-	list-style: none;
+   margin: 0;
+   padding: 0;
+   list-style: none;
 }
 .ui-autocomplete-results ul {
-	border: 1px solid #dddddd;
-	background: #f3f3f3 url(../images/ui/f3f3f3_40x100_textures_01_flat_0.png) 0 0 repeat-x;
-	border-top: 0;
-	border-bottom: 0;
-	margin-bottom: -1px;
+   border: 1px solid #dddddd;
+   background: #f3f3f3 url(../images/ui/f3f3f3_40x100_textures_01_flat_0.png) 0 0 repeat-x;
+   border-top: 0;
+   border-bottom: 0;
+   margin-bottom: -1px;
 }
 .ui-autocomplete-results li {
-	color: #362b36;
-	padding: .4em .5em;
-	font-size: 1em;
-	font-weight: normal;
-	position: relative;
-	margin: 1px 0;
+   color: #362b36;
+   padding: .4em .5em;
+   font-size: 1em;
+   font-weight: normal;
+   position: relative;
+   margin: 1px 0;
 }
 .ui-autocomplete-results li.ui-hover-state, .ui-autocomplete-results li.ui-active-state {
-	margin: 0;
+   margin: 0;
 }
 
 .ui-autocomplete-results li.ui-autocomplete-over {
-	border-top: 1px solid #888888;
-	border-bottom: 1px solid #888888;
-	background: #d8d8d8 url(../images/ui/d8d8d8_40x100_textures_02_glass_90.png) 0 50% repeat-x;
-	color: #111111 !important;
+   border-top: 1px solid #888888;
+   border-bottom: 1px solid #888888;
+   background: #d8d8d8 url(../images/ui/d8d8d8_40x100_textures_02_glass_90.png) 0 50% repeat-x;
+   color: #111111 !important;
 }
 .ui-autocomplete-results li.ui-autocomplete-active {
-	border-top: 1px solid #2694e8;
-	border-bottom: 1px solid #2694e8;
-	background: #8ab9ff url(../images/ui/8ab9ff_40x100_textures_02_glass_50.png) 0 50% repeat-x;
-	color: #000000 !important;
-	outline: none;
+   border-top: 1px solid #2694e8;
+   border-bottom: 1px solid #2694e8;
+   background: #8ab9ff url(../images/ui/8ab9ff_40x100_textures_02_glass_50.png) 0 50% repeat-x;
+   color: #000000 !important;
+   outline: none;
 }
 .ui-autocomplete-results li:first-child, .ui-autocomplete-results li.first  {
-	margin-top: 0;
+   margin-top: 0;
 }
 .ui-autocomplete-results li:last-child, .ui-autocomplete-results li.last {
-	margin-bottom: 0;
+   margin-bottom: 0;
 }
 
 
@@ -557,45 +557,45 @@ table.ui-datepicker .ui-datepicker-title-row td a {
 
 /*UI ProgressBar */
 .ui-progressbar {
-	/*resets*/margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none;
-	font-family: Lucida Grande, Lucida Sans, Arial, sans-serif;
-	font-size: 1.2em;
-	background: #f3f3f3 url(../images/ui/f3f3f3_40x100_textures_01_flat_0.png) 0 0 repeat-x;
-	border: 1px solid #dddddd;
-	position: relative;
-	height: 1.8em;
+   /*resets*/margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none;
+   font-family: Lucida Grande, Lucida Sans, Arial, sans-serif;
+   font-size: 1.2em;
+   background: #f3f3f3 url(../images/ui/f3f3f3_40x100_textures_01_flat_0.png) 0 0 repeat-x;
+   border: 1px solid #dddddd;
+   position: relative;
+   height: 1.8em;
 }
 .ui-progressbar-bar {
-	background: #e0e0e0 url(../images/ui/e0e0e0_40x100_textures_02_glass_80.png) 0 50% repeat-x;
-	overflow: hidden;
-	border: 1px solid #cccccc;
-	margin:-1px;
-	z-index: 2;
-	position: relative;
-	height: 1.8em;
-	opacity:.7;
-	filter:Alpha(Opacity=70);
+   background: #e0e0e0 url(../images/ui/e0e0e0_40x100_textures_02_glass_80.png) 0 50% repeat-x;
+   overflow: hidden;
+   border: 1px solid #cccccc;
+   margin:-1px;
+   z-index: 2;
+   position: relative;
+   height: 1.8em;
+   opacity:.7;
+   filter:Alpha(Opacity=70);
 }
 .ui-progressbar-wrap {
-	position: absolute;
-	top: 0;
-	left: 0;
+   position: absolute;
+   top: 0;
+   left: 0;
 }
 .ui-progressbar-text {
-	color: #444444;
-	padding: .2em .5em;
-	font-weight: normal;
-	position: absolute;
-	top: 0;
-	left: 0;
+   color: #444444;
+   padding: .2em .5em;
+   font-weight: normal;
+   position: absolute;
+   top: 0;
+   left: 0;
 }
 .ui-progressbar-text-back {
-	color:  #362b36;
-	z-index: 0;
+   color:  #362b36;
+   z-index: 0;
 }
 .ui-progressbar-disabled {
-	opacity:.5;
-	filter:Alpha(Opacity=50);
+   opacity:.5;
+   filter:Alpha(Opacity=50);
 }
 
 
@@ -605,132 +605,132 @@ table.ui-datepicker .ui-datepicker-title-row td a {
 
 /*UI Colorpicker */
 .ui-colorpicker {
-	/*resets*/margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none;
-	font-family: Lucida Grande, Lucida Sans, Arial, sans-serif;
-	font-size: 1.2em;
-	background: #f3f3f3 url(../images/ui/f3f3f3_40x100_textures_01_flat_0.png) 0 0 repeat-x;
-	border: 4px solid #dddddd;
-	padding: 5px;
-	width: 360px;
-	position: relative;
+   /*resets*/margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none;
+   font-family: Lucida Grande, Lucida Sans, Arial, sans-serif;
+   font-size: 1.2em;
+   background: #f3f3f3 url(../images/ui/f3f3f3_40x100_textures_01_flat_0.png) 0 0 repeat-x;
+   border: 4px solid #dddddd;
+   padding: 5px;
+   width: 360px;
+   position: relative;
 }
 .ui-colorpicker-color {
-	float: left;
-	width: 150px;
-	height: 150px;
-	margin-right: 15px;
+   float: left;
+   width: 150px;
+   height: 150px;
+   margin-right: 15px;
 }
 .ui-colorpicker-color div { /* is this extra div needed? why not just .ui-colorpicker-color ? */
-	border: 1px solid #cccccc;
-	height: 150px;
-	background: url(../images/ui/_x_.);
-	position: relative;
+   border: 1px solid #cccccc;
+   height: 150px;
+   background: url(../images/ui/_x_.);
+   position: relative;
 }
 .ui-colorpicker-color div div {/* shouldn't this have a class like ui-colorpicker-selector ? */
-	width: 11px;
-	height: 11px;
-	background: url(../images/ui/_x_.);
-	position: absolute;
-	border: 0;
-	margin: -5px 0 0 -5px;
-	float: none;
+   width: 11px;
+   height: 11px;
+   background: url(../images/ui/_x_.);
+   position: absolute;
+   border: 0;
+   margin: -5px 0 0 -5px;
+   float: none;
 }
 .ui-colorpicker-hue {
-	border: 1px solid #cccccc;
-	float: left;
-	width: 17px;
-	height: 150px;
-	background: url(../images/ui/_x_.);
-	position: relative;
-	margin-right: 15px;
+   border: 1px solid #cccccc;
+   float: left;
+   width: 17px;
+   height: 150px;
+   background: url(../images/ui/_x_.);
+   position: relative;
+   margin-right: 15px;
 }
 .ui-colorpicker-hue div {
-	background:transparent url(../images/ui/222222_35x9_colorpicker_indicator.gif.gif); 
-	height:9px;
-	left:-9px;
-	margin:-4px 0 0;
-	position:absolute;
-	width:35px;
-	cursor: ns-resize;
+   background:transparent url(../images/ui/222222_35x9_colorpicker_indicator.gif.gif);
+   height:9px;
+   left:-9px;
+   margin:-4px 0 0;
+   position:absolute;
+   width:35px;
+   cursor: ns-resize;
 }
 .ui-colorpicker-new-color, .ui-colorpicker-current-color {
-	float: left;
-	width: 6.5em;
-	height: 30px;
-	border: 1px solid #cccccc;
-	margin-right: 5px;
+   float: left;
+   width: 6.5em;
+   height: 30px;
+   border: 1px solid #cccccc;
+   margin-right: 5px;
 }
 .ui-colorpicker-current-color {
-	margin-right: 0;
+   margin-right: 0;
 }
 
 .ui-colorpicker-field, .ui-colorpicker-hex {
-	position: absolute;
-	width: 6em;
+   position: absolute;
+   width: 6em;
 }
 .ui-colorpicker-field label, .ui-colorpicker-field input,
 .ui-colorpicker-hex label, .ui-colorpicker-hex input {
-	font-size: 1em;
-	color: #ffffff;
+   font-size: 1em;
+   color: #ffffff;
 }
 .ui-colorpicker-field label, .ui-colorpicker-hex label {
-	width: 1em;
-	margin-right: .3em;
+   width: 1em;
+   margin-right: .3em;
 }
 .ui-colorpicker-field input, .ui-colorpicker-hex input {
-	border: 1px solid #dddddd;
-	color: #362b36;
-	background: #f3f3f3;
-	width: 4.6em;
+   border: 1px solid #dddddd;
+   color: #362b36;
+   background: #f3f3f3;
+   width: 4.6em;
 }
 .ui-colorpicker-hex {
-	left: 205px;
-	top: 134px;
+   left: 205px;
+   top: 134px;
 }
 .ui-colorpicker-rgb-r {
-	top: 52px;
-	left: 205px;
+   top: 52px;
+   left: 205px;
 }
 .ui-colorpicker-rgb-g {
-	top: 78px;
-	left: 205px;
+   top: 78px;
+   left: 205px;
 }
 .ui-colorpicker-rgb-b {
-	top: 105px;
-	left: 205px;
+   top: 105px;
+   left: 205px;
 }
 .ui-colorpicker-hsb-h {
-	top: 52px;
-	left: 290px;
+   top: 52px;
+   left: 290px;
 }
 .ui-colorpicker-hsb-s {
-	top: 78px;
-	left: 290px;
+   top: 78px;
+   left: 290px;
 }
 .ui-colorpicker-hsb-b {
-	top: 105px;
-	left: 290px;
+   top: 105px;
+   left: 290px;
 }
 
 .ui-colorpicker-field label {
-	font-weight: normal;
+   font-weight: normal;
 }
 .ui-colorpicker-field span {
-	width: 7px;
-	background: url(../images/ui/888888_11x11_icon_arrows_updown.gif) 50% 50% no-repeat;
-	right: 5px;
-	top: 0;
-	height: 20px;
-	position: absolute;
+   width: 7px;
+   background: url(../images/ui/888888_11x11_icon_arrows_updown.gif) 50% 50% no-repeat;
+   right: 5px;
+   top: 0;
+   height: 20px;
+   position: absolute;
 }
 .ui-colorpicker-field span:hover {
-	background: url(../images/ui/222222_11x11_icon_arrows_updown.gif) 50% 50% no-repeat;
+   background: url(../images/ui/222222_11x11_icon_arrows_updown.gif) 50% 50% no-repeat;
 }
 
 .ui-colorpicker-submit {
-	right: 14px;
-	top: 134px;
-	position: absolute;
+   right: 14px;
+   top: 134px;
+   position: absolute;
 }
 
 
@@ -747,49 +747,49 @@ Generic ThemeRoller Classes
 
 /*component global class*/
 .ui-component {
-	/*resets*/margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none;
-	font-family: Lucida Grande, Lucida Sans, Arial, sans-serif;
-	font-size: 1.2em;
+   /*resets*/margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none;
+   font-family: Lucida Grande, Lucida Sans, Arial, sans-serif;
+   font-size: 1.2em;
 }
 /*component content styles*/
 .ui-component-content {
-	border: 1px solid #dddddd;
-	background: #f3f3f3 url(../images/ui/f3f3f3_40x100_textures_01_flat_0.png) 0 0 repeat-x;
-	color: #362b36;
+   border: 1px solid #dddddd;
+   background: #f3f3f3 url(../images/ui/f3f3f3_40x100_textures_01_flat_0.png) 0 0 repeat-x;
+   color: #362b36;
 }
 .ui-component-content a {
-	color: #362b36;
-	text-decoration: underline;
+   color: #362b36;
+   text-decoration: underline;
 }
 /*component states*/
 .ui-default-state {
-	border: 1px solid #cccccc;
-	background: #e0e0e0 url(../images/ui/e0e0e0_40x100_textures_02_glass_80.png) 0 50% repeat-x;
-	font-weight: normal;
-	color: #444444 !important;
+   border: 1px solid #cccccc;
+   background: #e0e0e0 url(../images/ui/e0e0e0_40x100_textures_02_glass_80.png) 0 50% repeat-x;
+   font-weight: normal;
+   color: #444444 !important;
 }
 .ui-default-state a {
-	color: #444444;
+   color: #444444;
 }
 .ui-default-state:hover, .ui-hover-state {
-	border: 1px solid #888888;
-	background: #d8d8d8 url(../images/ui/d8d8d8_40x100_textures_02_glass_90.png) 0 50% repeat-x;
-	font-weight: normal;
-	color: #111111 !important;
+   border: 1px solid #888888;
+   background: #d8d8d8 url(../images/ui/d8d8d8_40x100_textures_02_glass_90.png) 0 50% repeat-x;
+   font-weight: normal;
+   color: #111111 !important;
 }
 .ui-hover-state a {
-	color: #111111;
+   color: #111111;
 }
 .ui-default-state:active, .ui-active-state {
-	border: 1px solid #2694e8;
-	background: #8ab9ff url(../images/ui/8ab9ff_40x100_textures_02_glass_50.png) 0 50% repeat-x;
-	font-weight: normal;
-	color: #000000 !important;
-	outline: none;
+   border: 1px solid #2694e8;
+   background: #8ab9ff url(../images/ui/8ab9ff_40x100_textures_02_glass_50.png) 0 50% repeat-x;
+   font-weight: normal;
+   color: #000000 !important;
+   outline: none;
 }
 .ui-active-state a {
-	color: #000000;
-	outline: none;
+   color: #000000;
+   outline: none;
 }
 /*icons*/
 .ui-arrow-right-default {background: url(../images/ui/888888_7x7_arrow_right.gif) no-repeat 50% 50%;}
@@ -854,21 +854,21 @@ Generic ThemeRoller Classes
 
 /*hidden elements*/
 .ui-hidden {
-	display: none;/* for accessible hiding: position: absolute; left: -99999999px*/;
+   display: none;/* for accessible hiding: position: absolute; left: -99999999px*/;
 }
 .ui-accessible-hidden {
-	 position: absolute; left: -99999999px;
+    position: absolute; left: -99999999px;
 }
 /*reset styles*/
 .ui-reset {
-	/*resets*/margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none;
+   /*resets*/margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none;
 }
 /*clearfix class*/
 .ui-clearfix:after {
-    content: "."; 
-    display: block; 
-    height: 0; 
-    clear: both; 
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
     visibility: hidden;
 }
 .ui-clearfix {display: inline-block;}
