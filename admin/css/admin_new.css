@@ -92,6 +92,7 @@ img.icon_border { border:solid 1px #666 !important; }
 td.edit_col { width:70%; }
 
 div.feeddiv {  }
+p.yieldstop { background:url(../images/stopyield_bg.gif) top center no-repeat; padding-top:100px; font-size:1.2em !important; height:200px !important; font-family:"Lucida Grande", Arial, sans-serif; }
 p.feeddesc_screens { color:#000 !important; }
 div.view_left { float:left; margin-right:20px; height:160px; }
 div.view_right { width:100%; }

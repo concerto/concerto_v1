@@ -10,10 +10,10 @@
 <p>
 <select name="information">
 <?
-$choices = array("Your content is not applicable to my feed.",
-                 "Your content is too hard to read.",
-                 "Your content is redundant.",
-                 "Your content is inappropriate.");
+$choices = array("Your content is not applicable to my feed",
+                 "Your content is too hard to read",
+                 "Your content is redundant",
+                 "Your content is inappropriate");
 foreach($choices as $choice) {
 ?>
 <option value="<?= $choice ?>"><?= $choice ?></option>

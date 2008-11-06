@@ -99,11 +99,11 @@
             if(count == undefined)
                 count = 0;
             var feeddiv = $(this).parents("tr").find(".feeddiv:last");
-            $("<p>").html("You are strongly encouraged to submit to only one feed, except in extraordinary situations. Please use discretion when choosing feeds to submit to, and carefully read the help page on feeds before adding additional feeds. Note specifically that feeds and screen locations are not equivalent. Are you sure you want to continue?<br/><br/>")
+            $("<p class='yieldstop'>").html("We strongly encourage you to submit to just one feed in most situations.  Adding your content to multiple feeds does NOT necessarily mean that it will appear on multiple screens.  Please review the <a href='http://signage.rpi.edu/admin/pages/show/docs/23' target='_blank'>help page</a> for more details.  Are you sure you want to continue?")
                 .dialog({
                     autoResize: true,
                     buttons: {
-                            "Submit": function(){
+                            "Yes": function(){
                                 $(this).dialog("destroy");
                                 var select = $(feeddiv).find(".feedsel:first");
                                 if(count < $(select).children().length - 2) {
@@ -114,14 +114,14 @@
                                 }
                                 $(this).data("count", count);
                             },
-                            "Cancel": function(){ $(this).dialog("destroy"); }
+                            "No": function(){ $(this).dialog("destroy"); }
                         },
                     draggable: false,
                     height: "auto",
                     modal: true,
                     overlay: { opacity: 0.5, background: "black" },
                     resizable: false,
-                    title: "Add Feed"
+                    title: "Warning"
             });
             return false;
         });
