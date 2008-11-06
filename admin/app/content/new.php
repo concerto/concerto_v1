@@ -121,7 +121,7 @@
                     modal: true,
                     overlay: { opacity: 0.5, background: "black" },
                     resizable: false,
-                    title: "Warning"
+                    title: "Caution"
             });
             return false;
         });
