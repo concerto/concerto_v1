@@ -99,7 +99,7 @@
             if(count == undefined)
                 count = 0;
             var feeddiv = $(this).parents("tr").find(".feeddiv:last");
-            $("<p class='yieldstop'>").html("We strongly encourage you to submit to just one feed in most situations.  Adding your content to multiple feeds does NOT necessarily mean that it will appear on multiple screens.  Please review the <a href='http://signage.rpi.edu/admin/pages/show/docs/23' target='_blank'>help page</a> for more details.  Are you sure you want to continue?")
+            $("<p class='yieldstop'>").html("<b>We strongly encourage you to submit to just one feed in most situations.</b>  <br /><br />Adding your content to multiple feeds does NOT necessarily mean that it will appear on multiple screens.  Please review the <a href='http://signage.rpi.edu/admin/pages/show/docs/23' target='_blank'>help page</a> for more details.  Are you sure you want to continue?")
                 .dialog({
                     autoResize: true,
                     buttons: {
