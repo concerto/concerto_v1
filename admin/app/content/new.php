@@ -95,7 +95,8 @@
         }
 
         $(".click_add_feed").click(function() {
-            var count = $(this).data("count");
+            var button = $(this);
+            var count = button.data("count");
             if(count == undefined)
                 count = 0;
             var feeddiv = $(this).parents("tr").find(".feeddiv:last");
@@ -104,7 +105,7 @@
                     autoResize: true,
                     buttons: {
                             "Yes": function(){
-                                $(this).dialog("destroy");
+                               $(this).dialog("destroy");
                                 var select = $(feeddiv).find(".feedsel:first");
                                 if(count < $(select).children().length - 2) {
                                     var newdiv = $(feeddiv).clone(true);
@@ -112,7 +113,7 @@
                                     $(newdiv).find(".feeddesc").html('');
                                     $(newdiv).insertAfter(feeddiv);
                                 }
-                                $(this).data("count", count);
+                                button.data("count", count);
                             },
                             "No": function(){ $(this).dialog("destroy"); }
                         },
