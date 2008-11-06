@@ -4,13 +4,13 @@ class contentController extends Controller
    public $actionNames = Array( 'list'=> 'Content Listing', 'show'=>'Details',
                                 'edit'=> 'Edit', 'new'=>'Submit Content', 'remove'=>'Delete');
 
-   public $require = Array( 'require_login'=>Array('index','list','show','new','create','new_ticker','new_image', 'new_dynamic'),
+   public $require = Array( 'require_login'=>Array('index','list','show','new','create','new_ticker','new_image', 'new_dynamic', 'new_preview'),
                             'require_action_auth'=>Array('edit', 'update', 'destroy', 'remove') );
 
    function setup()
    {
       $this->setName('Content');
-      $this->setTemplate('blank_layout', Array('image','new_image','new_ticker','new_dynamic','ajax_details'));
+      $this->setTemplate('blank_layout', Array('image','new_image','new_ticker','new_dynamic','ajax_details', 'new_preview'));
    }
 
    function indexAction()
@@ -85,7 +85,6 @@ class contentController extends Controller
       $this->readFeeds(&$this->ndc_feeds, Feed::priv_get($_SESSION['user'], 'dynamic'));
       $this->setTitle("Add Content");
    }
-
    function new_imageAction()
    {
       $this->readFeeds(&$this->feeds, Feed::priv_get($_SESSION['user'], 'content'));
@@ -98,10 +97,12 @@ class contentController extends Controller
 
    function new_dynamicAction()
    {
-      $this->setTitle("Add DYNAMIC Content");
+      $this->setTitle("Add Dynamic Content");
       $this->readFeeds(&$this->ndc_feeds,Feed::priv_get($_SESSION['user'], 'dynamic'));      
    }
-
+   function new_previewAction(){
+   
+   }
    //just a helper to store feeds for listing in form
    function readFeeds($dest, $unsub_feeds, $sub_feeds="")
    {
