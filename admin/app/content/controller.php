@@ -119,7 +119,7 @@ class contentController extends Controller
 
    function createAction()
    {
-	    $error = true;
+	    $error = false;
       $dat = $_POST['content'];
       if($_POST['submit']!='Add another feed') {
 
@@ -137,7 +137,7 @@ class contentController extends Controller
          } else {
              $start=$dat['start_date'].' '.$dat['start_time'];
              $end=$dat['end_date'].' '.$dat['end_time'];
-						 if($start < $end) $error = false;
+						 if($start < $end) $error = true;
          }
          $dat['duration'] = strtotime($end) - strtotime($start);
          $uploader = new Uploader($dat['name'], $start,
