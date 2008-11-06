@@ -126,6 +126,25 @@ class browseController extends Controller
         if($this->feed->user_priv($_SESSION['user'], 'moderate')) {
             $this->moderator = $this->content->get_moderator($this->feed);
         }
+        if($this->duration >= 24*60*60*1000){
+          $math = round($this->duration / (24*60*60*1000));
+          $unit = 'day';
+        }else if($this->duration >= 60*60*1000){
+          $math = round($this->duration / (60*60*1000));
+          $unit = 'hour';
+        }else if($this->duration >= 60*1000){
+          $math = round($this->duration / (60*1000));
+          $unit = 'minute';
+        }else if($this->duration >= 1000){
+          $math = round($this->duration / (1000));
+          $unit = 'second';
+        }
+        if(isset($math)){
+            $this->dur_str = $math . ' ' . $unit;
+            $this->dur_str .= $math > 1 ? "s" : "";
+        } else {
+            $this->dur_str = 'Unknown';
+        }
     }
 }
 ?>
