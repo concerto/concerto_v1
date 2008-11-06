@@ -85,7 +85,7 @@ function hourly(){
 function always(){
 	//First generate new content for dynamic feeds
 	$feed_handler = new Feed();
-	if($feeds = $feed_handler->get_all("WHERE type = 1")){
+	if($feeds = $feed_handler->get_all("WHERE type = 1 OR type = 4")){
 		foreach($feeds as $feed){
 			echo "Calling $feed->name for update. \n";
 			if($feed->dyn->update()){

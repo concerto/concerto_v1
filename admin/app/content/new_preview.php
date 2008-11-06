@@ -8,7 +8,7 @@ if(!$feed->set){
     $dynamic = $feed->dyn;
     $start=$dat['start_date'].' '.$dat['start_time_hr'].':'.$dat['start_time_min'].' '.$dat['start_time_ampm'];
     $end=$dat['end_date'].' '.$dat['end_time_hr'].':'.$dat['end_time_min'].' '.$dat['end_time_ampm'];
-    $preview = $dynamic->preview($_REQUEST['name'], 0, $_REQUEST['content'], $start, $end, date('Y-m-d H:i:s'));
+    $preview = $dynamic->preview($_REQUEST['name'], $_SESSION['user']->id, $_REQUEST['content'], $start, $end, date('Y-m-d H:i:s'));
     if(!$preview){
         echo "Preview generation failed.";
     }else{
