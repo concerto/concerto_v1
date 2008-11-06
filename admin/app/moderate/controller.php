@@ -78,7 +78,7 @@ class moderateController extends Controller
             $return_code = $feed->content_mod($content_id, 1, $_SESSION['user'], $duration, $notification);
         } elseif($feed && $action=="deny") {
             if($_POST['information'])
-                $notification = $_POST['information'] . ". " . $notification;
+                $notification = $_POST['information'] . "  " . $notification;
             $return_code = $feed->content_mod($content_id, 0, $_SESSION['user'], $duration, $notification);
         } else {
             $return_code = false;

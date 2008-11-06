@@ -25,7 +25,6 @@
                                         var posts = $(this).serializeArray();
                                         var actions = $(parent).prev().find("td.actions");
                                         var onError = function(){
-                                            return;
                                             window.location = "<?=ADMIN_URL?>/moderate/confirm/" + action + "?feed_id=<?=$this->feed->id?>&content_id=" + content_id;
                                         };
                                         $.ajax({type: "POST",
