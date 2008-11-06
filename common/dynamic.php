@@ -114,9 +114,9 @@ class Dynamic{
     foreach($content_arr as $content){
       $c_xml = $xml->addChild('content');
       $c_xml->addChild('id', $content->id);
-      $c_xml->addChild('title', $content->name);
+      $c_xml->addChild('title', htmlspecialchars($content->name));
       $c_xml->addChild('user_id', $content->user_id);
-      $c_xml->addChild('body', $content->content);
+      $c_xml->addChild('body', htmlspecialchars($content->content));
       $c_xml->addChild('start_time', $content->start_time);
       $c_xml->addChild('end_time', $content->end_time);
       $c_xml->addChild('submitted', $content->submitted);
