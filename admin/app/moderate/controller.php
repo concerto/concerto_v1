@@ -103,7 +103,7 @@ class moderateController extends Controller
     
     function confirmAction()
     {
-        $this->feed = new Feed($_GET['feed_id']);
+        $this->feed = new Feed($this->args[2]);
         if(!$this->feed){
             $this->flash('Feed not found', 'error');
             redirect_to(ADMIN_URL."/moderate");
@@ -119,9 +119,9 @@ class moderateController extends Controller
             redirect_to(ADMIN_URL."/moderate");
         }
 
-        if($this->args[2] == "ajax")
+        if($this->args[4] == "ajax")
             $this->template="blank_layout.php";
-        $this->content = new Content($_GET['content_id']);
+        $this->content = new Content($this->args[3]);
     }
 }
 ?>

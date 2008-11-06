@@ -23,7 +23,7 @@ foreach($choices as $choice) {
 <? } ?>
 <h1>Additional Message to Send to Submitter:</h1>
 <p><textarea name="notification" rows="3" cols="30"></textarea></p>
-<? if($this->args[2] != "ajax") { ?>
+<? if($this->args[4] != "ajax") { ?>
 <input type="submit" value="Submit" />
 <? } else { ?>
 <input type="hidden" name="ajax" value="1" />

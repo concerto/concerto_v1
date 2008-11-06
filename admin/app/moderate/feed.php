@@ -13,9 +13,7 @@
                           title: "Loading..."
                         });
             $.ajax({type: "GET",
-                    url: "<?=ADMIN_URL?>/moderate/confirm/" + action + "/ajax",
-                    data: {"feed_id": <?=$this->feed->id?>,
-                           "content_id": content_id},
+                    url: "<?=ADMIN_URL?>/moderate/confirm/" + action + "/<?=$this->feed->id?>/" + content_id + "/ajax",
                     success: function(html){
                         $(html)
                             .dialog({
@@ -25,7 +23,7 @@
                                         var posts = $(this).serializeArray();
                                         var actions = $(parent).prev().find("td.actions");
                                         var onError = function(){
-                                            window.location = "<?=ADMIN_URL?>/moderate/confirm/" + action + "?feed_id=<?=$this->feed->id?>&content_id=" + content_id;
+                                            window.location = "<?=ADMIN_URL?>/moderate/confirm/" + action + "/<?=$this->feed->id?>/" + content_id;
                                         };
                                         $.ajax({type: "POST",
                                                 url: "<?=ADMIN_URL?>/moderate/post",
@@ -125,8 +123,8 @@ if(isset($this->contents)) {
         </tr>
         <tr id="c<?=$content->id?>" class="details">
             <td class="actions">
-                <a class="approve" title="Approve Content" href="<?=ADMIN_URL?>/moderate/confirm/approve?feed_id=<?=$this->feed->id?>&content_id=<?=$content->id?>"><span class="approve">Approve <img border="0" src="<?= ADMIN_BASE_URL ?>images/mod_check.gif" alt="" /></span></a>
-                <a class="deny" title="Deny Content" href="<?=ADMIN_URL?>/moderate/confirm/deny?feed_id=<?=$this->feed->id?>&content_id=<?=$content->id?>"><span class="deny">Deny <img border="0" src="<?= ADMIN_BASE_URL ?>images/mod_ex.gif" alt="" /></span></a>
+                <a class="approve" title="Approve Content" href="<?=ADMIN_URL?>/moderate/confirm/approve/<?=$this->feed->id?>/<?=$content->id?>"><span class="approve">Approve <img border="0" src="<?= ADMIN_BASE_URL ?>images/mod_check.gif" alt="" /></span></a>
+                <a class="deny" title="Deny Content" href="<?=ADMIN_URL?>/moderate/confirm/deny/<?=$this->feed->id?>/<?=$content->id?>"><span class="deny">Deny <img border="0" src="<?= ADMIN_BASE_URL ?>images/mod_ex.gif" alt="" /></span></a>
             </td>
             <td colspan="5">
 <table>
