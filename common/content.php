@@ -58,10 +58,12 @@ class Content{
 		}
 	}
 	//Creates content, assumes it has already been handled by uploader
-	function create_content($name_in, $user_id_in, $content_in, $mime_type_in, $type_id_in, $start_time_in, $end_time_in, $feed_id){
-	  if(empty($name_in) || empty($user_id_in) || empty($mime_type_in) || empty($type_id_in) || empty($start_time_in) || empty($end_time_in) ||                 empty($feed_id)){
-		  return false;		
-		} if($this->set == true){
+	function create_content($name_in, $user_id_in, $content_in, $mime_type_in, $type_id_in, $start_time_in, $end_time_in){
+	  if(($type_id_in != 1 && $type_id_in != 4) && (empty($name_in) || empty($user_id_in) || empty($mime_type_in) || empty($type_id_in) || empty($start_time_in) || empty($end_time_in))){
+		  $this->status = "Please fill out all fields";
+		  return false;
+		} 
+		if($this->set == true){
 			return false;
 		} else {
 			//Begin testing/cleaning block

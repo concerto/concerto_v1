@@ -58,7 +58,7 @@ class Uploader{
 		$this->user_id = $user_id_in;
 		
 		$this->feeds = $feeds_in;
-		if(empty($feeds_in)) $this->retval = false;
+		
 		$this->auto = $auto_in; //This field specificies if the uploader should run in automatic mode or manual processing.  I like auto mode, but thats just me
 		
 		$this->status = "";
@@ -72,13 +72,18 @@ class Uploader{
 	}
 	//Determines which steps need to be applied to the content
 	function filer(){
+		if(empty($this->feeds)){
+		  $this->status = "No feeds selected";
+		  $this->retval = false;
+			return false;
+		}
 		if($this->ctype == 'text'){
 			//Awsome, this is easy to handle!
 			$this->content_o = $this->content_i;
 			$this->mime_type = 'text/plain';
 			$this->type_id = 2; //SELF: THIS IS BAD AND DUMB AND STUPID
 			$content = new Content();
-			if($content->create_content($this->name, $this->user_id, $this->content_o, $this->mime_type, $this->type_id, $this->start_date, $this->end_date,          $this->feeds)){
+			if($content->create_content($this->name, $this->user_id, $this->content_o, $this->mime_type, $this->type_id, $this->start_date, $this->end_date)){
 
 				$this->cid = $content->id;
 				
