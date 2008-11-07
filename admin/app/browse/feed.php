@@ -39,7 +39,7 @@ if(($this->feed->type == 4) && ($this->feed->dyn->needs_update() > 0)){
 </ul>
 
 <? $screens = $this->feed->get_screens(); ?>
-<? if(count($screens)>0) { ?>
+<? if(is_array($screens) && count($screens)>0) { ?>
 <h3>Active Screens</h3>
 <ul>
 <?php
