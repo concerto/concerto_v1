@@ -58,6 +58,8 @@ div.menu_box h4 { font-size:0.9em; margin:8px 0px; padding:0px; }
 #maincontent { background:#FFFFFF !important; margin:0px; padding:25px 25px 50px 195px; /*margin-left:195px;margin-bottom:50px;margin-right:25px; margin-top:25px; */text-align:left; }
 #maincontent h1, #maincontent h1 a { font-size:1.1em; font-weight:bold; margin:0px 0px 8px 0px; padding:0px; }
 #maincontent h2 { color:#666666; font-size:1.1em; font-weight:bold; margin:0px 0px 20px 0px; padding:0px; }
+#maincontent h4.browseh { color:#333; font-size:1.5em; margin-bottom:0px;  }
+#maincontent p.browsep { margin-bottom:18px; margin-top:0px; color:#666; }
 #maincontent_padding { background:#FFF !important; padding:15px 8px 8px; }
 
 #footer_gutter { background:#FFF url(../images/footer_edge2.gif) bottom center repeat-x; clear:both; height:30px; }

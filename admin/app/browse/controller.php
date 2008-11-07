@@ -18,9 +18,17 @@ class browseController extends Controller
 
     function listAction()
     {
-        $this->feeds=Feed::get_all("ORDER BY `name`");
-        if(!is_array($this->feeds)){
-          $this->feeds = array();
+        $this->public_feeds = Feed::get_all("WHERE type = 0 ORDER BY name");
+        $this->restricted_feeds = Feed::get_all("WHERE type = 2 ORDER BY name"); 
+        $this->private_feeds = Feed::get_all("WHERE type = 3 ORDER BY name");
+        if(!is_array($this->public_feeds)){
+          $this->public_feeds = array();
+        }
+        if(!is_array($this->restricted_feeds)){
+          $this->restricted_feeds = array();
+        }
+        if(!is_array($this->private_feeds)){
+          $this->private_feeds = array();
         }
     }
 
