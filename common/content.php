@@ -80,6 +80,9 @@ class Content{
 				$this->status = "Unknown Error"; //Aka they are playing with the post data!
 				return false;
 			}
+			if($start_time_in > $end_time_in){
+				return false;
+			}
 			//End testing/cleaning block
 			
 			$sql = "INSERT INTO content 
