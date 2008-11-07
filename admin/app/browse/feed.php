@@ -20,7 +20,7 @@ if($this->feed->user_priv($_SESSION['user'], "moderate")){
 <?
 if(($this->feed->type == 4) && ($this->feed->dyn->needs_update() > 0)){
 ?>
-<p class="dyn_stat"><b>Currently Processing:</b>&nbsp;&nbsp;&nbsp;This dynamic feed has <?=$this->feed->dyn->needs_update()?> unprocessed item(s).</p>
+<p class="dyn_stat"><b>Currently Processing:</b>&nbsp;&nbsp;&nbsp;This dynamic feed has <?=$this->feed->dyn->needs_update()?> unprocessed item(s).  It should be ready within a couple minutes.</p>
 <?
 }
 ?>
