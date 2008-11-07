@@ -17,7 +17,14 @@ if($this->feed->user_priv($_SESSION['user'], "moderate")){
 }
 ?>
 <p>This feed is moderated by <a href="<?=ADMIN_URL.'/groups/show/'.$this->group->id?>"><?= htmlspecialchars($this->group->name) ?></a>.</p>
+<?
+if(($this->feed->type == 4) && ($this->feed->dyn->needs_update() > 0)){
+?>
+<p>This dynamic feed has <?=$this->feed->dyn->needs_update()?> unprocessed items</p>
+<?
+}
 
+?>
 <h3>Content</h3>
 <ul>
 <? if(is_array($this->feed->get_types())) foreach($this->feed->get_types() as $type_id => $type){ ?>

@@ -81,6 +81,7 @@ class Content{
 				return false;
 			}
 			if($start_time_in > $end_time_in){
+				$this->status = "End date before start date";
 				return false;
 			}
 			//End testing/cleaning block

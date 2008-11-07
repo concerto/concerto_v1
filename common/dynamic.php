@@ -9,6 +9,7 @@ Functionality:
         xml_hander	takes xml and builts content items
         bailiwick_handler	handles substition, transforms, and general rules
         add_content	adds content items, removes old ones
+        needs_update	returns the number of unprocessed items for this feed
         log_update	records an update as sucessful
         zero_pad	pads a number with some zeros
 Comments:		
@@ -417,6 +418,19 @@ class Dynamic{
         }
     
     }
+    //Returns number of content items needing processing on dynamic feed
+    function needs_update(){
+        $sql = "SELECT COUNT(id) as need_update FROM content LEFT JOIN feed_content ON content.id = feed_content.content_id WHERE feed_content.feed_id = {$this->feed->id} AND feed_content.moderation_flag = 1 AND content.submitted > '{$this->last_update}'";
+        $res = sql_query($sql);
+        if($res){
+            $data = sql_row_keyed($res,0);
+            if($data['need_update'] > 0){
+                return $data['need_update'];
+            }
+        }
+        return 0;
+    }
+
   //Log the sucessful update
   function log_update(){
     $sql = "UPDATE dynamic SET last_update = NOW() WHERE id = $this->id LIMIT 1";
