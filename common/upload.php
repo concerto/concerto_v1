@@ -58,7 +58,7 @@ class Uploader{
 		$this->user_id = $user_id_in;
 		
 		$this->feeds = $feeds_in;
-		
+		if(empty($feeds_in)) $this->retval = false;
 		$this->auto = $auto_in; //This field specificies if the uploader should run in automatic mode or manual processing.  I like auto mode, but thats just me
 		
 		$this->status = "";
@@ -78,7 +78,7 @@ class Uploader{
 			$this->mime_type = 'text/plain';
 			$this->type_id = 2; //SELF: THIS IS BAD AND DUMB AND STUPID
 			$content = new Content();
-			if($content->create_content($this->name, $this->user_id, $this->content_o, $this->mime_type, $this->type_id, $this->start_date, $this->end_date)){
+			if($content->create_content($this->name, $this->user_id, $this->content_o, $this->mime_type, $this->type_id, $this->start_date, $this->end_date,          $this->feeds)){
 
 				$this->cid = $content->id;
 				
@@ -471,4 +471,3 @@ class Uploader{
 		}
 	}
 }
-?>
