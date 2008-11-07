@@ -78,7 +78,15 @@
     });
 })(jQuery);
 //--></script>
-  
+<?
+if(($this->feed->type == 4) && ($this->feed->dyn->needs_update() > 0)){
+?>
+<p class="dyn_stat"><b>Currently Processing:</b>&nbsp;&nbsp;&nbsp;This dynamic feed has <?=$this->feed->dyn->needs_update()?> unprocessed item(s).</p>
+<?
+}
+?>
+
+
 <div style="float:left; width:70%;">
 	<ul id="maintab" class="ui-tabs-nav">
 		<li class="first<?php if(!isset($this->args[4])) { ?> ui-tabs-selected<?php } ?>"><a class="approved" href="<?= ADMIN_URL ?>/browse/show/<?= $this->feed->id ?>/type/<?= $this->type_id ?>"><h1>Active</h1></a></li>

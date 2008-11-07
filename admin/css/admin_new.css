@@ -190,6 +190,8 @@ ul.subscriptions h2 span.emph { color:#000 !important; padding-right:8px; }
 ul.subscriptions ul { list-style:none; }
 ul.subscriptions ul li { border:solid 2px #666; }
 
+p.dyn_stat { background:url(../images/dyn_stat_bg.gif) center left no-repeat; color:#333; border-top:solid 1px #ccc; border-bottom:solid 1px #ccc; padding:10px 8px 10px 50px; margin:0px 12px 18px 12px; }
+p.dyn_stat b { font-style: italic; }
 
 
 /* Moderate */
