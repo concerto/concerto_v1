@@ -30,7 +30,7 @@ foreach($feed_keys as $feed_key){
 foreach($this->feeds[$feed_key['key']] as $feed) {
     if(!$feed->user_priv($_SESSION["user"])) continue;
     $types = $feed->get_types();
-    if($types == false) continue;
+    if($types == false) $types = array();
 ?>
 	<tr>
     <td style="padding-bottom:0px !important;"><h1><a style="color:#000 !important;" href="<?= ADMIN_URL?>/browse/feed/<?= $feed->id ?>"><?= htmlspecialchars($feed->name) ?> Feed</a></h1></td>

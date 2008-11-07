@@ -26,7 +26,7 @@
 	foreach($this->feeds as $feed) {
 			if(!$feed->user_priv($_SESSION["user"])) continue;
 			$types = $feed->get_types();
-			if($types == false) continue;
+			if($types == false) $types = array();
 	?>
 	<tr>
 			<td>
