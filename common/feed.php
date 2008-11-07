@@ -468,7 +468,7 @@ class Feed{
 		}
 	}
 
-   function get_screens($type=NULL) {
+   function get_screens($type=NULL, $screen_type=0) {
       $sql = 'SELECT screen.id, field.name FROM feed '.
          'LEFT JOIN position ON position.feed_id = feed.id '.
          'LEFT JOIN screen ON position.screen_id = screen.id '.
@@ -478,6 +478,9 @@ class Feed{
 
       if(isset($type)) {
          $sql .= " AND field.type_id = $type";
+      }
+      if(isset($screen_type)) {
+         $sql .= " AND screen.type = $screen_type";
       }
       $sql .= ' ORDER BY screen.name';
 		$res = sql_query($sql);
