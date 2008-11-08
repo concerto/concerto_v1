@@ -143,9 +143,28 @@ class contentController extends Controller
                                   $content_val, $dat['upload_type'], $_SESSION[user]->id, 1);
       }
       if($uploader->retval) {
-         $this->flash('Your content was succesfully uploaded! It will be active on the '.
-                      'system as soon as it is approved for the feed(s) you chose. '.$uploader->status);
-         redirect_to(ADMIN_URL.'/content/show/'.$uploader->cid);
+          if($dat['upload_type'] == 'dynamic') {
+              $this->flash('Your content was successfully added. It will be automatically processed and will appear on the live feed shortly. '.$uploader->status);
+          } else {
+              $content = new Content($uploader->cid);
+              $feeds = $content->list_feeds();
+              $approved=0;
+              $waiting=0;
+              foreach ($feeds as $feed) {
+                  if($feed['moderation_flag']==1){
+                      $approved ++;
+                  } elseif($feed['moderation_flag']==NULL) {
+                      $waiting ++;
+                  }
+              }
+              if($approved>0) {
+                  $this->flash('Your content was successfuly added. It has been automatically approved on feeds for which you are a moderator. '.$uploader->status);
+              } else {
+                  $this->flash('Your content was succesfully uploaded! It will be active on the '.
+                               'system as soon as it is approved for the feed(s) you chose. '.$uploader->status);
+              }
+          }
+          redirect_to(ADMIN_URL.'/content/show/'.$uploader->cid);
       } else {
          $this->flash('Your content submission failed. '.
                       'Please check all fields and try again. '.$uploader->status, 'error');
