@@ -1,4 +1,3 @@
-
 <script type="text/javascript"><!--
 $(function()
 {
@@ -11,11 +10,15 @@ $(function()
    
    $("#seemore").click(function(event) {
 		event.preventDefault();
+	if($(this).data("news"))
+		return;
       $.post("<?= ADMIN_URL ?>/users/notifications/<?= $_SESSION['user']->username ?>", {'start': $("#news_expand").data('items'), 'num': 7}, function(data) {
          $("<div>").css("overflow", "hidden").html(data).hide().appendTo($("#news_expand")).slideDown("slow");
                $("#news_expand").data('items',$("#news_expand").data('items')+7);
-               if( data == "" )
-                 $("#news_expand").before($("<span>").html("No more news")).remove();
+               if( data == "" ) {
+                 $("#news_expand").after($("<span>").html("No more news"));
+		 $("#seemore").data("news", 1);
+		}
             });
          return false;
       });
