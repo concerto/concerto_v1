@@ -1,4 +1,29 @@
-<script type="text/javascript"><!--
+<?php
+/**
+ * This file was developed as part of the Concerto digital signage project
+ * at RPI.
+ *
+ * Copyright (C) 2009 Rensselaer Polytechnic Institute
+ * (Student Senate Web Technolgies Group)
+ *
+ * This program is free software; you can redistribute it and/or modify it 
+ * under the terms of the GNU General Public License as published by the Free
+ * Software Foundation; either version 2 of the License, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.  You should have received a copy
+ * of the GNU General Public License along with this program.
+ *
+ * @package      Concerto
+ * @author       Web Technologies Group, $Author: mike $
+ * @copyright    Rensselaer Polytechnic Institute
+ * @license      GPLv2, see www.gnu.org/licenses/gpl-2.0.html
+ * @version      $Revision: 551 $
+ */
+?><script type="text/javascript"><!--
 $(function()
 {
    $("ul#maintab").tabs();
@@ -12,7 +37,7 @@ $(function()
 		event.preventDefault();
 	if($(this).data("news"))
 		return;
-      $.post("<?= ADMIN_URL ?>/users/notifications/<?= $_SESSION['user']->username ?>", {'start': $("#news_expand").data('items'), 'num': 7}, function(data) {
+      $.post("<?= ADMIN_URL ?>/users/notifications/<?= $this->user->username ?>", {'start': $("#news_expand").data('items'), 'num': 7}, function(data) {
          $("<div>").css("overflow", "hidden").html(data).hide().appendTo($("#news_expand")).slideDown("slow");
                $("#news_expand").data('items',$("#news_expand").data('items')+7);
                if( data == "" ) {
@@ -48,7 +73,7 @@ $(function()
   <div class="roundtop"><span class="rt"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
   <div class="roundcont_main">
     <div style="text-align:right; float:right; width:85px;">
-    	<a href="<?= ADMIN_URL ?>/users/newsfeed/<?= userName() ?>"><span class="buttonsel"><div class="buttonleft"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_left.gif" border="0" alt="" /></div><div class="buttonmid"><div class="buttonmid_padding">View All</div></div><div class="buttonright" style="width:10px;"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_right.gif" border="0" alt="" /></div></span></a>
+    	<a href="<?= ADMIN_URL ?>/users/newsfeed/<?=$this->user->username ?>"><span class="buttonsel"><div class="buttonleft"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_left.gif" border="0" alt="" /></div><div class="buttonmid"><div class="buttonmid_padding">View All</div></div><div class="buttonright" style="width:10px;"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_right.gif" border="0" alt="" /></div></span></a>
     </div>
     <h1>News Feed</h1>
     <div id="news_expand">

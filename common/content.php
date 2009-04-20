@@ -1,4 +1,28 @@
 <?
+/**
+ * This file was developed as part of the Concerto digital signage project
+ * at RPI.
+ *
+ * Copyright (C) 2009 Rensselaer Polytechnic Institute
+ * (Student Senate Web Technolgies Group)
+ *
+ * This program is free software; you can redistribute it and/or modify it 
+ * under the terms of the GNU General Public License as published by the Free
+ * Software Foundation; either version 2 of the License, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.  You should have received a copy
+ * of the GNU General Public License along with this program.
+ *
+ * @package      Concerto
+ * @author       Web Technologies Group, $Author: mike $
+ * @copyright    Rensselaer Polytechnic Institute
+ * @license      GPLv2, see www.gnu.org/licenses/gpl-2.0.html
+ * @version      $Revision: 551 $
+ */
 /*
 Class: Content
 Status:Working
@@ -59,7 +83,7 @@ class Content{
 	}
 	//Creates content, assumes it has already been handled by uploader
 	function create_content($name_in, $user_id_in, $content_in, $mime_type_in, $type_id_in, $start_time_in, $end_time_in){
-	  if(($type_id_in != 1 && $type_id_in != 4) && (empty($name_in) || empty($user_id_in) || empty($mime_type_in) || empty($type_id_in) || empty($start_time_in) || empty($end_time_in))){
+	  if(($type_id_in != 1 && $type_id_in != 4) && (empty($name_in) || !is_numeric($user_id_in) || empty($mime_type_in) || empty($type_id_in) || empty($start_time_in) || empty($end_time_in))){
 		  $this->status = "Please fill out all fields";
 		  return false;
 		} 
@@ -84,8 +108,8 @@ class Content{
 				$this->status = "Unknown Error"; //Aka they are playing with the post data!
 				return false;
 			}
-			if($start_time_in > $end_time_in){
-				$this->status = "End date before start date";
+			if(strtotime($start_time_in) > strtotime($end_time_in)){
+				$this->status = "End date before start date: $start_time_in, $end_time_in";
 				return false;
 			}
 			//End testing/cleaning block

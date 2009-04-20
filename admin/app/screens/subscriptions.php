@@ -1,4 +1,29 @@
-<script type="text/javascript"><!--
+<?php
+/**
+ * This file was developed as part of the Concerto digital signage project
+ * at RPI.
+ *
+ * Copyright (C) 2009 Rensselaer Polytechnic Institute
+ * (Student Senate Web Technolgies Group)
+ *
+ * This program is free software; you can redistribute it and/or modify it 
+ * under the terms of the GNU General Public License as published by the Free
+ * Software Foundation; either version 2 of the License, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.  You should have received a copy
+ * of the GNU General Public License along with this program.
+ *
+ * @package      Concerto
+ * @author       Web Technologies Group, $Author: mike $
+ * @copyright    Rensselaer Polytechnic Institute
+ * @license      GPLv2, see www.gnu.org/licenses/gpl-2.0.html
+ * @version      $Revision: 551 $
+ */
+?><script type="text/javascript"><!--
 (function($) {
     $(document).ready(function() {
         var remove_feed = function() {
@@ -33,7 +58,7 @@
     });
 })(jQuery);
 //--></script>
-<img src="<?=ADMIN_URL?>/templates/preview/<?=$this->templateobj['id']?>" style=" border: 1px solid #aaa; display:inline;margin:25px;float:left" alt="preview" />
+<img src="<?=ADMIN_URL?>/templates/preview/<?=$this->templateobj->id?>" style=" border: 1px solid #aaa; display:inline;margin:25px;float:left" alt="preview" />
 <div style=" height:260px; top:0px; float:left; margin-left:30px;">
    <p style="width:280px; bottom:150px; padding:30px; margin-top:50px; background:url(../images/lightblue_bg.gif); border:1px solid #aaa">Your screen is divided up into several areas, called <b>fields</b>, each of which can display different types of content.  Use these controls to select feeds (categories of content, i.e. <i>Student Union</i>, which contains student clubs' content) to place in each field, and how often to display each.</p>
 </div>

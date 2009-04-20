@@ -1,4 +1,29 @@
-<script type="text/javascript"><!--
+<?php
+/**
+ * This file was developed as part of the Concerto digital signage project
+ * at RPI.
+ *
+ * Copyright (C) 2009 Rensselaer Polytechnic Institute
+ * (Student Senate Web Technolgies Group)
+ *
+ * This program is free software; you can redistribute it and/or modify it 
+ * under the terms of the GNU General Public License as published by the Free
+ * Software Foundation; either version 2 of the License, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.  You should have received a copy
+ * of the GNU General Public License along with this program.
+ *
+ * @package      Concerto
+ * @author       Web Technologies Group, $Author: mike $
+ * @copyright    Rensselaer Polytechnic Institute
+ * @license      GPLv2, see www.gnu.org/licenses/gpl-2.0.html
+ * @version      $Revision: 551 $
+ */
+?><script type="text/javascript"><!--
 (function($) {
     $(document).ready(function() {
         $("ul#maintab").tabs();
@@ -100,7 +125,7 @@
             if(count == undefined)
                 count = 0;
             var feeddiv = $(this).parents("tr").find(".feeddiv:last");
-            $("<p class='yieldstop'>").html("<b>We strongly encourage you to submit to just one feed in most situations.</b>  <br /><br />Adding your content to multiple feeds does NOT necessarily mean that it will appear on multiple screens.  Please review the <a href='http://signage.rpi.edu/admin/pages/show/docs/23' target='_blank'>help page</a> for more details.  Are you sure you want to continue?")
+            $("<p class='yieldstop'>").html("<b>We strongly encourage you to submit to just one feed in most situations.</b>  <br /><br />Adding your content to multiple feeds does NOT necessarily mean that it will appear on multiple screens.  Please review the <a href='<?= ADMIN_URL ?>/pages/show/docs/23' target='_blank'>help page</a> for more details.  Are you sure you want to continue?")
                 .dialog({
                     autoResize: true,
                     buttons: {

@@ -1,6 +1,30 @@
 <?php
+/**
+ * This file was developed as part of the Concerto digital signage project
+ * at RPI.
+ *
+ * Copyright (C) 2009 Rensselaer Polytechnic Institute
+ * (Student Senate Web Technolgies Group)
+ *
+ * This program is free software; you can redistribute it and/or modify it 
+ * under the terms of the GNU General Public License as published by the Free
+ * Software Foundation; either version 2 of the License, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.  You should have received a copy
+ * of the GNU General Public License along with this program.
+ *
+ * @package      Concerto
+ * @author       Web Technologies Group, $Author: mike $
+ * @copyright    Rensselaer Polytechnic Institute
+ * @license      GPLv2, see www.gnu.org/licenses/gpl-2.0.html
+ * @version      $Revision: 551 $
+ */
 function resize($filename, $new_width = false, $new_height = false, $stretch = false){
-    list($width, $height) = getimagesize($filename);
+    list($width, $height, $type_int) = getimagesize($filename);
     if(!$stretch) {
         if(!$new_width || !$new_height) {
 	        $new_width = $width;
@@ -30,9 +54,23 @@ function resize($filename, $new_width = false, $new_height = false, $stretch = f
         imagedestroy($image);
     } else
         $new_image = imagecreatetruecolor(3, 3);
-
-    header('Content-type: image/jpeg');
-    imagejpeg($new_image, NULL, 80);
+        
+    $type = image_type_to_mime_type($type_int);
+    
+    if($type == "image/jpeg" || $type == 'image/pjpeg' || $type == 'image/jpg'){
+      header('Content-type: image/jpeg');
+      imagejpeg($new_image, NULL, 100);
+    }elseif($type == 'image/png' || $type == 'image/x-png'){
+      header('Content-type: image/png');
+      imagepng($new_image);
+    }elseif($type == 'image/gif'){
+      header('Content-type: image/gif');
+      imagegif($new_image);
+    }else{
+      //JPEG is default case
+      header('Content-type: image/jpeg');
+      imagejpeg($new_image, NULL, 100);
+    }
     imagedestroy($new_image);
 }
 ?>

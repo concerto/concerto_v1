@@ -1,70 +1,27 @@
 <?php
-/*
- * creates a thumbnail of a screen with overlays
+/**
+ * This file was developed as part of the Concerto digital signage project
+ * at RPI.
+ *
+ * Copyright (C) 2009 Rensselaer Polytechnic Institute
+ * (Student Senate Web Technolgies Group)
+ *
+ * This program is free software; you can redistribute it and/or modify it 
+ * under the terms of the GNU General Public License as published by the Free
+ * Software Foundation; either version 2 of the License, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.  You should have received a copy
+ * of the GNU General Public License along with this program.
+ *
+ * @package      Concerto
+ * @author       Web Technologies Group, $Author: mike $
+ * @copyright    Rensselaer Polytechnic Institute
+ * @license      GPLv2, see www.gnu.org/licenses/gpl-2.0.html
+ * @version      $Revision: 551 $
  */
-if(!isset($this->file)){
-   $new_image = imagecreatetruecolor(100, 100);
-   die;
-}else{
-   $filename = $this->file;
-   $new_width = $this->width;
-   $new_height = $this->height;
-
-   list($width, $height) = getimagesize($filename);
-
-   if(!isset($new_width) || !isset($new_height)){
-      $new_width = $width;
-      $new_height = $height;
-   }
-
-   $ratio = $width / $height;
-   $new_ratio = $new_width / $new_height;
-
-   if($ratio < $new_ratio) {
-      $new_height = $new_height;
-      $new_width = $new_height * $ratio;
-   } else {
-      $new_width = $new_width;
-      $new_height = $new_width / $ratio;
-   }
-
-   $new_image = imagecreatetruecolor($new_width, $new_height);
-   $image = imagecreatefromjpeg($filename);
-
-   imagecopyresampled($new_image, $image, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
-
-   $box_color=imagecolorallocatealpha($new_image, 100, 100, 100, 64);
-   $box_color2=imagecolorallocatealpha($new_image, 75, 75, 75, 40);
-   $text_color=imagecolorallocate($new_image, 255,255,255);
-   $font_size=$new_height/14;
-   $font=COMMON_DIR.'FreeSans.ttf';
-
-   foreach ($this->fields as $field) {
-	//echo $field['id'].'.'.$this->act_field.' ';
-	if($field['id']==$this->act_field) {
-		imagefilledrectangle($new_image,$new_width*$field['left'],$new_height*$field['top'],
-				$new_width*($field['left']+$field['width']),$new_height*($field['top']+$field['height']),$box_color2);
-		imagerectangle($new_image,$new_width*$field['left'],$new_height*$field['top'],
-				$new_width*($field['left']+$field['width']),$new_height*($field['top']+$field['height']),$text_color);
-	} else{
-
-		imagefilledrectangle($new_image,$new_width*$field['left'],$new_height*$field['top'],
-				$new_width*($field['left']+$field['width']),$new_height*($field['top']+$field['height']),$box_color);
-	}
-	$tbox = imageTTFBBox ($font_size,0,$font,$field['name']);
-	imageTTFText($new_image,$font_size,0,
-		$new_width*($field['left']+$field['width']/2)-($tbox[2]-$tbox[0])/2,
-		$new_height*($field['top']+$field['height']/2)-($tbox[5]-$tbox[1])/2,
-		$text_color,$font,$field['name']);
-
-	$theight = $tbox[1];
-        $twidth= $tbox[2];
-   }
-   
-}
-
-header('Content-type: image/jpeg');
-imagejpeg($new_image, NULL, 100);
-imagedestroy($new_image);
-exit();
+  $this->p_template->preview($this->width, $this->height, $this->act_field);
 ?>

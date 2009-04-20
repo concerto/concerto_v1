@@ -1,4 +1,28 @@
 <?
+/**
+ * This file was developed as part of the Concerto digital signage project
+ * at RPI.
+ *
+ * Copyright (C) 2009 Rensselaer Polytechnic Institute
+ * (Student Senate Web Technolgies Group)
+ *
+ * This program is free software; you can redistribute it and/or modify it 
+ * under the terms of the GNU General Public License as published by the Free
+ * Software Foundation; either version 2 of the License, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.  You should have received a copy
+ * of the GNU General Public License along with this program.
+ *
+ * @package      Concerto
+ * @author       Web Technologies Group, $Author: mike $
+ * @copyright    Rensselaer Polytechnic Institute
+ * @license      GPLv2, see www.gnu.org/licenses/gpl-2.0.html
+ * @version      $Revision: 551 $
+ */
 //Content Rendering API
 //Version 0.07
 //Notes: You shouldn't be touching this file directly.  You should be calling through the render/index.php handler and passing the version 007
@@ -189,8 +213,8 @@ function render_rss($content_arr, $criteria){
         <description>RSS Feed from Concerto API</description>
         <language>en-us</language>
         <pubDate><?= rssdate("now") ?></pubDate>
-        <generator>Concerto API 1.0</generator>
-        <webMaster>concerto@union.rpi.edu</webMaster>
+        <generator>Concerto API 0.07</generator>
+        <webMaster><?= SYSTEM_EMAIL ?></webMaster>
         <image>
             <url><?= 'http://' . $_SERVER['SERVER_NAME'] . ADMIN_BASE_URL ?>/images/conc_logowhitebg_sm.jpg</url>
             <title>Concerto</title>

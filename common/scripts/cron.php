@@ -1,4 +1,28 @@
 <?
+/**
+ * This file was developed as part of the Concerto digital signage project
+ * at RPI.
+ *
+ * Copyright (C) 2009 Rensselaer Polytechnic Institute
+ * (Student Senate Web Technolgies Group)
+ *
+ * This program is free software; you can redistribute it and/or modify it 
+ * under the terms of the GNU General Public License as published by the Free
+ * Software Foundation; either version 2 of the License, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.  You should have received a copy
+ * of the GNU General Public License along with this program.
+ *
+ * @package      Concerto
+ * @author       Web Technologies Group, $Author: mike $
+ * @copyright    Rensselaer Polytechnic Institute
+ * @license      GPLv2, see www.gnu.org/licenses/gpl-2.0.html
+ * @version      $Revision: 551 $
+ */
 //I run the cron job for Concerto.
 //Mainly I update rss feeds and dynamic content.
 include('../../config.inc.php');
@@ -17,7 +41,6 @@ include(COMMON_DIR.'image.inc.php');//Image library, used for resizing images
 include(COMMON_DIR.'notification.php');//Class to represent notifications
 
 include(CONTENT_DIR.'render/render.php'); //Functions to generate the cache
-
 
 if(date("D Hi") == 'Sun 0010' || $_REQUEST['weekly']){
 	weekly();
@@ -61,16 +84,22 @@ function nightly(){
 	//Parse the cache!
         cache_parse(25);
 	echo "Completed cache parsing.\n";
+	
+  echo "Finding expired content in moderation queue...";
+  deny_expired();
+  echo "Done dening expired content in mod queue.\n";
 
 }
 function hourly(){
-	//Rotate any screens that need a template rotation every 6 hours
-	if(date('H') % 6 == 0) {
+	//Rotate any screens that need a template rotation every 4 hours
+	if(date('H') % 4 == 0) {
 		echo "Executing template rotation.\n";
 		//The array should be setup as follows, $screen[screen_id][] = template_id
 		//Make sure you have subscriptions setup!
-		$screens[5][] = 1;
-		$screens[5][] = 8;
+		$screens[5][] = 23;
+		$screens[5][] = 25;
+		$screens[3][] = 5;
+		$screens[3][] = 19;
 		foreach($screens as $key => $templates){
 			$scr = new Screen($key);
 			$templates = remove_element($templates, $scr->template_id);
@@ -92,9 +121,10 @@ function always(){
 				echo "Updated $feed->name OK\n";
 			} else {
 				echo "Error updating $feed->name\n";
-				echo "Status: " . $feed->dyn->status . "\n";
 				print_r($feed);
-			}
+		  }
+		  echo "Status: " . $feed->dyn->status . "\n";
+		  
 		}
 	}
 	//Then generate the newsfeed!
@@ -111,8 +141,10 @@ function always(){
 
 function screen_offline_mail( ) {
     # Query all screens and mail a report if any are offline
-    $screens = Array( );
     $screens = Screen::get_all( );
+    if(!is_array($screens)){
+      return false;
+    }
     $downed_screens = Array( );
     foreach ($screens as $screen) {
         if ($screen->went_down()) {
@@ -148,4 +180,22 @@ function remove_element($arr, $val){
 	}
 	return $arr = array_values($arr);
 }
+
+//Scan for content still in the moderation queue that has expired and deny it
+function deny_expired(){
+  $notification = "The content was denied automatically.  A moderator did not review this item before the expiration date.";
+  $feeds = Feed::get_all();
+  foreach($feeds as $feed){
+    $contents = $feed->content_get('NULL'); //Content that hasn't been moderated
+    if($contents){
+      foreach($contents as $content){
+        if(strtotime($content['content']->end_time) < strtotime('NOW')){
+          $feed->content_mod($content['content']->id, 0, 0, $content['content']->get_duration($feed),$notification);
+          echo "Denied {$content['content']->name} on {$feed->name}\n";
+        }
+      }
+    }
+  }
+}
+
 ?>

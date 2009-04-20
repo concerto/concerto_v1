@@ -1,4 +1,28 @@
 <?php
+/**
+ * This file was developed as part of the Concerto digital signage project
+ * at RPI.
+ *
+ * Copyright (C) 2009 Rensselaer Polytechnic Institute
+ * (Student Senate Web Technolgies Group)
+ *
+ * This program is free software; you can redistribute it and/or modify it 
+ * under the terms of the GNU General Public License as published by the Free
+ * Software Foundation; either version 2 of the License, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.  You should have received a copy
+ * of the GNU General Public License along with this program.
+ *
+ * @package      Concerto
+ * @author       Web Technologies Group, $Author: mike $
+ * @copyright    Rensselaer Polytechnic Institute
+ * @license      GPLv2, see www.gnu.org/licenses/gpl-2.0.html
+ * @version      $Revision: 551 $
+ */
 class screensController extends Controller
 {
    public $actionNames = Array( 'list'=> 'Screens Listing', 'show'=>'Details',
@@ -61,6 +85,18 @@ class screensController extends Controller
       }
       $this->setTitle('Editing Settings for '.$this->screen->name);
       $this->setSubject($this->screen->name);
+      
+      $this->avail_templates = Template::get_all("WHERE hidden = 0 AND width / height = {$this->screen->width} /{$this->screen->height}");
+      if(!is_array($this->avail_templates)){
+        $this->avail_templates = Template::get_all("WHERE hidden = 0"); //The screen doesn't match the aspect ratio of any of the templates
+      }
+      //Admins have access to hidden tempates
+      if(isAdmin()) {
+        $this->admin_templates = Template::get_all("WHERE hidden = 1 AND width / height = {$this->screen->width} /{$this->screen->height}");
+        if(!is_array($this->admin_templates)){
+          $this->admin_templates = Template::get_all("WHERE hidden = 1");
+        }
+      }
    }
 
    function subscriptionsAction()
@@ -74,12 +110,12 @@ class screensController extends Controller
       $this->setSubject($this->screen->name);
       $this->feeds=Feed::get_all();
 
-      $res = sql_select('template','*','id='.$this->screen->template_id);
-      $this->templateobj = $res[0]; //Template is a keyword for the controller, so I call it something else
+      $this->templateobj = new Template($this->screen->template_id); //Template is a keyword for the controller, so I call it something else
    }
    function newAction()
    {
       $this->setTitle('Create new screen');
+      $this->avail_templates = Template::get_all("WHERE hidden = 0"); //We know nothing about the new screen
    }
    
    function templateAction()

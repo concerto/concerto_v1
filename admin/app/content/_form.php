@@ -1,4 +1,28 @@
 <?php
+/**
+ * This file was developed as part of the Concerto digital signage project
+ * at RPI.
+ *
+ * Copyright (C) 2009 Rensselaer Polytechnic Institute
+ * (Student Senate Web Technolgies Group)
+ *
+ * This program is free software; you can redistribute it and/or modify it 
+ * under the terms of the GNU General Public License as published by the Free
+ * Software Foundation; either version 2 of the License, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.  You should have received a copy
+ * of the GNU General Public License along with this program.
+ *
+ * @package      Concerto
+ * @author       Web Technologies Group, $Author: mike $
+ * @copyright    Rensselaer Polytechnic Institute
+ * @license      GPLv2, see www.gnu.org/licenses/gpl-2.0.html
+ * @version      $Revision: 551 $
+ */
    //assuming $this->user is null or the screen we want to edit
    $content = $this->content;
 ?>
@@ -89,7 +113,7 @@
        </tr>
      </table>
      <br /><br />
-     <h2>Not sure what feeds are?  <a TARGET="_blank" href="http://signage.rpi.edu/admin/pages/show/docs/23">Read this first!</a></h2>
+     <h2>Not sure what feeds are?  <a TARGET="_blank" href="<?= ADMIN_URL ?>/pages/show/docs/23">Read this first!</a></h2>
      <table class='edit_win' cellpadding='6' cellspacing='0'>
        <tr>
          <td>
@@ -107,7 +131,7 @@ foreach ($this->feeds as $arr) {
     list($feed, $value) = $arr;
     $screens = array();
     $screen_objs = $feed->get_screens($content_type);
-    if(count($screen_objs)>0) {
+    if(is_array($screen_objs) && count($screen_objs)>0) {
       foreach($screen_objs as $screen) {
         $screens[] = $screen->name;
       }
@@ -116,7 +140,7 @@ foreach ($this->feeds as $arr) {
 ?>
                  <option class="feedopt"
                    title="<?=$feed->description ? $feed->description : ' '?>   Displays on <?=$scrcnt?> screen<?= $scrcnt!=1 ? 's' : ''?><?= (count($screens)>0) ? ': '.join(', ',$screens) : '. ' ?>" 
-                   value="<?=$feed->id?>"><?=$feed->name?></option>
+                   value="<?=$feed->id?>"><?=htmlspecialchars($feed->name)?></option>
 
 <? } ?>
                </select>

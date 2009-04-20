@@ -1,4 +1,28 @@
 <?
+/**
+ * This file was developed as part of the Concerto digital signage project
+ * at RPI.
+ *
+ * Copyright (C) 2009 Rensselaer Polytechnic Institute
+ * (Student Senate Web Technolgies Group)
+ *
+ * This program is free software; you can redistribute it and/or modify it 
+ * under the terms of the GNU General Public License as published by the Free
+ * Software Foundation; either version 2 of the License, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.  You should have received a copy
+ * of the GNU General Public License along with this program.
+ *
+ * @package      Concerto
+ * @author       Web Technologies Group, $Author: mike $
+ * @copyright    Rensselaer Polytechnic Institute
+ * @license      GPLv2, see www.gnu.org/licenses/gpl-2.0.html
+ * @version      $Revision: 551 $
+ */
 /*
 Class: Dynamic
 Status: Complete rebuild
@@ -36,7 +60,7 @@ class Dynamic{
   function __construct($id = '', $feed_id=''){
     $this->status = "";
     if($id != '' && is_numeric($id)){
-      $sql = "SELECT * FROM dynamic WHERE id = $id LIMIT 1";
+      $sql = "SELECT *, NOW() as curtime FROM dynamic WHERE id = $id LIMIT 1";
       $res = sql_query($sql);
       if($res){
         $data = (sql_row_keyed($res,0));
@@ -46,6 +70,7 @@ class Dynamic{
         $this->rules = unserialize($data['rules']);
         $this->update_interval = $data['update_interval'];
         $this->last_update = $data['last_update'];
+        $this->curtime = $data['curtime']; //Trust SQL only for the time!
         
         if($feed_id != ''){
           $this->feed = new Feed($feed_id, false);  //The false is critical here!
@@ -67,7 +92,7 @@ class Dynamic{
   
   function update(){
     //Determine if we want an update before we run one
-    if((time() - strtotime($this->last_update)) >= $this->update_interval){
+    if((strtotime($this->curtime) - strtotime($this->last_update)) >= $this->update_interval){
       $return = true;
       if($this->type == 1){
         $return = $this->xml_update();
@@ -81,6 +106,7 @@ class Dynamic{
         $ret_val = $this->add_content();
         if($ret_val){
           $this->log_update();
+          $this->status .= "Updated Completed";
           return true;
         } else {
           $this->status .= "Failure to add content. ";
@@ -91,6 +117,7 @@ class Dynamic{
         return false;
       }
     } else {
+      $this->status = "Not time for an update.  Last Update " . (strtotime($this->curtime) - strtotime($this->last_update)) . ", Threshold " . $this->update_interval;
       return true; //No update was run because we just ran one
     }
   }
@@ -112,6 +139,9 @@ class Dynamic{
     }
     $content_arr = $this->feed->content_get_by_type(4,'feed_content.moderation_flag = 1 ' . $this->path);
     $xml = new SimpleXMLElement('<xml></xml>');
+    if(!$content_arr){
+      $content_arr = array();
+    }
     foreach($content_arr as $content){
       $c_xml = $xml->addChild('content');
       $c_xml->addChild('id', $content->id);
@@ -216,8 +246,10 @@ class Dynamic{
       $this->content[$key] = $header . implode($glue, $content) . $footer;
     }
     //echo "HEADER: $header <hr /> GLUE: $glue <hr /> FOOTER: $footer <hr />";
+    //echo "<h1>Feed: {$this->feed->name}</h1><code>";
     //print_r($this->content);
     //print_r($data);
+    //echo "</code>";
     return true;
   }
   
@@ -314,8 +346,8 @@ class Dynamic{
       $end_time_str = $this->rules['end_time_str'];
     }
     
-    $start_time = date("Y-m-d g:i:s",strtotime($start_time_str));
-    $end_time = date("Y-m-d g:i:s",strtotime($end_time_str));
+    $start_time = date("Y-m-d G:i:s",strtotime($start_time_str));
+    $end_time = date("Y-m-d G:i:s",strtotime($end_time_str));
     
     $existing_content = $this->feed->content_get_by_type($type_id, "content.user_id = $c_owner");
     if(is_array($existing_content)){

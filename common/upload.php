@@ -1,4 +1,28 @@
 <?
+/**
+ * This file was developed as part of the Concerto digital signage project
+ * at RPI.
+ *
+ * Copyright (C) 2009 Rensselaer Polytechnic Institute
+ * (Student Senate Web Technolgies Group)
+ *
+ * This program is free software; you can redistribute it and/or modify it 
+ * under the terms of the GNU General Public License as published by the Free
+ * Software Foundation; either version 2 of the License, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.  You should have received a copy
+ * of the GNU General Public License along with this program.
+ *
+ * @package      Concerto
+ * @author       Web Technologies Group, $Author: mike $
+ * @copyright    Rensselaer Polytechnic Institute
+ * @license      GPLv2, see www.gnu.org/licenses/gpl-2.0.html
+ * @version      $Revision: 551 $
+ */
 /*
 Class: Upload
 Status: Good to go
@@ -20,8 +44,8 @@ Comments:
 define('MIN_W','400'); //Min width before we reject an image
 define('MIN_H','400'); //Min height before we reject an image
 //Resize Limits
-define('MAX_W','1600'); //Max width before we resize an image
-define('MAX_H','1200'); //Max height before we resize an image
+define('MAX_W','1920'); //Max width before we resize an image
+define('MAX_H','1280'); //Max height before we resize an image
 
 
 class Uploader{
@@ -218,7 +242,7 @@ class Uploader{
 				
 			$dest_img=ImageCreateTrueColor($new_x,$new_y);
         		imagecopyresampled($dest_img,$src_img,0,0,0,0,$new_x,$new_y,$width,$height);
-        		imagejpeg($dest_img, $temp_dest, 90);
+        		imagejpeg($dest_img, $temp_dest, 100);
         		imagedestroy($dest_img);
         		imagedestroy($src_img);
         		
