@@ -1,0 +1,49 @@
+
+                               Concerto
+
+Concerto is a free software project aimed at creating a web-based
+distributed digital signage system. It is written in the PHP language
+and includes the use of several other projects.
+
+Licensing
+---------
+
+Concerto is Copyright (C) 2009 Rensselaer Polytechnic Institute
+ (Student Senate Web Technolgies Group)
+
+This program is free software; you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the Free
+Software Foundation; either version 2 of the License, or (at your option)
+any later version.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+General Public License for more details. 
+
+Projects
+--------
+
+The Concerto codebase includes the work of several other free software
+projects.
+
+* The Free Sans font from the GNU FreeFont project
+  (http://www.gnu.org/software/freefont/) is used for rendering text in 
+  template previews.
+
+* The administration panel and screen displays make use of the JQuery
+  JavaScript library (http://jquery.com).
+  Copyright (C) 2008 John Resig, dual-licensed under the
+  MIT and GPL licenses.
+  Several similarly licensed components of the JQuery UI project are
+  also included.
+
+* The phpCAS client (http://www.ja-sig.org/wiki/display/CASC/phpCAS)
+  is used to interface to the CAS authentication system.  Copyright
+  (C) 2003-2008, The ESUP-Portail consortium & the JA-SIG
+  Collaborative.
+  phpCAS also includes an integrated copy of domxml-php4-php5.php
+  (http://alexandre.alapetite.net/doc-alex/domxml-php4-php5/)
+
+* The Python Open Document Converter
+  Copyright (C) 2008 Mirko Nasato, Licensed under the GNU LGPL v2.1

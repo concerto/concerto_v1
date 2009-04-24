@@ -1,4 +1,28 @@
 <?php
+/**
+ * This file was developed as part of the Concerto digital signage project
+ * at RPI.
+ *
+ * Copyright (C) 2009 Rensselaer Polytechnic Institute
+ * (Student Senate Web Technolgies Group)
+ *
+ * This program is free software; you can redistribute it and/or modify it 
+ * under the terms of the GNU General Public License as published by the Free
+ * Software Foundation; either version 2 of the License, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.  You should have received a copy
+ * of the GNU General Public License along with this program.
+ *
+ * @package      Concerto
+ * @author       Web Technologies Group, $Author: mike $
+ * @copyright    Rensselaer Polytechnic Institute
+ * @license      GPLv2, see www.gnu.org/licenses/gpl-2.0.html
+ * @version      $Revision: 551 $
+ */
 class templatesController extends Controller
 {
    public $actionNames = Array( 'list'=> 'Content Listing', 'show'=>'Details',);
@@ -7,16 +31,15 @@ class templatesController extends Controller
 
    function setup()
    {
-      $this->setName('Template');
-      $this->setTemplate('blank_layout', Array('preview', 'image'));
+      $this->setName("Content");
+      $this->setTemplate("blank_layout", "preview");
    }
-
    function indexAction()
    {
       $this->listAction();
-      $this->renderView("template", "list");
+      $this->renderView("content", "list");
    }
-   
+  
    function listAction()
    {
    }
@@ -39,20 +62,5 @@ class templatesController extends Controller
          $this->height = $_REQUEST['height'];
       }
    }
-   
-   function imageAction()
-   {
-      $res = sql_select('template','filename','id='.$this->args[1]);
-      $this->file = $res[0]['filename'];
-      $this->width = '400';
-      $this->height = '300';
-      if(isset($_REQUEST['width'])) {
-         $this->width = $_REQUEST['width'];
-      }
-      if(isset($_REQUEST['height'])) {
-         $this->width = $_REQUEST['height'];
-      }
-   }
-
 }
 ?>
