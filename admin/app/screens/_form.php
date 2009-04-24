@@ -1,29 +1,4 @@
-<?php
-/**
- * This file was developed as part of the Concerto digital signage project
- * at RPI.
- *
- * Copyright (C) 2009 Rensselaer Polytechnic Institute
- * (Student Senate Web Technolgies Group)
- *
- * This program is free software; you can redistribute it and/or modify it 
- * under the terms of the GNU General Public License as published by the Free
- * Software Foundation; either version 2 of the License, or (at your option)
- * any later version.
- *
- * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * General Public License for more details.  You should have received a copy
- * of the GNU General Public License along with this program.
- *
- * @package      Concerto
- * @author       Web Technologies Group, $Author: mike $
- * @copyright    Rensselaer Polytechnic Institute
- * @license      GPLv2, see www.gnu.org/licenses/gpl-2.0.html
- * @version      $Revision: 551 $
- */
-?><script type="text/javascript"><!--
+<script type="text/javascript"><!--
 (function($) {
     $(document).ready(function() {
       $('a.t-preview').lightBox({
@@ -107,14 +82,15 @@
 		<tr>
 			<td><h5>Screen Latitude, Longitude</h5></td>
 			<td>
-				<input type="text" id="latitude" name="screen[latitude]" class="small" value="<?=$screen->latitude?>">&nbsp;&nbsp;,&nbsp;&nbsp;
-				<input type="text" id="longitude" name="screen[longitude]" class="small" value="<?=$screen->longitude?>">
+				<input type="text" id="latitude" name="screen[latitude]" size="8" value="<?=$screen->latitude?>">&nbsp; , &nbsp;
+				<input type="text" id="longitude" name="screen[longitude]" size="8" value="<?=$screen->longitude?>">
 			</td>
 		</tr>
 		<tr>
 			<td><h5>Screen Size<br />(W x H, in pixels)</h5></td>
 			<td>
-				<input type="text" id="width" name="screen[width]" class="small" value="<?=$screen->width?>">&nbsp;&nbsp;x&nbsp;&nbsp;<input type="text" id="height" name="screen[height]" class="small" value="<?=$screen->height?>">
+				<input type="text" id="width" name="screen[width]" size="6" value="<?=$screen->width?>">&nbsp; x &nbsp;
+				<input type="text" id="height" name="screen[height]" size="6" value="<?=$screen->height?>">
 			</td>
 		</tr>
 		<tr>
@@ -123,7 +99,35 @@
 				<input type="text" id="mac_inhex" name="screen[mac_inhex]" value="<?=$screen->mac_inhex?>">
 			</td>
 		</tr>
-
+		<tr>
+			<td><h5>Layout Design</h5></td>
+			<td>
+				<?php
+							if(is_array($this->avail_templates))
+								foreach($this->avail_templates as $template) {
+				?>
+				<input class="template" type="radio" name="screen[template]" style="vertical-align:middle"  value="<?= $template->id ?>"<?php if($screen->template_id==$template->id) echo ' checked'; ?>>
+					<a href="<?=ADMIN_URL.'/templates/preview/'.$template->id.'?width=800'?>" class="t-preview"><img style="vertical-align:middle; margin:10px;" src="<?=ADMIN_URL.'/templates/preview/'.$template->id.'?width=150'?>" width="150" height="<?= round(150*$screen->height/$screen->width) ?>" alt="<?= $template->name ?>"/></a>
+					<?= $template->name ?><br />
+					<? if(strlen($template->creator) > 0){ echo "Created by: $template->creator "; } ?>
+					<? if(strtotime($template->modified) > 0){echo "Last Updated: " . date("M j, Y", strtotime($template->modified));} ?>
+				</input><br />
+	<?php   } ?>
+	
+				<?php
+							if(isAdmin() && is_array($this->admin_templates)){
+							echo "<h4>Hidden Templates</h4>";
+								foreach($this->admin_templates as $template) {
+				?>
+				<input class="template" type="radio" name="screen[template]" style="vertical-align:middle"  value="<?= $template->id ?>"<?php if($screen->template_id==$template->id) echo ' checked'; ?>>
+					<a href="<?=ADMIN_URL.'/templates/preview/'.$template->id.'?width=800'?>" class="t-preview"><img style="vertical-align:middle; margin:10px;" src="<?=ADMIN_URL.'/templates/preview/'.$template->id.'?width=150'?>" width="150" height="<?= round(150*$screen->height/$screen->width) ?>" alt="<?= $template->name ?>"/></a>
+					<?= $template->name ?><br />
+					<? if(strlen($template->creator) > 0){ echo "Created by: $template->creator "; } ?>
+					<? if(strtotime($template->modified) > 0){echo "Last Updated: " . date("M j, Y", strtotime($template->modified));} ?>
+				</input><br />
+	<?php   } }?>
+			</td>
+		</tr>
 		<tr>
 			<td><h5>Owning Group</h5></td>
 			<td><select name="screen[group]">
@@ -148,53 +152,16 @@
 <? } ?>
 <? if (isset($screen->id) && (isAdmin() || $screen->controls_display)) { ?>
 	 	<tr>
-		 	<td><h5>Display On/Off Times</h5><p>What time should the system turn the screen on and off? <strong>Please specify hh:mm in 24-hour time</strong>, e.g. 18:00 for 6:00 pm, 00:00 for the very beginning of the day, or 23:59 for the end of the day.</p></td>
-		 	<td>
-		 		<input type="text" name="screen[time_on]" class="small" value="<?=$screen->time_on?>" />&nbsp;&nbsp;to&nbsp;&nbsp;<input type="text" name="screen[time_off]" class="small" value="<?=$screen->time_off?>" />
+		 	<td><h5>Display On Time</h5><p>What time should the system turn on the screen? <strong>Please specify hh:mm in 24-hour time</strong>, e.g. 18:00 for 6:00 pm, 00:00 for the very beginning of the day, or 23:59 for the end of the day.</p></td>
+		 	<td><input type="text" name="screen[time_on]" value="<?=$screen->time_on?>" />
+		 	</td>
+	 	</tr>
+	 	<tr>
+		 	<td><h5>Display Off Time</h5><p>What time should the system turn off the screen? <strong>Please specify hh:mm in 24-hour time.</strong></p></td>
+		 	<td><input type="text" name="screen[time_off]" value="<?=$screen->time_off?>" />
 		 	</td>
 	 	</tr>
 <? } ?>
-	</table>
-	<br />
-	<table style="clear:none;" class='edit_win' cellpadding='6' cellspacing='0'>
-		<tr>
-			<td>
-				<h5>Screen Template</h5>
-				<p>Click on a thumbnail for a larger view.</p>
-				<br />
-				<?php
-							if(is_array($this->avail_templates))
-								echo "<h4 style='color:#333;margin-bottom:12px;padding-bottom:6px;border-bottom:solid 1px #ccc;'>Normal Templates</h4>";
-								foreach($this->avail_templates as $template) {
-				?>
-				<div style="margin:5px;height:200px;float:left;text-align:center;width:200px;">
-					<input class="template" type="radio" name="screen[template]" style="vertical-align:middle"  value="<?= $template->id ?>"<?php if($screen->template_id==$template->id) echo ' checked'; ?>>
-						<a href="<?=ADMIN_URL.'/templates/preview/'.$template->id.'?width=800'?>" class="t-preview"><img style="vertical-align:middle; margin:10px;" src="<?=ADMIN_URL.'/templates/preview/'.$template->id.'?width=150'?>" width="150" height="<?= round(150*$screen->height/$screen->width) ?>" alt="<?= $template->name ?>"/></a>
-						<p style="color:#333;"><b><?= $template->name ?></b><br />
-						<? if(strlen($template->creator) > 0){ echo "Created by: $template->creator <br />"; } ?>
-						<? if(strtotime($template->modified) > 0){echo "Last Updated: " . date("M j, Y", strtotime($template->modified));} ?>
-						</p>
-					</input>
-				</div>
-	<?php   } ?>
-				
-				<?php
-							if(isAdmin() && is_array($this->admin_templates)){
-							echo "<div style='clear:both;'></div><h4 style='color:#333;padding-bottom:6px;margin-bottom:12px;border-bottom:solid 1px #ccc;'>Hidden Templates</h4>";
-								foreach($this->admin_templates as $template) {
-				?>
-				<div style="margin:5px;height:200px;float:left;text-align:center;width:200px;">
-					<input class="template" type="radio" name="screen[template]" style="vertical-align:middle"  value="<?= $template->id ?>"<?php if($screen->template_id==$template->id) echo ' checked'; ?>>
-						<a href="<?=ADMIN_URL.'/templates/preview/'.$template->id.'?width=800'?>" class="t-preview"><img style="vertical-align:middle; margin:10px;" src="<?=ADMIN_URL.'/templates/preview/'.$template->id.'?width=150'?>" width="150" height="<?= round(150*$screen->height/$screen->width) ?>" alt="<?= $template->name ?>"/></a>
-						<p style="color:#333;"><b><?= $template->name ?></b><br />
-						<? if(strlen($template->creator) > 0){ echo "Created by: $template->creator <br />"; } ?>
-						<? if(strtotime($template->modified) > 0){echo "Last Updated: " . date("M j, Y", strtotime($template->modified));} ?>
-						</p>
-					</input>
-				</div>
-	<?php   } }?>
-			</td>
-		</tr>
  	</table>
 </div>
 <br clear="all" />

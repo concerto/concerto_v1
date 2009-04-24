@@ -16,6 +16,8 @@ if($_REQUEST['select'] == 'system'){
         render_raw($contents, $criteria);
     }elseif($criteria['format'] == 'html'){
         render_html($contents, $criteria);
+    }elseif($criteria['format'] == 'rawhtml'){
+        render_rawhtml($contents, $criteria);
     }elseif($criteria['format'] == 'rss'){
         render_rss($contents, $criteria);
     }elseif($criteria['format'] == 'json'){
@@ -34,7 +36,7 @@ function validation($request){
 
     //Define acceptable values
     $select_av = array('content', 'feed', 'user');
-    $format_av = array('raw','html','rss','json');
+    $format_av = array('raw','html','rss','json','rawhtml');
     $orderby_av = array('id', 'rand', 'type_id', 'mime_type', 'submitted','start_time', 'end_time', 'user_id');
     $range_av = array('live', 'future', 'past', 'all');
     //End Acceptable values
@@ -168,6 +170,18 @@ function render_html($content_arr, $criteria){
     }
 }
 
+function render_rawhtml($content_arr, $criteria){
+    foreach($content_arr as $content){
+    ?>
+<? if(false===strpos($content->mime_type,'image')){ ?>
+    <?= $content->content ?>
+<? } else { ?>
+    <img src="index.php?<?= criteria_string($criteria) ?>&select=content&select_id=<?= $content->id ?>&format=raw" alt="<?= htmlspecialchars($content->name) ?>" />
+<? } ?>
+<?
+    }
+}
+
 function render_rss($content_arr, $criteria){
     if($criteria['select'] == 'user'){
         $filter = 'username';
@@ -189,7 +203,7 @@ function render_rss($content_arr, $criteria){
         <description>RSS Feed from Concerto API</description>
         <language>en-us</language>
         <pubDate><?= rssdate("now") ?></pubDate>
-        <generator>Concerto API 0.07</generator>
+        <generator>Concerto API 0.08</generator>
         <webMaster><?= SYSTEM_EMAIL ?></webMaster>
         <image>
             <url><?= 'http://' . $_SERVER['SERVER_NAME'] . ADMIN_BASE_URL ?>/images/conc_logowhitebg_sm.jpg</url>

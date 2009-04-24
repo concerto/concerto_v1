@@ -432,9 +432,6 @@ body .ui-resizable-autohide .ui-resizable-handle { display: none; } /* use 'body
    width: 5em;
    left: 9.4em;
 }
-.ui-datepicker-today {
-    background: #99ccff !important;
-}
 table.ui-datepicker {
    width: 15.5em;
    text-align: right;
@@ -443,6 +440,7 @@ table.ui-datepicker td a {
    padding: .1em .3em .1em 0;
    display: block;
    color: #444444;
+   background: #e0e0e0 url(../images/ui/e0e0e0_40x100_textures_02_glass_80.png) 0 50% repeat-x;
    cursor: pointer;
    border: 1px solid #f3f3f3;
 }
