@@ -270,6 +270,7 @@ function render_rss($content_arr, $criteria){
             }
             if(strpos($content->mime_type,'image') !== false){
 ?>
+            <enclosure url="<?= htmlspecialchars($raw_link) ?>" type="<?= $content->mime_type ?>" />
             <media:content url="<?= htmlspecialchars($raw_link) ?>" type="<?= $content->mime_type ?>" expression="full" />
             <media:title type="plain"><?= htmlspecialchars($content->name) ?></media:title>
             <media:thumbnail url="<?= htmlspecialchars($rss_link) ?>" width="100" height="100"/>
