@@ -18,10 +18,10 @@
  * of the GNU General Public License along with this program.
  *
  * @package      Concerto
- * @author       Web Technologies Group, $Author: mike $
+ * @author       Web Technologies Group, $Author: zaik $
  * @copyright    Rensselaer Polytechnic Institute
  * @license      GPLv2, see www.gnu.org/licenses/gpl-2.0.html
- * @version      $Revision: 551 $
+ * @version      $Revision: 556 $
  */
 ?><script type="text/javascript"><!--
 $(function()
@@ -94,7 +94,7 @@ $(function()
   <div class="roundtop"><span class="rt"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
   <div class="roundcont_main">
     <div style="float:left; width:75%;">
-    	<h1>New Update Released on November 8</h1>
+    	<h1>New Update Released on February 3</h1>
     	<p>Concerto has been updated to version <b><?= CONCERTO_VERSION ?></b>.  For more information, <a href="<?= ADMIN_BASE_URL ?>pages/show/docs/14">check out the release notes.</a></p>
     </div>
     <div style="float:right; text-align:right; width:23%;"><img src="<?= ADMIN_BASE_URL ?>/images/latest_version.gif" alt="" /></div>
