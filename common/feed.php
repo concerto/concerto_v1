@@ -542,7 +542,7 @@ class Feed{
 		while($row = sql_row_keyed($res1,$i)){
 		    $field = new Field($row['field_id'],$row['screen_id']);
 			$field->delete_feed($this->id);
-			$field->rebalance_scale();
+			//$field->rebalance_scale();
 		    $i++;
 		}
 		
