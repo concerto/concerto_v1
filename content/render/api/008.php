@@ -18,13 +18,13 @@
  * of the GNU General Public License along with this program.
  *
  * @package      Concerto
- * @author       Web Technologies Group, $Author: mike $
+ * @author       Web Technologies Group, $Author: brian $
  * @copyright    Rensselaer Polytechnic Institute
  * @license      GPLv2, see www.gnu.org/licenses/gpl-2.0.html
- * @version      $Revision: 551 $
+ * @version      $Revision: 560 $
  */
 //Content Rendering API
-//Version 0.07
+//Version 0.08
 //Notes: You shouldn't be touching this file directly.  You should be calling through the render/index.php handler and passing the version 007
 include(COMMON_DIR.'/user.php');     //Class to represent a site user
 include(COMMON_DIR.'/feed.php');     //Class to represent a content feed
@@ -187,7 +187,7 @@ function render_html($content_arr, $criteria){
 <? if(false===strpos($content->mime_type,'image')){ ?>
 	<div class="concerto_content"><?= $content->content ?></div>
 <? } else { ?>
-	<div class="concerto_content"><img src="index.php?<?= criteria_string($criteria) ?>&select=content&select_id=<?= $content->id ?>&format=raw" alt="<?= htmlspecialchars($content->name) ?>" /></div>
+	<div class="concerto_content"><img src="<?= 'http://' . $_SERVER['SERVER_NAME'] .  $_SERVER['SCRIPT_NAME'] . '?' . criteria_string($criteria) ?>&select=content&select_id=<?= $content->id ?>&format=raw" alt="<?= htmlspecialchars($content->name) ?>" /></div>
 <? } ?>
 </div>
 <?
@@ -200,7 +200,7 @@ function render_rawhtml($content_arr, $criteria){
 <? if(false===strpos($content->mime_type,'image')){ ?>
     <?= $content->content ?>
 <? } else { ?>
-    <img src="index.php?<?= criteria_string($criteria) ?>&select=content&select_id=<?= $content->id ?>&format=raw" alt="<?= htmlspecialchars($content->name) ?>" />
+    <img src="<?= 'http://' . $_SERVER['SERVER_NAME'] .  $_SERVER['SCRIPT_NAME'] . '?' . criteria_string($criteria) ?>&select=content&select_id=<?= $content->id ?>&format=raw" alt="<?= htmlspecialchars($content->name) ?>" />
 <? } ?>
 <?
     }
@@ -222,19 +222,19 @@ function render_rss($content_arr, $criteria){
 ?>
 <rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/" xmlns:dcterms="http://purl.org/dc/terms/">
     <channel>
-        <title><?= htmlspecialchars($feed_title) ?></title>
+        <title><?= htmlspecialchars(utf8_encode($feed_title)) ?></title>
         <link>http://<?= $_SERVER['SERVER_NAME'] ?>/<?= ROOT_URL ?></link>
         <description>RSS Feed from Concerto API</description>
         <language>en-us</language>
         <pubDate><?= rssdate("now") ?></pubDate>
         <generator>Concerto API 0.08</generator>
-        <webMaster><?= SYSTEM_EMAIL ?></webMaster>
+        <webMaster><?= SYSTEM_EMAIL ?> (Concerto Digital Signage)</webMaster>
         <image>
-            <url><?= 'http://' . $_SERVER['SERVER_NAME'] . ADMIN_BASE_URL ?>/images/conc_logowhitebg_sm.jpg</url>
+            <url><?= 'http://' . $_SERVER['SERVER_NAME'] . ADMIN_BASE_URL ?>/images/concerto_48x48.png</url>
             <title>Concerto</title>
             <link><?= 'http://' . $_SERVER['SERVER_NAME'] . ADMIN_BASE_URL ?></link>
-            <width>700</width>
-            <height>185</height>
+            <width>48</width>
+            <height>48</height>
         </image>
 
 <?  foreach($content_arr as $content){
@@ -257,8 +257,8 @@ function render_rss($content_arr, $criteria){
             <link><?= $link ?></link>
             <description><?= $desc ?></description>
             <pubDate><?= rssdate($content->submitted) ?></pubDate>
-            <author><?= $user->username ?> (<?= htmlspecialchars($user->name) ?>)</author>
-            <guid><?= $content->id ?></guid>
+            <author><?= $user->username ?>@rpi.edu (<?= htmlspecialchars(utf8_encode($user->name)) ?>)</author>
+            <guid isPermaLink="false"><?= $content->id ?></guid>
 <?          foreach($feeds as $feed_obj){
                 if($feed_obj['moderation_flag'] == 1 && $feed_obj['feed']->type != 3){
                     $feed = $feed_obj['feed'];
@@ -355,40 +355,43 @@ function criteria_string($criteria, $case = ''){
 }
 
 function system_info(){
+    header("Content-type: text/xml");
     echo '<?xml version="1.0"?>';
     $sql = "SELECT id, name FROM feed WHERE type != 3";
     $res = sql_query($sql);
     $i=0;
 ?>
 
-<feeds>
+<systeminfo>
+  <feeds>
 <?
     while($row = sql_row_keyed($res, $i)){
 ?>
     <feed>
         <id><?= $row['id'] ?></id>
-        <name><?= $row['name'] ?></name>
+        <name><?= htmlspecialchars($row['name']) ?></name>
     </feed>
 <?
         $i++;
     }
 ?>
-</feeds>
+  </feeds>
 <?
     $sql = "SELECT name FROM type";
     $res = sql_query($sql);
     $i = 0;
 ?>
-<types>
+  <types>
 <?
     while($row = sql_row_keyed($res, $i)){
 ?>
-    <type><?= $row['name'] ?></type>
+    <type><?= htmlspecialchars($row['name']) ?></type>
 <?
         $i++;
     }
 ?>
-</types>
+  </types>
+</systeminfo>
 <?
 }
 
