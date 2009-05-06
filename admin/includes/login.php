@@ -155,7 +155,9 @@ function login_login()
    }
    $rcsid=mysql_escape_string($rcsid);
    $_SESSION['user'] = new user($rcsid);
-   if($_SESSION['user']->username != $rcsid){
+   //Send the user to signup if the new user was not created
+   //Comparison must be case-insensitive. strcasecmp returns 0 if equal
+   if(strcasecmp($_SESSION['user']->username,$rcsid)!== 0){
       redirect_to(ADMIN_URL.'/users/signup');
       exit();
    }
