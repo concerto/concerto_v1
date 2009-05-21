@@ -7,7 +7,9 @@ Installation Procedures:
 
 3. Upload Concerto to a web-accessible folder on your server.
 
-4. Edit config.inc.php with the following settings-
+4. Create a copy of config.inc.php.sample and name it config.inc.php
+
+5. Edit config.inc.php with the following settings-
 
 Database Settings:
   $db_host - Should match the server running MySQL.  Commonly this is 'localhost'
@@ -24,10 +26,10 @@ Core Settings:
 
   Save your changes to this file.
 
-5. Your web server will require write acces to the /content directory and its subdirectories.  Adjust your permissions accordingly with chmod and chown.
+6. Your web server will require write access to the /content directory and its subdirectories.  Adjust your permissions accordingly with chmod and chown.
 
-6. Concerto uses a scheduled job to process updates on a regular interval.  For Concerto to work properly. the script located in common/scripts/cron.php should be executed at least every hour. Running this script at a faster interval, such as every 5-10 minutes, will ensure faster updates of information in the system.  If your server has shell access, install a cronjob that runs the /path/to/concerto/common/scripts.php at a regular interval.
+7. Concerto uses a scheduled job to process updates on a regular interval.  For Concerto to work properly. the script located in common/scripts/cron.php should be executed at least every hour. Running this script at a faster interval, such as every 5-10 minutes, will ensure faster updates of information in the system.  If your server has shell access, install a cronjob that runs the /path/to/concerto/common/scripts.php at a regular interval.
 
-7. Delete the install directory
+8. Delete the install directory
 
-8. Enjoy your Concerto installation!
+9. Enjoy your Concerto installation!
