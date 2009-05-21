@@ -32,13 +32,13 @@
 
 //Database Connection
 $db_host = 'localhost';
-$db_login = 'concerto_dev';
-$db_password = 'phe7rudr';
-$db_database = 'concerto_development';
+$db_login = 'user';
+$db_password = 'password';
+$db_database = 'concerto';
 
 //Important paths
 
-define('ROOT_DIR', '/var/www/signage/');                    //server-side path where Concerto lives
+define('ROOT_DIR', '/var/www/');                    //server-side path where Concerto lives
 define('COMMON_DIR', ROOT_DIR.'common/');             //server-side path to dir with resources for
                                                        //  multiple portions of Concerto
 define('CONTENT_DIR', ROOT_DIR.'content/');      //server-side path to content images
@@ -46,20 +46,20 @@ define('IMAGE_DIR', CONTENT_DIR.'images/');      //server-side path to content i
 define('TEMPLATE_DIR', CONTENT_DIR.'templates/');//server-side path to screen templates
 
 //URLS for hyperlinks and the like
-define('ROOT_URL', '/signage/');                         //the root location where Concerto lives
+define('ROOT_URL', '/');                         //the root location where Concerto lives
 define('SCREEN_URL', ROOT_URL.'screen/');        //location of front-end screen program
 define('HARDWARE_URL', ROOT_URL.'hardware/');    //location of management for on-location machines
 define('ADMIN_BASE_URL', ROOT_URL.'admin/');     //base URL on server for images, css, etc. for interface
 define('ADMIN_URL', ADMIN_BASE_URL.'index.php'); //URL that can access this page (may be same as ADMIN_BASE_URL if mod_rewrite configured)
 
 //Various configuration
-define('CONCERTO_VERSION', '1.8 testing');               //Version number.
+define('CONCERTO_VERSION', '1.8 testing');       //Version number.
 define('DEFAULT_DURATION', 5);                   //Default content duration, in seconds
 define('DEFAULT_WEIGHT', 3);                     //Default position weight
 
-define('EMS_FEED_ID', 19);                       //ID of the emergency feed.
+define('EMS_FEED_ID', false);                    //ID of the emergency feed.
 define('ADMIN_GROUP_ID', 0);                     //ID of the User Group for admin functions and contact
 define('GA_TRACKING', false);                    //Define a Google Tracking id if applicable
 define('TICKER_LIMIT', 150);                     //Ticket Text character limit
-define('SYSTEM_EMAIL', 'concerto@union.rpi.edu');//Email address used for system emails
+define('SYSTEM_EMAIL', 'admin@yoursite.com');    //Email address used for system emails
 ?>

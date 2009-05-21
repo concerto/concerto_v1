@@ -23,10 +23,12 @@
  * @license      GPLv2, see www.gnu.org/licenses/gpl-2.0.html
  * @version      $Revision: 551 $
  */
+
+//Right now this code isn't in use anywhere.
 function go_mail(){
 
-	$username = 'rpi@concerto-signage.com';
-	$password = '216719156';
+	$username = '';  //Would store the email account username
+	$password = '';  //Would store email password
 
 	$mbox = imap_open ("{imap.gmail.com:993/imap/ssl}INBOX", $username, $password) or die("can't connect: " . imap_last_error());
 
