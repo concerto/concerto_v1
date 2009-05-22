@@ -30,3 +30,9 @@
    #   application that we're looking for stored in the PATH_INFO environment variable.
 
 </IfModule>
+
+<Files ~ "(\.svn$)$">
+   Order deny,allow
+   Deny from all
+</Files>
+

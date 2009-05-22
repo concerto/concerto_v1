@@ -96,8 +96,10 @@ function hourly(){
 		echo "Executing template rotation.\n";
 		//The array should be setup as follows, $screen[screen_id][] = template_id
 		//Make sure you have subscriptions setup!
-		$screens[5][] = 1;
-		$screens[5][] = 8;
+		$screens[5][] = 23;
+		$screens[5][] = 25;
+		$screens[3][] = 5;
+		$screens[3][] = 19;
 		foreach($screens as $key => $templates){
 			$scr = new Screen($key);
 			$templates = remove_element($templates, $scr->template_id);
