@@ -93,7 +93,7 @@ if(is_array($this->menu_links))
   <div id="footer_gutter">&nbsp;</div>
   <div id="footer">
     <div id="footer_padding">
-      <p>Copyright &copy; 2008 Rensselaer Polytechnic Institute (Student Senate Web Technologies Group)</p>
+      <p>Copyright &copy; 2009 Rensselaer Polytechnic Institute (Student Senate Web Technologies Group)</p>
       <p><a href="<?= ADMIN_URL ?>">Control Panel</a> | <a href="http://myrpi.org/webtech/list_posts">Web Tech Blog</a> | Contact Support: <a href="mailto:concerto@union.rpi.edu">concerto@union.rpi.edu</a></p>
     </div>
   </div>

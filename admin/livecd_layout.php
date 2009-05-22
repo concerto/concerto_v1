@@ -70,7 +70,7 @@
 <div id="footer_gutter">&nbsp;</div>
 <div id="footer">
   <div id="footer_padding">
-    <p>Copyright &copy; 2008 Rensselaer Polytechnic Institute (Student Senate Web Technologies Group)</p>
+    <p>Copyright &copy; 2009 Rensselaer Polytechnic Institute (Student Senate Web Technologies Group)</p>
   </div>
 </div>
 <?php if(defined('GA_TRACKING') && GA_TRACKING) { ?>
