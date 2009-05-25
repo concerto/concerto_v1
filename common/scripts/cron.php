@@ -93,21 +93,18 @@ function nightly(){
 function hourly(){
 	//Rotate any screens that need a template rotation every 6 hours
 	if(date('H') % 6 == 0) {
-		echo "Executing template rotation.\n";
-		//The array should be setup as follows, $screen[screen_id][] = template_id
-		//Make sure you have subscriptions setup!
-		$screens[5][] = 23;
-		$screens[5][] = 25;
-		$screens[3][] = 5;
-		$screens[3][] = 19;
-		foreach($screens as $key => $templates){
-			$scr = new Screen($key);
-			$templates = remove_element($templates, $scr->template_id);
-			$new_key = array_rand($templates,1);
-			$scr->template_id = $templates[$new_key];
-			$scr->set_properties();
+		if(is_array($scren_rotate)){
+			echo "Executing template rotation.\n";
+			foreach($screen_rotate as $key => $templates){
+				$scr = new Screen($key);
+				$templates = remove_element($templates, $scr->template_id);
+				$new_key = array_rand($templates,1);
+				$scr->template_id = $templates[$new_key];
+				$scr->set_properties();
+			}
+			echo "Template rotation complete.\n";
 		}
-		echo "Template rotation complete.\n";
+		echo "Hourly job complete.\n";
 	}
 	//End template rotation
 }

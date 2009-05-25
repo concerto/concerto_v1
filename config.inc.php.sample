@@ -62,4 +62,9 @@ define('ADMIN_GROUP_ID', 0);                     //ID of the User Group for admi
 define('GA_TRACKING', false);                    //Define a Google Tracking id if applicable
 define('TICKER_LIMIT', 150);                     //Ticket Text character limit
 define('SYSTEM_EMAIL', 'admin@yoursite.com');    //Email address used for system emails
+
+//Define screen rotation rules
+//The array should be setup as follows, $screen_rotate[screen_id][] = template_id
+//Make sure you have subscriptions setup!
+
 ?>
