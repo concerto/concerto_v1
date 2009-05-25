@@ -100,7 +100,9 @@ class Notification{
 			$group = new Group($this->type_obj->group_id);
 			if($group->set){
 				$group_users = $group->list_members();
-				$users = array_merge($users, $group_users);
+				if(is_array($group_users)){
+					$users = array_merge($users, $group_users);
+				}
 			}
 		} elseif($this->type == 'content'){
 			$this->type_obj = new Content($this->type_id);
@@ -146,7 +148,10 @@ class Notification{
 		} elseif($this->by == 'group'){
 			$this->by_obj = new Group($this->by_id);
 			if($this->by_obj->set){
-				$users = array_merge($users, $this->by_obj->list_members());
+				$members = $this->by_obj->list_members();
+				if(is_array($members)){
+					$users = array_merge($users, $members);
+				}
 			}
 		} elseif($this->by == 'screen'){
 			$this->by_obj = new Screen($this->by_id);
