@@ -93,7 +93,7 @@ function nightly(){
 function hourly(){
 	//Rotate any screens that need a template rotation every 6 hours
 	if(date('H') % 6 == 0) {
-		if(is_array($scren_rotate)){
+		if(is_array($screen_rotate)){
 			echo "Executing template rotation.\n";
 			foreach($screen_rotate as $key => $templates){
 				$scr = new Screen($key);
