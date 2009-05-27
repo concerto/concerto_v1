@@ -18,10 +18,10 @@
  * of the GNU General Public License along with this program.
  *
  * @package      Concerto
- * @author       Web Technologies Group, $Author: mike $
+ * @author       Web Technologies Group, $Author$
  * @copyright    Rensselaer Polytechnic Institute
  * @license      GPLv2, see www.gnu.org/licenses/gpl-2.0.html
- * @version      $Revision: 551 $
+ * @version      $Revision$
  */
 header("Refresh: 5; URL=index.php?mac={$_GET['mac']}");
 $tmp = str_split(str_pad(preg_replace('/[^0-9A-Fa-f]/', '', $_GET['mac']), 12, "0", STR_PAD_LEFT), 2);

@@ -18,10 +18,10 @@
  * of the GNU General Public License along with this program.
  *
  * @package      Concerto
- * @author       Web Technologies Group, $Author: mike $
+ * @author       Web Technologies Group, $Author$
  * @copyright    Rensselaer Polytechnic Institute
  * @license      GPLv2, see www.gnu.org/licenses/gpl-2.0.html
- * @version      $Revision: 551 $
+ * @version      $Revision$
  */
 ?><form method="POST" 
 action="<?=ADMIN_URL?>/pages/update/<?=$this->page['id']?>">

@@ -18,10 +18,10 @@
  * of the GNU General Public License along with this program.
  *
  * @package      Concerto
- * @author       Web Technologies Group, $Author: brian $
+ * @author       Web Technologies Group, $Author$
  * @copyright    Rensselaer Polytechnic Institute
  * @license      GPLv2, see www.gnu.org/licenses/gpl-2.0.html
- * @version      $Revision: 557 $
+ * @version      $Revision$
  */
 ?><form action="<?=ADMIN_URL?>/moderate/post" method="post">
 <input type="hidden" name="feed_id" value="<?=$this->feed->id?>" />
