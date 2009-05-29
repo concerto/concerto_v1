@@ -48,7 +48,7 @@
                 var feed_name = $(anchor).find("select.add_feed option:selected").remove().text();
                 $(anchor).find("li.no_sub").remove();
                 $(anchor).find("ul")
-                    .append('<li><select name="content[freq][' + field_id + '][' + feed_id + ']"><option value="1">Very Seldom</option><option value="2">Occasionally</option><option value="3" selected="selected">Regularly</option><option value="4">Frequently</option><option value="5">Very Often</option></select><input type="hidden" name="System Time & Date" value="0" /> display content from <a href="/tom/admin/index.php/feeds/show/' + feed_id + '" title="'+feed_desc+'">' + feed_name + '</a> (<a class="remove_feed" href="#">remove</a>)</li>')
+                    .append('<li><select name="content[freq][' + field_id + '][' + feed_id + ']"><option value="1">Very Seldom</option><option value="2">Occasionally</option><option value="3" selected="selected">Regularly</option><option value="4">Frequently</option><option value="5">Very Often</option></select><input type="hidden" name="System Time & Date" value="0" /> display content from <a href="/admin/index.php/feeds/show/' + feed_id + '" title="'+feed_desc+'">' + feed_name + '</a> (<a class="remove_feed" href="#">remove</a>)</li>')
                     .find("a.remove_feed").click(remove_feed);
             }
             return false;
