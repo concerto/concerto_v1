@@ -27,10 +27,11 @@ class frontpageController extends Controller
 {
 	public $actionNames = Array( 'index'=> "Front page", 
                                 'admin'=>'Admin Utilities',
-                                'mailer' =>'Send Mail');
+                                'mailer' =>'Send Mail',
+                                'addtemplate' =>'Upload Template');
 
    public $require = Array('check_login'=>Array('dashboard','login','logout'),
-                           'require_login'=>Array('admin','login','dashboard','su','phpinfo','mailer','sendmail') );
+                           'require_login'=>Array('admin','login','dashboard','su','phpinfo','mailer','sendmail','addtemplate','createtemplate') );
 
 	function setup()
 	{
@@ -112,6 +113,9 @@ class frontpageController extends Controller
 	function sendmailAction()
 	{
 	     $curuser = new User(phpCAS::getUser());
+	     if(!$curuser->admin_privileges)
+         redirect_to(ADMIN_URL.'/frontpage');
+
 	     $message = $_POST['message'];
 	     $subject = $_POST['subject'];
              $from = '';
@@ -177,6 +181,50 @@ class frontpageController extends Controller
 	     redirect_to(ADMIN_URL.'/frontpage/mailer');
 	}
 
+   function addtemplateAction(){
+    $user = new User(phpCAS::getUser());
+      if(!$user->admin_privileges)
+         redirect_to(ADMIN_URL.'/frontpage');
+         
+     $this->setTitle("Upload Template");
+   }
+   function createtemplateAction(){
+    $user = new User(phpCAS::getUser());
+    if(!$user->admin_privileges)
+       redirect_to(ADMIN_URL.'/frontpage');
+         
+     $file['name']=$_FILES['template']['name']['image'];
+     $file['type']=$_FILES['template']['type']['image'];
+     $file['tmp_name'] = $_FILES['template']['tmp_name']['image'];
+     $file['error'] = $_FILES['template']['error']['image'];
+     $file['size'] = $_FILES['template']['size']['image'];
+     
+     $xml = @simplexml_load_file($_FILES['template']['tmp_name']['descriptor']);
+     if($xml == false){
+       $this->flash("Descriptor parsing error, check XML syntax.",'error');
+       redirect_to(ADMIN_URL.'/frontpage/addtemplate');
+     }
+     $template = new Template();
+     $status = $template->create_template((string)$xml->name, (int)$xml->height, (int)$xml->width, $file, (string)$xml->author);
+    // print_r($template); print_r($xml); print_r($file);
+     if($status){
+       foreach($xml->field as $data){
+         $status = $status * $template->add_field((string)$data->name, (string)$data->type, (string)$data->style, (string)$data->left, (string)$data->top , (string)$data->width, (string)$data->height);
+       }
+       if($status){
+         redirect_to(ADMIN_URL.'/templates/preview/' . $template->id . '?width=800');
+       } else {
+         //One of the fields failed;
+        $this->flash($template->status . "  One or more of the field descriptors failed.  You'll want to jump into the DB to see what happened. This error was not handled gracefully.",'error');
+        redirect_to(ADMIN_URL.'/frontpage/addtemplate');
+       }
+     } else {
+       //Unable to create template
+        $this->flash($template->status . "  The template failed to create.  Check your descriptor syntax and image file size.",'error');
+        redirect_to(ADMIN_URL.'/frontpage/addtemplate');
+     }
+   }
+   
    function phpinfoAction()
    {
       $user = new User(phpCAS::getUser());

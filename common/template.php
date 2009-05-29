@@ -52,6 +52,7 @@ class Template{
      var $aspect_ratio;
 
      var $set;
+     var $status;
 
      function __construct($tid = ''){
           if($tid != '' && is_numeric($tid)){
@@ -87,6 +88,7 @@ class Template{
           $filename_clean = escape($this->filename);
           $creator_clean = escape($this->creator);
           if(!is_numeric($this->width) || !is_numeric($this->height) || !is_bool($this->hidden)){
+            $this->status = "Field validation error";
             return false;
           }
           $sql = "UPDATE template SET name = '$name_clean', filename = '$filename_clean', height = $height, width  = $width, creator = '$creator_clean', modified = NOW(), hidden = $this->hidden WHERE id = $this->id LIMIT 1";
@@ -96,6 +98,54 @@ class Template{
           } else {
             return false;
           }
+     }
+     
+     function create_template($name_in, $height_in, $width_in, $file, $creator_in = '', $hidden_in = false){
+       if($this->set || !is_numeric($height_in) || !is_numeric($width_in) || !is_bool($hidden_in)){
+         return false;
+       } else {
+         //Predict the next auto_increment id
+         $sql = "SHOW TABLE STATUS LIKE 'template'";
+         $res = sql_query($sql);
+         $row = (sql_row_keyed($res,0));
+         $next_id = $row['Auto_increment'];
+         //Generate the new filename
+         $new_fn = $next_id . '_' . $file['name'];
+         $new_path = TEMPLATE_DIR . $new_fn;
+         //In theory, it should move without problem
+         if(move_uploaded_file($file['tmp_name'], $new_path)){
+           $name_clean = escape($name_in);
+           $creator_clean = escape($creator_in);
+           $fn_clean = escape($new_fn);
+           $hidden_clean = intval($hidden_in);
+           //Add it to the table
+           $sql = "INSERT INTO template (name, filename, height, width, creator, modified, hidden) VALUES ('$name_clean','$fn_clean',$height_in, $width_in, '$creator_clean', NOW(), $hidden_clean)";
+           $res1 = sql_query($sql);
+           if($res1){
+             $sql_id = sql_insert_id();
+             
+             $this->id = $sql_id;
+             $this->name = $name_in;
+             $this->filename = $new_fn;
+             $this->height = $height_in;
+             $this->width = $width_in;
+             $this->creator = $creator_in;
+             $this->modified = date("Y:m:d H:i:s", time());
+             $this->hidden = $hidden_in;
+             
+             $this->aspect_ratio = $this->width / $this->height;
+             $this->set = true;
+             return true;
+           } else {
+             $this->status = "Error adding template entry, check main template fields in descriptor.";
+             return false;
+           }
+         } else {
+           $this->set = false;
+           $this->status = "Error processing uploaded image file";
+           return false;
+         }
+       }
      }
 
      function list_fields(){
@@ -133,20 +183,45 @@ class Template{
           }
      }
 
-     function add_field($name_in, $type_id_in, $style_in, $left_in, $top_in, $width_in, $height_in){
+     function add_field($name_in, $type_in, $style_in, $left_in, $top_in, $width_in, $height_in){
+          //Type could be a string, where we have to lookup the int.
+          if(!is_numeric($type_in)){
+            $type_clean = escape($type_in);
+            $sql = "SELECT id FROM `type` WHERE name = '$type_clean'";
+            $type_id_in = sql_query1($sql);
+          } else {
+            $type_id_in = $type_in;
+          }
+
           //Spend some time cleaning things up
-          if(!is_numeric($type_id_in) || !is_numeric($left_in) || !is_numeric($top_in) ||!is_numeric($width_in) || !is_numeric($height_in)){
+          if($type_id_in<=0 || !is_numeric($left_in) || !is_numeric($top_in) ||!is_numeric($width_in) || !is_numeric($height_in)){
+            $this->status = "Field ($name_in) validation error.";
             return false;
           }
           $name_cleaned = escape($name_in);
           $style_cleaned = escape($style_in);
-
-          $sql = "INSERT INTO `field` (name, template_id, style, type_id, `left`, `top`, `width`, `height`) VALUES ('$name_cleaned', $this->id, '$style_cleaned', $type_id_in, $left_in, $top_in, $width_in, $height_in)";
+          
+          //Convert things to percents if needed
+          if($left_in > 1){
+            $left_in = $left_in / $this->width;
+          }
+          if($top_in > 1){
+            $top_in = $top_in / $this->height;
+          }
+          if($width_in > 1){
+            $width_in = $width_in / $this->width;
+          }
+          if($height_in > 1){
+            $height_in = $height_in / $this->height;
+          }
+          
+          $sql = "INSERT INTO `field` (`name`, `template_id`, `style`, `type_id`, `left`, `top`, `width`, `height`) VALUES ('$name_cleaned', $this->id, '$style_cleaned', $type_id_in, $left_in, $top_in, $width_in, $height_in)";
           $res = sql_query($sql);
 
           if($res){
             return true;
           } else {
+            $this->status = "Field insertion error.  Check field syntax in descriptor file.";
             return false;
           }
 
