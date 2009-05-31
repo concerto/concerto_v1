@@ -65,4 +65,5 @@
 <h3>Admin Revision: <span class="emph"><?system('svnversion')?></span></h3>
 <a href="<?= ADMIN_URL ?>/frontpage/phpinfo">PHP Info</a><br />
 <a href="<?= ADMIN_URL ?>/frontpage/mailer">Send Mail</a><br />
+<a href="<?= ADMIN_URL ?>/frontpage/addtemplate">Template Importer</br>
 

@@ -1,15 +1,6 @@
---Schema dump from Concerto 1.8.1
---Performed on 2009-02-02
+# Schema dump from Concerto 1.8.1
+# Performed on 2009-02-02
 
---
--- Database: `concerto_db`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `content`
---
 
 CREATE TABLE IF NOT EXISTS `content` (
   `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Content ID',
@@ -29,11 +20,6 @@ CREATE TABLE IF NOT EXISTS `content` (
   KEY `end_time` (`end_time`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Table that stores the content';
 
--- --------------------------------------------------------
-
---
--- Table structure for table `dynamic`
---
 
 CREATE TABLE IF NOT EXISTS `dynamic` (
   `id` smallint(5) NOT NULL auto_increment COMMENT 'Id of the dynamic thing',
@@ -46,11 +32,6 @@ CREATE TABLE IF NOT EXISTS `dynamic` (
   KEY `type` (`type`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='System for handling dynamic sources of content';
 
--- --------------------------------------------------------
-
---
--- Table structure for table `feed`
---
 
 CREATE TABLE IF NOT EXISTS `feed` (
   `id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Feed ID',
@@ -64,11 +45,6 @@ CREATE TABLE IF NOT EXISTS `feed` (
   KEY `type` (`type`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Table stores every feed';
 
--- --------------------------------------------------------
-
---
--- Table structure for table `feed_content`
---
 
 CREATE TABLE IF NOT EXISTS `feed_content` (
   `feed_id` smallint(5) unsigned NOT NULL COMMENT 'Feed ID for this Feed <-> Content connection',
@@ -83,11 +59,7 @@ CREATE TABLE IF NOT EXISTS `feed_content` (
   KEY `moderation_flag` (`moderation_flag`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Xref Table between Feed and Content';
 
--- --------------------------------------------------------
 
---
--- Table structure for table `field`
---
 
 CREATE TABLE IF NOT EXISTS `field` (
   `id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Field ID',
@@ -104,11 +76,6 @@ CREATE TABLE IF NOT EXISTS `field` (
   KEY `content-type_id` (`type_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Controls the fields which are the subdivisions in a Layout';
 
--- --------------------------------------------------------
-
---
--- Table structure for table `group`
---
 
 CREATE TABLE IF NOT EXISTS `group` (
   `id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Group ID',
@@ -116,11 +83,6 @@ CREATE TABLE IF NOT EXISTS `group` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Group Table stores the privilges for each group';
 
--- --------------------------------------------------------
-
---
--- Table structure for table `newsfeed`
---
 
 CREATE TABLE IF NOT EXISTS `newsfeed` (
   `id` int(10) unsigned NOT NULL auto_increment COMMENT 'id of newsfeed entry',
@@ -133,11 +95,6 @@ CREATE TABLE IF NOT EXISTS `newsfeed` (
   KEY `hidden` (`hidden`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Newfeed data';
 
--- --------------------------------------------------------
-
---
--- Table structure for table `notifications`
---
 
 CREATE TABLE IF NOT EXISTS `notifications` (
   `id` int(10) unsigned NOT NULL auto_increment COMMENT 'id of notification',
@@ -153,11 +110,6 @@ CREATE TABLE IF NOT EXISTS `notifications` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `page`
---
 
 CREATE TABLE IF NOT EXISTS `page` (
   `id` tinyint(5) unsigned NOT NULL auto_increment COMMENT 'Canonical url path (text)',
@@ -172,11 +124,6 @@ CREATE TABLE IF NOT EXISTS `page` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `page_category`
---
 
 CREATE TABLE IF NOT EXISTS `page_category` (
   `id` int(11) unsigned NOT NULL,
@@ -188,11 +135,6 @@ CREATE TABLE IF NOT EXISTS `page_category` (
   UNIQUE KEY `path` (`path`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `position`
---
 
 CREATE TABLE IF NOT EXISTS `position` (
   `id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Position ID',
@@ -208,11 +150,6 @@ CREATE TABLE IF NOT EXISTS `position` (
   KEY `field_id` (`field_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Stores where every feed is placed on the layout';
 
--- --------------------------------------------------------
-
---
--- Table structure for table `screen`
---
 
 CREATE TABLE IF NOT EXISTS `screen` (
   `id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Content ID',
@@ -239,11 +176,6 @@ CREATE TABLE IF NOT EXISTS `screen` (
   KEY `type` (`type`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Table stores properties of each screen';
 
--- --------------------------------------------------------
-
---
--- Table structure for table `template`
---
 
 CREATE TABLE IF NOT EXISTS `template` (
   `id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Template ID',
@@ -257,11 +189,6 @@ CREATE TABLE IF NOT EXISTS `template` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Stores predefined templates';
 
--- --------------------------------------------------------
-
---
--- Table structure for table `type`
---
 
 CREATE TABLE IF NOT EXISTS `type` (
   `id` smallint(5) unsigned NOT NULL COMMENT 'Content Type ID',
@@ -269,11 +196,6 @@ CREATE TABLE IF NOT EXISTS `type` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Content Type used in the feeds';
 
--- --------------------------------------------------------
-
---
--- Table structure for table `user`
---
 
 CREATE TABLE IF NOT EXISTS `user` (
   `id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'User ID',
@@ -289,11 +211,6 @@ CREATE TABLE IF NOT EXISTS `user` (
   KEY `admin_privileges` (`admin_privileges`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='User Table stores user information';
 
--- --------------------------------------------------------
-
---
--- Table structure for table `user_group`
---
 
 CREATE TABLE IF NOT EXISTS `user_group` (
   `user_id` smallint(5) unsigned NOT NULL COMMENT 'Corresponding User ID',
