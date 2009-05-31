@@ -87,7 +87,7 @@
 <div id="footer">
   <div id="footer_padding">
     <p>Copyright &copy; 2009 Rensselaer Polytechnic Institute (Student Senate Web Technologies Group)</p>
-    <p><a href="<?= ADMIN_URL ?>/pages/show/docs/">Support Center</a> | <a href="http://myrpi.org/webtech/list_posts">Web Tech Blog</a> | Contact Support: <a href="mailto:<?= SYSTEM_EMAIL ?>"><?= SYSTEM_EMAIL ?></a></p>
+    <p><a href="<?= ADMIN_URL ?>/pages/show/docs/">Support Center</a> | <a href="http://webtech.union.rpi.edu">Web Tech Group</a> | Contact Support: <a href="mailto:<?= SYSTEM_EMAIL ?>"><?= SYSTEM_EMAIL ?></a></p>
   </div>
 </div>
 <?php if(defined('GA_TRACKING') && GA_TRACKING) { ?>

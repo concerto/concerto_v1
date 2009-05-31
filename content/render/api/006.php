@@ -211,7 +211,7 @@ if($format == 'raw'){
       <language>en-us</language>
       <pubDate>' . rssdate("now") . '</pubDate>
       <generator>Concerto API 1.0</generator>
-      <webMaster>concerto@union.rpi.edu</webMaster>
+      <webMaster>' . SYSTEM_EMAIL . '</webMaster>
 ';
         foreach($data as $i=>$content){
                 $link = 'http://' . $_SERVER['SERVER_NAME'] .  $_SERVER['SCRIPT_NAME'] . '?select_id=' . $content['id'] . '&select=content' . $props;
