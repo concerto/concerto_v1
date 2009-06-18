@@ -308,6 +308,7 @@ function render_json($content_arr, $criteria){
     foreach($content_arr as $content){
         $content_dat = array();
         $content_dat['id'] = $content->id;
+        $content_dat['title'] = $content->name;
         $content_dat['mime_type'] = $content->mime_type;
         $user = new User($content->user_id);
         if(false!==strpos($content->mime_type,'image')){
@@ -333,7 +334,12 @@ function render_json($content_arr, $criteria){
         }
         $data_arr[] = $content_dat;
     }
-    echo json_encode($data_arr);
+    if(isset($_REQUEST['callback']) && preg_match('/^[A-Za-z0-9_]+$/i',$_REQUEST['callback'])){
+      $callback = $_REQUEST['callback'];
+      echo $callback . '(' . json_encode($data_arr) . ')';
+    }  else {
+      echo json_encode($data_arr);
+    }
 }
 
 function criteria_string($criteria, $case = ''){
