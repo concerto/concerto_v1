@@ -41,6 +41,7 @@ if(isLoggedIn()) { //We will change this!
     <li><a style="margin-left:12px;" href="<?= ADMIN_URL ?>/frontpage/admin" title=""><span>Admin</span></a></li>
     <li><a href="<?= ADMIN_URL ?>/pages" title="Manage informational content pages"><span>Info Pages</span></a></li>
 <? } ?>
+		<li><a style="margin-left:12px;" href="<?= ADMIN_URL ?>/wall" title="Quick browse tool for active content"><span>Wall Demo</span></a></li>
 <?php
 }
 ?>
