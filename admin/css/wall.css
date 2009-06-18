@@ -30,12 +30,13 @@
    These styles are used for Concerto Wall.
    2009, Concerto Team.
 */
-body { font-family:"Lucida Grande", Verdana, Arial, sans-serif; background:#2B2B2B url(http://www.krop.com/media/cssi/cdb/theme-dark/dark-background.jpg) top left repeat-x; }
-#topbar { height:140px; padding:0 20px; z-index:999; color:#ccc; position:absolute; top:0px; left:0px; clear:both; width:100%; background:#000; border-bottom:solid 1px #999; }
-#topbar h1 { color:#FFF; }
+body { font-family:"Lucida Grande", Verdana, Arial, sans-serif; background:#2B2B2B url(../images/wall/dark-background.jpg) top left repeat-x; }
+#topbar { height:110px; padding:0 20px; z-index:999; color:#ccc; position:absolute; top:0px; left:0px; clear:both; width:100%; background:#000; border-bottom:solid 1px #999; }
+#topbar h1 { color:#99ff99; margin-bottom:4px; }
+#topbar p { margin:0px; padding:0px; }
 #prevbar { position:absolute; z-index:2; left:0px; top:0px; width:40px; background:#111111; border-right:solid 1px #333; height:100%; }
 #nextbar { position:absolute; z-index:2; right:0px; top:0px; width:40px; background:#111111; border-left:solid 1px #333; height:100%; }
-#wallthumbs { z-index:1; margin:170px 60px 0 60px; }
+#wallthumbs { z-index:1; margin:140px 60px 0 60px; }
 #wallthumbs a img { padding:3px; border:solid 1px #333; }
 #wallthumbs a:hover img { border:solid 1px #0099ff; }
 #wallthumbs div.UIWall_thumb { margin:16px 8px; float:left; text-align:center; width:152px; height:102px; }
@@ -43,11 +44,11 @@ body { font-family:"Lucida Grande", Verdana, Arial, sans-serif; background:#2B2B
 div.overlayZoom {
 	
 	/* growing background image */
-	background-image:url(http://static.flowplayer.org/tools/img/overlay/white.png);
+	background-image:url(../images/wall/white.png);
 	
 	/* dimensions after the growing animation finishes  */
 	width:600px;
-	height:470px;		
+	height:670px;		
 	
 	/* initially overlay is hidden */
 	display:none;
@@ -60,7 +61,7 @@ div.overlayZoom img { border:solid 1px #666; }
 
 /* default close button positioned on upper right corner */
 div.overlayZoom div.close {
-	background-image:url(http://static.flowplayer.org/tools/img/overlay/close.png);
+	background-image:url(../images/wall/close.png);
 	position:absolute;
 	right:5px;
 	top:5px;
