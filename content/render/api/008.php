@@ -220,7 +220,7 @@ function render_rss($content_arr, $criteria){
     header("Content-type: text/xml");
     echo '<?xml version="1.0"?>';
 ?>
-<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/" xmlns:dcterms="http://purl.org/dc/terms/">
+<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title><?= htmlspecialchars(utf8_encode($feed_title)) ?></title>
         <link>http://<?= $_SERVER['SERVER_NAME'] ?>/<?= ROOT_URL ?></link>
@@ -229,21 +229,33 @@ function render_rss($content_arr, $criteria){
         <pubDate><?= rssdate("now") ?></pubDate>
         <generator>Concerto API 0.08</generator>
         <webMaster><?= SYSTEM_EMAIL ?> (Concerto Digital Signage)</webMaster>
+        <atom:link href="<?= 'http://' . $_SERVER['SERVER_NAME'] . htmlspecialchars($_SERVER['REQUEST_URI']) ?>" rel="self" type="application/rss+xml" />
         <image>
             <url><?= 'http://' . $_SERVER['SERVER_NAME'] . ADMIN_BASE_URL ?>/images/concerto_48x48.png</url>
-            <title>Concerto</title>
-            <link><?= 'http://' . $_SERVER['SERVER_NAME'] . ADMIN_BASE_URL ?></link>
+            <title><?= htmlspecialchars(utf8_encode($feed_title)) ?></title>
+            <link>http://<?= $_SERVER['SERVER_NAME'] ?>/<?= ROOT_URL ?></link>
             <width>48</width>
             <height>48</height>
         </image>
 
-<?  foreach($content_arr as $content){
+<? 
+ /*Sometimes, including the 'index.php' portion of the URL breaks clients like the built-in OS X screensaver.
+  *By removing the reference to index.php, the screensaver doesn't know what to expect, and works.
+  *This has taken multiple months to find.
+  */
+  $script_name = preg_replace('/(index\.php)$/', '', $_SERVER['SCRIPT_NAME']);
+  
+  foreach($content_arr as $content){
         $link = 'http://' . $_SERVER['SERVER_NAME'] .  $_SERVER['SCRIPT_NAME'] . '?' . criteria_string($criteria) . '&select_id=' . $content->id . '&select=content&format=rss';
         $link = htmlspecialchars($link);
         $feeds = $content->list_feeds();
         $user = new User($content->user_id);
         $rss_link = 'http://' . $_SERVER['SERVER_NAME'] .  $_SERVER['SCRIPT_NAME'] . '?' . criteria_string($criteria, 'rss') . '&select=content&select_id='.$content->id.'&format=raw';
-        $raw_link = 'http://' . $_SERVER['SERVER_NAME'] .  $_SERVER['SCRIPT_NAME'] . '?' . criteria_string($criteria) . '&select=content&select_id='.$content->id.'&format=raw';
+        
+       /* If mod_rewrite isn't enabled, this won't work, but it is required for some clients that care about file extensions
+        * Without mod_rewrite, you can just use remove "'image_' . $content->content"
+        */
+        $raw_link = 'http://' . $_SERVER['SERVER_NAME'] .  $script_name . 'image_' . $content->content . '?' . criteria_string($criteria) . '&select=content&select_id='.$content->id.'&format=raw';
         if(strpos($content->mime_type,'image') !== false){
             $desc = '<![CDATA[ <img src="' . $rss_link . '" /> ]]>';
         } elseif(strpos($content->mime_type, 'html')){
@@ -258,7 +270,7 @@ function render_rss($content_arr, $criteria){
             <description><?= $desc ?></description>
             <pubDate><?= rssdate($content->submitted) ?></pubDate>
             <author><?= $user->username ?>@rpi.edu (<?= htmlspecialchars(utf8_encode($user->name)) ?>)</author>
-            <guid isPermaLink="false"><?= $content->id ?></guid>
+            <guid isPermaLink="false"><?= 'http://' . $_SERVER['SERVER_NAME'] . ADMIN_URL ?>/content/show/<?= $content->id ?></guid>
 <?          foreach($feeds as $feed_obj){
                 if($feed_obj['moderation_flag'] == 1 && $feed_obj['feed']->type != 3){
                     $feed = $feed_obj['feed'];
@@ -270,7 +282,7 @@ function render_rss($content_arr, $criteria){
             }
             if(strpos($content->mime_type,'image') !== false){
 ?>
-            <enclosure url="<?= htmlspecialchars($raw_link) ?>" type="<?= $content->mime_type ?>" />
+            <enclosure url="<?= htmlspecialchars($raw_link) ?>" type="<?= $content->mime_type ?>" length='0'/>
             <media:content url="<?= htmlspecialchars($raw_link) ?>" type="<?= $content->mime_type ?>" expression="full" />
             <media:title type="plain"><?= htmlspecialchars($content->name) ?></media:title>
             <media:thumbnail url="<?= htmlspecialchars($rss_link) ?>" width="100" height="100"/>

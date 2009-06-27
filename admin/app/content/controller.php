@@ -58,7 +58,8 @@ class contentController extends Controller
 
    function imageAction()
    {
-      $content = new Content($this->args[1]);
+      $c_id = explode('.', $this->args[1]); //In case a file extension is passed, we'll want to remove it
+      $content = new Content($c_id[0]);
       $this->file = $content->content;
       $this->height = $_GET['height'];
       $this->width = $_GET['width'];
