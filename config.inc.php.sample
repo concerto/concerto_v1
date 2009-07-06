@@ -67,4 +67,9 @@ define('SYSTEM_EMAIL', 'admin@yoursite.com');    //Email address used for system
 //The array should be setup as follows, $screen_rotate[screen_id][] = template_id
 //Make sure you have subscriptions setup!
 
+//Optional: Memcache Configuration
+define('MEMCACHE_ENABLE', false); //False disables memcache, true enables it
+define('MEMCACHE_SERVER', 'localhost');
+define('MEMCACHE_PORT', 11211);
+
 ?>

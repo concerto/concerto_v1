@@ -41,19 +41,40 @@ function render($type, $filename, $width = false, $height = false, $stretch = fa
         header('HTTP/1.0 304 Not Modified');
         return;
     }
-        
+    //Optional memcache setup
+    if(MEMCACHE_ENABLE){
+      $memcache = new Memcache();
+      $memcached_connected = $memcache->addServer(MEMCACHE_SERVER, MEMCACHE_PORT);
+      $key = $filename . '_' . $width . '_' . $height;
+    }
+    
     //lets render the image!
     header("Last-Modified: ".gmdate("D, d M Y H:i:s", $timestamp)." GMT");
-	
 	if($width && $height){
 		if(file_exists($cache_path) && $size = getimagesize($cache_path)){ //Do we already have a cached copy at the ready?
 			$fp = fopen($cache_path, "rb");
-			header("Content-type: {$size['mime']}");
+			header('Content-type: ' .$size['mime']);
+			header('Content-Length: ' .filesize($cache_path));
 			fpassthru($fp); //If so, then serve it
+			exit(0);
+		} else if(MEMCACHE_ENABLE && $memcached_connected && $dat = $memcache->get($key)){
+			header('Content-type: image/' . $dat['type']);
+			header('Content-Length: ' . mb_strlen($dat['data']));
+			echo $dat['data'];
 			exit(0);
 		} else { 
 			include_once(COMMON_DIR.'image.inc.php');
-			resize($path, $width, $height, $stretch); //If not, lets resize it.
+			ob_start(); //Start a buffer to catch the image data
+			$type = resize($path, $width, $height, $stretch); //If not, lets resize it.
+			$dat = ob_get_contents(); //Read the image data generated
+			$size = mb_strlen($dat);
+			header('Content-Length: ' . $dat['size']);
+			ob_end_flush(); //Output the buffer and clear it
+			
+			//If mecache is enabled and the image will fit, cache it for 7 days
+			if(MEMCACHE_ENABLE && $size < 1048576 && $memcached_connected){
+				$memcache->set($key, array('data'=>$dat, 'type' => $type), NULL, 7*24*60*60);
+			}
 			
 			$log_file = CONTENT_DIR . 'render/render_log';
 			if($fh = @fopen($log_file, 'a')){
@@ -65,8 +86,11 @@ function render($type, $filename, $width = false, $height = false, $stretch = fa
 			exit(0);
 		}
 	} else {
-		include_once(COMMON_DIR.'image.inc.php');
-		resize($path);
+		$img = getimagesize($path);
+		$fp = fopen($path, "rb");
+		header('Content-type: ' .$img['mime']);
+		header('Content-Length: ' .filesize($path));
+		fpassthru($fp);
 		exit(0);
 	}
 }

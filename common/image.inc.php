@@ -59,18 +59,23 @@ function resize($filename, $new_width = false, $new_height = false, $stretch = f
     
     if($type == "image/jpeg" || $type == 'image/pjpeg' || $type == 'image/jpg'){
       header('Content-type: image/jpeg');
+      $type = 'jpeg';
       imagejpeg($new_image, NULL, 100);
     }elseif($type == 'image/png' || $type == 'image/x-png'){
       header('Content-type: image/png');
+      $type = 'png';
       imagepng($new_image);
     }elseif($type == 'image/gif'){
       header('Content-type: image/gif');
+      $type = 'gif';
       imagegif($new_image);
     }else{
       //JPEG is default case
       header('Content-type: image/jpeg');
+      $type='jpeg';
       imagejpeg($new_image, NULL, 100);
     }
     imagedestroy($new_image);
+    return $type;
 }
 ?>
