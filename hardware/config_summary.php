@@ -61,7 +61,7 @@ foreach ($class->list_overrides( ) as $path) {
     print "config_override:$path";
     print ":".$class->get_override_sig($path).":";
     print BASE_URL;
-    print "get_config.php?class=".$class->get_id( )."&path=";
+    print "/get_config.php?class=".$class->get_id( )."&path=";
     print urlencode($path);
     print "\n";
 }
