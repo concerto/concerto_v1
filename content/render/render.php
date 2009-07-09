@@ -42,6 +42,7 @@ function render($type, $filename, $width = false, $height = false, $stretch = fa
         return;
     }
     //Optional memcache setup
+    $memcache_connected = false; //Assume its not working
     if(defined('MEMCACHE_ENABLE') && MEMCACHE_ENABLE){
       $memcache = new Memcache();
       $memcached_connected = $memcache->addServer(MEMCACHE_SERVER,(int)MEMCACHE_PORT);
@@ -68,7 +69,7 @@ function render($type, $filename, $width = false, $height = false, $stretch = fa
 			$type = resize($path, $width, $height, $stretch); //If not, lets resize it.
 			$dat = ob_get_contents(); //Read the image data generated
 			$size = mb_strlen($dat);
-			header('Content-Length: ' . $dat['size']);
+			header('Content-Length: ' . $size);
 			ob_end_flush(); //Output the buffer and clear it
 			
 			//If mecache is enabled and the image will fit, cache it for 7 days
