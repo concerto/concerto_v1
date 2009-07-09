@@ -8,6 +8,7 @@ define("MYSQL_SERVER", "localhost");
 define("MYSQL_USERNAME", "user");
 define("MYSQL_PASSWORD", "password");
 define("MYSQL_DATABASE", "signage_hardware");
-define("BASE_URL", "http://yousite.com/hardware/");
+# No trailing slashes in these!
+define("BASE_URL", "http://yousite.com/hardware");
 define("BASE_DIR", "/var/www/hardware");
 ?>

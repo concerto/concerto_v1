@@ -56,8 +56,8 @@ function do_upload( ) {
         die("bad file input");
     }
 
-    $base_location = "/var/www/ds/hardware/flash";
-    $url_base = "http://signage.union.rpi.edu/hardware/flash";
+    $base_location = BASE_DIR . "/flash";
+    $url_base = BASE_URL . "/flash";
 
     # move the file to the correct location
     $origfn = basename($_FILES["file"]["name"]);
