@@ -42,9 +42,9 @@ function render($type, $filename, $width = false, $height = false, $stretch = fa
         return;
     }
     //Optional memcache setup
-    if(MEMCACHE_ENABLE){
+    if(defined('MEMCACHE_ENABLE') && MEMCACHE_ENABLE){
       $memcache = new Memcache();
-      $memcached_connected = $memcache->addServer(MEMCACHE_SERVER, MEMCACHE_PORT);
+      $memcached_connected = $memcache->addServer(MEMCACHE_SERVER,(int)MEMCACHE_PORT);
       $key = $filename . '_' . $width . '_' . $height;
     }
     
