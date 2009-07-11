@@ -51,7 +51,11 @@ if(date("Hi") == '0010' || $_REQUEST['nightly']){
 	print("Finished nightly job\n");
 }
 if(date("i") == '10' || $_REQUEST['hourly']){
-	hourly();
+	//In the event screen rotation isn't enabled in the config...
+	if(!is_array($screen_rotate)){
+		$screen_rotate = false;
+	}
+	hourly($screen_rotate);
 	print("Finished hourly job");
 }
 always();
@@ -90,7 +94,7 @@ function nightly(){
   echo "Done dening expired content in mod queue.\n";
 
 }
-function hourly(){
+function hourly($screen_rotate = false){
 	//Rotate any screens that need a template rotation every 6 hours
 	if(date('H') % 6 == 0) {
 		if(is_array($screen_rotate)){
@@ -118,7 +122,10 @@ function always(){
 				echo "Updated $feed->name OK\n";
 			} else {
 				echo "Error updating $feed->name\n";
+				echo "Dynamic Status: {$feed->dyn->status}\n";
+				echo "<code>";
 				print_r($feed);
+				echo "</code>";
 		  }
 		  echo "Status: " . $feed->dyn->status . "\n";
 		  
