@@ -18,10 +18,10 @@
  * of the GNU General Public License along with this program.
  *
  * @package      Concerto
- * @author       Web Technologies Group, $Author$
+ * @author       Web Technologies Group, $Author: brian $
  * @copyright    Rensselaer Polytechnic Institute
  * @license      GPLv2, see www.gnu.org/licenses/gpl-2.0.html
- * @version      $Revision$
+ * @version      $Revision: 548 $
  */
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -30,6 +30,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <title><?php echo join(' - ',array('Concerto Panel', $this->getTitle()));?></title>
 <link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/admin_new.css" />
+<link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/fp_new.css" />
 <link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/ui.lightbox.css" />
 <link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/ui.tablesort.css" />
 <link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/ui.jquery.css" />
@@ -62,19 +63,22 @@
 
 <body>
 
-<div id="header">
+<div id="header"<?php if (!isLoggedIn()) { ?> class="header-login"<?php } ?>>
   <div id="header_padding">
     <? include("includes/menu_tabs.php"); ?>
   </div>
 </div>
 
 <div id="main">
-	<div id="content_header">
-	  <h1><?=$this->getTitle()?></h1>
-	  <h2><?=$this->getCrumbs()?></h2>
+	<div id="fp_stripe">
+		<div id="fp_stripe_padding">
+			<h1><a href="#">View More Live Content</a></h1>
+			<h2>on the Concerto Wall</h2>
+			<h3><a href="#">Get the Screensaver</a> | <a href="#">Visit the Support Center</a></h3>
+		</div>
 	</div>
-	
-	<div id="maincontent">
+	<div id="fp_display"><img src="<?= ADMIN_BASE_URL ?>/images/fp/fp_display.png" alt="" /></div>
+	<div id="maincontent" class="fp_maincontent">
 		<?php renderMessages() ?>
 		<?php $this->render();//renderAction() ?>
 		<div style="clear:both;"></div>

@@ -18,36 +18,26 @@
  * of the GNU General Public License along with this program.
  *
  * @package      Concerto
- * @author       Web Technologies Group, $Author: zaik $
+ * @author       Web Technologies Group, $Author: brian $
  * @copyright    Rensselaer Polytechnic Institute
  * @license      GPLv2, see www.gnu.org/licenses/gpl-2.0.html
- * @version      $Revision: 543 $
+ * @version      $Revision: 547 $
  */
-class  wallController extends Controller
+class fp_newController extends Controller
 {
-    public $actionNames = Array( 'index'=>'Wall Demo');
-    public $require = Array( 'require_login'=>1 );
-
-    function setup()
-    {
-        $this->setName("Wall Demo");
-        $this->setTemplate('stripped_ds_layout');
-    }
-
-    function indexAction()
-    {
-				
-    }
-    
-    function extAction() 
-    {
-    
-    }
-    
-    function frontpageAction()
-    {
-    
-    }
-
+		public $actionNames = Array( 'index'=>'FP New');
+	  public $require = Array( 'require_login'=>0 );
+	
+		function setup()
+		{
+				$this->setName("Front Page");
+	      $this->setTemplate('fpnew_layout');
+		}
+	
+		function indexAction()
+		{
+	      
+		}
+   
 }
 ?>

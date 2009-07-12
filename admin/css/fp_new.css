@@ -1,4 +1,3 @@
-<?php
 /**
  * This file was developed as part of the Concerto digital signage project
  * at RPI.
@@ -23,28 +22,20 @@
  * @license      GPLv2, see www.gnu.org/licenses/gpl-2.0.html
  * @version      $Revision: 543 $
  */
-?>
-<div id="topbar">
-		<h1>ConcertoWALL</h1>
-		<p>Unfettered browsing for the common folk.</p>
-</div>
-<div id="prevbar"><img src="<?= ADMIN_BASE_URL ?>images/wall/prev_inactive.png" alt="Previous" /></div>
-<div id="wallthumbs">
-		<?php
-				$jsondata = file_get_contents("http://senatedev.union.rpi.edu/zaikb/conc19/admin/includes/feedjson.php", 'r');
-				$feeddata = json_decode($jsondata);
-				$count = 0;
-				foreach ($feeddata as $obj) { 
-						$feed_data = $obj->{'feed'};
-						$feed_name = rawurlencode($feed_data[0]->{'name'});
-		?>
-							  <div class="UIWall_thumb"><a class="overlayTrigger" href="<?= ADMIN_URL ?>/wall/ext?content_id=<?= $obj->{'id'} ?>&amp;feed_name=<?= $feed_name ?>" rel="#oz"><div class="UIWall_wrapper"><img src="<?= $obj->{'content'} ?>" alt="" /></div></a></div>
-		  
-		<?php
-		}
-?>
-</div>
-<div id="nextbar"><img src="<?= ADMIN_BASE_URL ?>images/wall/next_inactive.png" alt="Next" /></div>
-<div id="oz" class="overlayZoom">
-		<div id="wrap"></div>
-</div>
+
+/*
+   CONCERTO NEW FP STYLES
+   CSS Document
+   *************************
+   These styles are used for the new front page for Concerto.
+   2009, Concerto Team.
+*/
+#main { position:relative; }
+#fp_stripe { background:#FFF url(../images/fp/fp_stripe_bg.png) top left repeat-x; position:absolute; z-index:1; top:190px; left:0px; width:100%; height:161px; }
+#fp_stripe h1 { background:url(../images/fp/fp_stripe_h1.png) center left no-repeat; font-size:2.2em; margin:0px; padding-left:30px; }
+#fp_stripe h2 { font-size:1.2em; color:#666; font-weight:normal; margin:4px 0px; padding-left:36px; }
+#fp_stripe h3 { padding-left:36px; font-size:1.1em; }
+#fp_stripe h1 a { color:#333; }
+#fp_stripe_padding { padding:15px 0px 15px 740px; }
+#fp_display { position:absolute; z-index:2; width:500px; height:438px; top:65px; left:210px; }
+.fp_maincontent { padding-top:510px !important; }

@@ -27,18 +27,19 @@
   <div id="menuframe_padding">
 
     <div class="logo_box">
-	   <div class="logo_box_padding">
-	     <center><a href="<?php echo ADMIN_URL ?>"><img 
+	   	<div class="logo_box_padding">
+	    	<center><a href="<?php echo ADMIN_URL ?>"><img 
 src="<?php echo ADMIN_BASE_URL?>/images/conc_bluebg.gif" alt="Concerto" style="" border="0" 
 /></a></center>
-	   </div>
-	 </div>
+	   	</div>
+	  	<div class="logo_box_bot"><img border="0" src="<?= ADMIN_BASE_URL ?>images/logobox_bottom.gif" alt="" /></div>
+	 	</div>
     <div class="menu_box">
-	   <div class="menu_box_inset">
-        <div class="menu_box_padding">
+    	<div class="menu_box_top"><img border="0" src="<?= ADMIN_BASE_URL ?>images/menubox_top.gif" alt="" /></div>
+	    <div class="menu_box_padding">
         <? 
          if (!isLoggedIn()) { ?>
-         <h2><a href="<?= ADMIN_URL ?>/frontpage/login">Login</a></h2>        
+         <h2 style="font-size:1.6em;"><a href="<?= ADMIN_URL ?>/frontpage/login">Log In</a></h2>        
 	<? } else {
          ?>
 	   <?	 echo '<p>Welcome, <a href="'.ADMIN_URL.'/users/show/'.userName().'">'.firstName().'</a>!</p><br />';  ?>
@@ -58,8 +59,8 @@ src="<?php echo ADMIN_BASE_URL?>/images/conc_bluebg.gif" alt="Concerto" style=""
         <?
           }
         ?>
-        </div>
       </div>
+      <div class="menu_box_bot"><img border="0" src="<?= ADMIN_BASE_URL ?>images/menubox_bottom.gif" alt="" /></div>
     </div>
 
 <?php
