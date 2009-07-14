@@ -41,7 +41,6 @@
 .fp_maincontent { padding-top:510px !important; }
 #screen_overlay { position:absolute; z-index:3; width:467px; height:265px; top:81px; left:226px; }
 #scr-graphics { z-index:4; position:absolute; width:255px; height:190px; top:15px; left:18px; }
-#scr-graphics img { border:solid 1px #666; }
 
 #scr-timedate { overflow : hidden;  z-index:4; position:absolute; width:66px; height:30px; bottom:3px; left:5px; color: rgb(204,204,204) ! important; font-family: Frobisher,Arial,sans-serif; font-weight: bold ! important; letter-spacing: 0.12em ! important; font-size: 9.32px; }
 #scr-text {	z-index:4; position:absolute; width:144px; height:171px; right:7px; top:12px; color:#FFF;font-family: Frobisher,Arial,sans-serif;font-size: 6px; overflow: hidden;}
