@@ -45,11 +45,12 @@
 <script defer type="text/javascript" src="<?=ADMIN_BASE_URL?>js/pngfix.js"></script>
 <![endif]-->
 
-<script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/jquery.js"></script>
+<!--<script type="text/javascript" src="<?//=ADMIN_BASE_URL?>js/jquery.js"></script>-->
+<script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/jquery-1.3.2.min.js"></script>
 <script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/ui.lightbox.js"></script>
 <script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/ui.tablesort.js"></script>
 <script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/ui.jquery.js"></script>
-
+<script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/fpnew.js"></script>
 <meta name="application-name" content="Concerto"/>
 <meta name="description" content="RPI Digital Signage for Everyone."/>
 <meta name="application-url" content="http://<?=$_SERVER['SERVER_NAME'] . ADMIN_URL?>"/>
@@ -79,9 +80,9 @@
 	</div>
 	<div id="fp_display"><img src="<?= ADMIN_BASE_URL ?>/images/fp/fp_display.png" alt="" /></div>
 	<div id="screen_overlay">
-		<div id="scr-graphics">&nbsp;</div>
-		<div id="scr-timedate">&nbsp;</div>
-		<div id="scr-text">&nbsp;</div>
+		<div id="scr-graphics" align="center"><img class="fp-exposed" src=""></div>
+		<div id="scr-timedate"><?=date('D m/d h:i a')?></div>
+		<div id="scr-text"></div>
 		<div id="scr-ticker">&nbsp;</div>
 	</div>
 	<div id="maincontent" class="fp_maincontent">
