@@ -31,8 +31,23 @@
 
 </IfModule>
 
+#Deny access to the svn files
 <Files ~ "(\.svn$)$">
    Order deny,allow
    Deny from all
 </Files>
 
+#Compress the javascript and css
+<IfModule mod_deflate.c>
+  <Files ~ "\.(css|js)$">
+    SetOutputFilter DEFLATE
+  </Files>
+</IfModule>
+
+#Set Expires Headers where applicable
+<IfModule mod_expires.c>
+  <Files ~ "\.(css|js|gif|jpe?g|png|ico)">
+    ExpiresActive on
+    ExpiresDefault "access plus 1 month"
+  </Files>
+</IfModule>
