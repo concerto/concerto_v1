@@ -78,6 +78,12 @@
 		</div>
 	</div>
 	<div id="fp_display"><img src="<?= ADMIN_BASE_URL ?>/images/fp/fp_display.png" alt="" /></div>
+	<div id="screen_overlay">
+		<div id="scr-graphics">&nbsp;</div>
+		<div id="scr-timedate">&nbsp;</div>
+		<div id="scr-text">&nbsp;</div>
+		<div id="scr-ticker">&nbsp;</div>
+	</div>
 	<div id="maincontent" class="fp_maincontent">
 		<?php renderMessages() ?>
 		<?php $this->render();//renderAction() ?>

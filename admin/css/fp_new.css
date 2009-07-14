@@ -39,3 +39,8 @@
 #fp_stripe_padding { padding:15px 0px 15px 740px; }
 #fp_display { position:absolute; z-index:2; width:500px; height:438px; top:65px; left:210px; }
 .fp_maincontent { padding-top:510px !important; }
+#screen_overlay { position:absolute; z-index:3; width:467px; height:265px; top:81px; left:226px; }
+#scr-graphics { background:red; z-index:4; position:absolute; width:255px; height:190px; top:15px; left:18px; }
+#scr-timedate { background:lime; z-index:4; position:absolute; width:66px; height:30px; bottom:3px; left:5px; color:#ccc; }
+#scr-text { background:yellow; z-index:4; position:absolute; width:144px; height:196px; right:7px; top:12px; color:#FFF; }
+#scr-ticker { background:violet; z-index:4; position:absolute; width:360px; height:30px; bottom:3px; right:7px; color:#FFF; }
