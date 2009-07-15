@@ -63,6 +63,8 @@ define('GA_TRACKING', false);                    //Define a Google Tracking id i
 define('TICKER_LIMIT', 150);                     //Ticket Text character limit
 define('SYSTEM_EMAIL', 'admin@yoursite.com');    //Email address used for system emails
 
+//Frontpage Selection (uncomment to choose the default info page of category 'front'
+//define('DEFAULT_PATH','pages/show/front');
 //Define screen rotation rules
 //The array should be setup as follows, $screen_rotate[screen_id][] = template_id
 //Make sure you have subscriptions setup!

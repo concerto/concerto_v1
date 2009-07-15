@@ -31,50 +31,81 @@ Functionality: Sets up for output, parses URL, and dispatches controllers
                 to preform requested actions.  Also includes base class
                 Controller.
 */
+
+//Let's keep track of build time breakdown for debugging and whatnot
 global $start_time;
 global $render_times;
 $render_times=Array();
 $start_time=microtime(true);
 
+//DB, system, and miscellaneous configuration:
 include('../config.inc.php');
 
+//Classes and Libraries:
 include(COMMON_DIR.'/mysql.inc.php');//Tom's sql library interface + db connection settings
 include(COMMON_DIR.'/user.php');     //Class to represent a site user
 include(COMMON_DIR.'/screen.php');   //Class to represent a screen in the system
 include(COMMON_DIR.'/feed.php');     //Class to represent a content feed
 include(COMMON_DIR.'/field.php');    //Class to represent a field in a template
 include(COMMON_DIR.'/position.php'); //Class to represent a postion relationship
-include(COMMON_DIR.'/content.php');  //Class to represent content items in the system
+include(COMMON_DIR.'/content.php');  //Class to represent content items
 include(COMMON_DIR.'/upload.php');   //Helps uploading
 include(COMMON_DIR.'/group.php');    //Class to represent user groups
 include(COMMON_DIR.'/dynamic.php');  //Functionality for dynamic content
 include(COMMON_DIR.'/notification.php');  //Functionality for notifications
 include(COMMON_DIR.'/newsfeed.php');  //Functionality for notifications
 include(COMMON_DIR.'/template.php');  //Class to represent a template
-include(COMMON_DIR.'/image.inc.php');	//Image library, used for resizing images
+include(COMMON_DIR.'/image.inc.php'); //Image library, used for resizing images
 
 $render_times[] = Array('Includes', microtime(true));
 
-include('includes/login.php');  //Functionality for CAS, logins, and page authorization
+//Functionality for CAS, logins, and page authorization:
+include('includes/login.php');  
 
 $render_times[] = Array('login', microtime(true));
 
-/* THESE MUST BE DEFINED FOR THIS TO WORK!
-define('ADMIN_BASE_URL','/mike_admin');      //base directory on server for images, css, etc.
-define('ADMIN_URL','/mike_admin/index.php'); //URL that can access this page (may be same as
-                                             //  ADMIN_BASE_URL if mod_rewrite configured)
-*/
-define('DEFAULT_CONTROLLER','frontpage');    //Controller to use when none is specified
-define('DEFAULT_TEMPLATE','ds_layout');      //Layout file for actions with none specified
-define('HOMEPAGE','Home');     //Name of the homepage
-define('HOMEPAGE_URL', '');           //relative URL for frontpage (we'll link to ADMIN_URL.'/'.HOMEPAGE_URL)
-define('APP_PATH','app');
-
+//Constants
+// Leaving some of these constants out will make things broken.
+// Some of these will likely be definied in the above-included config.inc.php,
+// but we'll provide some defaults here just in case.
+if(!defined('ADMIN_BASE_URL')) {
+    define('ADMIN_BASE_URL','/mike_admin'); //base directory for images, etc.
+}
+if(!defined('ADMIN_URL')) {
+    //Top URL of site
+    //May be same as ADMIN_BASE_URL if mod_rewrite is configured (pretty URLs)
+    define('ADMIN_URL','/mike_admin/index.php');
+}
+if(!defined('DEFAULT_PATH')) {
+    //Controller to use when none is specified
+    define('DEFAULT_PATH','/frontpage');
+}
+if(!defined('DEFAULT_TEMPLATE')) {
+    //Layout file for actions with none specified 
+    define('DEFAULT_TEMPLATE','ds_layout');      
+}
+if(!defined('HOMEPAGE')) {
+    //Name of the homepage
+    define('HOMEPAGE','Home');
+}
+if(!defined('HOMEPAGE_URL')) {
+    //relative URL for frontpage (we'll link to ADMIN_URL.'/'.HOMEPAGE_URL)
+    define('HOMEPAGE_URL', '');
+}
+if(!defined('APP_PATH')) {
+    define('APP_PATH','app'); //Location of view and controller files
+}
 
 set_magic_quotes_runtime(0);
 
-//parse request
-$request = split('/',trim($_SERVER['PATH_INFO'],'/'));
+//Enough setup... Let's get to work
+//parse request, go to default page if none requested
+if($_SERVER['PATH_INFO'] == '' || $_SERVER['PATH_INFO'] == '/') {
+    $path_info = DEFAULT_PATH;
+} else {
+    $path_info = $_SERVER['PATH_INFO'];
+}
+$request = split('/',trim($path_info,'/'));
 
 //decide what controller we'll be requesting an action from
 $controller = $request[0];
@@ -92,7 +123,7 @@ if(!file_exists(APP_PATH.'/'.$controller.'/controller.php')) {
    
    // use Reflection to create a new instance
    $controllerObj = $reflectionObj->newInstanceArgs(); 
-   
+
    //have the controller do its thing
    $controllerObj->execute(array_slice($request,1));
 }
@@ -118,12 +149,14 @@ if(!file_exists(APP_PATH.'/'.$controller.'/controller.php')) {
 	break;
 }*/
 
-//print out the statuse messages saved in $sess
+//print out the status messages saved in session
+//this will be called in the template to display them to the user
 function renderMessages()
 {
   if(is_array($_SESSION['flash']))
      foreach($_SESSION['flash'] as $msg)
         echo renderMessage($msg[0], $msg[1]);
+  //Once they've been displayed, clear them out.
   $_SESSION['flash']=array();
 }
 
@@ -165,6 +198,8 @@ function redirect_to($url)
    exit();
 }
 
+//Potential future use for better links, these aren't widely used
+//for now, ADMIN_URL is visible everywhere to get the top-level url
 function url_for($controller, $action='', $id='')
 {
    $str = ADMIN_URL.'/'.$controller;
@@ -174,7 +209,6 @@ function url_for($controller, $action='', $id='')
       $str.='/'.$id;
    return $str;
 }
-
 function link_to($label, $controller, $action='', $id='', $a_extra='')
 {
    return "<a href=\"".url_for($controller, $action, $id)."\"".
@@ -184,7 +218,9 @@ function link_to($label, $controller, $action='', $id='', $a_extra='')
 /*
 Class: Controller
 Status: Stable
-Functionality: Ancestor for all controllers
+Functionality: Ancestor for all controllers 
+This does the heavy lifting of choosing actions, passing parameters,
+recording breadcrumbs, and calling views and templates.
 */
 class Controller
 {
@@ -245,7 +281,7 @@ class Controller
         $actionName = $this->actionNames[$action];
         if(!isset($actionName)) 
            $actionName = $action;
-      }	
+      }
 
       //figure out which template should be used by default
       $this->template = $this->getTemplate($action);
@@ -274,10 +310,10 @@ class Controller
       else //if this occurs, a 404 will be delivered but the
          //action may still have been completed.
          notFound(); 
-	}
+      }
    
    //renders (directly outputs) the view; to be called by template
-	function render()
+   function render()
    {
       $viewpath=APP_PATH.'/'.
          $this->view[controller].'/'.
@@ -285,6 +321,7 @@ class Controller
       if(file_exists($viewpath))
          include($viewpath);
 
+      //We'll allow admins to take a look at page build times and breakdowns
       if(isset($_SESSION['stats']) && $_SESSION['stats']) {
          global $start_time, $render_times;
          $end = microtime(true);
@@ -327,14 +364,14 @@ class Controller
          return htmlspecialchars($this->actionNames[$this->view[view]]);
       if(isset($this->controller))
          return htmlspecialchars($this->controller);
-	}
+   }
    function getSubtitle()
    {
       if(isset($this->subtitle))
          return $this->subtitle;
       return false;
    }
-	function setTemplate($template, $actions='0')
+   function setTemplate($template, $actions='0')
    {
       if($actions == '0')
          $this->defaultTemplate=$template;
@@ -416,22 +453,31 @@ class Controller
 //Utility function that I wrote
 function sql_select($table, $fields="", $conditions="", $extra="", $debug=false)
 {
-	if($fields && !is_array($fields) )
-		$fields = Array($fields);
-	$query = 'SELECT '.($fields?join(", ",$fields):'*')." FROM `$table`";
-	if($conditions)
-		$query .= " WHERE $conditions ";
-   if($extra)
-      $query .= ' '.$extra;
-   if($debug)
-      echo $query;
-	$res=sql_query($query);
-	$rows= array();
-	$i=0;
-	if($debug) echo mysql_error();
-	while($row = sql_row_keyed($res,$i++))
-		if(isset($row[0])) $rows[]=$row;
-   if($debug) print_r($rows);
-	return $rows;	
+    if($fields && !is_array($fields) ) {
+        $fields = Array($fields);
+    }
+    $query = 'SELECT '.($fields?join(", ",$fields):'*')." FROM `$table`";
+    if($conditions) {
+        $query .= " WHERE $conditions ";
+    }
+    if($extra) {
+        $query .= ' '.$extra;
+    }
+    if($debug) {
+        echo $query;
+    }
+    $res=sql_query($query);
+    $rows= array();
+    $i=0;
+    if($debug) {
+        echo mysql_error();
+    }
+    while($row = sql_row_keyed($res,$i++)) {
+        if(isset($row[0])) $rows[]=$row;
+    }
+    if($debug) {
+        print_r($rows);
+    }
+    return $rows;	
 }
 ?>
