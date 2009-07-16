@@ -8,20 +8,21 @@ $(document).ready(function(){
 	var width = 255;
 	var height = 190;
 
-function wait(){}
+function wait(){
+}
 
 function changegraphic() {	
 	
 	var imgSrc = graphic[graphiccurrent] + "&width=" + width + "&height=" + height;
-	$(".fp-exposed").attr('src',"").attr('border',0).fadeOut("slow", function(){
-	$(".fp-exposed").attr('src',imgSrc).attr('border',1).fadeIn("slow");
+	$(".fp-exposed").attr('src',"").fadeOut("slow", function(){
+	$(".fp-exposed").attr('border',1).attr('src',imgSrc).fadeIn("slow");
 	
 		if(++graphiccurrent >= graphic.length)
 			{
 		   graphiccurrent = 0;
 			}
 	setTimeout(changegraphic, 13000);
-	});
+	}).attr('border',0);
 }
 
 function changetime()
