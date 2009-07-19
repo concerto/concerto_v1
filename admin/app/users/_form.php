@@ -47,10 +47,29 @@
          <td><h5>System Notifications</h5></td>
          <td>
            <input type="checkbox" id="allow_email" value="allow" name="user[allow_email]"<? if($user->allow_email) echo " CHECKED"?>> Yes, I want to recieve e-mail notices about system activity that concerns me (recommended).
-         </td>         
-       <? if (isLoggedIn() && $_SESSION['user']->username != $user->username) { ?>
+         </td>
+        <? if (!isLoggedIn()){ ?>
        <tr>
-         <td><h5>Username (RCS ID)</h5></td>
+         <td><h5>Username</h5></td>
+         <td>
+           <input type="text" id="username" name="user[username]" value="">
+         </td>
+       </tr>
+      <tr>
+         <td><h5>Password</h5></td>
+         <td>
+           <input type="password" id="pass1" name="user[np1]" value="">
+         </td>
+       </tr>
+      <tr>
+         <td><h5>Password</h5></td>
+         <td>
+           <input type="password" id="pass2" name="user[np2]" value="">
+         </td>
+       </tr>
+       <? } elseif (isLoggedIn() && $_SESSION['user']->username != $user->username) { ?>
+       <tr>
+         <td><h5>Username</h5></td>
          <td>
            <input type="text" id="username" name="user[username]" value="<?=$user->username?>">
          </td>
@@ -63,7 +82,7 @@
        </tr>
        <? } else {?>
        <tr>
-         <td><h5>Username (RCS ID)</h5></td>
+         <td><h5>Username</h5></td>
          <td>
            <?=$user->username ?>
          </td>

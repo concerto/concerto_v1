@@ -72,6 +72,7 @@ define('APP_PATH','app');
 
 
 set_magic_quotes_runtime(0);
+session_start(); // I spent 3 hours looking for this!
 
 //parse request
 $request = split('/',trim($_SERVER['PATH_INFO'],'/'));

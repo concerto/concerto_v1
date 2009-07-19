@@ -101,14 +101,15 @@ class User{
 	}
 	
 	//Creates a user
-	function create_user($username_in, $name_in, $email_in, $admin_privileges_in, $allow_email_in = 1){
+	function create_user($username_in, $name_in, $email_in, $admin_privileges_in, $allow_email_in = 1, $password_in = ''){
 		if($this->set == true){
 			return false; //We already have a user object you idiot
 		} else {
 			//Cleaning Block
-			if($username_in == "" || $name_in == "" || $email_in == ""){ //All user fields must be set!
+			if($username_in == "" || $name_in == "" || $email_in == "" || $password_in == ""){ //All user fields must be set!
 				return false;
 			}
+			$password = md5($password_in);
 			$username_in = escape($username_in);
 			$name_in = escape($name_in);
 			$valid_email = "^[a-z0-9,!#\$%&'\*\+/=\?\^_`\{\|}~-]+(\.[a-z0-9,!#\$%&'\*\+/=\?\^_`\{\|}~-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*\.([a-z]{2,})$";
@@ -125,7 +126,7 @@ class User{
 
 			//End testing/cleaning block
 			
-			$sql = "INSERT INTO user (username, name, email, admin_privileges, allow_email) VALUES ('$username_in', '$name_in', '$email_in', $admin_privileges_in, $allow_email_in)";
+			$sql = "INSERT INTO user (username, password, name, email, admin_privileges, allow_email) VALUES ('$username_in', '$password', '$name_in', '$email_in', $admin_privileges_in, $allow_email_in)";
 			
 			$res = sql_query($sql);
 			if($res){
@@ -371,6 +372,35 @@ allow_email = '$this->allow_email' WHERE id = $this->id LIMIT 1";
 				return false;
 			}
 		}
+  }
+  function auth_test($username_in, $password){
+    $password = md5($password);
+    $username = escape($username_in);
+    $sql = "SELECT COUNT(id) as id_count FROM user WHERE username = '$username' AND password = '$password'";
+                                
+    $res = sql_query($sql);
+    if(($res && $data = sql_row_keyed($res,0)) && $data['id_count'] == 1){
+      return true;
+    } else {
+      return false;
+    }
+  }
+  function change_password($curpass_in, $newpass_in){
+    if(!$this->set){
+      return false;
+    }
+    $password = md5($curpass_in);
+    $sql = "SELECT COUNT(id) as id_count FROM user WHERE id = $this->id AND password = '$password'";
+    $res = sql_query($sql);
+    if(($res && $data = sql_row_keyed($res,0)) && $data['id_count'] == 1){
+      //We're ok to update the password
+      $password = md5($newpass_in);
+      $sql = "UPDATE user SET password = '$password' WHERE id = $this->id LIMIT 1";
+      sql_query($sql);
+      return true;
+    } else {
+      return false;
+    }
   }
 }
 ?>

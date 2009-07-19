@@ -35,8 +35,8 @@
  */
 
 //Get and setup the CAS client
-include('CAS/CAS.php');
-phpCAS::client(CAS_VERSION_2_0,'login.rpi.edu',443,'/cas');
+//include('CAS/CAS.php');
+//phpCAS::client(CAS_VERSION_2_0,'login.rpi.edu',443,'/cas');
 
 //the following functions are accessors to the login functionality
 //they are designed for use as "requirements" of site actions
@@ -54,7 +54,7 @@ function check_login($callback)
    //    login_login();
    //}
 
-   if(phpCAS::checkAuthentication())
+//   if(phpCAS::checkAuthentication())
       login_login();
 }
 
@@ -68,7 +68,9 @@ function require_login()
 */
 
 /*Re-fetching user for each page that uses it: */
-   login_login();
+   if(!isLoggedIn())
+    login_login();
+
 
    return true;
 }
@@ -138,27 +140,22 @@ function login_logout()
    session_destroy();
    session_start();
    header("Cache-control: private"); // IE 6 Fix
-      phpCAS::logout();
 }
 
-function login_login()
+function login_login($username = '', $password = '')
 {
-   // force CAS authentication
-   phpCAS::forceAuthentication();
-
-   // at this step, the user has been authenticated by the CAS server
-   // and the user's login name can be read with phpCAS::getUser().   
-   $rcsid = phpCAS::getUser();
-
-   if(isset($_SESSION['su'])) {
-      $rcsid=$_SESSION['su'];
-   }
-   $rcsid=mysql_escape_string($rcsid);
-   $_SESSION['user'] = new user($rcsid);
-   //Send the user to signup if the new user was not created
-   //Comparison must be case-insensitive. strcasecmp returns 0 if equal
-   if(strcasecmp($_SESSION['user']->username,$rcsid)!== 0){
-      redirect_to(ADMIN_URL.'/users/signup');
-      exit();
-   }
+  if(isLoggedIn()) return true;
+  if($username != ''){
+    $test_usr = new User();
+    if($test_usr->auth_test($username, $password)){
+      $_SESSION['user'] = new user($username);
+      $_SESSION['logged_un'] = $username;
+      return true;
+    } else {
+      //$_SESSION['flash'][] = Array('error', "Unable to authenticate with the username/password combination");
+      return false;
+    }
+  } else {
+    redirect_to(ADMIN_URL.'/frontpage/login');
+  }
 }
