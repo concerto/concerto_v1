@@ -22,6 +22,8 @@
  * @license      GPLv2, see www.gnu.org/licenses/gpl-2.0.html
  * @version      $Revision$
  */
+
+
 (function($) {
     $.extend({
         signage: function(screenId){
@@ -29,8 +31,54 @@
             var checksum;
             //the fields in the template, they will be defined later on...I hope
             var fields = [];
+            var fieldToControl = 0;
             //the current field that updates the script
             var currentField;
+
+            var paused = 0;
+            var pauseTimeout;
+            
+            var maxContentToKeep = 10;
+
+            function keyup_handler(e) {
+                console.log("keystroke: %d", e.which);
+
+                clearTimeout(pauseTimeout);
+                pauseTimeout = setTimeout(run, 30000);
+
+                if (e.which == 65 || e.which == 97) {
+                    if (!paused) {
+                        pause( );
+                    }
+                    console.log("Going to previous content");
+                    previous_content( );
+                } else if (e.which == 68 || e.which == 100) {
+                    if (!paused) {
+                        console.log("Pausing");
+                        pause( );
+                    } else {
+                        console.log("Resuming");
+                        run( );
+                    }
+                } else if (e.which == 71 || e.which == 103) {
+                    if (!paused) {
+                        pause( );
+                    }
+                    console.log("Going to next content");
+                    next_content( );
+                }
+                    
+            }
+
+            // One-time initialization goes in here...
+            function initialize( ) {
+                // start everything up
+                start( );
+                // hook some key presses
+                $(document).keyup(keyup_handler);
+                // make sure we clean up old stale divs
+                garbage_collect( );
+            }
             
             //This is where it starts. The function makes sure that a template exists and starts loading content
             function start(){
@@ -48,6 +96,7 @@
                         checkScreen();
                     }
                 }
+
             }
 
             function checkScreen(force){
@@ -78,11 +127,23 @@
                                         })
                                         .appendTo($(document.body));
                                     //set properties of each field
+                                    var i = 0;
                                     $.each(json["fields"], function(fieldId, field){
                                         field["id"] = fieldId;
                                         field["timeout"] = 0;
                                         field["prevdiv"] = undefined;
+                                        field["prevdivs"] = [];
+                                        
+                                        console.log("field %d:", i);
+                                        //console.dir(field);
+
+                                        if (field["width"] > 700) {
+                                            console.log("Using field %d\n", i);
+                                            fieldToControl = i;
+                                        }
+
                                         fields.push(field);
+                                        i++;
                                     });
                                     checksum = json["checksum"];
                                     currentField = 0;
@@ -99,7 +160,98 @@
                 });
             }
 
+            function pause() {
+                var field = fields[fieldToControl];
+
+                // pause the screen
+                paused = 1;
+                field["current_index"] = field["prevdivs"].length - 1;
+            }
+
+            function run() {
+                if (paused) {
+                    paused = 0;
+                    clearTimeout(pauseTimeout);
+                }
+            }
+
+            function previous_content() {
+                var field = fields[fieldToControl];
+                var divs = field["prevdivs"];
+                var pos = field["current_index"];
+
+
+                //console.dir(field);
+                //console.dir(divs);
+
+                if (pos == 0) {
+                    return; // can't go back further
+                }
+
+                var old_div = divs[pos];
+                var new_div = divs[pos-1];
+
+                //console.log("old_div:");
+                //console.dirxml(old_div);
+                //console.log("new_div:");
+                //console.dirxml(new_div);
+
+                new_div.fadeGlobal(old_div, function() {
+                        field["prevdiv"] = new_div;
+                    }
+                );
+
+                field["current_index"] = pos - 1;
+
+            }
+            
+
+            function next_content() {
+                var field = fields[fieldToControl];
+                var divs = field["prevdivs"];
+                var pos = field["current_index"];
+
+                if (pos == divs.length - 1) {
+                    return; // can't go forward further
+                }
+
+                var old_div = divs[pos];
+                var new_div = divs[pos+1];
+
+                new_div.fadeGlobal(old_div, function() {
+                        field["prevdiv"] = new_div;
+                    }
+                );
+
+                field["current_index"] = pos + 1;
+            }
+
+            function garbage_collect() {
+                if (!paused) {
+                    console.log("Let the purging commence!");
+                    $.each(fields, function(fieldId, field) { 
+                            while (field["prevdivs"].length > maxContentToKeep) {
+                                var div = field["prevdivs"].shift();
+                                console.log("Purging an old div from field %d", fieldId);
+                                div.remove();
+                            }
+                        }
+                    );
+                }
+
+                // repeat the garbage collection every 30 sec
+                setTimeout(garbage_collect, 30000);
+            }
+
             function fetchContent(){
+                console.log("Fetching content...");
+                // check if we're paused
+                if (paused && currentField == fieldToControl) {
+                    console.log("but we're paused!");
+                    currentField++;
+                    start( );
+                    return;
+                }
                 //update next field
                 var field = fields[currentField++];
                 var time = (new Date()).getTime();
@@ -129,6 +281,7 @@
                                             .fitBox(field["height"], field["top"])
                                             .fadeGlobal(field["prevdiv"], function(){
             					                field["prevdiv"] = div;
+                                                                field["prevdivs"].push(div)
             					                start();
                                             });
                                     } else if(json["mime_type"].match(/image/)){
@@ -137,6 +290,8 @@
                                         var img = new Image();
                                         //set onload event handler
                                         img.onload = function(){
+                                                console.log("Something looks like an image in field %d", currentField - 1);
+                                                fieldToControl = currentField - 1;
 	                                        //create the image tag and add it to the DOM
 	                                        var div = $("<img>")
                                                 .attr({"style": field["style"], "src": imgSrc, "alt": ""})
@@ -148,6 +303,7 @@
                                                 .appendTo(document.body)
                                                 .fadeGlobal(field["prevdiv"], function(){
                                                     field["prevdiv"] = div;
+                                                    field["prevdivs"].push(div)
                                                     start();
                                                 });
                                         };
@@ -171,7 +327,7 @@
                     start();
             }
             
-            start();
+            initialize();
         }
 	});
 	
@@ -182,7 +338,7 @@
             //if the previous div exists then fade it out
             if(prevdiv != undefined){
                 prevdiv.animate({opacity: 0.0}, "normal", "swing", function(){
-                    $(this).remove();
+                    //$(this).remove();
                 });
             }
 	
