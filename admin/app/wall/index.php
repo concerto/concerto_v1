@@ -24,27 +24,76 @@
  * @version      $Revision: 543 $
  */
 ?>
-<div id="topbar">
-		<h1>ConcertoWALL</h1>
-		<p>Unfettered browsing for the common folk.</p>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$("a.showhide").click(function(){
+		$("div#panel").animate({
+			height: "550px"
+		})
+		.animate({
+			height: "525px"
+		}, "fast");
+		$("a.showhide").toggle();
+	
+	});	
+	
+   $("a#hide_button").click(function(){
+		$("div#panel").animate({
+			height: "0px"
+		}, "fast");
+		
+	
+   });	
+	
+});
+</script>
+
+  <div id="toppanel">
+    <div id="panel">
+      <div id="panel_contents"> </div>
+			<div id="UIWall_feedsel">
+				<?php 
+					$allfeeds_xml = "http://concerto.rpi.edu/content/render/?select=system";
+								
+					$objDOM = new DOMDocument();
+				  $objDOM->load($allfeeds_xml);
+				
+				  $feeds = $objDOM->getElementsByTagName("feed");
+				  // for each feed tag, parse the document and get values for
+				  // id and name tags
+		
+				  foreach( $feeds as $value )
+				  {
+				    $ids = $value->getElementsByTagName("id");
+				   	$id  = $ids->item(0)->nodeValue;
+				    $names = $value->getElementsByTagName("name");
+		    		$name  = $names->item(0)->nodeValue;
+				 ?>
+				 		<div class="UIWall_feedbutton"><a href="<?= ADMIN_BASE_URL ?>/wall/feedgrid?feed_id=<?= $id ?>" alt="" /><?= substr($name, 0, 26); ?><? if (strlen($name) > 26) { ?>...<? } ?></a></div>
+				 <?php
+				  }
+				 ?>
+			</div>
+    </div>
+    <div id="UIWall_pulldown_container">
+			<div id="UIWall_pulldown">
+				<a class="showhide" href="#">
+					<h1>Currently selected: </h1>
+					<img src="<?= ADMIN_BASE_URL ?>images/wall/pulldown_arrow.png" alt="" />
+				</a>
+				<a class="showhide" id="hide_button" style="display:none;" href="#">
+					<h1>Currently selected: </h1>
+					<img src="<?= ADMIN_BASE_URL ?>images/wall/pullup_arrow.png" alt="" />
+				</a>
+			</div>
+		</div>
+
+  </div>
+
+
+
+<div id="wall_feed_insert">
 </div>
-<div id="prevbar"><img src="<?= ADMIN_BASE_URL ?>images/wall/prev_inactive.png" alt="Previous" /></div>
-<div id="wallthumbs">
-		<?php
-				$jsondata = file_get_contents("http://senatedev.union.rpi.edu/zaikb/conc19/admin/includes/feedjson.php", 'r');
-				$feeddata = json_decode($jsondata);
-				$count = 0;
-				foreach ($feeddata as $obj) { 
-						$feed_data = $obj->{'feed'};
-						$feed_name = rawurlencode($feed_data[0]->{'name'});
-		?>
-							  <div class="UIWall_thumb"><a class="overlayTrigger" href="<?= ADMIN_URL ?>/wall/ext?content_id=<?= $obj->{'id'} ?>&amp;feed_name=<?= $feed_name ?>" rel="#oz"><div class="UIWall_wrapper"><img src="<?= $obj->{'content'} ?>" alt="" /></div></a></div>
-		  
-		<?php
-		}
-?>
-</div>
-<div id="nextbar"><img src="<?= ADMIN_BASE_URL ?>images/wall/next_inactive.png" alt="Next" /></div>
-<div id="oz" class="overlayZoom">
-		<div id="wrap"></div>
-</div>
+
+

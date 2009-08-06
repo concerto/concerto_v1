@@ -29,28 +29,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <title><?php echo join(' - ',array('Concerto Panel', $this->getTitle()));?></title>
-<!-- <link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/admin_new.css" /> -->
 <link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/wall.css" />
-<link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/menu_tabs.css" />
-<link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/ui.lightbox.css" />
-<link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/ui.tablesort.css" />
-<link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/ui.jquery.css" />
-
-<!--[if IE]>
-<link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/ieonly.css" />
-<script language="javascript" type="text/javascript" src="<?=ADMIN_BASE_URL?>js/excanvas.pack.js"></script>
-<![endif]-->
-
-<!--[if lt IE 7.]>
-<link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/ie6.css" />
-<script defer type="text/javascript" src="<?=ADMIN_BASE_URL?>js/pngfix.js"></script>
-<![endif]-->
 
 <script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/jquery-1.3.2.min.js"></script>
-<script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/ui.lightbox.js"></script>
-<script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/ui.tablesort.js"></script>
-<script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/ui.jquery.js"></script>
-<script src="http://cdn.jquerytools.org/1.0.2/jquery.tools.min.js"></script>
+<script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/jquery.tools.min.js"></script>
 
 <meta name="application-name" content="Concerto"/>
 <meta name="description" content="RPI Digital Signage for Everyone."/>

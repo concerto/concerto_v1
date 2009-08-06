@@ -1,2 +1,2 @@
-<img src="http://signage.union.rpi.edu/content/render/index.php?select=content&select_id=<?= $_GET['content_id'] ?>&width=590&height=460&format=raw" alt="" />
+<img src="http://concerto.rpi.edu/content/render/index.php?select=content&select_id=<?= $_GET['content_id'] ?>&width=590&height=460&format=raw" alt="" />
 <h2>from the <b><?= $_GET['feed_name'] ?></b> feed</h2>

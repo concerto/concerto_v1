@@ -48,6 +48,11 @@ class  wallController extends Controller
     {
     
     }
+    
+    function feedgridAction()
+    {
+    
+    }
 
 }
 ?>

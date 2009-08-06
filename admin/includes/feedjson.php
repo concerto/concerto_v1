@@ -3,19 +3,18 @@
   $json = new JSON;
 
 //Array of feed id's to draw content from
-$feeds = array(1,3,44,40,30,32);
+$feed_id = $_GET['feedid'];
 //Number of total content desired
 $count = 80;
 
 $mergedata = array();
-//Loop through and pull out items, then merge them into a big array
-foreach($feeds as $f_id){
-  $jsondata = file_get_contents('http://signage.union.rpi.edu/content/render/?select_id=' . $f_id . '&format=json&count=' . $count . '&orderby=rand&type=graphics&width=200&height=150');
-  $feeddata = $json->unserialize($jsondata);
-  if(is_array($feeddata)){
-    $mergedata = array_merge($mergedata, $feeddata);
-  }
+
+$jsondata = file_get_contents('http://concerto.rpi.edu/content/render/?select_id=' . $feed_id . '&format=json&count=' . $count . '&orderby=rand&type=graphics&width=200&height=150');
+$feeddata = $json->unserialize($jsondata);
+if(is_array($feeddata)){
+	$mergedata = array_merge($mergedata, $feeddata);
 }
+
 //Shuffle up the merged array
 shuffle($mergedata);
 
