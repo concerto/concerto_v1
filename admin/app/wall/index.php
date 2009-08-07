@@ -26,25 +26,60 @@
 ?>
 
 <script type="text/javascript">
+
+function loadFeed(id, feedname) {
+	$.ajax({
+		type: "GET",
+		url: "<?= ADMIN_BASE_URL ?>/wall/feedgrid?feed_id="+id+"",
+		success: function(data){
+				$('#wall_feed_insert').empty();
+				var response = $(data).find('#feedgrid').html(); 							//Grab the div from the ajax request
+				$('#wall_feed_insert').hide().html(response).fadeIn();		//fade it into the div on this page
+		}
+	});
+	$("#feedsel_title").empty();
+	$("#feedsel_title").append(feedname);
+	collapsePanel();
+}
+
+function expandPanel() { 
+	$("div#panel").animate({ height: document.documentElement.clientHeight * 0.8 }).animate({ height: document.documentElement.clientHeight * 0.8 - 25 }, "fast");
+	$("div.panel_button").toggle();
+}
+
+function collapsePanel() { 
+	$("div#panel").animate({ height: "0px" }, "fast");
+	$("div.panel_button").toggle();
+}
+
 $(document).ready(function() {
-	$("a.showhide").click(function(){
-		$("div#panel").animate({
-			height: "550px"
-		})
-		.animate({
-			height: "525px"
-		}, "fast");
-		$("a.showhide").toggle();
-	
+	$("div#panel").css({ height: "0px" });
+	$("div.panel_button").click(function(){
+		expandPanel();
 	});	
 	
-   $("a#hide_button").click(function(){
-		$("div#panel").animate({
-			height: "0px"
-		}, "fast");
-		
-	
-   });	
+  $("div#hide_button").click(function(){
+		$("div#panel").animate({ height: "0px" }, "fast");
+  });
+  
+  $(".lf_button").live("click", function(e) { 
+  	var trigger = this.getTrigger();
+  	console.log(trigger.attr("href"));
+  	loadFeed(trigger.attr("href"));
+  	e.preventDefault();
+  	
+  });
+  
+  // if the function argument is given to overlay, it is assumed to be the onBeforeLoad event listener 
+  $("a[rel]").overlay(function() {  
+	  // grab wrapper element inside content 
+	  var wrap = this.getContent().find("div#wrap"); 
+		var timer;
+		var trigger = this.getTrigger();
+	  timer = setTimeout(function() {
+	  		wrap.load(trigger.attr("href"));
+	 	}, 300);
+  }); 
 	
 });
 </script>
@@ -70,30 +105,34 @@ $(document).ready(function() {
 				    $names = $value->getElementsByTagName("name");
 		    		$name  = $names->item(0)->nodeValue;
 				 ?>
-				 		<div class="UIWall_feedbutton"><a href="<?= ADMIN_BASE_URL ?>/wall/feedgrid?feed_id=<?= $id ?>" alt="" /><?= substr($name, 0, 26); ?><? if (strlen($name) > 26) { ?>...<? } ?></a></div>
+				 		<div class="UIWall_feedbutton"><a href="javascript:loadFeed(<?= $id ?>, '<?= $name ?>')" alt="" /><?= substr($name, 0, 26); ?><? if (strlen($name) > 26) { ?>...<? } ?></a></div>
 				 <?php
-				  }
-				 ?>
+				}
+				?>
+				<div style="clear:both;"></div>
 			</div>
     </div>
     <div id="UIWall_pulldown_container">
 			<div id="UIWall_pulldown">
-				<a class="showhide" href="#">
-					<h1>Currently selected: </h1>
-					<img src="<?= ADMIN_BASE_URL ?>images/wall/pulldown_arrow.png" alt="" />
-				</a>
-				<a class="showhide" id="hide_button" style="display:none;" href="#">
-					<h1>Currently selected: </h1>
-					<img src="<?= ADMIN_BASE_URL ?>images/wall/pullup_arrow.png" alt="" />
-				</a>
+				<div class="panel_button" style="display: visible;">
+      		<a href="#">
+      			<h1 id="feedsel_title">Click to Select Feed</h1>
+	      		<img src="<?= ADMIN_BASE_URL ?>images/wall/pulldown_arrow.png" alt="" />
+	      	</a>
+      	</div>
+    		<div class="panel_button" id="hide_button" style="display: none;">
+					<a href="#">
+						<h1 id="feedsel_title">Click to Select Feed</h1>
+						<img src="<?= ADMIN_BASE_URL ?>images/wall/pullup_arrow.png" alt="" />
+					</a>
+      	</div>
+
 			</div>
 		</div>
 
   </div>
 
 
-
-<div id="wall_feed_insert">
-</div>
+<div id="wall_feed_insert">&nbsp;</div>
 
 

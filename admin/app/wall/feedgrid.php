@@ -1,3 +1,7 @@
+
+
+<div id="feedgrid">
+
 <div id="wallthumbs">
 		<?php
 				$feed_id = $_GET['feed_id'];
@@ -17,4 +21,6 @@
 
 <div id="oz" class="overlayZoom">
 		<div id="wrap"></div>
+</div>
+
 </div>

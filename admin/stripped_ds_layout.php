@@ -41,27 +41,7 @@
 <link rel="icon" href="<?=ADMIN_BASE_URL?>images/concerto_48x48.png" sizes="48x48"/>
 
 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-<script type="text/javascript">
-$(function() { 
- 
-    // if the function argument is given to overlay, it is assumed to be the onBeforeLoad event listener 
-    $("a[rel]").overlay(function() { 
- 
-        // grab wrapper element inside content 
-        var wrap = this.getContent().find("div#wrap"); 
- 				var timer;
- 				var trigger = this.getTrigger();
-        timer = setTimeout(function() {
-        		wrap.load(trigger.attr("href"));
-       	}, 300);
 
-    }); 
-});
-
-//$(function() {
-//	$("a.overlayTrigger").overlay();
-//});
-</script>
 
 <?php //renderHeadExtras() ?>
 </head>
@@ -73,7 +53,6 @@ $(function() {
 <?php $this->render();//renderAction() ?>
 <div style="clear:both;"></div>
 </div>
-
 
 <?php if(defined('GA_TRACKING') && GA_TRACKING) { ?>
 <script type="text/javascript">
