@@ -28,10 +28,10 @@
 	<div class="roundcont">
 	  <div class="roundtop"><span class="rt"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
 	  <div class="roundcont_main">
-	    <h1>Expand Your Ecosystem</h1>
+	    <h1>Expand Your Experience</h1>
 	    <ul>
-	    	<li><a href="#">Learn more about the Concerto API</a></li>
-	    	<li><a href="#">Download the Concerto Screensaver</a></li>
+	    	<li><a href="#">Download the Concerto Screensaver for Windows or Mac</a></li>
+	    	<li><a href="http://webtech.union.rpi.edu/blog">Read the Web Tech Blog</a></li>
 	    </ul>
 	  </div>
 	  <div class="roundbottom"><span class="rb"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
@@ -41,10 +41,11 @@
 	<div class="roundcont">
 	  <div class="roundtop"><span class="rt"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
 	  <div class="roundcont_main">
-	    <h1>Explore Concerto</h1>
+	    <h1>Learn More</h1>
 	    <ul>
-	    	<li><a href="http://concerto-signage.rpi.edu">Visit Concerto Global</a></li>
-	    	<li><a href="#">Join the Developer Community</a></li>
+	    	<li><a href="http://concerto-signage.com">Visit the Concerto Project's global website</a></li>
+	    	<li><a href="http://www.concerto-signage.com/help_pages/28">Learn more about the Concerto API</a></li>
+	    	<li><a href="#">Join the Developer Community</a></a></li>
 	    </ul>
 	  </div>
 	  <div class="roundbottom"><span class="rb"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>

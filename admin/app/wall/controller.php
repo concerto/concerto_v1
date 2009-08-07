@@ -25,12 +25,11 @@
  */
 class  wallController extends Controller
 {
-    public $actionNames = Array( 'index'=>'Wall Demo');
-    public $require = Array( 'require_login'=>1 );
+    public $actionNames = Array( 'index'=>'Concerto Wall');
 
     function setup()
     {
-        $this->setName("Wall Demo");
+        $this->setName("Concerto Wall");
         $this->setTemplate('stripped_ds_layout');
     }
 

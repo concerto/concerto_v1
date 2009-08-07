@@ -135,4 +135,8 @@ $(document).ready(function() {
 
 <div id="wall_feed_insert">&nbsp;</div>
 
-
+<div id="bottomstrip">
+	<div id="bottomstrip-padding">
+		<a href="<?= ADMIN_BASE_URL ?>"><< Back to the Concerto Panel</a>
+	</div>
+</div>

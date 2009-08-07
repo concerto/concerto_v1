@@ -73,9 +73,9 @@
 <div id="main">
 	<div id="fp_stripe">
 		<div id="fp_stripe_padding">
-			<h1><a href="#">View More Live Content</a></h1>
+			<h1><a href="<?= ADMIN_URL ?>/wall/">View More Live Content</a></h1>
 			<h2>on the Concerto Wall</h2>
-			<h3><a href="#">Get the Screensaver</a> | <a href="#">Visit the Support Center</a></h3>
+			<h3><a href="#">Get the Screensaver</a> | <a href="<?= ADMIN_URL ?>/pages/show/docs/">Visit the Support Center</a></h3>
 		</div>
 	</div>
 	<div id="fp_display"><img src="<?= ADMIN_BASE_URL ?>/images/fp/fp_display.png" alt="" /></div>

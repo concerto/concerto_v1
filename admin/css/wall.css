@@ -32,7 +32,7 @@
 */
 body{font-family:"Lucida Grande", Verdana, Arial, sans-serif;background:#2B2B2B url(../images/wall/dark-background.jpg) top left repeat-x; margin:0; padding:0; }
 
-#toppanel{position:absolute;width:100%;left:0;z-index:25;text-align:center;}
+#toppanel{position:fixed;width:100%;left:0;z-index:25;text-align:center;}
 #panel{width:100%;position:relative;top:1px;height:100%;margin-left:auto;margin-right:auto;z-index:10;overflow:hidden;text-align:left;}
 #panel_contents{background:url(../images/wall/whitebg.png) bottom left repeat-x;height:100%;width:100%;position:absolute;z-index:-1;}
 
@@ -58,3 +58,8 @@ body{font-family:"Lucida Grande", Verdana, Arial, sans-serif;background:#2B2B2B 
 div.overlayZoom{background-image:url(../images/wall/white.png);width:600px;height:670px;display:none;padding:55px;text-align:center;}
 div.overlayZoom img{border:solid 1px #666;}
 div.overlayZoom div.close{background-image:url(../images/wall/close.png);position:absolute;right:5px;top:5px;cursor:pointer;height:35px;width:35px;}
+
+#bottomstrip { position:fixed; bottom:0px; left:0px; width:100%; background:#000; border-top:solid 1px #333; font-size:0.7em; }
+#bottomstrip a { color:#999; text-decoration: none; }
+#bottomstrip a:hover { color:#FFF; text-decoration: underline; }
+#bottomstrip-padding { padding:3px 12px; }
