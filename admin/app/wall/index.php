@@ -137,6 +137,6 @@ $(document).ready(function() {
 
 <div id="bottomstrip">
 	<div id="bottomstrip-padding">
-		<a href="<?= ADMIN_BASE_URL ?>"><< Back to the Concerto Panel</a>
+		<a href="<?= ADMIN_BASE_URL ?>/fp_new"><< Back to the Concerto Panel</a>
 	</div>
 </div>

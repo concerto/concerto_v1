@@ -31,7 +31,8 @@
 	if(isLoggedIn()) { //We will change this!
 	?>
 	  <ul>
-	    <li><a href="<?= ADMIN_URL ?>/content/new" title="Add new content to the system"><span>Add Content</span></a></li>
+	    <li><a href="<?= ADMIN_URL ?>" title="Dashboard"><span>Dashboard</span></a></li>
+	    <li><a style="margin-left:12px;" href="<?= ADMIN_URL ?>/content/new" title="Add new content to the system"><span>Add Content</span></a></li>
 	    <li><a href="<?= ADMIN_URL ?>/browse/" title="Browse all content in the system, sorted by feed"><span>Browse Content</span></a></li>
 	    <li><a style="margin-left:12px" href="<?= ADMIN_URL ?>/screens/" title="View and Edit Concerto Screens"><span>Screens</span></a></li>
 	<?  if($controlsstuff) { ?>
@@ -42,8 +43,6 @@
 	    <li><a style="margin-left:12px;" href="<?= ADMIN_URL ?>/frontpage/admin" title=""><span>Admin</span></a></li>
 	    <li><a href="<?= ADMIN_URL ?>/pages" title="Manage informational content pages"><span>Info Pages</span></a></li>
 	<? } ?>
-			<li><a style="margin-left:12px;" href="<?= ADMIN_URL ?>/wall" title="Quick browse tool for active content"><span>Wall Demo</span></a></li>
-			<li><a href="<?= ADMIN_URL ?>/fp_new" title="New front page"><span>New FP</span></a></li>
 	  </ul>
 	<?php
 	} else {

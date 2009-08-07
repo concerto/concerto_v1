@@ -28,7 +28,7 @@
 
     <div class="logo_box">
 	   	<div class="logo_box_padding">
-	    	<center><a href="<?php echo ADMIN_URL ?>"><img 
+	    	<center><a href="<?= ADMIN_URL ?>/fp_new"><img 
 src="<?php echo ADMIN_BASE_URL?>/images/conc_bluebg.gif" alt="Concerto" style="" border="0" 
 /></a></center>
 	   	</div>
