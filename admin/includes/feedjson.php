@@ -4,12 +4,13 @@
 
 //Array of feed id's to draw content from
 $feed_id = $_GET['feedid'];
+
 //Number of total content desired
 $count = 80;
 
 $mergedata = array();
 
-$jsondata = file_get_contents('http://concerto.rpi.edu/content/render/?select_id=' . $feed_id . '&format=json&count=' . $count . '&orderby=rand&type=graphics&width=200&height=150');
+$jsondata = file_get_contents('http://content.rpi.edu/content/render/?select_id=' . $feed_id . '&format=json&count=' . $count . '&orderby=rand&type=graphics&width=200&height=150');
 $feeddata = $json->unserialize($jsondata);
 if(is_array($feeddata)){
 	$mergedata = array_merge($mergedata, $feeddata);

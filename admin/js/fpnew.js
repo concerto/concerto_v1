@@ -86,7 +86,7 @@ setTimeout(changeticker,8000);
 	});
 
 
-	$.getJSON("../includes/feedjson.php", {cache: false}, function(json) {
+	$.getJSON("../includes/feedjson_fpnew.php", {cache: false}, function(json) {
 		$.each(json, function(offset) {
 			graphic.push(this.content);
 		});
