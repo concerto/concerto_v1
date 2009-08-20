@@ -32,9 +32,22 @@ function loadFeed(id, feedname) {
 		type: "GET",
 		url: "<?= ADMIN_BASE_URL ?>/wall/feedgrid?feed_id="+id+"",
 		success: function(data){
-				$('#wall_feed_insert').empty();
+			  
+			  $('#wall_feed_insert').empty();
 				var response = $(data).find('#feedgrid').html(); 							//Grab the div from the ajax request
 				$('#wall_feed_insert').hide().html(response).fadeIn();		//fade it into the div on this page
+				
+				// if the function argument is given to overlay, it is assumed to be the onBeforeLoad event listener 
+			  $(".UIWall_thumb > a").overlay(function() {  
+				  // grab wrapper element inside content 
+				  var wrap = this.getContent().find("div#wrap"); 
+					var timer;
+					var trigger = this.getTrigger();
+				  timer = setTimeout(function() {
+				  		wrap.load(trigger.attr("href"));
+				 	}, 300);
+			  }); 
+			  
 		}
 	});
 	$("#feedsel_title").empty();
@@ -43,12 +56,12 @@ function loadFeed(id, feedname) {
 }
 
 function expandPanel() { 
-	$("div#panel").animate({ height: document.documentElement.clientHeight * 0.8 }).animate({ height: document.documentElement.clientHeight * 0.8 - 25 }, "fast");
+	$("div#panel").css({ height: "80%" });
 	$("div.panel_button").toggle();
 }
 
 function collapsePanel() { 
-	$("div#panel").animate({ height: "0px" }, "fast");
+	$("div#panel").css({ height: "0px" });
 	$("div.panel_button").toggle();
 }
 
@@ -59,7 +72,7 @@ $(document).ready(function() {
 	});	
 	
   $("div#hide_button").click(function(){
-		$("div#panel").animate({ height: "0px" }, "fast");
+		$("div#panel").css({ height: "0px" });
   });
   
   $(".lf_button").live("click", function(e) { 
@@ -70,16 +83,6 @@ $(document).ready(function() {
   	
   });
   
-  // if the function argument is given to overlay, it is assumed to be the onBeforeLoad event listener 
-  $("a[rel]").overlay(function() {  
-	  // grab wrapper element inside content 
-	  var wrap = this.getContent().find("div#wrap"); 
-		var timer;
-		var trigger = this.getTrigger();
-	  timer = setTimeout(function() {
-	  		wrap.load(trigger.attr("href"));
-	 	}, 300);
-  }); 
 	
 });
 </script>

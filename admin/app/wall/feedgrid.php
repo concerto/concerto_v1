@@ -1,5 +1,3 @@
-
-
 <div id="feedgrid">
 
 <div id="wallthumbs">

@@ -28,27 +28,61 @@
 	<div class="roundcont">
 	  <div class="roundtop"><span class="rt"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
 	  <div class="roundcont_main">
-	    <h1>Expand Your Experience</h1>
+	    <h1>Resources</h1>
 	    <ul>
-	    	<li><a href="#">Download the Concerto Screensaver for Windows or Mac</a></li>
-	    	<li><a href="http://webtech.union.rpi.edu/blog">Read the Web Tech Blog</a></li>
+	    	<li><a href="#">Content Guidelines</a></li>
+	    	<li><a href="#">Graphical Guidelines</a></li>
+	    	<li><a href="#">Support Center</a></li>
 	    </ul>
 	  </div>
 	  <div class="roundbottom"><span class="rb"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
 	</div>
 </div>
+
 <div style="float:left;width:47%;">
 	<div class="roundcont">
 	  <div class="roundtop"><span class="rt"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
 	  <div class="roundcont_main">
-	    <h1>Learn More</h1>
+	    <h1>Developers</h1>
 	    <ul>
-	    	<li><a href="http://concerto-signage.com">Visit the Concerto Project's global website</a></li>
+	    	<li><a href="http://webtech.union.rpi.edu">Web Technologies Group Blog</a></li>
 	    	<li><a href="http://www.concerto-signage.com/help_pages/28">Learn more about the Concerto API</a></li>
-	    	<li><a href="#">Join the Developer Community</a></a></li>
+	    	<li><a href="#">Join the Developer Community</a></li>
+	    	<li><a href="#">Concerto Subversion Repository</a></li>
 	    </ul>
 	  </div>
 	  <div class="roundbottom"><span class="rb"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
 	</div>
 </div>
+
+<div style="float:left;width:47%;margin-right:20px;">
+	<div class="roundcont">
+	  <div class="roundtop"><span class="rt"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
+	  <div class="roundcont_main">
+	    <h1>Screensavers</h1>
+	    <ul>
+	    	<li><a href="#">Concerto Windows Screensaver</a></li>
+	    	<li><a href="#">Concerto Mac OS X Screensaver</a></li>
+	    </ul>
+	  </div>
+	  <div class="roundbottom"><span class="rb"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
+	</div>
+</div>
+
+<div style="float:left;width:47%;">
+	<div class="roundcont">
+	  <div class="roundtop"><span class="rt"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
+	  <div class="roundcont_main">
+	    <h1>Screen Owners</h1>
+	    <ul>
+	    	<li><a href="#">Equipment & Maintenance Agreement</a></li>
+	    	<li><a href="#">Concerto Hardware Specification</a></li>
+	    	<li><a href="#">Hardware Inventory Management</a></li>
+	    	<li><a href="#">RPIAlert/EMS Compatibility</a></li>
+	    </ul>
+	  </div>
+	  <div class="roundbottom"><span class="rb"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
+	</div>
+</div>
+
 <div style="clear:both;"></div>
