@@ -357,14 +357,14 @@ function render_json($content_arr, $criteria){
 function criteria_string($criteria, $case = ''){
     $crit_vals = array();
     $crits = array('api', 'width', 'height');
+    if($case == 'rss'){
+        $criteria['width'] = 100;
+        $criteria['height'] = 100;
+    }
     foreach($crits as $crit){
         if(isset($criteria[$crit])){
             $crit_arr[] = "$crit={$criteria[$crit]}";
         }
-    }
-    if($case == 'rss' && (!isset($criteria['width']) || !isset($criteria['height']))){
-        $crit_arr[] = "width=100";
-        $crit_arr[] = "height=100";
     }
     if(is_array($crit_arr)){
         return implode('&', $crit_arr);
