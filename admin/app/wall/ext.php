@@ -1,2 +1,6 @@
-<img src="http://concerto.rpi.edu/content/render/index.php?select=content&select_id=<?= $_GET['content_id'] ?>&width=590&height=460&format=raw" alt="" />
-<h2>from the <b><?= $_GET['feed_name'] ?></b> feed</h2>
+<? if (($this->feed->type == 3) || ($this->content->get_moderation_status($this->feed) != 1)){ ?>
+  Invalid request.
+<? } else { ?>
+<img src="<?= ADMIN_URL ?>/content/image/<?= $this->content->id ?>?width=590&height=460" alt="<?= $this->content->name ?>" />
+<h2>from the <b><?= $this->feed->name ?></b> feed</h2>
+<? } ?>

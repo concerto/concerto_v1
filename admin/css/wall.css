@@ -55,9 +55,9 @@ body{font-family:"Lucida Grande", Verdana, Arial, sans-serif;background:#2B2B2B 
 #wallthumbs a img{padding:3px;border:solid 1px #333;}
 #wallthumbs a:hover img{border:solid 1px #09f;}
 #wallthumbs div.UIWall_thumb{margin:16px 8px;float:left;text-align:center;width:202px;height:152px;}
-div.overlayZoom{background-image:url(../images/wall/white.png);width:600px;height:670px;display:none;padding:55px;text-align:center;}
-div.overlayZoom img{border:solid 1px #666;}
-div.overlayZoom div.close{background-image:url(../images/wall/close.png);position:absolute;right:5px;top:5px;cursor:pointer;height:35px;width:35px;}
+div.overlay{background-image:url(../images/wall/white.png);width:600px;height:670px;display:none;padding:55px;text-align:center;}
+div.overlay img{border:solid 1px #666;}
+div.overlay div.close{background-image:url(../images/wall/close.png);position:absolute;right:5px;top:5px;cursor:pointer;height:35px;width:35px;}
 
 #bottomstrip { position:fixed; bottom:0px; left:0px; width:100%; background:#000; border-top:solid 1px #333; font-size:0.7em; }
 #bottomstrip a { color:#999; text-decoration: none; }

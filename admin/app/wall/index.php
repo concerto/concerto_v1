@@ -26,28 +26,24 @@
 ?>
 
 <script type="text/javascript">
+$(function() {
+	var api = $("#overlay").overlay({api:true});
+
+	// define function that opens the overlay
+	window.openOverlay = function() {
+		api.load();
+	}
+
+});
 
 function loadFeed(id, feedname) {
 	$.ajax({
 		type: "GET",
-		url: "<?= ADMIN_BASE_URL ?>/wall/feedgrid?feed_id="+id+"",
+		url: "<?= ADMIN_BASE_URL ?>/wall/feedgrid/"+id+"?ajax=1",
 		success: function(data){
-			  
-			  $('#wall_feed_insert').empty();
-				var response = $(data).find('#feedgrid').html(); 							//Grab the div from the ajax request
-				$('#wall_feed_insert').hide().html(response).fadeIn();		//fade it into the div on this page
-				
-				// if the function argument is given to overlay, it is assumed to be the onBeforeLoad event listener 
-			  $(".UIWall_thumb > a").overlay(function() {  
-				  // grab wrapper element inside content 
-				  var wrap = this.getContent().find("div#wrap"); 
-					var timer;
-					var trigger = this.getTrigger();
-				  timer = setTimeout(function() {
-				  		wrap.load(trigger.attr("href"));
-				 	}, 300);
-			  }); 
-			  
+				$('#wall_feed_insert').empty();
+				var response = $(data).find('#feedgrid').html();  //Grab the div from the ajax request
+				$('#wall_feed_insert').hide().html(data).fadeIn();  //fade it into the div on this page
 		}
 	});
 	$("#feedsel_title").empty();
@@ -69,20 +65,19 @@ $(document).ready(function() {
 	$("div#panel").css({ height: "0px" });
 	$("div.panel_button").click(function(){
 		expandPanel();
-	});	
+	});
 	
-  $("div#hide_button").click(function(){
+	$("div#hide_button").click(function(){
 		$("div#panel").css({ height: "0px" });
-  });
-  
-  $(".lf_button").live("click", function(e) { 
-  	var trigger = this.getTrigger();
-  	console.log(trigger.attr("href"));
-  	loadFeed(trigger.attr("href"));
-  	e.preventDefault();
-  	
-  });
-  
+	});
+	
+	$(".overlayTrigger").live("click", function(e) { 
+		var url = $(this).attr("href");
+		$('#wrap').load(url, {ajax: 1}, function(){
+			openOverlay();
+		});
+		e.preventDefault();
+	});
 	
 });
 </script>
@@ -90,56 +85,46 @@ $(document).ready(function() {
   <div id="toppanel">
     <div id="panel">
       <div id="panel_contents"> </div>
-			<div id="UIWall_feedsel">
-				<?php 
-					$allfeeds_xml = "http://concerto.rpi.edu/content/render/?select=system";
-								
-					$objDOM = new DOMDocument();
-				  $objDOM->load($allfeeds_xml);
-				
-				  $feeds = $objDOM->getElementsByTagName("feed");
-				  // for each feed tag, parse the document and get values for
-				  // id and name tags
-		
-				  foreach( $feeds as $value )
-				  {
-				    $ids = $value->getElementsByTagName("id");
-				   	$id  = $ids->item(0)->nodeValue;
-				    $names = $value->getElementsByTagName("name");
-		    		$name  = $names->item(0)->nodeValue;
-				 ?>
-				 		<div class="UIWall_feedbutton"><a href="javascript:loadFeed(<?= $id ?>, '<?= $name ?>')" alt="" /><?= substr($name, 0, 26); ?><? if (strlen($name) > 26) { ?>...<? } ?></a></div>
-				 <?php
-				}
-				?>
-				<div style="clear:both;"></div>
-			</div>
+        <div id="UIWall_feedsel">
+          <?
+            foreach($this->feeds as $id => $feed ) {
+            $name = $feed['name'];
+            if(strlen($name) > 26){
+              $name = substr($name, 0, 26) . '...';
+            }
+          ?>
+            <div class="UIWall_feedbutton"><a href="<?= ADMIN_BASE_URL ?>/wall/feedgrid/<?= $id ?>" onclick="loadFeed(<?= $id ?>, '<?= $name ?>'); return false;" alt="" /><?= $name ?></a></div
+          <? } ?>
+            <div style="clear:both;"></div>
+        </div>
     </div>
     <div id="UIWall_pulldown_container">
-			<div id="UIWall_pulldown">
-				<div class="panel_button" style="display: visible;">
-      		<a href="#">
-      			<h1 id="feedsel_title">Click to Select Feed</h1>
-	      		<img src="<?= ADMIN_BASE_URL ?>images/wall/pulldown_arrow.png" alt="" />
-	      	</a>
-      	</div>
-    		<div class="panel_button" id="hide_button" style="display: none;">
-					<a href="#">
-						<h1 id="feedsel_title">Click to Select Feed</h1>
-						<img src="<?= ADMIN_BASE_URL ?>images/wall/pullup_arrow.png" alt="" />
-					</a>
-      	</div>
-
-			</div>
-		</div>
-
+      <div id="UIWall_pulldown">
+        <div class="panel_button" style="display: visible;">
+          <a href="#">
+            <h1 id="feedsel_title">Click to Select Feed</h1>
+            <img src="<?= ADMIN_BASE_URL ?>images/wall/pulldown_arrow.png" alt="" />
+          </a>
+        </div>
+        <div class="panel_button" id="hide_button" style="display: none;">
+          <a href="#">
+            <h1 id="feedsel_title">Click to Select Feed</h1>
+            <img src="<?= ADMIN_BASE_URL ?>images/wall/pullup_arrow.png" alt="" />
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
 
 
 <div id="wall_feed_insert">&nbsp;</div>
 
+<div id="overlay" class="overlay">
+  <div id="wrap"></div>
+</div>
+
 <div id="bottomstrip">
 	<div id="bottomstrip-padding">
-		<a href="<?= ADMIN_BASE_URL ?>/fp_new"><< Back to the Concerto Panel</a>
+		<a href="<?= ADMIN_BASE_URL ?>"><< Back to the Concerto Panel</a>
 	</div>
 </div>

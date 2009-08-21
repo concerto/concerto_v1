@@ -25,32 +25,42 @@
  */
 class  wallController extends Controller
 {
-    public $actionNames = Array( 'index'=>'Concerto Wall');
+    public $actionNames = Array('index'=>'Concerto Wall', 'feedgrid' => 'Browse a Feed', 'ext' => 'View Content');
 
     function setup()
     {
         $this->setName("Concerto Wall");
         $this->setTemplate('stripped_ds_layout');
     }
-
+    
     function indexAction()
     {
-				
+      //Find feeds with active, approved graphical content
+      $this->feeds = Feed::list_all_by_type('WHERE feed.type != 3 AND type.id = 3 
+                                             AND feed_content.moderation_flag = 1
+                                             AND content.start_time <= NOW() AND content.end_time >= NOW() AND content.mime_type LIKE "%image%"');
     }
     
     function extAction() 
     {
-    
-    }
-    
-    function frontpageAction()
-    {
-    
+      if(isset($_REQUEST['ajax'])){
+        $this->template="blank_layout.php"; //Found this nifty hack in the moderation controller
+      }
+      $this->feed = new Feed($this->args[1]);
+      $this->content = new Content($this->args[2]);
+      //Permissions are currently handled in the view to account for both ajax and non-ajax queries.
     }
     
     function feedgridAction()
     {
-    
+      if(isset($_REQUEST['ajax'])){
+        $this->template="blank_layout.php";
+      }
+      $this->feed = new Feed($this->args[1]);
+      if((strlen($this->feed->name) > 0) && $this->feed->type != 3){
+        $this->contents = $this->feed->content_get_by_type(3,'feed_content.moderation_flag = 1 AND content.start_time <= NOW() AND content.end_time>= NOW() AND content.mime_type LIKE "%image%"');
+      }
+      //Permissions are currently handled in the view to account for both ajax and non-ajax queries.
     }
 
 }
