@@ -28,10 +28,11 @@ class frontpageController extends Controller
 	public $actionNames = Array( 'index'=> "Front page", 
                                 'admin'=>'Admin Utilities',
                                 'mailer' =>'Send Mail',
+                                'login' =>'Login to Concerto',
                                 'addtemplate' =>'Upload Template');
-
-   public $require = Array('check_login'=>Array('dashboard','login','logout'),
-                           'require_login'=>Array('admin','login','dashboard','su','phpinfo','mailer','sendmail','addtemplate','createtemplate') );
+                                
+   public $require = Array('check_login'=>Array('dashboard','logout'),
+                           'require_login'=>Array('admin','dashboard','su','phpinfo','mailer','sendmail','addtemplate','createtemplate') );
 
 	function setup()
 	{
@@ -66,7 +67,7 @@ class frontpageController extends Controller
 
 	function adminAction()
 	{
-      $user = new User(phpCAS::getUser());
+      $user = new User($_SESSION[user]->username);
       if(!$user->admin_privileges)
          redirect_to(ADMIN_URL.'/frontpage');
 
@@ -90,7 +91,7 @@ class frontpageController extends Controller
 	}
 	function mailerAction()
 	{
-         $user = new User(phpCAS::getUser());
+         $user = new User($_SESSION[user]->username);
          $this->fromyou = $user->name . ' (' . $user->email . ')';
          if(!$user->admin_privileges)
            redirect_to(ADMIN_URL.'/frontpage');
@@ -112,7 +113,7 @@ class frontpageController extends Controller
 	}
 	function sendmailAction()
 	{
-	     $curuser = new User(phpCAS::getUser());
+	     $curuser = new User($_SESSION[user]->username);
 	     if(!$curuser->admin_privileges)
          redirect_to(ADMIN_URL.'/frontpage');
 
@@ -182,14 +183,14 @@ class frontpageController extends Controller
 	}
 
    function addtemplateAction(){
-    $user = new User(phpCAS::getUser());
+    $user = new User($_SESSION[user]->username);
       if(!$user->admin_privileges)
          redirect_to(ADMIN_URL.'/frontpage');
          
      $this->setTitle("Upload Template");
    }
    function createtemplateAction(){
-    $user = new User(phpCAS::getUser());
+    $user = new User($_SESSION[user]->username);
     if(!$user->admin_privileges)
        redirect_to(ADMIN_URL.'/frontpage');
          
@@ -227,7 +228,7 @@ class frontpageController extends Controller
    
    function phpinfoAction()
    {
-      $user = new User(phpCAS::getUser());
+      $user = new User($_SESSION[user]->username);
       if(!$user->admin_privileges)
          redirect_to(ADMIN_URL.'/frontpage');
       phpinfo();
@@ -236,7 +237,7 @@ class frontpageController extends Controller
 
    function suAction()
    {
-      $user = new User(phpCAS::getUser());
+      $user = new User($_SESSION[user]->username);
       if(isset($_REQUEST['r'])) {
          unset($_SESSION['su']);
          login_login();
@@ -249,14 +250,25 @@ class frontpageController extends Controller
 
 	function loginAction()
 	{
-      redirect_to(ADMIN_URL."/frontpage");
+//      redirect_to(ADMIN_URL."/frontpage");
 	}
+  function authAction()
+  {
+    if(login_login($_REQUEST[user][username], $_REQUEST[user][password])){
+      redirect_to(ADMIN_URL."/frontpage/dashboard");
+    } else {
+      $this->flash("Unable to authenticate with the username/password combination", 'error');
+      redirect_to(ADMIN_URL."/frontpage/login");
+    }
+    
+  }
 
 	function logoutAction()
 	{
 		login_logout();
-		$_SESSION['flash'][] = array('warn','Something went wrong with your logout. Close your browser to end the session securely.');
-		self::renderView('frontpage');
+		$this->flash('You were sucessfully logged out.', 'info');
+		//$_SESSION['flash'][] = array('info','You were sucessfully logged out.');
+		redirect_to(ADMIN_URL);
 	}
 }
 ?>

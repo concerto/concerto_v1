@@ -67,7 +67,9 @@ $(function()
 </ul>
 <?php if($this->canEdit) {?>
 <h3>Contact: <span class="emph"><a href="mailto:<?php echo $this->user->email?>"><?php echo $this->user->email?></a></h3>
-
+<?php if($this->user->username == $_SESSION['user']->username) {?>
+<h3><a href="<?php echo ADMIN_URL . "/users/password/" . $this->user->username?>">Change Password</a></h3>
+<? } ?>
 <br />
 <div class="roundcont newsfeed">
   <div class="roundtop"><span class="rt"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
