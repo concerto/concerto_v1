@@ -27,7 +27,7 @@
   <div class="roundtop"><span class="rt"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
   <div class="roundcont_main">
     <div style="float:left; width:86px; height:71px;"><img width="70" height="70" src="<?= ADMIN_BASE_URL ?>images/rpi_seal.gif" alt="RPI Seal" /></div>
-    <h1 class="fp">Got a Concerto username?  If so, you can log into Concerto to the left... If not, Sign up!</h1>
+    <h1 class="fp">Have an RCS ID and password?  If so, you can log into Concerto to the left.</h1>
     <p>Concerto is 100% free to use for all current members of the campus community at <a href="http://rpi.edu">Rensselaer Polytechnic Institute</a>.</p>
     <div style="clear:both;height:1px;"></div>
   </div>

@@ -39,9 +39,6 @@ src="<?php echo ADMIN_BASE_URL?>/images/conc_bluebg.gif" alt="Concerto" style=""
         <? 
          if (!isLoggedIn()) { ?>
          <h2><a href="<?= ADMIN_URL ?>/frontpage/login">Login</a></h2>        
-         <hr />
-         <h2><a href="<?= ADMIN_URL ?>/users/signup">Signup</a></h2>
-
 	<? } else {
          ?>
 	   <?	 echo '<p>Welcome, <a href="'.ADMIN_URL.'/users/show/'.userName().'">'.firstName().'</a>!</p><br />';  ?>

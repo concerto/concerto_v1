@@ -26,10 +26,10 @@
 class usersController extends Controller
 {
    public $actionNames = Array( 'list'=> 'Users Listing', 'show'=>'Details', 'newsfeed'=>'News Feed',
-                                'edit'=> 'Edit', 'signup'=>'Create Profile', 'new'=>'New', 'password'=>'Update Password');
+                                'edit'=> 'Edit', 'signup'=>'Create Profile', 'new'=>'New');
 
-   public $require = Array( 'require_login'=>Array('index' ,'list','show', 'password'),
-                           'require_action_auth'=>Array('edit', 'new',
+   public $require = Array( 'require_login'=>Array('index' ,'list','show'),
+                           'require_action_auth'=>Array('edit', 'new', 
                                                         'update', 'destroy', 'newsfeed', 'notifications') );
    //note: it is only with great care that we don't have any requirements to create or signup
 
@@ -101,8 +101,12 @@ class usersController extends Controller
    
    function signupAction()
    {
+      if(!phpCAS::isAuthenticated())
+         redirect_to(ADMIN_URL.'/frontpage/login');
       if(isLoggedIn())
          redirect_to(ADMIN_URL.'/users/');
+      $this->user = new User();
+      $this->user->username = phpCAS::getUser();
    }
 
    function newAction()
@@ -115,7 +119,10 @@ class usersController extends Controller
       $dat = $_POST['user'];
       $user = new User();
       
-
+      if(!phpCAS::isAuthenticated()) {
+         redirect_to(ADMIN_URL.'/users/signup');
+         exit();
+      }
       if(isAdmin()) {
          if($user->create_user($dat['username'],$dat['name'],
                                $dat['email'],$dat['admin_privileges']=='admin'?1:0, $dat['allow_email']=='allow'?1:0)) {
@@ -127,12 +134,8 @@ class usersController extends Controller
             redirect_to(ADMIN_URL.'/users/new');
          }
       } else {
-        if($dat['np1'] != $dat['np2']){  
-          $_SESSION['flash'][]= Array('error','Passwords do not match');
-          redirect_to(ADMIN_URL.'/users/signup');
-        }
-         if($user->create_user($dat['username'],$dat['name'],
-                               $dat['email'],0,$dat['allow_email']=='allow'?1:0,$dat['np1'])) {
+         if($user->create_user(phpCAS::getUser(),$dat['name'],
+                               $dat['email'],0,$dat['allow_email']=='allow'?1:0)) {
             $_SESSION['flash'][]=
                Array('info','Your profile was created successfully. Welcome to Concerto!');
             login_login();
@@ -197,33 +200,5 @@ class usersController extends Controller
    function destroyAction()
    {
    }   
-   
-   function passwordAction()
-   {
-    	$this->user = new User($this->args[1]);
-        if($_SESSION[user]->username != $this->user->username) {
-                $_SESSION['flash'][]=Array('error', 'Not authorized.');
-                redirect_to(ADMIN_URL.'/users/show/'.$this->args[1]);
-        }
-   }
-   function updatepassAction()
-   {
-    	$user = new User($this->args[1]);
-        if($_SESSION[user]->username != $user->username) {
-                $_SESSION['flash'][]=Array('error', 'Not authorized.');
-                redirect_to(ADMIN_URL.'/users/show/'.$this->args[1]);
-        }
-        if($_POST[user][np1] != $_POST[user][np2]){
-                $_SESSION['flash'][]=Array('error', 'Passwords do not match.');
-                redirect_to(ADMIN_URL.'/users/password/'.$this->args[1]);
-        }
-        if($user->change_password($_POST[user][curpass], $_POST[user][np1])){
-                $_SESSION['flash'][]=Array('status', 'Password updated!');
-                redirect_to(ADMIN_URL.'/users/show/'.$this->args[1]);
-        } else {
-                $_SESSION['flash'][]=Array('error', 'Unable to update, check your current password.');
-                redirect_to(ADMIN_URL.'/users/password/'.$this->args[1]);
-        }
-   }
 }
 ?>
