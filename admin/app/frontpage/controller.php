@@ -28,11 +28,10 @@ class frontpageController extends Controller
 	public $actionNames = Array( 'index'=> "Front page", 
                                 'admin'=>'Admin Utilities',
                                 'mailer' =>'Send Mail',
-                                'login' =>'Login to Concerto',
                                 'addtemplate' =>'Upload Template');
-                                
-   public $require = Array('check_login'=>Array('dashboard','logout'),
-                           'require_login'=>Array('admin','dashboard','su','phpinfo','mailer','sendmail','addtemplate','createtemplate') );
+
+   public $require = Array('check_login'=>Array('dashboard','login','logout'),
+                           'require_login'=>Array('admin','login','dashboard','su','phpinfo','mailer','sendmail','addtemplate','createtemplate') );
 
 	function setup()
 	{
@@ -183,14 +182,14 @@ class frontpageController extends Controller
 	}
 
    function addtemplateAction(){
-    $user = new User(phpCAS::getUser());
+    $user = new User($_SESSION[user]->username);
       if(!$user->admin_privileges)
          redirect_to(ADMIN_URL.'/frontpage');
          
      $this->setTitle("Upload Template");
    }
    function createtemplateAction(){
-    $user = new User(phpCAS::getUser());
+    $user = new User($_SESSION[user]->username);
     if(!$user->admin_privileges)
        redirect_to(ADMIN_URL.'/frontpage');
          
@@ -250,25 +249,14 @@ class frontpageController extends Controller
 
 	function loginAction()
 	{
-//      redirect_to(ADMIN_URL."/frontpage");
+      redirect_to(ADMIN_URL."/frontpage");
 	}
-  function authAction()
-  {
-    if(login_login($_REQUEST[user][username], $_REQUEST[user][password])){
-      redirect_to(ADMIN_URL."/frontpage/dashboard");
-    } else {
-      $this->flash("Unable to authenticate with the username/password combination", 'error');
-      redirect_to(ADMIN_URL."/frontpage/login");
-    }
-    
-  }
 
 	function logoutAction()
 	{
 		login_logout();
-		$this->flash('You were sucessfully logged out.', 'info');
-		//$_SESSION['flash'][] = array('info','You were sucessfully logged out.');
-		redirect_to(ADMIN_URL);
+		$_SESSION['flash'][] = array('warn','Something went wrong with your logout. Close your browser to end the session securely.');
+		self::renderView('frontpage');
 	}
 }
 ?>
