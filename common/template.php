@@ -284,7 +284,7 @@ class Template{
      /*
       * creates a thumbnail of a screen with overlays
       */
-     function preview($width=400, $height=300, $act_field = false){
+     function preview($width=400, $height=300, $act_field = false, $strict_size = false){
       if(!isset($this->filename)){
         $new_image = imagecreatetruecolor(100, 100);
         die;
@@ -302,12 +302,14 @@ class Template{
       $ratio = $width / $height;
       $new_ratio = $new_width / $new_height;
 
-      if($ratio < $new_ratio) {
-        $new_height = $new_height;
-        $new_width = $new_height * $ratio;
-      } else {
-        $new_width = $new_width;
-        $new_height = $new_width / $ratio;
+      if(!$strict_size){
+        if($ratio < $new_ratio) {
+          $new_height = $new_height;
+          $new_width = $new_height * $ratio;
+        } else {
+          $new_width = $new_width;
+          $new_height = $new_width / $ratio;
+        }
       }
       $new_image = imagecreatetruecolor($new_width, $new_height);
       $image = imagecreatefromjpeg(TEMPLATE_DIR.$this->filename);
@@ -320,6 +322,8 @@ class Template{
       $font_size=$new_height/14;
       $font=COMMON_DIR.'FreeSans.ttf';
 
+      $fields = $this->list_fields();
+      if(is_array($fields) && (count($fields) > 0)){
       foreach ($this->list_fields() as $field) {
         //echo $field['id'].'.'.$act_field.' ';
         if($field['id']==$act_field) {
@@ -340,6 +344,7 @@ class Template{
         $theight = $tbox[1];
         $twidth= $tbox[2];
       }
+    }
     }
     $offset = 60*30; // half an hour
     header('Content-type: image/jpeg');

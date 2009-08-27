@@ -23,5 +23,5 @@
  * @license      GPLv2, see www.gnu.org/licenses/gpl-2.0.html
  * @version      $Revision$
  */
-  $this->p_template->preview($this->width, $this->height, $this->act_field);
+  $this->p_template->preview($this->width, $this->height, $this->act_field, true);
 ?>

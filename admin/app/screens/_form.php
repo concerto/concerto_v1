@@ -81,6 +81,9 @@
 				$scrimg="screen_43_off_big.png";
 			}
 		}
+	} else {
+		$ratio = "16:9";
+		 $scrimg="screen_169_off_big.png";
 	}
 ?>
 
@@ -163,35 +166,52 @@
 				<p>Click on a thumbnail for a larger view.</p>
 				<br />
 				<?php
-							if(is_array($this->avail_templates))
-								echo "<h4 style='color:#333;margin-bottom:12px;padding-bottom:6px;border-bottom:solid 1px #ccc;'>Normal Templates</h4>";
+							$t_height = round(150*$screen->height/$screen->width);
+							$t_largeheight = round(800*$screen->height/$screen->width);
+							if(is_array($this->avail_templates)) {
+								echo "<div style='clear:both;'><h4 style='color:#333;margin-bottom:12px;padding-bottom:6px;border-bottom:solid 1px #ccc;'>Normal Templates</h4>";
 								foreach($this->avail_templates as $template) {
 				?>
-				<div style="margin:5px;height:200px;float:left;text-align:center;width:200px;">
+				<div style="margin:5px;float:left;text-align:center;width:200px;">
 					<input class="template" type="radio" name="screen[template]" style="vertical-align:middle"  value="<?= $template->id ?>"<?php if($screen->template_id==$template->id) echo ' checked'; ?>>
-						<a href="<?=ADMIN_URL.'/templates/preview/'.$template->id.'?width=800'?>" class="t-preview"><img style="vertical-align:middle; margin:10px;" src="<?=ADMIN_URL.'/templates/preview/'.$template->id.'?width=150'?>" width="150" height="<?= round(150*$screen->height/$screen->width) ?>" alt="<?= $template->name ?>"/></a>
+						<a href="<?=ADMIN_URL.'/templates/preview/'.$template->id.'?width=800&height='.$t_largeheight ?>" class="t-preview"><img style="vertical-align:middle; margin:10px;" src="<?=ADMIN_URL.'/templates/preview/'.$template->id.'?width=150&height='.$t_height ?>" width="150" height="<?= $t_height ?>" alt="<?= $template->name ?>"/></a>
 						<p style="color:#333;"><b><?= $template->name ?></b><br />
 						<? if(strlen($template->creator) > 0){ echo "Created by: $template->creator <br />"; } ?>
 						<? if(strtotime($template->modified) > 0){echo "Last Updated: " . date("M j, Y", strtotime($template->modified));} ?>
 						</p>
 					</input>
-				</div>
-	<?php   } ?>
-				
+				</div></div>
+	<?php  }  } ?>
+		
+				<?php
+							if(is_array($this->other_templates)) {
+								echo "<div style='clear:both;'><h4 style='color:#333;margin-bottom:12px;padding-bottom:6px;border-bottom:solid 1px #ccc;'>Other Templates</h4>";
+								foreach($this->other_templates as $template) {
+				?>
+				<div style="margin:5px;float:left;text-align:center;width:200px;">
+					<input class="template" type="radio" name="screen[template]" style="vertical-align:middle"  value="<?= $template->id ?>"<?php if($screen->template_id==$template->id) echo ' checked'; ?>>
+						<a href="<?=ADMIN_URL.'/templates/preview/'.$template->id.'?width=800&height='.$t_largeheight ?>" class="t-preview"><img style="vertical-align:middle; margin:10px;" src="<?=ADMIN_URL.'/templates/preview/'.$template->id.'?width=150&height='.$t_height ?>" width="150" height="<?= $t_height ?>" alt="<?= $template->name ?>"/></a>
+						<p style="color:#333;"><b><?= $template->name ?></b><br />
+						<? if(strlen($template->creator) > 0){ echo "Created by: $template->creator <br />"; } ?>
+						<? if(strtotime($template->modified) > 0){echo "Last Updated: " . date("M j, Y", strtotime($template->modified));} ?>
+						</p>
+					</input>
+				</div></div>
+	<?php  }  } ?>		
 				<?php
 							if(isAdmin() && is_array($this->admin_templates)){
 							echo "<div style='clear:both;'></div><h4 style='color:#333;padding-bottom:6px;margin-bottom:12px;border-bottom:solid 1px #ccc;'>Hidden Templates</h4>";
 								foreach($this->admin_templates as $template) {
 				?>
-				<div style="margin:5px;height:200px;float:left;text-align:center;width:200px;">
+				<div style="margin:5px;float:left;text-align:center;width:200px;">
 					<input class="template" type="radio" name="screen[template]" style="vertical-align:middle"  value="<?= $template->id ?>"<?php if($screen->template_id==$template->id) echo ' checked'; ?>>
-						<a href="<?=ADMIN_URL.'/templates/preview/'.$template->id.'?width=800'?>" class="t-preview"><img style="vertical-align:middle; margin:10px;" src="<?=ADMIN_URL.'/templates/preview/'.$template->id.'?width=150'?>" width="150" height="<?= round(150*$screen->height/$screen->width) ?>" alt="<?= $template->name ?>"/></a>
+						<a href="<?=ADMIN_URL.'/templates/preview/'.$template->id.'?width=800&height='.$t_largeheight ?>" class="t-preview"><img style="vertical-align:middle; margin:10px;" src="<?=ADMIN_URL.'/templates/preview/'.$template->id.'?width=150&height='.$t_height ?>" width="150" height="<?= $t_height ?>" alt="<?= $template->name ?>"/></a>
 						<p style="color:#333;"><b><?= $template->name ?></b><br />
 						<? if(strlen($template->creator) > 0){ echo "Created by: $template->creator <br />"; } ?>
 						<? if(strtotime($template->modified) > 0){echo "Last Updated: " . date("M j, Y", strtotime($template->modified));} ?>
 						</p>
 					</input>
-				</div>
+				</div></div>
 	<?php   } }?>
 			</td>
 		</tr>
