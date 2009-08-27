@@ -50,7 +50,7 @@ if(isset($_GET['id']) && is_numeric($_GET['id'])){
   <height><?= $t_row['height'] ?></height>
   <author><?= $t_row['creator'] ?></author>
 <? $i=0;
-   while($row = sql_row_keyed($res,$i)){?>
+   while($f_row = sql_row_keyed($f_res,$i)){?>
   <field>
     <name><?= $f_row['name'] ?></name>
     <type><?= $f_row['type'] ?></type>
