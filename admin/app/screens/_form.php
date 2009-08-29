@@ -160,62 +160,73 @@
 	</table>
 	<br />
 	<table style="clear:none;" class='edit_win' cellpadding='6' cellspacing='0'>
-		<tr>
-			<td>
-				<h5>Screen Template</h5>
-				<p>Click on a thumbnail for a larger view.</p>
-				<br />
-				<?php
-							$t_height = round(150*$screen->height/$screen->width);
-							$t_largeheight = round(800*$screen->height/$screen->width);
-							if(is_array($this->avail_templates)) {
-								echo "<div style='clear:both;'><h4 style='color:#333;margin-bottom:12px;padding-bottom:6px;border-bottom:solid 1px #ccc;'>Normal Templates</h4>";
-								foreach($this->avail_templates as $template) {
-				?>
-				<div style="margin:5px;float:left;text-align:center;width:200px;">
-					<input class="template" type="radio" name="screen[template]" style="vertical-align:middle"  value="<?= $template->id ?>"<?php if($screen->template_id==$template->id) echo ' checked'; ?>>
-						<a href="<?=ADMIN_URL.'/templates/preview/'.$template->id.'?width=800&height='.$t_largeheight ?>" class="t-preview"><img style="vertical-align:middle; margin:10px;" src="<?=ADMIN_URL.'/templates/preview/'.$template->id.'?width=150&height='.$t_height ?>" width="150" height="<?= $t_height ?>" alt="<?= $template->name ?>"/></a>
-						<p style="color:#333;"><b><?= $template->name ?></b><br />
-						<? if(strlen($template->creator) > 0){ echo "Created by: $template->creator <br />"; } ?>
-						<? if(strtotime($template->modified) > 0){echo "Last Updated: " . date("M j, Y", strtotime($template->modified));} ?>
-						</p>
-					</input>
-				</div></div>
-	<?php  }  } ?>
-		
-				<?php
-							if(is_array($this->other_templates)) {
-								echo "<div style='clear:both;'><h4 style='color:#333;margin-bottom:12px;padding-bottom:6px;border-bottom:solid 1px #ccc;'>Other Templates</h4>";
-								foreach($this->other_templates as $template) {
-				?>
-				<div style="margin:5px;float:left;text-align:center;width:200px;">
-					<input class="template" type="radio" name="screen[template]" style="vertical-align:middle"  value="<?= $template->id ?>"<?php if($screen->template_id==$template->id) echo ' checked'; ?>>
-						<a href="<?=ADMIN_URL.'/templates/preview/'.$template->id.'?width=800&height='.$t_largeheight ?>" class="t-preview"><img style="vertical-align:middle; margin:10px;" src="<?=ADMIN_URL.'/templates/preview/'.$template->id.'?width=150&height='.$t_height ?>" width="150" height="<?= $t_height ?>" alt="<?= $template->name ?>"/></a>
-						<p style="color:#333;"><b><?= $template->name ?></b><br />
-						<? if(strlen($template->creator) > 0){ echo "Created by: $template->creator <br />"; } ?>
-						<? if(strtotime($template->modified) > 0){echo "Last Updated: " . date("M j, Y", strtotime($template->modified));} ?>
-						</p>
-					</input>
-				</div></div>
-	<?php  }  } ?>		
-				<?php
-							if(isAdmin() && is_array($this->admin_templates)){
-							echo "<div style='clear:both;'></div><h4 style='color:#333;padding-bottom:6px;margin-bottom:12px;border-bottom:solid 1px #ccc;'>Hidden Templates</h4>";
-								foreach($this->admin_templates as $template) {
-				?>
-				<div style="margin:5px;float:left;text-align:center;width:200px;">
-					<input class="template" type="radio" name="screen[template]" style="vertical-align:middle"  value="<?= $template->id ?>"<?php if($screen->template_id==$template->id) echo ' checked'; ?>>
-						<a href="<?=ADMIN_URL.'/templates/preview/'.$template->id.'?width=800&height='.$t_largeheight ?>" class="t-preview"><img style="vertical-align:middle; margin:10px;" src="<?=ADMIN_URL.'/templates/preview/'.$template->id.'?width=150&height='.$t_height ?>" width="150" height="<?= $t_height ?>" alt="<?= $template->name ?>"/></a>
-						<p style="color:#333;"><b><?= $template->name ?></b><br />
-						<? if(strlen($template->creator) > 0){ echo "Created by: $template->creator <br />"; } ?>
-						<? if(strtotime($template->modified) > 0){echo "Last Updated: " . date("M j, Y", strtotime($template->modified));} ?>
-						</p>
-					</input>
-				</div></div>
-	<?php   } }?>
-			</td>
-		</tr>
- 	</table>
+	  <tr>
+	    <td>
+	      <h5>Screen Template</h5>
+	      <p>Click on a thumbnail for a larger view.  Click on a category name to expand more templates.</p>
+	      <br />
+	      <?php
+	       $t_height = round(150*$screen->height/$screen->width);
+	       $t_largeheight = round(800*$screen->height/$screen->width);
+	       //Normal templates, visible by default
+	       if(is_array($this->avail_templates)) { ?>
+	         <div style="clear: both;">
+	           <h4 style='color:#333;margin-bottom:12px;padding-bottom:6px;border-bottom:solid 1px #ccc;'><a href="#" onclick='$("#normal_templates").toggle();return false;'>Normal Templates</a> - Designed to fit your screen best</h4>
+	           <div id='normal_templates'>
+		    <? foreach($this->avail_templates as $template) { ?>
+	             <div style="margin:5px;float:left;text-align:center;width:200px;">
+	               <input class="template" type="radio" name="screen[template]" style="vertical-align:middle"  value="<?= $template->id ?>"<?php if($screen->template_id==$template->id) echo ' checked'; ?>>
+	                 <a href="<?=ADMIN_URL.'/templates/preview/'.$template->id.'?width=800&height='.$t_largeheight ?>" class="t-preview"><img style="vertical-align:middle; margin:10px;" src="<?=ADMIN_URL.'/templates/preview/'.$template->id.'?width=150&height='.$t_height ?>" width="150" height="<?= $t_height ?>" alt="<?= $template->name ?>"/></a>
+	                 <p style="color:#333;"><b><?= $template->name ?></b><br />
+	                   <? if(strlen($template->creator) > 0){ echo "Created by: $template->creator <br />"; } ?>
+	                   <? if(strtotime($template->modified) > 0){echo "Last Updated: " . date("M j, Y", strtotime($template->modified));} ?>
+	                 </p>
+	               </input>
+	             </div>
+	           <?php } ?>
+	           </div>
+	         </div>
+	       <?php }
+	       if(is_array($this->other_templates)) { ?>
+	         <div style="clear: both;">
+	           <h4 style='color:#333;margin-bottom:12px;padding-bottom:6px;border-bottom:solid 1px #ccc;'><a href="#" onclick='$("#other_templates").toggle();return false;'>Other Templates</a> - Might look skewed or stretched on your screen</h4>
+	           <div id='other_templates' style='display: none;'>
+		    <? foreach($this->other_templates as $template) { ?>
+	             <div style="margin:5px;float:left;text-align:center;width:200px;">
+	               <input class="template" type="radio" name="screen[template]" style="vertical-align:middle"  value="<?= $template->id ?>"<?php if($screen->template_id==$template->id) echo ' checked'; ?>>
+	                 <a href="<?=ADMIN_URL.'/templates/preview/'.$template->id.'?width=800&height='.$t_largeheight ?>" class="t-preview"><img style="vertical-align:middle; margin:10px;" src="<?=ADMIN_URL.'/templates/preview/'.$template->id.'?width=150&height='.$t_height ?>" width="150" height="<?= $t_height ?>" alt="<?= $template->name ?>"/></a>
+	                 <p style="color:#333;"><b><?= $template->name ?></b><br />
+	                   <? if(strlen($template->creator) > 0){ echo "Created by: $template->creator <br />"; } ?>
+	                   <? if(strtotime($template->modified) > 0){echo "Last Updated: " . date("M j, Y", strtotime($template->modified));} ?>
+	                 </p>
+	               </input>
+	             </div>
+	           <?php } ?>
+	           </div>
+	         </div>
+	       <?php }
+	       if(isAdmin() && is_array($this->admin_templates)) { ?>
+	         <div style="clear: both;">
+	           <h4 style='color:#333;margin-bottom:12px;padding-bottom:6px;border-bottom:solid 1px #ccc;'><a href="#" onclick='$("#admin_templates").toggle();return false;'>Admin-Only Templates</a> - For admin access only!</h4>
+	           <div id='admin_templates' style='display: none;'>
+		    <? foreach($this->admin_templates as $template) { ?>
+	             <div style="margin:5px;float:left;text-align:center;width:200px;">
+	               <input class="template" type="radio" name="screen[template]" style="vertical-align:middle"  value="<?= $template->id ?>"<?php if($screen->template_id==$template->id) echo ' checked'; ?>>
+	                 <a href="<?=ADMIN_URL.'/templates/preview/'.$template->id.'?width=800&height='.$t_largeheight ?>" class="t-preview"><img style="vertical-align:middle; margin:10px;" src="<?=ADMIN_URL.'/templates/preview/'.$template->id.'?width=150&height='.$t_height ?>" width="150" height="<?= $t_height ?>" alt="<?= $template->name ?>"/></a>
+	                 <p style="color:#333;"><b><?= $template->name ?></b><br />
+	                   <? if(strlen($template->creator) > 0){ echo "Created by: $template->creator <br />"; } ?>
+	                   <? if(strtotime($template->modified) > 0){echo "Last Updated: " . date("M j, Y", strtotime($template->modified));} ?>
+	                 </p>
+	               </input>
+	             </div>
+	           <?php } ?>
+	           </div>
+	         </div>
+	       <?php } ?>
+
+	    </td>
+	  </tr>
+	</table>
 </div>
 <br clear="all" />
 <!-- End Screen Form General Section -->
