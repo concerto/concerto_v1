@@ -9,23 +9,31 @@ var height = 190;
 
 
 $(document).ready(function(){
-	$.getJSON("..admin/includes/tickerjson.php", {cache: false}, function(json) {
-		$.each(json, function(offset) {
-			ticker.push(this.content);
+	$.getJSON("frontpage/miniscreen", {cache: false}, function(json) {
+		$.each(json['ticker'], function(offset) {
+			ticker.push(this);
 		});
+		$.each(json['text'], function(offset) {
+			text.push(this);
+		});
+		$.each(json['graphics'], function(offset) {
+			graphic.push(this);
+			});
+		changetext();
+		changegraphic();
 		changeticker();
 	});
 
-
-	$.getJSON("..admin/includes/textjson.php", {cache: false}, function(json) {
-		$.each(json, function(offset) {
-			text.push(this.content);
+/*
+	$.getJSON("frontpage/miniscreen", {cache: false}, function(json) {
+		$.each(json['text'], function(offset) {
+			text.push(this);
 		});
 		changetext();
 	});
 
 
-	$.getJSON("..admin/includes/feedjson_fpnew.php", {cache: false}, function(json) {
+	$.getJSON("frontpage/mini", {cache: false}, function(json) {
 		$.each(json, function(offset) {
 			graphic.push(this.content);
 		});
@@ -33,9 +41,11 @@ $(document).ready(function(){
 	});
 
 });
-
+*/
 function changegraphic() {	
 	var imgSrc = graphic[graphiccurrent] + "&width=" + width + "&height=" + height;
+	var imgSrc = (document.location.href) +  + imgSrc
+	console.log(imgSrc);
 	$(".fp-exposed").attr('src',"").fadeOut("slow", function(){
 		$(".fp-exposed").attr('border',1).attr('src',imgSrc).fadeIn("slow");
 		if(++graphiccurrent >= graphic.length){
@@ -47,7 +57,7 @@ function changegraphic() {
 
 function changetime(){
 	$.ajax({
-		url: "../admin/includes/time.php",
+		url: "/admin/includes/time.php",
 		cache: false,
 		success: function(html){
 			$("#scr-timedate").html(html);
@@ -59,7 +69,7 @@ function changetext(){
 	if(textcurrent >= text.length){
 		textcurrent = 0;
 	}
- 	tex = text[textcurrent];
+ 	tex = text[textcurrent].toString();
 	textcurrent++;
 	$("#scr-text").html(tex);
 	setTimeout(changetext,15000);
@@ -69,13 +79,12 @@ function changeticker(){
 		changetime();
 		tickercurrent = 0;
 	}
-	tick = ticker[tickercurrent];
-	if(tick.length > 98){
-		tick = tick.substring(0,100)
-		tick = tick + "...";
-	}
+	//tick = ticker;
+	console.log(tickercurrent);
+	tick = ticker[tickercurrent].toString();
+	
 	tickercurrent++;
 	$("#scr-ticker").html(tick);
 	setTimeout(changeticker,8000);
 }
-
+});
