@@ -4,7 +4,7 @@ $output = Array();
 
 if(is_array($this->graphics)){
   foreach($this->graphics as $graphic){
-    $output['graphics'][] = $graphic->id;
+    $output['graphics'][] = ADMIN_URL . '/content/image/' . $graphic->id;
   }
 }
 if(is_array($this->text)){
