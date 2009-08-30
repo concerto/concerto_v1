@@ -55,14 +55,32 @@ function changegraphic() {
 }
 
 function changetime(){
-	$.ajax({
-		url: "/admin/includes/time.php",
-		cache: false,
-		success: function(html){
-			$("#scr-timedate").html(html);
-		}
-	});
+			$("#scr-timedate").html(currenttime());
 }
+
+function zeropad(number){
+  if(number < 10){ return "0" + number; }
+  return number;
+}
+function currenttime(){
+  var currentDate = new Date();
+  var day = zeropad(currentDate.getDate());
+  var month = zeropad(currentDate.getMonth());
+  var hours = currentDate.getHours();
+  if(hours > 12){
+    post = "PM";
+    hours = hours - 12;
+  } else if(hours == 12) {
+    post = "PM";
+  } else {
+    post = "AM";
+  }
+  hours = zeropad(hours);
+  var minutes = zeropad(currentDate.getMinutes());
+  var days=["Sun","Mon","Tue","Wed","Thu","Fri","Sat","Sun"]  
+  return days[currentDate.getDay()] + " " + month + "/" + day + " " + hours + ":" + minutes + " " +  post;
+}
+
 
 function changetext(){
 	if(textcurrent >= text.length){
