@@ -7,7 +7,7 @@
     <div class="UIWall_thumb">
       <a class="overlayTrigger" href="<?= ADMIN_URL ?>/wall/ext/<?= $this->feed->id ?>/<?= $content->id ?>" rel="#oz">
         <div class="UIWall_wrapper">
-          <img src="<?= ADMIN_URL ?>/content/image/<?= $content->id ?>?width=200&height=150" alt="<?= $content->name ?>" />
+          <img class="UIWall_image" src="<?= ADMIN_URL ?>/content/image/<?= $content->id ?>?width=200&height=150" alt="<?= $content->name ?>" />
         </div>
       </a>
     </div>

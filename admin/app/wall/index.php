@@ -33,7 +33,6 @@ $(function() {
 	window.openOverlay = function() {
 		api.load();
 	}
-
 });
 
 function loadFeed(id, feedname) {
@@ -43,7 +42,13 @@ function loadFeed(id, feedname) {
 		success: function(data){
 				$('#wall_feed_insert').empty();
 				var response = $(data).find('#feedgrid').html();  //Grab the div from the ajax request
-				$('#wall_feed_insert').hide().html(data).fadeIn();  //fade it into the div on this page
+				$('#wall_feed_insert').html(data);  //hide it and load some HTML
+				$('.UIWall_image').each(function (i) {
+					$(this).hide();
+					$(this).load(function(){
+					  $(this).fadeIn();
+					});
+				});
 		}
 	});
 	$("#feedsel_title").empty();
@@ -78,7 +83,6 @@ $(document).ready(function() {
 		});
 		e.preventDefault();
 	});
-	
 });
 </script>
 
