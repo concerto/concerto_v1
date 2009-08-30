@@ -43,9 +43,8 @@ $(document).ready(function(){
 });
 */
 function changegraphic() {	
-	var imgSrc = graphic[graphiccurrent] + "&width=" + width + "&height=" + height;
-	var imgSrc = (document.location.href) +  + imgSrc
-	console.log(imgSrc);
+	
+	var imgSrc = graphic[graphiccurrent].toString() +"?" + "height=" + height + "&width=" + width;
 	$(".fp-exposed").attr('src',"").fadeOut("slow", function(){
 		$(".fp-exposed").attr('border',1).attr('src',imgSrc).fadeIn("slow");
 		if(++graphiccurrent >= graphic.length){
@@ -80,7 +79,6 @@ function changeticker(){
 		tickercurrent = 0;
 	}
 	//tick = ticker;
-	console.log(tickercurrent);
 	tick = ticker[tickercurrent].toString();
 	
 	tickercurrent++;
