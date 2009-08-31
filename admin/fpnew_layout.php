@@ -45,7 +45,6 @@
 <script defer type="text/javascript" src="<?=ADMIN_BASE_URL?>js/pngfix.js"></script>
 <![endif]-->
 
-<!--<script type="text/javascript" src="<?//=ADMIN_BASE_URL?>js/jquery.js"></script>-->
 <script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/jquery-1.3.2.min.js"></script>
 <script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/ui.lightbox.js"></script>
 <script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/ui.tablesort.js"></script>
