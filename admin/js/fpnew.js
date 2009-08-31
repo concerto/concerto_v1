@@ -7,16 +7,15 @@ var graphiccurrent = 0;
 var width = 255;
 var height = 190;
 
-
 $(document).ready(function(){
-	$.getJSON("frontpage/miniscreen", {cache: false}, function(json) {
-		$.each(json['ticker'], function(offset) {
+	$.getJSON("frontpage/miniscreen", function(json) {
+		$.each(json['ticker'], function() {
 			ticker.push(this);
 		});
-		$.each(json['text'], function(offset) {
+		$.each(json['text'], function() {
 			text.push(this);
 		});
-		$.each(json['graphics'], function(offset) {
+		$.each(json['graphics'], function() {
 			graphic.push(this);
 		});
 		changetext();
@@ -46,6 +45,7 @@ function zeropad(number){
   if(number < 10){ return "0" + number; }
   return number;
 }
+
 function currenttime(){
   var currentDate = new Date();
   var day = zeropad(currentDate.getDate());
@@ -74,14 +74,13 @@ function changetext(){
 	$("#scr-text").html(tex);
 	setTimeout(changetext,15000);
 }
+
 function changeticker(){
 	if(tickercurrent >= ticker.length){
 		tickercurrent = 0;
 	}
 	tick = ticker[tickercurrent].toString();
-
 	changetime();
-
 	tickercurrent++;
 	$("#scr-ticker").html(tick);
 	setTimeout(changeticker,8000);
