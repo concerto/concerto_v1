@@ -231,15 +231,16 @@ class frontpageController extends Controller
 
      $this->graphics = Content::get_all('LEFT JOIN feed_content ON content.id = feed_content.content_id ' . 
                                         'LEFT JOIN feed ON feed_content.feed_id = feed.id ' .
-                                        'WHERE feed_content.moderation_flag = 1 AND content.type_id = 3 AND content.start_time < NOW() AND content.end_time > NOW() AND content.mime_type LIKE "%image%" ' .
+                                        'WHERE feed_content.moderation_flag = 1 AND content.type_id = 3 '. 
+                                        'AND feed.type != 3 AND content.start_time < NOW() AND content.end_time > NOW() AND content.mime_type LIKE "%image%" ' .
                                         'ORDER BY RAND()');
      $this->ticker = Content::get_all('LEFT JOIN feed_content ON content.id = feed_content.content_id ' .
                                       'LEFT JOIN feed ON feed_content.feed_id = feed.id ' .
-                                      'WHERE feed_content.moderation_flag = 1 AND content.type_id = 2 AND content.start_time < NOW() AND content.end_time > NOW() ' .
+                                      'WHERE feed_content.moderation_flag = 1 AND content.type_id = 2 AND feed.type != 3 AND content.start_time < NOW() AND content.end_time > NOW() ' .
                                       'ORDER BY RAND()');
      $this->text = Content::get_all('LEFT JOIN feed_content ON content.id = feed_content.content_id ' .
                                     'LEFT JOIN feed ON feed_content.feed_id = feed.id ' .
-                                    'WHERE feed_content.moderation_flag = 1 AND content.type_id = 1 AND content.start_time < NOW() AND content.end_time > NOW() ' .
+                                    'WHERE feed_content.moderation_flag = 1 AND content.type_id = 1 AND feed.type != 3 AND content.start_time < NOW() AND content.end_time > NOW() ' .
                                     'ORDER BY RAND()');
   
   }

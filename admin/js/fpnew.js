@@ -18,35 +18,19 @@ $(document).ready(function(){
 		});
 		$.each(json['graphics'], function(offset) {
 			graphic.push(this);
-			});
+		});
 		changetext();
 		changegraphic();
 		changeticker();
 	});
-
-/*
-	$.getJSON("frontpage/miniscreen", {cache: false}, function(json) {
-		$.each(json['text'], function(offset) {
-			text.push(this);
-		});
-		changetext();
-	});
-
-
-	$.getJSON("frontpage/mini", {cache: false}, function(json) {
-		$.each(json, function(offset) {
-			graphic.push(this.content);
-		});
-		changegraphic();
-	});
-
 });
-*/
+
 function changegraphic() {	
-	
 	var imgSrc = graphic[graphiccurrent].toString() +"?" + "height=" + height + "&width=" + width;
-	$(".fp-exposed").attr('src',"").fadeOut("slow", function(){
-		$(".fp-exposed").attr('border',1).attr('src',imgSrc).fadeIn("slow");
+	$(".fp-exposed").fadeOut("slow", function(){
+		$(".fp-exposed").attr('border',1).attr('src',imgSrc).load(function () {
+			$(this).fadeIn("slow");
+		});
 		if(++graphiccurrent >= graphic.length){
 			graphiccurrent = 0;
 		}
@@ -55,7 +39,7 @@ function changegraphic() {
 }
 
 function changetime(){
-			$("#scr-timedate").html(currenttime());
+	$("#scr-timedate").html(currenttime());
 }
 
 function zeropad(number){
@@ -81,7 +65,6 @@ function currenttime(){
   return days[currentDate.getDay()] + " " + month + "/" + day + " " + hours + ":" + minutes + " " +  post;
 }
 
-
 function changetext(){
 	if(textcurrent >= text.length){
 		textcurrent = 0;
@@ -93,14 +76,13 @@ function changetext(){
 }
 function changeticker(){
 	if(tickercurrent >= ticker.length){
-		changetime();
 		tickercurrent = 0;
 	}
-	//tick = ticker;
 	tick = ticker[tickercurrent].toString();
-	
+
+	changetime();
+
 	tickercurrent++;
 	$("#scr-ticker").html(tick);
 	setTimeout(changeticker,8000);
 }
-});
