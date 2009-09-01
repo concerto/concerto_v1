@@ -30,9 +30,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <title><?php echo join(' - ',array('Concerto Panel', $this->getTitle()));?></title>
 <link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/wall.css" />
+<link type="text/css" href="http://jqueryui.com/latest/themes/base/ui.all.css" rel="stylesheet" />
 
 <script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/jquery-1.3.2.min.js"></script>
 <script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/jquery.tools.min.js"></script>
+<script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/ui.progressbar-custom.min.js"></script>
 
 <meta name="application-name" content="Concerto"/>
 <meta name="description" content="RPI Digital Signage for Everyone."/>

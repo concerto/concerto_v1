@@ -71,7 +71,7 @@ a:hover { color:#666; text-decoration:underline; }
 #content_header h2 a:hover { text-decoration:underline; }
 #left_bg { float:left;width:200px; }
 
-#menuframe { color:#FFF;left:20px;position:absolute;z-index:999;top:0;width:138px; }
+#menuframe { color:#FFF;left:20px;position:absolute;z-index:40;top:0;width:138px; }
 div.logo_box, div.menu_box_content { border-left:solid 1px #FFF;border-right:solid 1px #FFF;border-bottom:solid 1px #FFF;border-top:0;margin-bottom:2px; }
 div.logo_box { border:0px !important; }
 div.logo_box_padding { background:#069 url(../images/logobox_bg.gif) top center repeat-y; }

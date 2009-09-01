@@ -12,9 +12,10 @@ $(document).ready(function(){
 		$.each(json['ticker'], function() {
 			ticker.push(this);
 		});
+        alert("Grundle...");
 		$.each(json['text'], function() {
 			text.push(this);
-		});
+        });
 		$.each(json['graphics'], function() {
 			graphic.push(this);
 		});

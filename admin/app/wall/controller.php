@@ -39,6 +39,15 @@ class  wallController extends Controller
       $this->feeds = Feed::list_all_by_type('WHERE feed.type != 3 AND type.id = 3 
                                              AND feed_content.moderation_flag = 1
                                              AND content.start_time <= NOW() AND content.end_time >= NOW() AND content.mime_type LIKE "%image%"');
+      $this->content_count = array();
+      foreach($this->feeds as $id => $feed){
+          $sql = "SELECT COUNT(content.id) FROM feed_content
+                LEFT JOIN content ON feed_content.content_id = content.id
+                WHERE feed_content.feed_id = {$id} AND feed_content.moderation_flag = 1
+                AND content.start_time <= NOW() AND content.end_time >= NOW() AND content.mime_type LIKE '%image%'
+                GROUP BY feed_content.feed_id";
+          $this->feeds[$id]['count'] = sql_query1($sql);
+      }
     }
     
     function extAction() 
@@ -48,6 +57,8 @@ class  wallController extends Controller
       }
       $this->feed = new Feed($this->args[1]);
       $this->content = new Content($this->args[2]);
+      $this->submitter = new User($this->content->user_id);
+      $this->week_range = date('W',strtotime($this->content->end_time)) - date('W',strtotime($this->content->start_time));
       //Permissions are currently handled in the view to account for both ajax and non-ajax queries.
     }
     

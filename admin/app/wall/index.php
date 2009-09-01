@@ -27,6 +27,7 @@
 
 <script type="text/javascript">
 $(function() {
+	
 	var api = $("#overlay").overlay({api:true});
 
 	// define function that opens the overlay
@@ -41,13 +42,30 @@ function loadFeed(id, feedname) {
 		url: "<?= ADMIN_BASE_URL ?>/wall/feedgrid/"+id+"?ajax=1",
 		success: function(data){
 				$('#wall_feed_insert').empty();
+				$("#progressbar").progressbar({ value: 0 });
+				
 				var response = $(data).find('#feedgrid').html();  //Grab the div from the ajax request
 				$('#wall_feed_insert').html(data);  //hide it and load some HTML
+                if ($('.UIWall_image').size() <= 1)
+                	total = 1;
+                else
+                	total = $('.UIWall_image').size() - 1;
+                count = 0;
 				$('.UIWall_image').each(function (i) {
-					$(this).hide();
-					$(this).load(function(){
-					  $(this).fadeIn();
-					});
+                        $(this).hide();
+                        $('#progressbar').show();
+                        $(this).load(function() {
+                                $(this).parent().css("margin-top", ($(this).parents('.UIWall_thumb').height() - $(this).height()) / 2);
+                                $(this).parent().css("margin-left", ($(this).parents('.UIWall_thumb').width() - $(this).width()) / 2);
+                                
+                                count = count + 1;
+                                $('#progressbar').progressbar('option', 'value', (count / total) * 100);
+                                
+                                if (count == total) {
+                                    $('.UIWall_image').fadeIn();
+                                    $('#progressbar').hide();
+                                }
+                            });
 				});
 		}
 	});
@@ -97,7 +115,7 @@ $(document).ready(function() {
               $name = substr($name, 0, 26) . '...';
             }
           ?>
-            <div class="UIWall_feedbutton"><a href="<?= ADMIN_BASE_URL ?>/wall/feedgrid/<?= $id ?>" onclick="loadFeed(<?= $id ?>, '<?= $name ?>'); return false;" alt="" /><?= $name ?></a></div
+            <div class="UIWall_feedbutton" style="position:relative;"><a href="<?= ADMIN_BASE_URL ?>/wall/feedgrid/<?= $id ?>" onclick="loadFeed(<?= $id ?>, '<?= $name ?>'); return false;" alt="" /><div class="UIWall_contentnum"><?= $feed['count'] ?></div><?= $name ?></a></div
           <? } ?>
             <div style="clear:both;"></div>
         </div>
@@ -122,6 +140,8 @@ $(document).ready(function() {
 
 
 <div id="wall_feed_insert">&nbsp;</div>
+
+<div id="progressbar"></div>
 
 <div id="overlay" class="overlay">
   <div id="wrap"></div>
