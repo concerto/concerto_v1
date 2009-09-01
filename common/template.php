@@ -300,8 +300,11 @@ class Template{
         }
 
       $ratio = $width / $height;
-      $new_ratio = $new_width / $new_height;
-
+      if($new_height > 0){
+        $new_ratio = $new_width / $new_height;
+      } else {
+        $new_ratio = 0;
+      }
       if(!$strict_size){
         if($ratio < $new_ratio) {
           $new_height = $new_height;
