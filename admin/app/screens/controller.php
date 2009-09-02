@@ -87,15 +87,14 @@ class screensController extends Controller
       $this->setSubject($this->screen->name);
       
       $this->avail_templates = Template::get_all("WHERE hidden = 0 AND width / height = {$this->screen->width} /{$this->screen->height}");
+      $this->other_templates = Template::get_all("WHERE hidden = 0 AND width / height != {$this->screen->width} /{$this->screen->height}");
       if(!is_array($this->avail_templates)){
         $this->avail_templates = Template::get_all("WHERE hidden = 0"); //The screen doesn't match the aspect ratio of any of the templates
+        $this->other_templates = false;
       }
       //Admins have access to hidden tempates
       if(isAdmin()) {
-        $this->admin_templates = Template::get_all("WHERE hidden = 1 AND width / height = {$this->screen->width} /{$this->screen->height}");
-        if(!is_array($this->admin_templates)){
-          $this->admin_templates = Template::get_all("WHERE hidden = 1");
-        }
+        $this->admin_templates = Template::get_all("WHERE hidden = 1");
       }
    }
 
