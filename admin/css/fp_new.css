@@ -32,8 +32,9 @@
 */
 #main { position:relative; }
 #fp_stripe { background:#FFF url(../images/fp/fp_stripe_bg.png) top left repeat-x; position:absolute; z-index:1; top:190px; left:0px; width:100%; height:161px; }
-#fp_stripe h1 { background:url(../images/fp/fp_stripe_h1.png) center left no-repeat; font-size:2.2em; margin:0px; padding-left:30px; }
-#fp_stripe h2 { font-size:1.2em; color:#666; font-weight:normal; margin:4px 0px; padding-left:36px; }
+#fp_stripe h1 { font-family:"Gill Sans", Verdana, sans-serif; background:url(../images/fp/fp_stripe_h1.png) center left no-repeat; font-size:2.4em; margin:0px; padding-left:30px; }
+#fp_stripe h1 a { font-weight:normal !important; }
+#fp_stripe h2 { font-family:"Gill Sans", Verdana, sans-serif; font-size:1.4em; color:#666; font-weight:normal; margin:4px 0px; padding-left:36px; }
 #fp_stripe h3 { padding-left:36px; font-size:1.1em; }
 #fp_stripe h1 a { color:#333; }
 #fp_stripe_padding { padding:15px 0px 15px 740px; }
@@ -43,8 +44,5 @@
 #scr-graphics { z-index:4; position:absolute; width:255px; height:190px; top:15px; left:18px; }
 
 #scr-timedate { overflow : hidden;  z-index:4; position:absolute; width:66px; height:30px; bottom:3px; left:5px; color: rgb(204,204,204) ! important; font-family: Frobisher,Arial,sans-serif; font-weight: bold ! important; letter-spacing: 0.12em ! important; font-size: 9.32px; }
-#scr-text {	z-index:4; position:absolute; width:144px; height:171px; right:7px; top:12px; color:#FFF;font-family: Frobisher,Arial,sans-serif;font-size: 6px; overflow: hidden;}
+#scr-text {	z-index:4; position:absolute; width:144px; height:215px; right:7px; top:12px; color:#FFF;font-family: Frobisher,Arial,sans-serif;font-size: 5.5px; overflow: hidden;}
 #scr-ticker { z-index:4; position:absolute; width:360px; height:30px; bottom:3px; right:7px; color:#FFF;overflow: hidden;font-family: Frobisher,Arial,sans-serif; font-weight: bold ! important; font-size: 10.5px; }
-
-
-

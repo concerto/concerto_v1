@@ -49,15 +49,15 @@
 		<div id="fp_stripe_padding">
 			<h1><a href="<?= ADMIN_URL ?>/wall/">View More Live Content</a></h1>
 			<h2>on the Concerto Wall</h2>
-			<h3><a href="http://concerto-signage.com">Learn More About Concerto</a></h3>
+			<h3><a href="http://concerto.rpi.edu/screensaver">Get Concerto Screensaver</a></h3>
 		</div>
 	</div>
 	<div id="fp_display"><img src="<?= ADMIN_BASE_URL ?>/images/fp/fp_display.png" alt="" /></div>
 	<div id="screen_overlay">
 		<div id="scr-graphics" align="center"><img class="fp-exposed" src=""></div>
 		<div id="scr-timedate"><?=date('D m/d h:i a')?></div>
-		<div id="scr-text"></div>
-		<div id="scr-ticker">&nbsp;</div>
+		<div id="scr-text"><h1>Union Events Calendar</h1><h2>Register for Sorority Recruitment</h2><h3>Mon, August 24, 2009 4:00 PM - September 7, 2009, 4:00 PM CII</h3><h2>Student Senate Meetings</h2><h3>Tue, September 1, 2009 4:30 PM - 6:30 PM Rensselaer Union Room 3202</h3><h2>Finance, Facilities, & Advancement  (Student Senate)</h2><h3>Wed, September 2, 2009 9:00 PM - 10:00 PM Rensselaer Union Room 3606 (Shelnutt Gallery)</h3></div>
+		<div id="scr-ticker">Welcome to Concerto!</div>
 	</div>
 	<div id="maincontent" class="fp_maincontent">
 		<?php renderMessages() ?>

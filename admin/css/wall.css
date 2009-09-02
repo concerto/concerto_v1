@@ -50,7 +50,7 @@ body{font-family:"Lucida Grande", Verdana, Arial, sans-serif;background:#2B2B2B 
 #UIWall_pulldown a div { display:inline; }
 #UIWall_pulldown h1 { color:#FFF; font-weight:normal; font-size:0.7em; text-shadow: 0px 1px 1px #111; margin:0px; padding:7px 0px 3px 0px; }
 #UIWall_pulldown a:hover h1 { text-decoration:underline; }
-div.UIWall_contentnum { color:#FFF; position:absolute; z-index:99999; text-align:center; width:30px; right:9px; top:17px; }
+div.UIWall_contentnum { color:#FFF; position:absolute; z-index:99999; text-align:center; width:30px; right:8px; top:17px; }
 
 #wallthumbs{padding:30px 80px;}
 #wallthumbs a img{padding:3px;border:solid 1px #333;}
