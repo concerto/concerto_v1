@@ -99,6 +99,13 @@ if(!defined('APP_PATH')) {
 set_magic_quotes_runtime(0);
 
 //Enough setup... Let's get to work
+//Allow multi-domain setups to point to one single domain
+if(defined('PREFERRED_DOMAIN') && PREFERRED_DOMAIN != $_SERVER['HTTP_HOST']) {
+  header ('HTTP/1.1 301 Moved Permanently');
+  header ('Location: http://' . PREFERRED_DOMAIN . $_SERVER['REQUEST_URI']);
+  exit(0);
+}
+
 //parse request, go to default page if none requested
 if($_SERVER['PATH_INFO'] == '' || $_SERVER['PATH_INFO'] == '/') {
     $path_info = DEFAULT_PATH;
