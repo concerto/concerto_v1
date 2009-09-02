@@ -7,7 +7,7 @@ if(is_array($this->graphics) && count($this->graphics) > 0){
     $output['graphics'][] = ADMIN_URL . '/content/image/' . $graphic->id;
   }
 } else {
-  $output['graphics'][] = ADMIN_URL . '/PATH TO DEFAULT IMAGE';
+  $output['graphics'][] = ADMIN_BASE_URL . 'images/sample_content.jpg';
 }
 if(is_array($this->text) && count($this->text) > 0){
   foreach($this->text as $text){
