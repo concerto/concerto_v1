@@ -40,16 +40,26 @@ class frontpageController extends Controller
 
 	function indexAction()
 	{
-      $this->setTitle("Front Page");
-      if (isLoggedIn()) {
-         $this->dashboardAction();
-         $this->renderView('dashboard');
-      }
+          $this->setTitle("Front Page");
+
+          #When the frontpage controller is not handling the frontpage,
+          #i.e. the frontpage is a dynamic page, we will redirect to the
+          #top URL so that the framework can handle serving the frontpage.
+          #All dashboard references should go to frontpage/dashboard.
+          if(defined('DEFAULT_PATH') && DEFAULT_PATH != '/frontpage') {
+            redirect_to(ADMIN_URL);
+            exit(0);
+          }
+          if (isLoggedIn()) {
+             $this->dashboardAction();
+             $this->renderView('dashboard');
+          }
 	}
    
 	function dashboardAction()
 	{
-     $this->notifications = Newsfeed::get_for_user($_SESSION['user']->id);
+          $this->notifications = Newsfeed::get_for_user($_SESSION['user']->id);
+          $this->setTitle("Concerto Dashboard");
      $group_str = implode(',',$_SESSION['user']->groups);
      $this->setTitle("Dashboard");
      if(count($_SESSION['user']->groups) > 0){
