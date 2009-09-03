@@ -28,7 +28,8 @@ class frontpageController extends Controller
 	public $actionNames = Array( 'index'=> "Front page", 
                                 'admin'=>'Admin Utilities',
                                 'mailer' =>'Send Mail',
-                                'addtemplate' =>'Upload Template');
+                                'addtemplate' =>'Upload Template',
+                                'dashboard' => 'Dashboard');
 
    public $require = Array('check_login'=>Array('dashboard','login','logout'),
                            'require_login'=>Array('admin','login','dashboard','su','phpinfo','mailer','sendmail','addtemplate','createtemplate') );

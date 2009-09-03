@@ -56,6 +56,9 @@ function currenttime(){
     hours = hours - 12;
   } else if(hours == 12) {
     post = "PM";
+  } else if(hours == 0) {
+    post = "AM";
+    hours = 12;
   } else {
     post = "AM";
   }
