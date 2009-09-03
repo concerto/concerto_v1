@@ -23,14 +23,29 @@
  * @license      GPLv2, see www.gnu.org/licenses/gpl-2.0.html
  * @version      $Revision$
  */
-?><?php if(isAdmin()) { ?>
+?>
+
+<div class="roundcont">
+  <div class="roundtop"><span class="rt"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
+  <div class="roundcont_main">
+    <div style="float:left; width:65%;">
+    	<a href="<?= ADMIN_BASE_URL ?>/wall"><img border="0" src="<?= ADMIN_BASE_URL ?>/images/wall/wall-words.gif" alt="" /></a>
+    	<br /><br />
+    	<p><a href="<?= ADMIN_BASE_URL ?>/wall">Concerto Wall</a> is an interactive feature that allows you to view live graphical Concerto content.  Visit the Wall now to peruse live content in a completely new way!</p>
+    </div>
+    <div style="float:right; text-align:right; width:33%;"><a href="<?= ADMIN_BASE_URL ?>/wall"><img src="<?= ADMIN_BASE_URL ?>/images/wall/wall-announce.jpg" border="0" alt="" /></a></div>
+    <div style="clear:both;"></div>
+  </div>
+  <div class="roundbottom"><span class="rb"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
+</div>
+
+<?php if(isAdmin()) { ?>
 <a href="<?=ADMIN_URL.'/feeds/new' ?>"><span class="buttonsel"><div class="buttonleft"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_left.gif" border="0" alt="" /></div><div class="buttonmid"><div class="buttonmid_padding">New Feed</div></div><div class="buttonright"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_right.gif" border="0" alt="" /></div></span></a>
 <? } else { ?>
 <a href="<?=ADMIN_URL.'/feeds/request' ?>"><span class="buttonsel"><div class="buttonleft"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_left.gif" border="0" alt="" /></div><div class="buttonmid"><div class="buttonmid_padding">Request a Feed</div></div><div class="buttonright"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_right.gif" border="0" alt="" /></div></span></a>
 <? } ?>
 <div style="clear:both;height:6px;"></div>
-<br />
-<a href="<?=ADMIN_URL.'/wall' ?>"><img src="<?= ADMIN_BASE_URL ?>/images/wall/wall-announce.png" border="0" alt="" /></a>
+
 <?php
 $public_feed['key'] = 'public_feeds';
 $public_feed['name'] = 'Normal Feeds';
