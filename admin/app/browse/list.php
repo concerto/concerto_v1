@@ -91,4 +91,4 @@ foreach($this->feeds[$feed_key['key']] as $feed) {
 }
 ?>
 <div style="clear:left"></div><br/><br/>
-<h2>Would you like to see a feed for your campus organization? <a href="<?=ADMIN_URL.'/feeds/request' ?>">Request a feed</a> today!</h2>
+<h2>Would you like to see a feed for another category of content? <a href="<?=ADMIN_URL.'/feeds/request' ?>">Request a feed</a> today!</h2>
