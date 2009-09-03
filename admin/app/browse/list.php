@@ -29,6 +29,8 @@
 <a href="<?=ADMIN_URL.'/feeds/request' ?>"><span class="buttonsel"><div class="buttonleft"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_left.gif" border="0" alt="" /></div><div class="buttonmid"><div class="buttonmid_padding">Request a Feed</div></div><div class="buttonright"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_right.gif" border="0" alt="" /></div></span></a>
 <? } ?>
 <div style="clear:both;height:6px;"></div>
+<br />
+<a href="<?=ADMIN_URL.'/wall' ?>"><img src="<?= ADMIN_BASE_URL ?>/images/wall/wall-announce.png" border="0" alt="" /></a>
 <?php
 $public_feed['key'] = 'public_feeds';
 $public_feed['name'] = 'Normal Feeds';
@@ -89,4 +91,4 @@ foreach($this->feeds[$feed_key['key']] as $feed) {
 }
 ?>
 <div style="clear:left"></div><br/><br/>
-<h2>Would you like to see a feed for your campus organization? <a href="<?=ADMIN_URL.'/feeds/request' ?>">Request a feed</a> today!</h2>
+<h2>Would you like to see a feed for another category of content? <a href="<?=ADMIN_URL.'/feeds/request' ?>">Request a feed</a> today!</h2>

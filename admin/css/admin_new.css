@@ -39,28 +39,48 @@ a:hover { color:#666; text-decoration:underline; }
 
 #wrap {  }
 
-#header { background:#000;border-bottom:6px solid #ccc;clear:both;color:#ccc;font-size:85%;margin:0px;padding:0px;text-align:left; height:20px; }
+#header { background:#000;clear:both;color:#ccc;font-size:85%;margin:0px;padding:0px;text-align:left; /* height:20px; */ }
+.header-login { background:#000 url(../images/rpiseal_bg.gif) top right no-repeat !important; }
 #header_padding { padding:15px 0px 0px 0px; }
 #header h1 { color:#ccc;font-size:250%;font-weight:700; }
 #header a:link, #header a:visited { color:#ccc;text-decoration:none; }
-#header a:hover { color:#FFF;text-decoration:none;; }
+#header a:hover { color:#FFF;text-decoration:none; }
 
-#content_header { background:#FFF url(../images/content_header_bg.gif) bottom left repeat-x;padding-left:195px; }
-#content_header h1 { color:#000;margin:0px; padding:30px 0px 0px 0px; }
+/* Menu Tabs / Login Message */
+#tabs{border-bottom:4px solid #666;float:left; width:100%;min-height:18px;font-size:100%;line-height:normal;}
+#tabs-padding { padding-left:195px; }
+.tabs_bgimg { padding-right:200px !important; }
+#tabs h1 { font-size:1.7em !important; display:block; margin:12px 0px; margin-bottom:6px !important; }
+#tabs p { font-size:1.2em; display:block;margin:20px 0px; margin-top:0px !important; }
+#tabs ul{margin:0;padding:0 10px 0 0;list-style:none;}
+#tabs ul li{display:inline;margin:0;padding:0;}
+#tabs ul a{float:left;background:url("../images/tableftH.gif") no-repeat left top;margin:0;padding:0 0 0 4px;text-decoration:none;}
+#tabs ul a span{float:left;display:block;background:url("../images/tabrightH.gif") no-repeat right top;padding:5px 15px 4px 10px;color:#FFF;}
+/* Commented Backslash Hack hides rule from IE5-Mac \*/
+#tabs a span{float:none;}
+/* End IE5-Mac hack */
+#tabs a:hover span{color:#FFF;}
+#tabs ul a:hover{background-position:0 -42px;}
+#tabs ul a:hover span{background-position:100% -42px;}
+
+#main { background:#FFF url(../images/content_header_bg.gif) top left repeat-x; }
+#content_header { padding-left:195px; }
+#content_header h1 { color:#000;margin:0px; padding:16px 0px 0px 0px; }
 #content_header h2 { color:#333;font-weight:700;font-size:0.85em;margin:5px 0 0px 0px;padding:0px 0px 5px 0px; }
 #content_header h2 a { color:#069;text-decoration:none; }
 #content_header h2 a:hover { text-decoration:underline; }
 #left_bg { float:left;width:200px; }
 
-#menuframe { color:#FFF;left:20px;position:absolute;top:0;width:140px; }
-div.logo_box, div.menu_box_content { background:#069 url(../images/logobox_bottom.gif) bottom center no-repeat;border-left:solid 1px #FFF;border-right:solid 1px #FFF;border-bottom:solid 1px #FFF;border-top:0;margin-bottom:2px; }
+#menuframe { color:#FFF;left:20px;position:absolute;z-index:40;top:0;width:138px; }
+div.logo_box, div.menu_box_content { border-left:solid 1px #FFF;border-right:solid 1px #FFF;border-bottom:solid 1px #FFF;border-top:0;margin-bottom:2px; }
+div.logo_box { border:0px !important; }
+div.logo_box_padding { background:#069 url(../images/logobox_bg.gif) top center repeat-y; }
 
-div.menu_box { background:url(../images/menu_bg.gif) repeat;font-size:0.9em; border-left:solid 1px #FFF;border-right:solid 1px #FFF;border-bottom:solid 1px #FFF;border-top:0;margin-bottom:2px; text-align:center; }
+div.menu_box { font-size:0.9em; margin-bottom:2px; text-align:center; }
 div.menu_box a:link, div.menu_box a:visited, .menu_box_content a:visited { color:#FFF;text-decoration:none; }
 div.menu_box img { text-align:center; }
 div.menu_box a:hover, .menu_box_content a:hover { color:#ccc;text-decoration:underline; }
-div.menu_box_inset { background:url(../images/menubox_top.gif) top center no-repeat; }
-div.menu_box_padding { background:url(../images/menubox_bottom.gif) bottom center no-repeat; }
+div.menu_box_padding { background:url(../images/menubox_bg.gif) top center repeat-y; }
 
 div.alert_box { color:#006699; background:url(../images/alert_box.gif) repeat;font-size:0.8em; border-left:solid 1px #FFF;border-right:solid 1px #FFF;border-bottom:solid 1px #FFF;border-top:0; margin-bottom:2px; text-align:center; }
 div.alert_box p { color:#006699; padding:2px; font-weight:bold; }
@@ -80,7 +100,7 @@ div.menu_box h3, div.alert_box h3 { font-size:120%;margin:0 0 4px;padding:0; }
 div.menu_box h4 { font-size:0.9em; margin:8px 0px; padding:0px; }
 
 #maincontent_header { margin-left:185px; }
-#maincontent { background:#FFFFFF !important; margin:0px; padding:25px 25px 50px 195px; /*margin-left:195px;margin-bottom:50px;margin-right:25px; margin-top:25px; */text-align:left; }
+#maincontent { margin:0px; padding:25px 25px 50px 195px; /*margin-left:195px;margin-bottom:50px;margin-right:25px; margin-top:25px; */text-align:left; }
 #maincontent h1, #maincontent h1 a { font-size:1.1em; font-weight:bold; margin:0px 0px 8px 0px; padding:0px; }
 #maincontent h2 { color:#666666; font-size:1.1em; font-weight:bold; margin:0px 0px 20px 0px; padding:0px; }
 #maincontent h4.browseh { color:#333; font-size:1.5em; margin-bottom:0px;  }
@@ -239,3 +259,4 @@ div.stat { background:url(../images/alert_status.gif) center left no-repeat; }
 div.stat p { border-top:solid 4px green; color:green; background:#ccffcc; }
 div.info { background:url(../images/alert_info.gif) center left no-repeat; color:#006699; }
 div.info p { border-top:solid 4px #006699; color:#006699; background:url(../images/alert_box.gif) repeat; }
+
