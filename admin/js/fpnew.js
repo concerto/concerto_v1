@@ -8,7 +8,7 @@ var width = 255;
 var height = 190;
 
 $(document).ready(function(){
-	$.getJSON("../../frontpage/miniscreen", function(json) {
+	$.getJSON(ADMIN_URL + "frontpage/miniscreen", function(json) {
 		$.each(json['ticker'], function() {
 			ticker.push(this);
 		});
