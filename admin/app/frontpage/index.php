@@ -47,8 +47,8 @@
 	    <h1>Cool Stuff</h1>
 	    <ul>
 	    	<li><a href="http://www.concerto-signage.com">Global Concerto Website</a></li>
-                <li><a href="http://concerto.rpi.edu/admin/pages/show/docs/1">How to Design Good Content</a></li>
-	    	<li><a href="http://concerto.rpi.edu/admin/pages/show/docs/26">Terms of Use</a></li>
+                <li><a href="<?= ADMIN_URL ?>/pages/show/docs/1">How to Design Good Content</a></li>
+	    	<li><a href="<?= ADMIN_URL ?>/pages/show/docs/26">Terms of Use</a></li>
 	    </ul>
 	  </div>
 	  <div class="roundbottom"><span class="rb"><img src="<?= ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>

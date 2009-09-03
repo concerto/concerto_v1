@@ -27,7 +27,7 @@ include_once('../../config.inc.php');
 include_once(COMMON_DIR.'mysql.inc.php');
 include_once('render.php');
 
-$current_stable = '008';
+$current_stable = '009';
 
 //Routes you to the correct API Version
 if(isset($_REQUEST['api']) && is_numeric($_REQUEST['api'])){
