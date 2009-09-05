@@ -280,7 +280,7 @@ class frontpageController extends Controller
 
 	function loginAction()
 	{
-      redirect_to(ADMIN_URL."/frontpage");
+      redirect_to(ADMIN_URL."/frontpage/dashboard");
 	}
 
 	function logoutAction()
