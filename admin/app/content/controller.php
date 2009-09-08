@@ -74,8 +74,10 @@ class contentController extends Controller
                       'error');
          redirect_to(ADMIN_URL.'/content');
       }
-      $this->setTitle($this->content->name);
-      $this->setSubject($this->content->name);
+      //Decode the content name because it will be re-encoded downstream.
+      $this->setTitle(htmlspecialchars_decode($this->content->name));
+      $this->setSubject(htmlspecialchars_decode($this->content->name));
+
       $this->canEdit =$_SESSION['user']->can_write('content',$this->args[1]);
       $this->submitter = new User($this->content->user_id);
       $feeds = $this->content->list_feeds();
@@ -100,8 +102,9 @@ class contentController extends Controller
    function editAction()
    {
       $this->content = new Content($this->args[1]);
-      $this->setTitle("Editing Content: ".$this->content->name);
-      $this->setSubject($this->content->name);
+      //Decode the content name because it will be re-encoded downstream.
+      $this->setTitle("Editing Content: ".htmlspecialchars_decode($this->content->name));
+      $this->setSubject(htmlspecialchars_decode($this->content->name));
    }
    
    function newAction()

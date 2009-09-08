@@ -36,7 +36,7 @@
   <td class="edit_col">
     <textarea name="content[content]" id="content" rows="3" cols="40"></textarea>
     <input name="content[upload_type]" value="text" type="hidden" />
-    <p id="content_count" class="content_msg">Please limit your ticker text to <?= TICKER_LIMIT ?> characters.</p>
+    <p id="content_count" class="content_msg">Please limit your ticker to <?= TICKER_LIMIT ?> characters of plain text.</p>
   </td>
   </tr>
 </table>
