@@ -25,6 +25,7 @@
 <script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/ui.tablesort.js"></script>
 <script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/ui.jquery.js"></script>
 <script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/fpnew.js"></script>
+
 <meta name="application-name" content="Concerto"/>
 <meta name="description" content="RPI Digital Signage for Everyone."/>
 <meta name="application-url" content="http://<?=$_SERVER['SERVER_NAME'] . ADMIN_URL?>"/>
