@@ -76,5 +76,10 @@ div.overlay div.close{background-image:url(../images/wall/close.png);position:ab
 #bottomstrip a:hover { color:#FFF; text-decoration: underline; }
 #bottomstrip-padding { padding:3px 12px; }
 
+/* Progressbar
+----------------------------------*/
+.ui-progressbar { height:2em; text-align: left; }
+.ui-progressbar .ui-progressbar-value {margin: -1px; height:100%; }
+
 #progressbar { position:absolute; z-index:9999999; top:10px; left:10px; margin:0 auto; width:20%; }
 .ui-progressbar { height:0.5em !important; }
