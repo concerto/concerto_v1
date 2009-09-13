@@ -94,7 +94,7 @@ if(is_array($this->menu_links))
   <div id="footer">
     <div id="footer_padding">
       <p>Copyright &copy; 2009 Rensselaer Polytechnic Institute (Student Senate Web Technologies Group)</p>
-      <p><a href="<?= ADMIN_URL ?>">Control Panel</a> | <a href="http://webtech.union.rpi.edu/">Web Tech Group</a> | Contact Support: <a href="mailto:<?= SYSTEM_EMAIL ?>"><?= SYSTEM_EMAIL ?></a></p>
+      <p><a href="<?= ADMIN_URL ?>">Control Panel</a> | <a href="http://webtech.union.rpi.edu/">Web Tech Group</a> | <a href="http://webtech.union.rpi.edu/ticket">Submit Help Ticket</a></p>
     </div>
   </div>
 <?php if(defined('GA_TRACKING') && GA_TRACKING) { ?>
