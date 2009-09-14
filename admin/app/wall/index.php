@@ -117,7 +117,7 @@ $(document).ready(function() {
           ?>
              <div class="UIWall_feedbutton" style="position:relative;"><a href="<?= ADMIN_BASE_URL ?>/wall/feedgrid/<?= $id ?>" onclick="loadFeed(<?= $id ?>, '<?= $name ?>'); return false;" title="<?= $name ?>"><div class="UIWall_contentnum"><?= $feed['count'] ?></div><?= $name ?></a></div>
           <? } ?>
-            <div style="clear:both;"></div>
+            <br clear="both" />
         </div>
     </div>
     <div id="UIWall_pulldown_container">

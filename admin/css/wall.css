@@ -42,9 +42,9 @@ body{font-family:"Lucida Grande", Verdana, Arial, sans-serif;background:#2B2B2B 
 #panel div.UIWall_feedbutton a { color:#FFF; text-shadow: 0px 1px 1px #111; width:218px; height:16px; padding:17px 16px; background:url(../images/wall/feedbutton_inact.png) center center no-repeat; text-decoration:none; display:block; font-size:0.75em; font-weight:bold; }
 #panel div.UIWall_feedbutton a:hover { text-shadow: 0px 0px 2px #FFF; color:#000; background:url(../images/wall/feedbutton_act.png) center center no-repeat !important; }
 
-#UIWall_feedsel { background:url(../images/wall/feed_label.png) top left no-repeat; padding:45px 12px; }
-#UIWall_pulldown_container { z-index:5; text-align:center; width:100%; display:block; }
-#UIWall_pulldown { margin:0 auto; width:465px; background:url(../images/wall/pulldown_bg.png) top center no-repeat; padding:0px; text-align:center; }
+#UIWall_feedsel { background:url(../images/wall/feed_label.png) top left no-repeat; zoom:1; padding:45px 12px; }
+#UIWall_pulldown_container { z-index:5; text-align:center; width:100%; display:block; zoom:1; }
+#UIWall_pulldown { zoom:1; margin:0 auto; width:465px; background:url(../images/wall/pulldown_bg.png) top center no-repeat; padding:0px; text-align:center; }
 #UIWall_pulldown a { text-decoration:underline; color:#FFF; width:460px; }
 #UIWall_pulldown a img { border:0px; }
 #UIWall_pulldown a div { display:inline; }

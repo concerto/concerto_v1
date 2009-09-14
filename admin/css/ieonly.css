@@ -35,6 +35,6 @@ td.preview a img:hover { border:solid 2px #666; }
 
 div.alertmess { padding:12px 12px; }
 
-#maincontent, #main { zoom:1; }
+#maincontent, #main, #UIWall_feedsel, #UIWall_pulldown_container { zoom:1; }
 
 .roundcont_main h1:hover { text-decoration: none !important; }
