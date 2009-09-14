@@ -62,14 +62,18 @@ div.overlay a:hover img { border:solid 2px #09f; }
 div.overlay div.close{background-image:url(../images/wall/close.png);position:absolute;right:5px;top:5px;cursor:pointer;height:35px;width:35px;}
 
 #overlay_details { text-align:left; font-family:"Gill Sans", Verdana, sans-serif; font-weight:normal !important; }
-#overlay_details h1 { border-bottom:solid 1px #ccc; padding:16px 0px 4px 0px; margin:0px; font-weight:normal !important; text-transform:uppercase; letter-spacing:1px; font-size:1.5em; color:#000; }
-#overlay_details h1 span { display:block; text-align:right; font-weight:normal !important; margin-right:10px; padding-top:4px; float:left; width:60px; color:#666; font-size:0.6em; }
+#overlay_details h1 { border-bottom:solid 1px #ccc; padding:16px 0px 4px 0px; margin:0px; font-weight:normal !important; text-transform:uppercase; letter-spacing:1px; font-size:1.5em; color:#FFF; }
+#overlay_details h1 span { display:block; text-align:right; font-weight:normal !important; margin-right:10px; padding-top:4px; float:left; width:60px; color:#ccc; font-size:0.6em; }
 #overlay_details h2 { font-size:1.15em; margin:10px 0px 4px 0px; text-align:center; text-transform:uppercase; font-weight:normal !important; }
-#overlay_details h2 span.overlay_to { color:#666; font-size:0.8em; font-weight:normal !important; font-family:"Georgia", "Times New Roman", serif; font-style: italic; display:block; text-transform: lowercase; margin:0px; padding:0px; }
+#overlay_details h2 span.overlay_to { color:#ccc; font-size:0.8em; font-weight:normal !important; font-family:"Georgia", "Times New Roman", serif; font-style: italic; display:block; text-transform: lowercase; margin:0px; padding:0px; }
 #overlay_details h2 span.overlay_start { color:#009900; }
 #overlay_details h2 span.overlay_date { font-size:1.6em; }
 #overlay_details h2 span.overlay_end { color:#cc0000; }
 #overlay_details h3 { font-weight:normal !important; }
+div.overlay #overlay_details h1 { color:#000 !important; }
+div.overlay #overlay_details h1 span { color:#666 !important; }
+div.overlay #overlay_details h2 span.overlay_to { color:#666 !important; }
+
 
 #bottomstrip { position:fixed; bottom:0px; left:0px; width:100%; background:#000; border-top:solid 1px #333; font-size:0.7em; }
 #bottomstrip a { color:#999; text-decoration: none; }
