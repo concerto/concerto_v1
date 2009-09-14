@@ -47,10 +47,12 @@ class frontpageController extends Controller
           #i.e. the frontpage is a dynamic page, we will redirect to the
           #top URL so that the framework can handle serving the frontpage.
           #All dashboard references should go to frontpage/dashboard.
+          
           if(defined('DEFAULT_PATH') && DEFAULT_PATH != '/frontpage') {
             redirect_to(ADMIN_URL);
             exit(0);
           }
+          
           if (isLoggedIn()) {
              $this->dashboardAction();
              $this->renderView('dashboard');

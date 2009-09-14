@@ -59,8 +59,8 @@
 <div id="footer_gutter">&nbsp;</div>
 <div id="footer">
   <div id="footer_padding">
-    <p>Copyright &copy; 2009 Rensselaer Polytechnic Institute (Student Senate Web Technologies Group)</p>
-    <p><a href="<?= ADMIN_URL ?>/pages/show/docs/">Support Center</a> | <a href="http://webtech.union.rpi.edu">Web Tech Group</a> | <a href="http://webtech.union.rpi.edu/ticket">Submit Help Ticket</a></p>
+    <p>Copyright &copy; 2009 Rensselaer Polytechnic Institute (<a href="http://webtech.union.rpi.edu">Web Technologies Group</a>)</p>
+    <p><a href="<?= ADMIN_URL ?>/pages/show/docs/">Support Center</a> | <a href="http://webtech.union.rpi.edu/ticket">Submit Help Ticket</a> | <a href="mailto:<?= SYSTEM_EMAIL ?>">Contact Us</a></p>
   </div>
 </div>
 <?php if(defined('GA_TRACKING') && GA_TRACKING) { ?>
