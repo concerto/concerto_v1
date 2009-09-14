@@ -69,8 +69,8 @@ function loadFeed(id, feedname) {
 				});
 		}
 	});
-	$("#feedsel_title").empty();
-	$("#feedsel_title").append(feedname);
+	$(".feedsel_title").empty();
+	$(".feedsel_title").append(feedname);
 	collapsePanel();
 }
 
@@ -110,12 +110,12 @@ $(document).ready(function() {
         <div id="UIWall_feedsel">
           <?
             foreach($this->feeds as $id => $feed ) {
-            $name = $feed['name'];
+            $name = htmlspecialchars($feed['name']);
             if(strlen($name) > 26){
               $name = substr($name, 0, 26) . '...';
             }
           ?>
-            <div class="UIWall_feedbutton" style="position:relative;"><a href="<?= ADMIN_BASE_URL ?>/wall/feedgrid/<?= $id ?>" onclick="loadFeed(<?= $id ?>, '<?= $name ?>'); return false;" alt="" /><div class="UIWall_contentnum"><?= $feed['count'] ?></div><?= $name ?></a></div
+             <div class="UIWall_feedbutton" style="position:relative;"><a href="<?= ADMIN_BASE_URL ?>/wall/feedgrid/<?= $id ?>" onclick="loadFeed(<?= $id ?>, '<?= $name ?>'); return false;" title="<?= $name ?>"><div class="UIWall_contentnum"><?= $feed['count'] ?></div><?= $name ?></a></div>
           <? } ?>
             <div style="clear:both;"></div>
         </div>
@@ -124,13 +124,13 @@ $(document).ready(function() {
       <div id="UIWall_pulldown">
         <div class="panel_button" style="display: visible;">
           <a href="#">
-            <h1 id="feedsel_title">Click to Select Feed</h1>
+            <h1 class="feedsel_title">Click to Select Feed</h1>
             <img src="<?= ADMIN_BASE_URL ?>images/wall/pulldown_arrow.png" alt="" />
           </a>
         </div>
         <div class="panel_button" id="hide_button" style="display: none;">
           <a href="#">
-            <h1 id="feedsel_title">Click to Select Feed</h1>
+            <h1 class="feedsel_title">Click to Select Feed</h1>
             <img src="<?= ADMIN_BASE_URL ?>images/wall/pullup_arrow.png" alt="" />
           </a>
         </div>
@@ -149,6 +149,6 @@ $(document).ready(function() {
 
 <div id="bottomstrip">
 	<div id="bottomstrip-padding">
-		<a href="<?= ADMIN_BASE_URL ?>"><< Back to the Concerto Panel</a>
+		<a href="<?= ADMIN_BASE_URL ?>">&lt;&lt; Back to the Concerto Panel</a>
 	</div>
 </div>

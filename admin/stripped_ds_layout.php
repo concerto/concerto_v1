@@ -33,7 +33,7 @@
 <link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/ui.theme.css" />
 <link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/ui.core.css" />
 
-<script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/jquery-1.3.2.min.js"></script>
+<script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/jquery.js"></script>
 <script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/jquery.tools.min.js"></script>
 <script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/ui.progressbar-custom.min.js"></script>
 
