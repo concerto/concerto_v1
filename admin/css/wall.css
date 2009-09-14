@@ -1,0 +1,89 @@
+/**
+ * This file was developed as part of the Concerto digital signage project
+ * at RPI.
+ *
+ * Copyright (C) 2009 Rensselaer Polytechnic Institute
+ * (Student Senate Web Technolgies Group)
+ *
+ * This program is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by the Free
+ * Software Foundation; either version 2 of the License, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.  You should have received a copy
+ * of the GNU General Public License along with this program.
+ *
+ * @package      Concerto
+ * @author       Web Technologies Group, $Author: zaik $
+ * @copyright    Rensselaer Polytechnic Institute
+ * @license      GPLv2, see www.gnu.org/licenses/gpl-2.0.html
+ * @version      $Revision: 543 $
+ */
+
+/*
+   CONCERTO WALL STYLES
+   CSS Document
+   *************************
+   These styles are used for Concerto Wall.
+   2009, Concerto Team.
+*/
+body{font-family:"Lucida Grande", Verdana, Arial, sans-serif;background:#2B2B2B url(../images/wall/dark-background.jpg) top left repeat-x; margin:0; padding:0; }
+
+#toppanel{position:fixed;width:100%;left:0;z-index:25;text-align:center;}
+#panel{width:100%;position:relative;top:1px;height:100%;margin-left:auto;margin-right:auto;z-index:10;overflow:hidden;text-align:left;}
+#panel_contents{background:url(../images/wall/whitebg.png) bottom left repeat-x;height:100%;width:100%;position:absolute;z-index:-1;}
+
+#panel h1{color:#9f9;margin-bottom:4px;}
+#panel p{margin:0;padding:0;}
+#panel div.UIWall_feedbutton { float:left; margin:0px 8px; text-align:left; }
+#panel div.UIWall_feedbutton a { color:#FFF; text-shadow: 0px 1px 1px #111; width:218px; height:16px; padding:17px 16px; background:url(../images/wall/feedbutton_inact.png) center center no-repeat; text-decoration:none; display:block; font-size:0.75em; font-weight:bold; }
+#panel div.UIWall_feedbutton a:hover { text-shadow: 0px 0px 2px #FFF; color:#000; background:url(../images/wall/feedbutton_act.png) center center no-repeat !important; }
+
+#UIWall_feedsel { background:url(../images/wall/feed_label.png) top left no-repeat; zoom:1; padding:45px 12px; }
+#UIWall_pulldown_container { z-index:5; text-align:center; width:100%; display:block; zoom:1; }
+#UIWall_pulldown { zoom:1; margin:0 auto; width:465px; background:url(../images/wall/pulldown_bg.png) top center no-repeat; padding:0px; text-align:center; }
+#UIWall_pulldown a { text-decoration:underline; color:#FFF; width:460px; }
+#UIWall_pulldown a img { border:0px; }
+#UIWall_pulldown a div { display:inline; }
+#UIWall_pulldown h1 { color:#FFF; font-weight:normal; font-size:0.7em; text-shadow: 0px 1px 1px #111; margin:0px; padding:7px 0px 3px 0px; }
+#UIWall_pulldown a:hover h1 { text-decoration:underline; }
+div.UIWall_contentnum { color:#FFF; position:absolute; z-index:99999; text-align:center; width:30px; right:8px; top:17px; }
+
+#wallthumbs{padding:30px 80px;}
+#wallthumbs a img{padding:3px;border:solid 1px #333;}
+#wallthumbs a:hover img{border:solid 1px #09f;}
+#wallthumbs div.UIWall_thumb{margin:16px 8px;float:left;text-align:center;width:202px;height:152px;}
+div.overlay{background-image:url(../images/wall/white.png);width:600px;height:670px;display:none;padding:55px;text-align:center;}
+div.overlay img{border:solid 2px #ccc;}
+div.overlay a:hover img { border:solid 2px #09f; }
+div.overlay div.close{background-image:url(../images/wall/close.png);position:absolute;right:5px;top:5px;cursor:pointer;height:35px;width:35px;}
+
+#overlay_details { text-align:left; font-family:"Gill Sans", Verdana, sans-serif; font-weight:normal !important; }
+#overlay_details h1 { border-bottom:solid 1px #ccc; padding:16px 0px 4px 0px; margin:0px; font-weight:normal !important; text-transform:uppercase; letter-spacing:1px; font-size:1.5em; color:#FFF; }
+#overlay_details h1 span { display:block; text-align:right; font-weight:normal !important; margin-right:10px; padding-top:4px; float:left; width:60px; color:#ccc; font-size:0.6em; }
+#overlay_details h2 { font-size:1.15em; margin:10px 0px 4px 0px; text-align:center; text-transform:uppercase; font-weight:normal !important; }
+#overlay_details h2 span.overlay_to { color:#ccc; font-size:0.8em; font-weight:normal !important; font-family:"Georgia", "Times New Roman", serif; font-style: italic; display:block; text-transform: lowercase; margin:0px; padding:0px; }
+#overlay_details h2 span.overlay_start { color:#009900; }
+#overlay_details h2 span.overlay_date { font-size:1.6em; }
+#overlay_details h2 span.overlay_end { color:#cc0000; }
+#overlay_details h3 { font-weight:normal !important; }
+div.overlay #overlay_details h1 { color:#000 !important; }
+div.overlay #overlay_details h1 span { color:#666 !important; }
+div.overlay #overlay_details h2 span.overlay_to { color:#666 !important; }
+
+
+#bottomstrip { position:fixed; bottom:0px; left:0px; width:100%; background:#000; border-top:solid 1px #333; font-size:0.7em; }
+#bottomstrip a { color:#999; text-decoration: none; }
+#bottomstrip a:hover { color:#FFF; text-decoration: underline; }
+#bottomstrip-padding { padding:3px 12px; }
+
+/* Progressbar
+----------------------------------*/
+.ui-progressbar { height:2em; text-align: left; }
+.ui-progressbar .ui-progressbar-value {margin: -1px; height:100%; }
+
+#progressbar { position:absolute; z-index:9999999; top:10px; left:10px; margin:0 auto; width:20%; }
+.ui-progressbar { height:0.5em !important; }

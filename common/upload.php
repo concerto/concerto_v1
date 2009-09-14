@@ -103,8 +103,12 @@ class Uploader{
 		}
 		if($this->ctype == 'text'){
 			//Awsome, this is easy to handle!
-			$this->content_o = $this->content_i;
-			$this->mime_type = 'text/plain';
+                        
+                        //Let's filter out any html/script injection.
+                        $this->content_o = htmlspecialchars($this->content_i);
+                        $this->name = htmlspecialchars($this->name);
+
+                        $this->mime_type = 'text/plain';
 			$this->type_id = 2; //SELF: THIS IS BAD AND DUMB AND STUPID
 			$content = new Content();
 			if($content->create_content($this->name, $this->user_id, $this->content_o, $this->mime_type, $this->type_id, $this->start_date, $this->end_date)){

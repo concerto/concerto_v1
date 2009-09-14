@@ -23,7 +23,10 @@
  * @license      GPLv2, see www.gnu.org/licenses/gpl-2.0.html
  * @version      $Revision$
  */
-?><h3>Please fill out all fields to request a new feed.</h3>
+?>
+<h3>Please fill out all fields to request a new feed.</h3>
+<p>Feeds in Concerto are broad categories for content submission.  Most content at should fit into one of our <a href="<?=ADMIN_URL?>/browse">existing feeds</a>, but if you think your content fits into a specific category that should be separate from existing feeds on Concerto, we'd love to hear about it.</p>
+<p>See the <a href="<?=ADMIN_URL?>/pages/show/docs">Support Center</a> for more information about feeds.</p>
 <p>If your feed request is approved, we'll be contacting you shortly about setting up a controlling group for the feed.</p>
 
 <form method="POST">

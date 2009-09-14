@@ -158,7 +158,7 @@ if(($this->feed->type == 4) && ($this->feed->dyn->needs_update() > 0)){
 										echo "&nbsp;";
 									} ?></td>
 								<td class="listtitle">
-										<a href="<?= ADMIN_URL ?>/content/show/<?= $content->id ?>"><?= htmlspecialchars($content->name) ?></a>
+										<a href="<?= ADMIN_URL ?>/content/show/<?= $content->id ?>"><?= $content->name ?></a>
 								</td>
 								<td><?=date("m/j/Y",strtotime($content->start_time))?></td>
 								<td><?=date("m/j/Y",strtotime($content->end_time))?></td>

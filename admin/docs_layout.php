@@ -28,7 +28,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title>Concerto Support - <?=$this->getTitle()?></title>
+<title><?=$this->getTitle()?> - Concerto Support</title>
 
 <link rel="stylesheet" type="text/css" href="<?= ADMIN_BASE_URL ?>css/docs.css" />
 
@@ -93,8 +93,8 @@ if(is_array($this->menu_links))
   <div id="footer_gutter">&nbsp;</div>
   <div id="footer">
     <div id="footer_padding">
-      <p>Copyright &copy; 2009 Rensselaer Polytechnic Institute (Student Senate Web Technologies Group)</p>
-      <p><a href="<?= ADMIN_URL ?>">Control Panel</a> | <a href="http://webtech.union.rpi.edu/">Web Tech Group</a> | Contact Support: <a href="mailto:<?= SYSTEM_EMAIL ?>"><?= SYSTEM_EMAIL ?></a></p>
+    	<p>Copyright &copy; 2009 Rensselaer Polytechnic Institute (<a href="http://webtech.union.rpi.edu">Web Technologies Group</a>)</p>
+   		<p><a href="<?= ADMIN_URL ?>/pages/show/docs/">Support Center</a> | <a href="http://webtech.union.rpi.edu/ticket">Submit Help Ticket</a> | <a href="mailto:<?= SYSTEM_EMAIL ?>">Contact Us</a></p>
     </div>
   </div>
 <?php if(defined('GA_TRACKING') && GA_TRACKING) { ?>

@@ -62,8 +62,22 @@ $(function()
 }); 
 //--></script>
 
+<div class="roundcont">
+  <div class="roundtop"><span class="rt"><img src="<?= ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
+  <div class="roundcont_main">
+    <div style="float:left; width:65%;">
+    	<a href="<?= ADMIN_URL ?>/wall"><img border="0" src="<?= ADMIN_BASE_URL ?>/images/wall/wall-words.gif" alt="" /></a>
+    	<br /><br />
+    	<p><a href="<?= ADMIN_URL ?>/wall">Concerto Wall</a> is an interactive feature that allows you to view live graphical Concerto content.  Visit the Wall now to peruse live content in a completely new way!</p>
+    </div>
+    <div style="float:right; text-align:right; width:33%;"><a href="<?= ADMIN_URL ?>/wall"><img src="<?= ADMIN_BASE_URL ?>/images/wall/wall-announce.jpg" border="0" alt="" /></a></div>
+    <div style="clear:both;"></div>
+  </div>
+  <div class="roundbottom"><span class="rb"><img src="<?= ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
+</div>
+
 <div class="roundcont newsfeed">
-  <div class="roundtop"><span class="rt"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
+  <div class="roundtop"><span class="rt"><img src="<?= ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
   <div class="roundcont_main">
     <div style="text-align:right; float:right; width:85px;">
     	<a href="<?= ADMIN_URL ?>/users/newsfeed/<?= userName() ?>"><span class="buttonsel"><div class="buttonleft"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_left.gif" border="0" alt="" /></div><div class="buttonmid"><div class="buttonmid_padding">View All</div></div><div class="buttonright" style="width:10px;"><img src="<?= ADMIN_BASE_URL ?>/images/buttonsel_right.gif" border="0" alt="" /></div></span></a>
@@ -87,24 +101,24 @@ $(function()
     </div>
   </div>
   <span style="display:none;" id="seemore"><span id="seemore-inner">View more...</span></span>
-  <noscript><div class="roundbottom"><span class="rb"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div></noscript>
+  <noscript><div class="roundbottom"><span class="rb"><img src="<?= ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div></noscript>
 </div>
 
 <div class="roundcont">
-  <div class="roundtop"><span class="rt"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
+  <div class="roundtop"><span class="rt"><img src="<?= ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
   <div class="roundcont_main">
     <div style="float:left; width:75%;">
-    	<h1>New Update Released on February 3</h1>
-    	<p>Concerto has been updated to version <b><?= CONCERTO_VERSION ?></b>.  For more information, <a href="<?= ADMIN_URL ?>/pages/show/docs/3">check out the release notes.</a></p>
+    	<br />
+    	<p>Concerto is currently at <b>Version <?= CONCERTO_VERSION ?></b>.  For more information, <a href="<?= ADMIN_URL ?>/pages/show/docs/3">check out the release notes.</a></p>
     </div>
     <div style="float:right; text-align:right; width:23%;"><img src="<?= ADMIN_BASE_URL ?>/images/latest_version.gif" alt="" /></div>
     <div style="clear:both;"></div>
   </div>
-  <div class="roundbottom"><span class="rb"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
+  <div class="roundbottom"><span class="rb"><img src="<?=  ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
 </div>
 
 <div class="roundcont">
-  <div class="roundtop"><span class="rt"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
+  <div class="roundtop"><span class="rt"><img src="<?= ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
   <div class="roundcont_main">
     <h1>Operational Status</h1>
     <table style="text-align:center; font-size:1.3em; font-weight:bold;" cellpadding="6" cellspacing="0" width="100%">
@@ -198,5 +212,5 @@ $(function()
     </div>
 
   </div>
-  <div class="roundbottom"><span class="rb"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
+  <div class="roundbottom"><span class="rb"><img src="<?= ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
 </div>
