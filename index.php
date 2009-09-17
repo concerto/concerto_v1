@@ -31,7 +31,7 @@ if(isset($_GET['mac'])) {
     # If we are trying to get users to use a particular domain,
     # send them to the admin directory of that domain, saving
     # ourselves a request.
-    header('Location: http://'.PREFERRED_DOMAIN.'/'.ADMIN_URL.'/');
+    header('Location: http://'.PREFERRED_DOMAIN.ADMIN_URL.'/');
   } else {
     header('Location: '.ADMIN_URL.'/');
   }
