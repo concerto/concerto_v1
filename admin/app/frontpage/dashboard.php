@@ -61,20 +61,39 @@ $(function()
 	});
 }); 
 //--></script>
-
-<div class="roundcont">
-  <div class="roundtop"><span class="rt"><img src="<?= ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
-  <div class="roundcont_main">
-    <div style="float:left; width:65%;">
-    	<a href="<?= ADMIN_URL ?>/wall"><img border="0" src="<?= ADMIN_BASE_URL ?>/images/wall/wall-words.gif" alt="" /></a>
-    	<br /><br />
-    	<p><a href="<?= ADMIN_URL ?>/wall">Concerto Wall</a> is an interactive feature that allows you to view live graphical Concerto content.  Visit the Wall now to peruse live content in a completely new way!</p>
-    </div>
-    <div style="float:right; text-align:right; width:33%;"><a href="<?= ADMIN_URL ?>/wall"><img src="<?= ADMIN_BASE_URL ?>/images/wall/wall-announce.jpg" border="0" alt="" /></a></div>
-    <div style="clear:both;"></div>
-  </div>
-  <div class="roundbottom"><span class="rb"><img src="<?= ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
+<div style="float:left; width:49%;">
+	<div class="roundcont">
+	  <div class="roundtop"><span class="rt"><img src="<?= ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
+	  <div class="roundcont_main">
+	    <div>
+	    	<div style="float:right; text-align:right; width:230px;"><a href="http://concerto.rpi.edu/screensaver"><img src="<?= ADMIN_BASE_URL ?>/images/wall/ss-announce.jpg" border="0" alt="" /></a></div>
+	    	<h1><a href="http://concerto.rpi.edu/screensaver">Get Concerto Screensaver</a></h1>
+				<br />
+	    	<p>Turn your PC into a portal to campus life.</p>
+	    	<br /><br />
+	    	<div style="clear:both;"></div>
+	    </div>
+	  </div>
+	  <div class="roundbottom"><span class="rb"><img src="<?= ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
+	</div>
 </div>
+<div style="float:right; width:49%;">
+	<div class="roundcont">
+	  <div class="roundtop"><span class="rt"><img src="<?= ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
+	  <div class="roundcont_main">
+	    <div>
+	    	<div style="float:right; text-align:right; width:230px;"><a href="<?= ADMIN_URL ?>/wall"><img src="<?= ADMIN_BASE_URL ?>/images/wall/wall-announce.jpg" border="0" alt="" /></a></div>
+	    	<h1><a href="<?= ADMIN_URL ?>/wall">Visit Concerto Wall</a></h1>
+				<br />
+	    	<p>Explore Concerto content in a new grid view.</p>
+	    	<br /><br />
+	    	<div style="clear:both;"></div>
+	    </div>
+	  </div>
+	  <div class="roundbottom"><span class="rb"><img src="<?= ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
+	</div>
+</div>
+<br clear="both" />
 
 <div class="roundcont newsfeed">
   <div class="roundtop"><span class="rt"><img src="<?= ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
