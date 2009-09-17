@@ -39,7 +39,7 @@ $(function() {
 function loadFeed(id, feedname) {
 	$.ajax({
 		type: "GET",
-		url: "<?= ADMIN_BASE_URL ?>/wall/feedgrid/"+id+"?ajax=1",
+		url: "<?= ADMIN_URL ?>/wall/feedgrid/"+id+"?ajax=1",
 		success: function(data){
 				$('#wall_feed_insert').empty();
 				$("#progressbar").progressbar({ value: 0 });
@@ -115,7 +115,7 @@ $(document).ready(function() {
               $name = substr($name, 0, 26) . '...';
             }
           ?>
-             <div class="UIWall_feedbutton" style="position:relative;"><a href="<?= ADMIN_BASE_URL ?>/wall/feedgrid/<?= $id ?>" onclick="loadFeed(<?= $id ?>, '<?= $name ?>'); return false;" title="<?= $name ?>"><div class="UIWall_contentnum"><?= $feed['count'] ?></div><?= $name ?></a></div>
+             <div class="UIWall_feedbutton" style="position:relative;"><a href="<?= ADMIN_URL ?>/wall/feedgrid/<?= $id ?>" onclick="loadFeed(<?= $id ?>, '<?= $name ?>'); return false;" title="<?= $name ?>"><div class="UIWall_contentnum"><?= $feed['count'] ?></div><?= $name ?></a></div>
           <? } ?>
             <br clear="both" />
         </div>
@@ -149,6 +149,6 @@ $(document).ready(function() {
 
 <div id="bottomstrip">
 	<div id="bottomstrip-padding">
-		<a href="<?= ADMIN_BASE_URL ?>">&lt;&lt; Back to the Concerto Panel</a>
+		<a href="<?= ADMIN_URL ?>">&lt;&lt; Back to the Concerto Panel</a>
 	</div>
 </div>

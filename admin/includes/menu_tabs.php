@@ -47,8 +47,8 @@
 	<?php
 	} else {
 	?>
-		<h1 class="fp">Have an RCS ID and password?  If so, you can log into Concerto to the left.</h1>
-		<p>Concerto is 100% free to use for all current members of the campus community at <a href="http://rpi.edu">Rensselaer Polytechnic Institute</a>.</p>
+		<h1 class="fp">Have a username and password?  If so, you can log into Concerto to the left.</h1>
+		<p>Concerto is 100% free to use for all current members of the your community.</p>
 	<?php 
 	}
 	?>

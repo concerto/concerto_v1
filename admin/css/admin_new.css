@@ -40,7 +40,7 @@ a:hover { color:#666; text-decoration:underline; }
 #wrap {  }
 
 #header { background:#000;clear:both;color:#ccc;font-size:85%;margin:0px;padding:0px;text-align:left; /* height:20px; */ }
-.header-login { background:#000 url(../images/rpiseal_bg.gif) top right no-repeat !important; }
+.header-login { background:#000 !important; }
 #header_padding { padding:15px 0px 0px 0px; }
 #header h1 { color:#ccc;font-size:250%;font-weight:700; }
 #header a:link, #header a:visited { color:#ccc;text-decoration:none; }
