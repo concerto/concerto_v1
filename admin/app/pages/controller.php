@@ -93,6 +93,7 @@ class pagesController extends Controller
             $this->template=$this->category['layout'];
          $this->setSubject($this->getTitle());
          $this->page['content'] = str_replace("_ADMIN_BASE_URL_",ADMIN_BASE_URL,$this->page['content']);
+         $this->page['content'] = str_replace("_ADMIN_URL_",ADMIN_URL,$this->page['content']);
       } else {
          if(isset($this->category['id']))
             redirect_to("../");
