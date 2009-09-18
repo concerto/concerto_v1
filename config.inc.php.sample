@@ -53,7 +53,7 @@ define('ADMIN_BASE_URL', ROOT_URL.'admin/');     //base URL on server for images
 define('ADMIN_URL', ADMIN_BASE_URL.'index.php'); //URL that can access this page (may be same as ADMIN_BASE_URL if mod_rewrite configured)
 
 //Various configuration
-define('CONCERTO_VERSION', '1.8 testing');       //Version number.
+define('CONCERTO_VERSION', '1.9.1');       //Version number.
 define('DEFAULT_DURATION', 5);                   //Default content duration, in seconds
 define('DEFAULT_WEIGHT', 3);                     //Default position weight
 
