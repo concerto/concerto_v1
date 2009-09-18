@@ -28,9 +28,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title><?php echo join(' - ',array('Concerto Panel', $this->getTitle()));?></title>
+<title><?php echo join(' - ',array($this->getTitle(), 'Concerto Panel'));?></title>
 <link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/admin_new.css" />
-<link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/menu_tabs.css" />
 <link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/ui.lightbox.css" />
 <link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/ui.tablesort.css" />
 <link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/ui.jquery.css" />
@@ -62,21 +61,24 @@
 </head>
 
 <body>
-  <div id="header">
-    <div id="header_padding">
-      <? include("includes/menu_tabs.php"); ?>
-    </div>
-  </div>
 
-<div id="content_header">
-  <h1><?=$this->getTitle()?></h1>
-  <h2><?=$this->getCrumbs()?></h2>
+<div id="header">
+  <div id="header_padding">
+    <? include("includes/menu_tabs.php"); ?>
+  </div>
 </div>
 
-<div id="maincontent">
-<?php renderMessages() ?>
-<?php $this->render();//renderAction() ?>
-<div style="clear:both;"></div>
+<div id="main">
+	<div id="content_header">
+	  <h1><?=$this->getTitle()?></h1>
+	  <h2><?=$this->getCrumbs()?></h2>
+	</div>
+	
+	<div id="maincontent">
+		<?php renderMessages() ?>
+		<?php $this->render();//renderAction() ?>
+		<div style="clear:both;"></div>
+	</div>
 </div>
 
 <!-- BEGIN Sidebar -->

@@ -80,7 +80,7 @@ function render($type, $filename, $width = false, $height = false, $stretch = fa
 			$log_file = CONTENT_DIR . 'render/render_log';
 			if($fh = @fopen($log_file, 'a')){
 				$log_data = $path . ' ' . $width . ' ' . $height . "\n";
-				echo $log_data;
+				//echo $log_data;
 				fwrite($fh, $log_data);
 				fclose($fh);
 			}

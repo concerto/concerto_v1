@@ -124,11 +124,12 @@ class Dynamic{
   
   //Get the XML content and pass it off to the xml handler
   function xml_update(){
-    if(!($xml = simplexml_load_file($this->path))){
-      $this->status .= "Unable to open dynamic path. ";
+    if(($xml = simplexml_load_file($this->path)) && !is_bool($xml)){
+      return $this->xml_handler($xml);
+    } else {
+      $this->status .= "Unable to open dynamic path ({$this->path}). ";
       return false;
     }
-    return $this->xml_handler($xml);
   }
   
   //Build XML from nearly dynamic content and pass it off to the xml handler

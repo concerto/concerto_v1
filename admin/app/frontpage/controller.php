@@ -28,7 +28,8 @@ class frontpageController extends Controller
 	public $actionNames = Array( 'index'=> "Front page", 
                                 'admin'=>'Admin Utilities',
                                 'mailer' =>'Send Mail',
-                                'addtemplate' =>'Upload Template');
+                                'addtemplate' =>'Upload Template',
+                                'dashboard' => 'Dashboard');
 
    public $require = Array('check_login'=>Array('dashboard','login','logout'),
                            'require_login'=>Array('admin','login','dashboard','su','phpinfo','mailer','sendmail','addtemplate','createtemplate') );
@@ -40,16 +41,26 @@ class frontpageController extends Controller
 
 	function indexAction()
 	{
-      $this->setTitle("Front Page");
-      if (isLoggedIn()) {
-         $this->dashboardAction();
-         $this->renderView('dashboard');
-      }
+          $this->setTitle("Front Page");
+
+          #When the frontpage controller is not handling the frontpage,
+          #i.e. the frontpage is a dynamic page, we will redirect to the
+          #top URL so that the framework can handle serving the frontpage.
+          #All dashboard references should go to frontpage/dashboard.
+          if(defined('DEFAULT_PATH') && DEFAULT_PATH != '/frontpage') {
+            redirect_to(ADMIN_URL);
+            exit(0);
+          }
+          if (isLoggedIn()) {
+             $this->dashboardAction();
+             $this->renderView('dashboard');
+          }
 	}
    
 	function dashboardAction()
 	{
-     $this->notifications = Newsfeed::get_for_user($_SESSION['user']->id);
+          $this->notifications = Newsfeed::get_for_user($_SESSION['user']->id);
+          $this->setTitle("Concerto Dashboard");
      $group_str = implode(',',$_SESSION['user']->groups);
      $this->setTitle("Dashboard");
      if(count($_SESSION['user']->groups) > 0){
@@ -66,7 +77,7 @@ class frontpageController extends Controller
 
 	function adminAction()
 	{
-      $user = new User(phpCAS::getUser());
+      $user = new User($_SESSION[user]->username);
       if(!$user->admin_privileges)
          redirect_to(ADMIN_URL.'/frontpage');
 
@@ -90,7 +101,7 @@ class frontpageController extends Controller
 	}
 	function mailerAction()
 	{
-         $user = new User(phpCAS::getUser());
+         $user = new User($_SESSION[user]->username);
          $this->fromyou = $user->name . ' (' . $user->email . ')';
          if(!$user->admin_privileges)
            redirect_to(ADMIN_URL.'/frontpage');
@@ -112,7 +123,7 @@ class frontpageController extends Controller
 	}
 	function sendmailAction()
 	{
-	     $curuser = new User(phpCAS::getUser());
+	     $curuser = new User($_SESSION[user]->username);
 	     if(!$curuser->admin_privileges)
          redirect_to(ADMIN_URL.'/frontpage');
 
@@ -182,14 +193,14 @@ class frontpageController extends Controller
 	}
 
    function addtemplateAction(){
-    $user = new User(phpCAS::getUser());
+    $user = new User($_SESSION[user]->username);
       if(!$user->admin_privileges)
          redirect_to(ADMIN_URL.'/frontpage');
          
      $this->setTitle("Upload Template");
    }
    function createtemplateAction(){
-    $user = new User(phpCAS::getUser());
+    $user = new User($_SESSION[user]->username);
     if(!$user->admin_privileges)
        redirect_to(ADMIN_URL.'/frontpage');
          
@@ -224,10 +235,30 @@ class frontpageController extends Controller
         redirect_to(ADMIN_URL.'/frontpage/addtemplate');
      }
    }
+
+   function miniscreenAction()
+   {
+     $this->template="blank_layout.php";
+
+     $this->graphics = Content::get_all('LEFT JOIN feed_content ON content.id = feed_content.content_id ' . 
+                                        'LEFT JOIN feed ON feed_content.feed_id = feed.id ' .
+                                        'WHERE feed_content.moderation_flag = 1 AND content.type_id = 3 '. 
+                                        'AND feed.type != 3 AND content.start_time < NOW() AND content.end_time > NOW() AND content.mime_type LIKE "%image%" ' .
+                                        'ORDER BY RAND()');
+     $this->ticker = Content::get_all('LEFT JOIN feed_content ON content.id = feed_content.content_id ' .
+                                      'LEFT JOIN feed ON feed_content.feed_id = feed.id ' .
+                                      'WHERE feed_content.moderation_flag = 1 AND content.type_id = 2 AND feed.type != 3 AND content.start_time < NOW() AND content.end_time > NOW() ' .
+                                      'ORDER BY RAND()');
+     $this->text = Content::get_all('LEFT JOIN feed_content ON content.id = feed_content.content_id ' .
+                                    'LEFT JOIN feed ON feed_content.feed_id = feed.id ' .
+                                    'WHERE feed_content.moderation_flag = 1 AND content.type_id = 1 AND feed.type != 3 AND content.start_time < NOW() AND content.end_time > NOW() ' .
+                                    'ORDER BY RAND()');
+  
+  }
    
    function phpinfoAction()
    {
-      $user = new User(phpCAS::getUser());
+      $user = new User($_SESSION[user]->username);
       if(!$user->admin_privileges)
          redirect_to(ADMIN_URL.'/frontpage');
       phpinfo();
@@ -236,7 +267,7 @@ class frontpageController extends Controller
 
    function suAction()
    {
-      $user = new User(phpCAS::getUser());
+      $user = new User($_SESSION[user]->username);
       if(isset($_REQUEST['r'])) {
          unset($_SESSION['su']);
          login_login();

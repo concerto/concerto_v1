@@ -259,6 +259,25 @@ class Content{
 			return false;
 		}
 	}
+
+        //List all content, optional WHERE syntax
+        function get_all($where = ''){
+                $sql = "SELECT content.id FROM content $where";
+                $res = sql_query($sql);
+                $i=0;
+                $found = false;
+                while($row = sql_row_keyed($res,$i)){
+                    $found = true;
+                    $data[] = new Content($row['id']);
+                    $i++;
+                }
+                if($found){
+                        return $data;
+                } else {
+                        return false;
+                }
+        }
+
 	
   function stats_byscreen($time_period_in='yesterday'){
     

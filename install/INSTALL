@@ -2,10 +2,10 @@ Concerto Installation Guide
 
 System Requirements:
   A *nix OS
-  PHP 5 or better and the GD, Curl, and xml-rpc libraries
+  PHP 5 or better and the GD, Curl, and MySQL libraries
   A web server with URL rewriting capabilities (such as mod_rewrite under Apache)
   MySQL 4.1+
-  Crontab access
+  Cron (and crontab access)
 
 Installation Procedures:
 1. Create a MySQL database, user, and password for Concerto to use.
