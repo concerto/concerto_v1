@@ -51,4 +51,10 @@ projects.
 Installation
 ------------
 
-See install/INSTALL for information
+See install/INSTALL for information.
+A diagnostic script is located at install/diagnostics.php to help troubleshoot configuration errors.
+
+Extra
+-----
+
+For additional information, visit our website: http://www.concerto-signage.com

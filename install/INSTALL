@@ -2,8 +2,7 @@ Concerto Installation Guide
 
 System Requirements:
   A *nix OS
-  PHP 5 or better and the GD, Curl, and MySQL libraries
-  A web server with URL rewriting capabilities (such as mod_rewrite under Apache)
+  PHP 5.2 or better and the GD, Curl, and MySQL libraries
   MySQL 4.1+
   Cron (and crontab access)
 
@@ -35,11 +34,13 @@ Core Settings:
 
 6. Your web server will require write access to the /content directory and its subdirectories.  Adjust your permissions accordingly with chmod and chown.
 
-7. Concerto uses a scheduled job to process updates on a regular interval.  For Concerto to work properly. the script located in common/scripts/cron.php should be executed at least every hour. Running this script at a faster interval, such as every 5-10 minutes, will ensure faster updates of information in the system.  If your server has shell access, install a cronjob that runs the /path/to/concerto/common/scripts.php at a regular interval.  For example, a line like this may due the job if you can run php from the command line.
+7. Visit install/diagnostics.php in a web browser to see if anything fails (everything should PASS).  This script tests the server requirements and some of the configuration options set in steps 5 and 6.
+
+8. Concerto uses a scheduled job to process updates on a regular interval.  For Concerto to work properly. the script located in common/scripts/cron.php should be executed at least every hour. Running this script at a faster interval, such as every 5-10 minutes, will ensure faster updates of information in the system.  If your server has shell access, install a cronjob that runs the /path/to/concerto/common/scripts.php at a regular interval.  For example, a line like this may due the job if you can run php from the command line.
 */5 * * * * php-cgi /var/www/common/scripts/cron.php >/dev/null 2>&1
 if you can't run php from the command line, using wget can accomplish the same effect.
 */5 * * * * wget --delete-after --quiet http://localhost/common/scripts/cron.php
 
-8. Delete the install directory, or leave it around.  Its not important, but you might not want people knowing how you setup this thing.
+9. Delete the install directory, or leave it around.  Its not important, but you might not want people knowing how you setup this thing.
 
-9. Enjoy your Concerto installation!
+10. Enjoy your Concerto installation!
