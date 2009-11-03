@@ -12,7 +12,6 @@
 
 <!--[if IE]>
 <link rel="stylesheet" type="text/css" href="<?=ADMIN_BASE_URL?>css/ieonly.css" />
-<script language="javascript" type="text/javascript" src="<?=ADMIN_BASE_URL?>js/excanvas.pack.js"></script>
 <![endif]-->
 
 <!--[if lt IE 7.]>
