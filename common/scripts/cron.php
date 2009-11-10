@@ -167,8 +167,9 @@ function screen_offline_mail( ) {
             echo "Found downed screen $name.\n";
             $location = $screen->location;
             $mac = $screen->mac_inhex;
+            $last_ip = $screen->last_ip;
 
-            $mail_body .= "$name (at $location, mac $mac)\n";
+            $mail_body .= "$name (at $location, last ip $last_ip mac $mac)\n";
         }
        
        $admin->send_mail("Screen Outage Detected", $mail_body);
