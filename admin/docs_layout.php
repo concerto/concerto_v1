@@ -37,6 +37,7 @@
 <script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/ui.tablesort.js"></script>
 <script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/ui.jquery.js"></script>
 
+<meta name="generator" content="Concerto <?= CONCERTO_VERSION ?>">
 <meta name="application-name" content="Concerto Support"/>
 <meta name="description" content="One-Stop Support for the RPI Digital Signage Network."/>
 <meta name="application-url" content="http://<?= $_SERVER['SERVER_NAME'] . ADMIN_URL ?>/pages/show/docs/"/>

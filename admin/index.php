@@ -41,6 +41,9 @@ $start_time=microtime(true);
 //DB, system, and miscellaneous configuration:
 include('../config.inc.php');
 
+//The version number, and other non-user globals:
+include('../version.inc.php');
+
 //Classes and Libraries:
 include(COMMON_DIR.'/mysql.inc.php');//Tom's sql library interface + db connection settings
 include(COMMON_DIR.'/user.php');     //Class to represent a site user

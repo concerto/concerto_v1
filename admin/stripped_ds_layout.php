@@ -37,6 +37,7 @@
 <script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/jquery.tools.min.js"></script>
 <script type="text/javascript" src="<?=ADMIN_BASE_URL?>js/ui.progressbar-custom.min.js"></script>
 
+<meta name="generator" content="Concerto <?= CONCERTO_VERSION ?>">
 <meta name="application-name" content="Concerto"/>
 <meta name="description" content="RPI Digital Signage for Everyone."/>
 <meta name="application-url" content="http://<?=$_SERVER['SERVER_NAME'] . ADMIN_URL?>"/>
