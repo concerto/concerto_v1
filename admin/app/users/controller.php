@@ -51,7 +51,7 @@ class usersController extends Controller
       $this->users=Array();
       if(is_array($userids))
          foreach($userids as $user)
-            $this->users[] = new User($user[username]); 
+            $this->users[] = new User($user['username']); 
    }
    
    function showAction()

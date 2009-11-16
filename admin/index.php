@@ -265,7 +265,7 @@ class Controller
    {
       //frontpage and controller breadcrumbs
       $this->breadcrumb(HOMEPAGE, HOMEPAGE_URL);
-      if($this->controller!=DEFAULT_CONTROLLER)
+      if($this->controller!='DEFAULT_CONTROLLER')
          $this->breadcrumb($this->getName(),$this->controller);
       
       //figure out what action to use
@@ -326,8 +326,8 @@ class Controller
    function render()
    {
       $viewpath=APP_PATH.'/'.
-         $this->view[controller].'/'.
-         $this->view[view].'.php';
+         $this->view['controller'].'/'.
+         $this->view['view'].'.php';
       if(file_exists($viewpath))
          include($viewpath);
 
@@ -370,8 +370,8 @@ class Controller
    {
       if(isset($this->pageTitle))
          return htmlspecialchars($this->pageTitle);
-      if(isset($this->actionNames[$this->view[view]]))
-         return htmlspecialchars($this->actionNames[$this->view[view]]);
+      if(isset($this->actionNames[$this->view['view']]))
+         return htmlspecialchars($this->actionNames[$this->view['view']]);
       if(isset($this->controller))
          return htmlspecialchars($this->controller);
    }
@@ -429,8 +429,8 @@ class Controller
          $view = $controller;
          $controller = $this->controller;
       }
-      $this->view[controller]=$controller;
-      $this->view[view]=$view;
+      $this->view['controller']=$controller;
+      $this->view['view']=$view;
    }
    
    //display informational messages
