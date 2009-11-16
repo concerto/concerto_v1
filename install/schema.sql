@@ -126,7 +126,7 @@ CREATE TABLE IF NOT EXISTS `page` (
 
 
 CREATE TABLE IF NOT EXISTS `page_category` (
-  `id` int(11) unsigned NOT NULL,
+  `id` int(11) unsigned NOT NULL auto_increment,
   `path` varchar(25) NOT NULL,
   `name` varchar(32) NOT NULL COMMENT 'Name of the category',
   `layout` varchar(32) default NULL COMMENT 'filename of layout to use',
