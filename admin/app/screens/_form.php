@@ -40,8 +40,12 @@
 
 <!-- Beginning Screen Form -->
 <?php
-  //assuming $this->screen is null or the screen we want to edit
-  $screen = $this->screen;
+      //assuming $this->screen is null or the screen we want to edit
+      if(array_key_exists('screen', $this)) {
+         $screen = $this->screen;
+      } else {
+         $screen = new Screen ();
+      }
 
 	if(isset($screen->width) && isset($screen->height)){
 		if ($screen->width/$screen->height==(16/9)){
@@ -134,7 +138,7 @@
 							 if(is_array($groups))
 								 foreach($groups as $group) {
 				 ?>
-						<option value="<?= $group[id] ?>"<?php if($screen->group_id==$group[id]) echo ' SELECTED'; ?>><?=$group[name]?></option>
+						<option value="<?= $group['id'] ?>"<?php if($screen->group_id==$group['id']) echo ' SELECTED'; ?>><?=$group['name']?></option>
 				 <?php   } ?>
 				 </select></td>
 		</tr>
@@ -194,7 +198,7 @@
 	           </div>
 	         </div>
 	       <?php }
-	       if(is_array($this->other_templates)) { ?>
+	       if(array_key_exists('other_templates', $this) && is_array($this->other_templates)) { ?>
 	         <div style="clear: both;">
 	           <h4 style='color:#333;margin-bottom:12px;padding-bottom:6px;border-bottom:solid 1px #ccc;'><a href="#" onclick='$("#other_templates").toggle();return false;'>Other Templates</a> - Might look skewed or stretched on your screen</h4>
 	           <div id='other_templates' style='display: none;'>
@@ -214,7 +218,7 @@
 	           </div>
 	         </div>
 	       <?php }
-	       if(isAdmin() && is_array($this->admin_templates)) { ?>
+               if(isAdmin() && array_key_exists('admin_templates', $this) &&  is_array($this->admin_templates)) { ?>
 	         <div style="clear: both;">
 	           <h4 style='color:#333;margin-bottom:12px;padding-bottom:6px;border-bottom:solid 1px #ccc;'><a href="#" onclick='$("#admin_templates").toggle();return false;'>Admin-Only Templates</a> - For admin access only!</h4>
 	           <div id='admin_templates' style='display: none;'>

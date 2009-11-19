@@ -23,8 +23,12 @@
  * @license      GPLv2, see www.gnu.org/licenses/gpl-2.0.html
  * @version      $Revision$
  */
-   //assuming $this->user is null or the screen we want to edit
-   $content = $this->content;
+   //assuming $this->screen is null or the screen we want to edit
+   if(array_key_exists('content',$this)) {
+      $content = $this->content;
+   } else {
+      $content = new Content();
+   }
 ?>
 <!-- Begin Content Form -->
      <table class='edit_win' cellpadding='6' cellspacing='0'>

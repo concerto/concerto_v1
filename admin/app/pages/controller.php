@@ -61,7 +61,7 @@ class pagesController extends Controller
                                             escape($this->args[1]).'\'');
       }
       if(is_numeric($this->category['id'])) {
-         if(is_numeric($this->args[2])) {
+         if(array_key_exists(2, $this->args) && is_numeric($this->args[2])) {
             //Prevent duplicate URLs by sending requests for category's default page
             //  to category url with no page id
             if($this->args[2]==$this->category['default_page']) {

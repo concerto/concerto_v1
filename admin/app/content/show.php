@@ -63,7 +63,7 @@ if(is_array($this->act_feeds)) {
 </ul>
 
 <?php
-if(is_array($this->wait_feeds))
+if(array_key_exists('wait_feeds', $this) && $this->wait_feeds && is_array($this->wait_feeds))
 {
 ?>
 <h3>Awaiting approval on:</h3>
@@ -76,7 +76,7 @@ if(is_array($this->wait_feeds))
 </ul>
 
 <?php
-if(is_array($this->denied_feeds))
+if(array_key_exists('denied_feeds', $this) && is_array($this->denied_feeds))
 {
 ?>
 <h3>Rejected From:</h3>

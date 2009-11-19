@@ -114,7 +114,7 @@ $(function()
 
 <?php
 unset($urls);
-if(is_array($this->contents['approved']) && count($this->contents['approved']>=1))
+if(array_key_exists('contents', $this) && array_key_exists('approved', $this->contents) && is_array($this->contents['approved']) && count($this->contents['approved']>=1))
 {
 foreach(array_keys($this->contents['approved']) as $field)
   $urls[]='<a href="#approved_'.$field.'">'.$field.'</a>'; ?>
@@ -123,7 +123,7 @@ foreach(array_keys($this->contents['approved']) as $field)
 } else {
 	echo "<p><em>This user has had no content approved on one or more feeds.</em></p>";
 }
-if(is_array($this->contents['approved']))
+if(array_key_exists('contents', $this) && array_key_exists('approved', $this->contents) && is_array($this->contents['approved']))
 foreach($this->contents['approved'] as $field=>$contents)
 {
 	echo "<br /><br />";

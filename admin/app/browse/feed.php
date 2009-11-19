@@ -67,6 +67,7 @@ if(($this->feed->type == 4) && ($this->feed->dyn->needs_update() > 0)){
 <h3>Active Screens</h3>
 <ul>
 <?php
+$prev=NULL; //This will be the previuos screen listed's ID.
 foreach ($screens as $screen) {
   if($prev!=$screen->id) { 
     if(isset($prev)) {

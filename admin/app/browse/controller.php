@@ -78,7 +78,7 @@ class browseController extends Controller
         }
         $this->group = new Group($this->feed->group_id);
 
-        if($this->args[2] != "type") {
+        if(!array_key_exists(2, $this->args) || $this->args[2] != "type") {
             $this->feedAction();
             $this->renderView("browse", "feed");
             return;
@@ -86,9 +86,12 @@ class browseController extends Controller
 
         $this->type_id = escape($this->args[3]);
 
-        if($this->args[4] == "expired") {
-            $where = "content.end_time < NOW() AND feed_content.moderation_flag = 1";
-        } elseif($this->args[4] == "declined") {
+        if(array_key_exists(4, $this->args) && 
+          $this->args[4] == "expired") {
+           $where = "content.end_time < NOW() AND" .
+             " feed_content.moderation_flag = 1";
+        } elseif(array_key_exists(4, $this->args) && 
+          $this->args[4] == "declined") {
             if($this->feed->user_priv($_SESSION['user'], "moderate")) {
                 $where = "feed_content.moderation_flag = 0";
             } else {

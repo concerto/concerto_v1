@@ -29,6 +29,7 @@
 <h2>Click on a user to view his or her profile.</h2>
 <table class="edit_win" cellpadding="6" cellspacing="0">
 <?php
+$notfirst = 0; // Indicate that we haven't displayed the first row yet (for top border)
 foreach($this->users as $user){
    ?>
 <tr>
