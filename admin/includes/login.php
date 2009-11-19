@@ -93,13 +93,15 @@ function require_action_auth($callback)
 //these methods are interfaces to logon information.
 function isLoggedIn()
 {
-   if(strlen($_SESSION['user']->username)>1) return true;
+   if(array_key_exists('user', $_SESSION) && 
+    strlen($_SESSION['user']->username)>1) return true;
    return false;
 }
 
 function isAdmin()
 {
-   if($_SESSION['user']->admin_privileges) return true;
+   if(array_key_exists('user', $_SESSION) &&
+    $_SESSION['user']->admin_privileges) return true;
    return false;
 }
 

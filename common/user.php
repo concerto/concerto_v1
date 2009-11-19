@@ -239,7 +239,8 @@ allow_email = '$this->allow_email' WHERE id = $this->id LIMIT 1";
 	}
 	
 	//Lists all the groups a user is in
-	function list_groups(){
+        function list_groups(){
+                $data = array();
 		foreach($this->groups as $group_id){
 			$data[] = new Group($group_id);
 		}

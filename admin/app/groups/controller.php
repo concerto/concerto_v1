@@ -51,26 +51,27 @@ class groupsController extends Controller
       if(is_array($ids))
          foreach($ids as $group) { 
             $group = new Group($group['id']);
-            $this->groups[$group->id][name]=$group->name;
+            $this->groups[$group->id]['name']=$group->name;
             $members = $group->get_members();
-            $this->groups[$group->id][members]=is_array($members)?count($members):0;
+            $this->groups[$group->id]['members']=is_array($members)?count($members):0;
             $feeds_res = sql_query('SELECT COUNT(id) as feeds FROM `feed` WHERE `group_id` = '.$group->id);
+            $this->groups[$group->id]['controls'] = NULL;
             if($feeds_res) {
                $num_feeds = sql_row_keyed($feeds_res,0);
                $num_feeds = $num_feeds['feeds'];
                if($num_feeds==1)
-                  $this->groups[$group->id][controls][]="1 feed";
+                  $this->groups[$group->id]['controls'][]="1 feed";
                else if($num_feeds>1)
-                  $this->groups[$group->id][controls][]=$num_feeds." feeds";
+                  $this->groups[$group->id]['controls'][]=$num_feeds." feeds";
             }
             $screens_res = sql_query('SELECT COUNT(id) as screens FROM `screen` WHERE `group_id` = '.$group->id);
             if($screens_res) {
             $num_screens = sql_row_keyed($screens_res,0);
                $num_screens = $num_screens['screens'];
                if($num_screens==1)
-                  $this->groups[$group->id][controls][]="1 screen";
+                  $this->groups[$group->id]['controls'][]="1 screen";
                else if($num_screens>1)
-                  $this->groups[$group->id][controls][]=$num_screens." screens";
+                  $this->groups[$group->id]['controls'][]=$num_screens." screens";
             }
       }
    }

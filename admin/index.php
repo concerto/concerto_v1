@@ -110,7 +110,11 @@ if(defined('PREFERRED_DOMAIN') && PREFERRED_DOMAIN != $_SERVER['HTTP_HOST']) {
 }
 
 //parse request, go to default page if none requested
-if($_SERVER['PATH_INFO'] == '' || $_SERVER['PATH_INFO'] == '/') {
+if(!array_key_exists('PATH_INFO', $_SERVER) || 
+  $_SERVER['PATH_INFO'] == '' || $_SERVER['PATH_INFO'] == '/') {
+    //Note: if the server fails to pass PATH_INFO when we get a URL that is not the
+    //top level, we will display the defaul page (homepage) regardless of the URL.
+    //this should be okay for most configurations, but is a potential deployment hitch.
     $path_info = DEFAULT_PATH;
 } else {
     $path_info = $_SERVER['PATH_INFO'];
@@ -163,7 +167,7 @@ if(!file_exists(APP_PATH.'/'.$controller.'/controller.php')) {
 //this will be called in the template to display them to the user
 function renderMessages()
 {
-  if(is_array($_SESSION['flash']))
+  if(array_key_exists('flash',$_SESSION) && is_array($_SESSION['flash']))
      foreach($_SESSION['flash'] as $msg)
         echo renderMessage($msg[0], $msg[1]);
   //Once they've been displayed, clear them out.
@@ -269,7 +273,7 @@ class Controller
          $this->breadcrumb($this->getName(),$this->controller);
       
       //figure out what action to use
-      if(method_exists($this,$args[0].'Action'))
+      if(array_key_exists(0,$args) && method_exists($this,$args[0].'Action'))
          $action = $args[0];
       else if(method_exists($this, $this->defaultAction.'Action'))
          $action = $this->defaultAction;
@@ -278,7 +282,7 @@ class Controller
       
       //save arguments for controller use
       $this->args=$args;
-      $this->currId=$args[1];
+      $this->currId= array_key_exists(1,$args) ? $args[1] : NULL;
       $this->action=$action;
 
       //save information about the view we want to display
@@ -288,9 +292,11 @@ class Controller
     
       //find the action's human name
       if($action != $this->defaultAction) {
-        $actionName = $this->actionNames[$action];
-        if(!isset($actionName)) 
-           $actionName = $action;
+        if(array_key_exists($action, $this->actionNames)) {
+          $actionName = $this->actionNames[$action];
+        } else {
+          $actionName = $action;
+        }
       }
 
       //figure out which template should be used by default
@@ -307,7 +313,7 @@ class Controller
       //set breadcrumbs
       if(count($this->breadcrumbs)<=2) {
          if($this->subjectName)
-            $this->breadcrumb($this->subjectName,$this->controller.'/show/'.$this->args[1]);
+            $this->breadcrumb($this->subjectName,$this->controller.'/show/'.(array_key_exists(1,$this->args) ? $this->args[1] : ''));
          if($action != $this->defaultAction && $action != 'show')
             $this->breadcrumb($actionName,$this->controller.'/'.$action);
          //I don't forsee a case where that breadcrumb URL is shown, btw.

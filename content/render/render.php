@@ -58,7 +58,7 @@ function render($type, $filename, $width = false, $height = false, $stretch = fa
 			header('Content-Length: ' .filesize($cache_path));
 			fpassthru($fp); //If so, then serve it
 			exit(0);
-		} else if(MEMCACHE_ENABLE && $memcached_connected && $dat = $memcache->get($key)){
+		} else if(defined('MEMCACHE_ENABLE') && MEMCACHE_ENABLE && $memcached_connected && $dat = $memcache->get($key)){
 			header('Content-type: image/' . $dat['type']);
 			header('Content-Length: ' . mb_strlen($dat['data']));
 			echo $dat['data'];
