@@ -117,8 +117,12 @@ class usersController extends Controller
       
 
       if(isAdmin()) {
+         if($dat['np1'] != $dat['np2']){
+           $_SESSION['flash'][]= Array('error','Passwords do not match');
+           redirect_to(ADMIN_URL.'/users/new');
+         }
          if($user->create_user($dat['username'],$dat['name'],
-                               $dat['email'],$dat['admin_privileges']=='admin'?1:0, $dat['allow_email']=='allow'?1:0)) {
+                               $dat['email'],$dat['admin_privileges']=='admin'?1:0, $dat['allow_email']=='allow'?1:0,$dat['np1'])) {
             $_SESSION['flash'][]=Array('info', 'User profile created successfully.');
             redirect_to(ADMIN_URL.'/users/show/'.$user->username);
          } else {

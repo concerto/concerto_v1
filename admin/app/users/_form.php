@@ -74,6 +74,18 @@
            <input type="text" id="username" name="user[username]" value="<?=$user->username?>">
          </td>
        </tr>
+      <tr>
+         <td><h5>Password</h5></td>
+         <td>
+           <input type="password" id="pass1" name="user[np1]" value="">
+         </td>
+       </tr>
+      <tr>	
+         <td><h5>Password</h5></td>
+         <td>
+           <input type="password" id="pass2" name="user[np2]" value="">
+         </td>
+       </tr>
        <tr>
          <td><h5>Admin Privileges</h5></td>
          <td>
