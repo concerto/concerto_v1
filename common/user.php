@@ -55,8 +55,10 @@ class User{
 	
 	var $groups = array();
 	var $set;
+	var $status;
 		
 	function __construct($username_in = ''){
+		$this->status = "";
 		if($username_in != ''){
 	        	if(is_numeric($username_in))
             			$sql = "SELECT * FROM user WHERE id = '$username_in' LIMIT 1";
@@ -107,20 +109,22 @@ class User{
 		} else {
 			//Cleaning Block
 			if($username_in == "" || $name_in == "" || $email_in == ""){ //All user fields must be set!
+				$this->status .= "The username, name, or email address was blank.  ";
 				return false;
 			}
 			$username_in = escape($username_in);
 			$name_in = escape($name_in);
 			$valid_email = "^[a-z0-9,!#\$%&'\*\+/=\?\^_`\{\|}~-]+(\.[a-z0-9,!#\$%&'\*\+/=\?\^_`\{\|}~-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*\.([a-z]{2,})$";
 			if(!eregi($valid_email, $email_in)){ //Test for a valid email address
+				$this->status .= "The email address entered doesn't look valid.  ";
 				return false;
 			}
 			$email_in = escape($email_in);
 			if(!is_numeric($admin_privileges_in)){
-				return false;
+				$admin_privileges_in = 0; //Fix any error by making them not an admin
 			}
 			if(!is_numeric($allow_email_in)){
-				return false;
+				$allow_email_in = 1; //Fix any error by enabling email
 			}
 
 			//End testing/cleaning block
@@ -149,6 +153,7 @@ class User{
 
 				return true;
 			} else {
+				$this->status .= "A database error occured creating your account.  ";
 				return false;
 			}
 			
