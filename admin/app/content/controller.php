@@ -109,30 +109,30 @@ class contentController extends Controller
    
    function newAction()
    {
-      $this->readFeeds(&$this->feeds, Feed::priv_get($_SESSION['user'], 'content'));
-      $this->readFeeds(&$this->ndc_feeds, Feed::priv_get($_SESSION['user'], 'dynamic'));
+      $this->readFeeds($this->feeds, Feed::priv_get($_SESSION['user'], 'content'));
+      $this->readFeeds($this->ndc_feeds, Feed::priv_get($_SESSION['user'], 'dynamic'));
       $this->setTitle("Add Content");
    }
    function new_imageAction()
    {
-      $this->readFeeds(&$this->feeds, Feed::priv_get($_SESSION['user'], 'content'));
+      $this->readFeeds($this->feeds, Feed::priv_get($_SESSION['user'], 'content'));
    }
 
    function new_tickerAction()
    {
-      $this->readFeeds(&$this->feeds,Feed::priv_get($_SESSION['user'], 'content'));      
+      $this->readFeeds($this->feeds,Feed::priv_get($_SESSION['user'], 'content'));      
    }
 
    function new_dynamicAction()
    {
       $this->setTitle("Add Dynamic Content");
-      $this->readFeeds(&$this->ndc_feeds,Feed::priv_get($_SESSION['user'], 'dynamic'));      
+      $this->readFeeds($this->ndc_feeds,Feed::priv_get($_SESSION['user'], 'dynamic'));      
    }
    function new_previewAction(){
    
    }
    //just a helper to store feeds for listing in form
-   function readFeeds($dest, $unsub_feeds, $sub_feeds="")
+   function readFeeds(&$dest, $unsub_feeds, $sub_feeds="")
    {
       $dest = Array();
       if(is_array($unsub_feeds))
