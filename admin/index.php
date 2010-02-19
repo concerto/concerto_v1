@@ -45,20 +45,20 @@ include('../config.inc.php');
 include('../version.inc.php');
 
 //Classes and Libraries:
-include(COMMON_DIR.'/mysql.inc.php');//Tom's sql library interface + db connection settings
-include(COMMON_DIR.'/user.php');     //Class to represent a site user
-include(COMMON_DIR.'/screen.php');   //Class to represent a screen in the system
-include(COMMON_DIR.'/feed.php');     //Class to represent a content feed
-include(COMMON_DIR.'/field.php');    //Class to represent a field in a template
-include(COMMON_DIR.'/position.php'); //Class to represent a postion relationship
-include(COMMON_DIR.'/content.php');  //Class to represent content items
-include(COMMON_DIR.'/upload.php');   //Helps uploading
-include(COMMON_DIR.'/group.php');    //Class to represent user groups
-include(COMMON_DIR.'/dynamic.php');  //Functionality for dynamic content
-include(COMMON_DIR.'/notification.php');  //Functionality for notifications
-include(COMMON_DIR.'/newsfeed.php');  //Functionality for notifications
-include(COMMON_DIR.'/template.php');  //Class to represent a template
-include(COMMON_DIR.'/image.inc.php'); //Image library, used for resizing images
+include(COMMON_DIR.'mysql.inc.php');//Tom's sql library interface + db connection settings
+include(COMMON_DIR.'user.php');     //Class to represent a site user
+include(COMMON_DIR.'screen.php');   //Class to represent a screen in the system
+include(COMMON_DIR.'feed.php');     //Class to represent a content feed
+include(COMMON_DIR.'field.php');    //Class to represent a field in a template
+include(COMMON_DIR.'position.php'); //Class to represent a postion relationship
+include(COMMON_DIR.'content.php');  //Class to represent content items
+include(COMMON_DIR.'upload.php');   //Helps uploading
+include(COMMON_DIR.'group.php');    //Class to represent user groups
+include(COMMON_DIR.'dynamic.php');  //Functionality for dynamic content
+include(COMMON_DIR.'notification.php');  //Functionality for notifications
+include(COMMON_DIR.'newsfeed.php');  //Functionality for notifications
+include(COMMON_DIR.'template.php');  //Class to represent a template
+include(COMMON_DIR.'image.inc.php'); //Image library, used for resizing images
 
 $render_times[] = Array('Includes', microtime(true));
 

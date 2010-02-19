@@ -50,6 +50,7 @@
     <h1>Concerto Config</h1>
     <ul>
       <li>Config access: <?= config_found(); ?></li><? include('../config.inc.php'); ?>
+      <li>Common Directory: <?= common_dir(); ?></li>
       <li>Image Upload Directory: <?= image_dir(); ?></li>
       <li>Template Upload Directory: <?= template_dir(); ?></li>
       <li>MySQL Connection test: <?= test_mysql(); ?></li>
@@ -92,7 +93,7 @@ function json_test(){
 
 function path_info(){
   if(string_ends_with($_SERVER['PHP_SELF'], 'diagnostics.php')){
-    return fail('Unable to test.  Try visiting <a href="' . $_SERVER['PHP_SELF']. '/test">this</a>');
+    return fail('Unable to test?  Try visiting <a href="' . $_SERVER['PHP_SELF']. '/test">this</a>');
   } else {
     if(isset($_SERVER['PATH_INFO'])){
       return pass($_SERVER['PATH_INFO']);
@@ -108,6 +109,14 @@ function config_found(){
     return fail("Missing config.inc.php");
   } elseif (!is_readable($p)){
     return fail("Cannot read file");
+  } else {
+    return pass("OK");
+  }
+}
+
+function common_dir(){
+  if(!is_dir(COMMON_DIR) || !is_file(COMMON_DIR.'mysql.inc.php')){
+    return fail("COMMON_DIR incorrectly setup, make sure it ends in a trailing '/'.");
   } else {
     return pass("OK");
   }
