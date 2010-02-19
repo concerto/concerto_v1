@@ -278,7 +278,7 @@ class Uploader{
 	function png_cleaner($loc = ''){
 		//echo "Starting PNG cleaner";
 		$temp_dir = $this->get_temp_dir();
-		$temp_name = $this->user_id . "-" . time() . ".jpg";
+		$temp_name = $this->user_id . "-" . time() . ".png";
 		$temp_dest = $temp_dir . $temp_name;
 		if($loc != ''){
 			$temp_dest = $loc;
@@ -315,6 +315,23 @@ class Uploader{
 			$new_y = $height * $scale;
 				
 			$dest_img=ImageCreateTrueColor($new_x,$new_y);
+			
+			//Respect transparency
+			$alpha = imagecolortransparent($src_img);
+			if($alpha >= 0){
+				$color = imagecolorsforindex($dest_img, $alpha);
+				$alpha = imagecolorallocate($dest_img, $color['red'], $color['green'], $color['blue']);
+				imagefill($dest_img, 0, 0, $alpha);
+				imagecolortransparent($dest_img, $alpha);
+			} else {
+				imagealphablending($dest_img, false);
+				$color = imagecolorallocatealpha($dest_img, 0, 0, 0, 127);
+				imagefill($dest_img, 0, 0, $color);
+				imagesavealpha($dest_img, true);
+			}
+			//end respect
+			
+			
         		imagecopyresampled($dest_img,$src_img,0,0,0,0,$new_x,$new_y,$width,$height);
         		imagepng($dest_img, $temp_dest, 1);
         		imagedestroy($dest_img);
