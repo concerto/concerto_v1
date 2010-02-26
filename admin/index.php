@@ -72,7 +72,7 @@ $render_times[] = Array('login', microtime(true));
 // Some of these will likely be definied in the above-included config.inc.php,
 // but we'll provide some defaults here just in case.
 if(!defined('ADMIN_BASE_URL')) {
-    define('ADMIN_BASE_URL','admin/'); //base directory for images, etc.
+    define('ADMIN_BASE_URL','/admin/'); //base directory for images, etc.
 }
 if(!defined('ADMIN_URL')) {
     //Top URL of site
