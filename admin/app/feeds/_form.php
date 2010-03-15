@@ -26,7 +26,11 @@
 ?><!-- Beginning Feed Form -->
 <?php
    //assuming $this->feed is null or the feed we want to edit
-   $feed = $this->feed;
+   if(array_key_exists('feed', $this)) {
+      $feed = $this->feed;
+   } else {
+      $feed = new Feed();
+   }
 ?>
      <table style="clear:none" class='edit_win' cellpadding='6' cellspacing='0'>
        <tr> 
@@ -49,7 +53,7 @@
                    if(is_array($groups))
                      foreach($groups as $group) {
              ?>
-                <option value="<?= $group[id] ?>"<?php if($feed->group_id==$group[id]) echo ' SELECTED'; ?>><?=$group[name]?></option>
+                <option value="<?= $group['id'] ?>"<?php if($feed->group_id==$group['id']) echo ' SELECTED'; ?>><?=$group['name']?></option>
              <?php   } ?>
              </select></td>
        </tr>

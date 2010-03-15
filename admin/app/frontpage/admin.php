@@ -53,7 +53,7 @@
   <div class="roundcont_main">
   <h1>Page Load Statisics</h1>
   <form method="POST">
-    <input type="submit" name="stats" value="Turn <?=$_SESSION['stats']?'Off':'On'?>" />
+    <input type="submit" name="stats" value="Turn <?= (array_key_exists('stats', $_SESSION) && $_SESSION['stats']) ?'Off':'On'?>" />
   </form>
   </div>
   <div class="roundbottom"><span class="rb"><img src="<? echo ADMIN_BASE_URL ?>/images/blsp.gif" height="6" width="1" alt="" /></span></div>
@@ -65,5 +65,5 @@
 <h3>Admin Revision: <span class="emph"><?system('svnversion')?></span></h3>
 <a href="<?= ADMIN_URL ?>/frontpage/phpinfo">PHP Info</a><br />
 <a href="<?= ADMIN_URL ?>/frontpage/mailer">Send Mail</a><br />
-<a href="<?= ADMIN_URL ?>/frontpage/addtemplate">Template Importer</br>
+<a href="<?= ADMIN_URL ?>/frontpage/addtemplate">Template Importer</a></br>
 

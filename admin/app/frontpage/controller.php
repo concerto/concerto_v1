@@ -80,7 +80,7 @@ class frontpageController extends Controller
 
 	function adminAction()
 	{
-      $user = new User($_SESSION[user]->username);
+      $user = new User($_SESSION['user']->username);
       if(!$user->admin_privileges)
          redirect_to(ADMIN_URL.'/frontpage');
 
@@ -104,7 +104,7 @@ class frontpageController extends Controller
 	}
 	function mailerAction()
 	{
-         $user = new User($_SESSION[user]->username);
+         $user = new User($_SESSION['user']->username);
          $this->fromyou = $user->name . ' (' . $user->email . ')';
          if(!$user->admin_privileges)
            redirect_to(ADMIN_URL.'/frontpage');
@@ -126,7 +126,7 @@ class frontpageController extends Controller
 	}
 	function sendmailAction()
 	{
-	     $curuser = new User($_SESSION[user]->username);
+	     $curuser = new User($_SESSION['user']->username);
 	     if(!$curuser->admin_privileges)
          redirect_to(ADMIN_URL.'/frontpage');
 
@@ -196,14 +196,14 @@ class frontpageController extends Controller
 	}
 
    function addtemplateAction(){
-    $user = new User($_SESSION[user]->username);
+    $user = new User($_SESSION['user']->username);
       if(!$user->admin_privileges)
          redirect_to(ADMIN_URL.'/frontpage');
          
      $this->setTitle("Upload Template");
    }
    function createtemplateAction(){
-    $user = new User($_SESSION[user]->username);
+    $user = new User($_SESSION['user']->username);
     if(!$user->admin_privileges)
        redirect_to(ADMIN_URL.'/frontpage');
          
@@ -261,7 +261,7 @@ class frontpageController extends Controller
    
    function phpinfoAction()
    {
-      $user = new User($_SESSION[user]->username);
+      $user = new User($_SESSION['user']->username);
       if(!$user->admin_privileges)
          redirect_to(ADMIN_URL.'/frontpage');
       phpinfo();
@@ -270,7 +270,7 @@ class frontpageController extends Controller
 
    function suAction()
    {
-      $user = new User($_SESSION[user]->username);
+      $user = new User($_SESSION['user']->username);
       if(isset($_REQUEST['r'])) {
          unset($_SESSION['su']);
          login_login();

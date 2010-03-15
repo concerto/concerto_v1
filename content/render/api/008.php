@@ -26,9 +26,9 @@
 //Content Rendering API
 //Version 0.08
 //Notes: You shouldn't be touching this file directly.  You should be calling through the render/index.php handler and passing the version 007
-include(COMMON_DIR.'/user.php');     //Class to represent a site user
-include(COMMON_DIR.'/feed.php');     //Class to represent a content feed
-include(COMMON_DIR.'/content.php');  //Class to represent content items in the system
+include(COMMON_DIR.'user.php');     //Class to represent a site user
+include(COMMON_DIR.'feed.php');     //Class to represent a content feed
+include(COMMON_DIR.'content.php');  //Class to represent content items in the system
 
 
 if($_REQUEST['select'] == 'system'){

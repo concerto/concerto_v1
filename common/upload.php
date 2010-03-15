@@ -47,6 +47,9 @@ define('MIN_H','400'); //Min height before we reject an image
 define('MAX_W','1920'); //Max width before we resize an image
 define('MAX_H','1280'); //Max height before we resize an image
 
+//If you're using PHP < 5.2.1, we cannot figure out the temp directory automagically.
+//This parameter will ONLY be used if the sys_get_temp_dir function does not exist (i.e. older PHP)
+define('TEMP_DIR','/tmp/'); 
 
 class Uploader{
 	/*How to decypher this:
@@ -207,7 +210,7 @@ class Uploader{
 	}
 	function jpeg_cleaner($loc = ''){
 		//echo "Starting JPEG cleaner";
-		$temp_dir = "/tmp/";
+		$temp_dir = $this->get_temp_dir();
 		$temp_name = $this->user_id . "-" . time() . ".jpg";
 		$temp_dest = $temp_dir . $temp_name;
 		if($loc != ''){
@@ -215,7 +218,7 @@ class Uploader{
 		} else {
 			if(!move_uploaded_file($this->content_i['tmp_name'], $temp_dest)){
 				$this->retval = false;
-				$this->status = $this->status . "Permissions error, contact an adminstrator. [Type: J]";
+				$this->status = $this->status . "Permissions error, contact an administrator. [Type: J]";
 				return false;
 			}
 		}
@@ -252,7 +255,7 @@ class Uploader{
         		
         		$this->mime_type = 'image/jpeg';
         		$this->type_id = 3; //SELF: THIS IS BAD AND DUMB AND STUPID
-        		$this->status = $this->status . "Your image was sucessfully resized. ";
+        		$this->status = $this->status . "Your image was successfully resized. ";
         		//echo "But we shrunk it!";
         		if($this->auto){
         			return $this->mover($temp_dest);
@@ -274,15 +277,15 @@ class Uploader{
 	}
 	function png_cleaner($loc = ''){
 		//echo "Starting PNG cleaner";
-		$temp_dir = "/tmp/";
-		$temp_name = $this->user_id . "-" . time() . ".jpg";
+		$temp_dir = $this->get_temp_dir();
+		$temp_name = $this->user_id . "-" . time() . ".png";
 		$temp_dest = $temp_dir . $temp_name;
 		if($loc != ''){
 			$temp_dest = $loc;
 		} else {
 			if(!move_uploaded_file($this->content_i['tmp_name'], $temp_dest)){
 				$this->retval = false;
-				$this->status = $this->status . "Permissions error, contact an adminstrator. [Type: P]";
+				$this->status = $this->status . "Permissions error, contact an administrator. [Type: P]";
 				return false;
 			}
 		}
@@ -312,6 +315,23 @@ class Uploader{
 			$new_y = $height * $scale;
 				
 			$dest_img=ImageCreateTrueColor($new_x,$new_y);
+			
+			//Respect transparency
+			$alpha = imagecolortransparent($src_img);
+			if($alpha >= 0){
+				$color = imagecolorsforindex($dest_img, $alpha);
+				$alpha = imagecolorallocate($dest_img, $color['red'], $color['green'], $color['blue']);
+				imagefill($dest_img, 0, 0, $alpha);
+				imagecolortransparent($dest_img, $alpha);
+			} else {
+				imagealphablending($dest_img, false);
+				$color = imagecolorallocatealpha($dest_img, 0, 0, 0, 127);
+				imagefill($dest_img, 0, 0, $color);
+				imagesavealpha($dest_img, true);
+			}
+			//end respect
+			
+			
         		imagecopyresampled($dest_img,$src_img,0,0,0,0,$new_x,$new_y,$width,$height);
         		imagepng($dest_img, $temp_dest, 1);
         		imagedestroy($dest_img);
@@ -319,7 +339,7 @@ class Uploader{
         		
         		$this->mime_type = 'image/png';
         		$this->type_id = 3; //SELF: THIS IS BAD AND DUMB AND STUPID
-        		$this->status = $this->status . "Your image was sucessfully resized. ";
+        		$this->status = $this->status . "Your image was successfully resized. ";
         		//echo "But we shrunk it!";
         		if($this->auto){
         			return $this->mover($temp_dest);
@@ -341,7 +361,7 @@ class Uploader{
 	}	
 	function gif_cleaner($loc = ''){
 		//echo "Starting GIF cleaner";
-		$temp_dir = "/tmp/";
+		$temp_dir = $this->get_temp_dir();
 		$temp_name = $this->user_id . "-" . time() . ".gif";
 		$temp_dest = $temp_dir . $temp_name;
 		if($loc != ''){
@@ -349,7 +369,7 @@ class Uploader{
 		} else {
 			if(!move_uploaded_file($this->content_i['tmp_name'], $temp_dest)){
 				$this->retval = false;
-				$this->status = $this->status . "Permissions error, contact an adminstrator. [Type: G]";
+				$this->status = $this->status . "Permissions error, contact an administrator. [Type: G]";
 				return false;
 			}
 		}
@@ -388,7 +408,7 @@ class Uploader{
        			$this->mime_type = 'image/gif';
        			$this->type_id = 3; //SELF: THIS IS BAD AND DUMB AND STUPID
        			//echo "But we shrunk it!";
-       			$this->status = $this->status . "Your image was sucessfully resized. ";
+       			$this->status = $this->status . "Your image was successfully resized. ";
         		if($this->auto){
        				return $this->mover($temp_dest);
        			} else {
@@ -409,7 +429,7 @@ class Uploader{
 	}
 
 	function pdf_cleaner(){
-		$temp_dir = "/tmp/";
+		$temp_dir = $this->get_temp_dir();
 		$temp_name = $this->user_id . "-" . time() . ".pdf";
 		$temp_dest = $temp_dir . $temp_name;
 		if(move_uploaded_file($this->content_i['tmp_name'], $temp_dest)){
@@ -432,13 +452,13 @@ class Uploader{
         			return true;
         		}
 		} else {
-			$this->status = $this->status . "PDF permission overflow.  Please contact an administrator. ";
+			$this->status = $this->status . "Permissions error, contact an administrator. [Type: P]";
 			$this->retval = false;
 			return false;
 		}
 	}
 	function ppt_cleaner(){
-		$temp_dir = "/tmp/";
+		$temp_dir = $this->get_temp_dir();
 		$temp_name = $this->user_id . "-" . time() . ".ppt";
 		$temp_dest = $temp_dir . $temp_name;
 		if(move_uploaded_file($this->content_i['tmp_name'], $temp_dest)){
@@ -502,5 +522,22 @@ class Uploader{
 				$f->content_add($this->cid, 'NULL', 'NULL', $this->duration);
 			}
 		}
+	}
+	
+	//Small helper function to a temporary location
+	function get_temp_dir(){
+	  if(!function_exists('sys_get_temp_dir')){
+	    $dir = TEMP_DIR; //The constant from the top of the file
+	  } else {
+	    $dir = sys_get_temp_dir();
+	  }
+	  $path = realpath($dir);
+	  if(!$path){
+	    $this->retval = false;
+		$this->status = $this->status . " Unable to find a temporary directory. ";
+		return false; //Failure to find a temp directory
+	  } else {
+	    return $path . '/';
+	  }
 	}
 }

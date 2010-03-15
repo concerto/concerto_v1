@@ -59,6 +59,7 @@ class  wallController extends Controller
       $this->content = new Content($this->args[2]);
       $this->submitter = new User($this->content->user_id);
       $this->week_range = date('W',strtotime($this->content->end_time)) - date('W',strtotime($this->content->start_time));
+      $this->setTitle($this->content->name);
       //Permissions are currently handled in the view to account for both ajax and non-ajax queries.
     }
     
@@ -70,6 +71,7 @@ class  wallController extends Controller
       $this->feed = new Feed($this->args[1]);
       if((strlen($this->feed->name) > 0) && $this->feed->type != 3){
         $this->contents = $this->feed->content_get_by_type(3,'feed_content.moderation_flag = 1 AND content.start_time <= NOW() AND content.end_time>= NOW() AND content.mime_type LIKE "%image%"');
+        $this->setTitle($this->feed->name);
       }
       //Permissions are currently handled in the view to account for both ajax and non-ajax queries.
     }

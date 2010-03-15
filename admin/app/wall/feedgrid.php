@@ -13,5 +13,13 @@
     </div>
   <? } ?>
 </div>
+<? if(!isset($_REQUEST['ajax'])){ ?>
+<div id="bottomstrip">
+        <div id="bottomstrip-padding">
+                <a href="<?= ADMIN_URL ?>/wall/">&lt;&lt; Back to the Concerto Wall</a>
+        </div>
+</div>
+<? } ?>
+
 <? } ?>
 </div>

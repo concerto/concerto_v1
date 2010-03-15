@@ -303,7 +303,11 @@ class Content{
           $tempscreen_distribution[$row2['screen_id']] = $row2[$time_period . '_count'] * $display_count / $content_display_sum;
           $j++;
         }
+        $screen_distribution = array();
         foreach ($tempscreen_distribution as $screen_id => $temp_calc){ //Reduce that to be on a per position percentage
+          if(!array_key_exists($screen_id, $screen_distribution)) {
+            $screen_distribution[$screen_id] = 0;
+          }
           $screen_distribution[$screen_id] += $temp_calc / $feed_display_sum;
         }
       }

@@ -115,6 +115,11 @@ class screensController extends Controller
    {
       $this->setTitle('Create new screen');
       $this->avail_templates = Template::get_all("WHERE hidden = 0"); //We know nothing about the new screen
+      //Templates must exist for a screen to be created.  Lets error them out before they can try
+      if(!$this->avail_templates || count($this->avail_templates) < 1){
+        $this->flash("Please import a template before creating a screen","error");
+        redirect_to(ADMIN_URL . '/frontpage/addtemplate');
+      }
    }
    
    function templateAction()

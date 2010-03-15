@@ -57,7 +57,7 @@ div.UIWall_contentnum { color:#FFF; position:absolute; z-index:99999; text-align
 #wallthumbs a:hover img{border:solid 1px #09f;}
 #wallthumbs div.UIWall_thumb{margin:16px 8px;float:left;text-align:center;width:202px;height:152px;}
 div.overlay{background-image:url(../images/wall/white.png);width:600px;height:670px;display:none;padding:55px;text-align:center;}
-div.overlay img{border:solid 2px #ccc;}
+#overlay_graphic img{border:solid 2px #ccc;}
 div.overlay a:hover img { border:solid 2px #09f; }
 div.overlay div.close{background-image:url(../images/wall/close.png);position:absolute;right:5px;top:5px;cursor:pointer;height:35px;width:35px;}
 

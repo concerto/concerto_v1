@@ -49,13 +49,31 @@ function resize($filename, $new_width = false, $new_height = false, $stretch = f
     $image = @imagecreatefromgif($filename) or //Read GIF
     $image = false;
 
+    $type = image_type_to_mime_type($type_int);
+    
+    //If the image is a PNG, make sure the alpha layer is respected!
+    if($image && ($type == 'image/png' || $type == 'image/x-png')){
+      $alpha = imagecolortransparent($image);
+      if($alpha >= 0){
+        $color = imagecolorsforindex($image, $alpha);
+        $alpha = imagecolorallocate($new_image, $color['red'], $color['green'], $color['blue']);
+        imagefill($new_image, 0, 0, $alpha);
+        imagecolortransparent($new_image, $alpha);
+      } else {
+        imagealphablending($new_image, false);
+        $color = imagecolorallocatealpha($new_image, 0, 0, 0, 127);
+        imagefill($new_image, 0, 0, $color);
+        imagesavealpha($new_image, true);
+      }
+      
+    }
+    
     if($image) {
 	    imagecopyresampled($new_image, $image, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
         imagedestroy($image);
     } else
         $new_image = imagecreatetruecolor(3, 3);
         
-    $type = image_type_to_mime_type($type_int);
     
     if($type == "image/jpeg" || $type == 'image/pjpeg' || $type == 'image/jpg'){
       header('Content-type: image/jpeg');

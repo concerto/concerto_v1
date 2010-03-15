@@ -49,7 +49,7 @@ function zeropad(number){
 function currenttime(){
   var currentDate = new Date();
   var day = zeropad(currentDate.getDate());
-  var month = zeropad(currentDate.getMonth());
+  var month = zeropad(currentDate.getMonth()+1);
   var hours = currentDate.getHours();
   if(hours > 12){
     post = "PM";

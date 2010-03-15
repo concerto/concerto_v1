@@ -51,7 +51,7 @@ class usersController extends Controller
       $this->users=Array();
       if(is_array($userids))
          foreach($userids as $user)
-            $this->users[] = new User($user[username]); 
+            $this->users[] = new User($user['username']); 
    }
    
    function showAction()
@@ -126,8 +126,7 @@ class usersController extends Controller
             $_SESSION['flash'][]=Array('info', 'User profile created successfully.');
             redirect_to(ADMIN_URL.'/users/show/'.$user->username);
          } else {
-            $_SESSION['flash'][]=Array('error', 'Your profile submission failed. '.
-                                       'Please check all fields and try again.');
+            $_SESSION['flash'][]=Array('error', 'Your profile submission failed. '. $user->status);
             redirect_to(ADMIN_URL.'/users/new');
          }
       } else {
@@ -142,8 +141,7 @@ class usersController extends Controller
             login_login();
             redirect_to(ADMIN_URL);
          } else {
-            $_SESSION['flash'][]=Array('error', 'Your profile submission failed. '.
-                                       'Please check all fields and try again.');
+            $_SESSION['flash'][]=Array('error', 'Your profile submission failed. '. $user->status);
             redirect_to(ADMIN_URL.'/users/signup');
          }
       }

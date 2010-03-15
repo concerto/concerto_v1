@@ -50,9 +50,11 @@ class templatesController extends Controller
       if(!$this->p_template->set){
         return false;
       }
-      
-      $this->act_field = $this->args[2];
-      
+      if(array_key_exists(2, $this)) {
+        $this->act_field = $this->args[2];
+      } else {
+        $this->act_field = NULL;
+      }
       $this->width = '400';
       $this->height = '300';
       if(isset($_REQUEST['width'])) {

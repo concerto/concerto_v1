@@ -108,7 +108,10 @@ $(document).ready(function() {
     <div id="panel">
       <div id="panel_contents"> </div>
         <div id="UIWall_feedsel">
+         <? if(!is_array($this->feeds) || empty($this->feeds)) { ?>
+           Sorry, there are no browsable feeds in the system at this time.
           <?
+          } else {
             foreach($this->feeds as $id => $feed ) {
             $name = htmlspecialchars($feed['name']);
             if(strlen($name) > 26){
@@ -116,7 +119,8 @@ $(document).ready(function() {
             }
           ?>
              <div class="UIWall_feedbutton" style="position:relative;"><a href="<?= ADMIN_URL ?>/wall/feedgrid/<?= $id ?>" onclick="loadFeed(<?= $id ?>, '<?= $name ?>'); return false;" title="<?= $name ?>"><div class="UIWall_contentnum"><?= $feed['count'] ?></div><?= $name ?></a></div>
-          <? } ?>
+          <? } 
+           } ?>
             <br clear="both" />
         </div>
     </div>

@@ -41,21 +41,24 @@ $start_time=microtime(true);
 //DB, system, and miscellaneous configuration:
 include('../config.inc.php');
 
+//The version number, and other non-user globals:
+include('../version.inc.php');
+
 //Classes and Libraries:
-include(COMMON_DIR.'/mysql.inc.php');//Tom's sql library interface + db connection settings
-include(COMMON_DIR.'/user.php');     //Class to represent a site user
-include(COMMON_DIR.'/screen.php');   //Class to represent a screen in the system
-include(COMMON_DIR.'/feed.php');     //Class to represent a content feed
-include(COMMON_DIR.'/field.php');    //Class to represent a field in a template
-include(COMMON_DIR.'/position.php'); //Class to represent a postion relationship
-include(COMMON_DIR.'/content.php');  //Class to represent content items
-include(COMMON_DIR.'/upload.php');   //Helps uploading
-include(COMMON_DIR.'/group.php');    //Class to represent user groups
-include(COMMON_DIR.'/dynamic.php');  //Functionality for dynamic content
-include(COMMON_DIR.'/notification.php');  //Functionality for notifications
-include(COMMON_DIR.'/newsfeed.php');  //Functionality for notifications
-include(COMMON_DIR.'/template.php');  //Class to represent a template
-include(COMMON_DIR.'/image.inc.php'); //Image library, used for resizing images
+include(COMMON_DIR.'mysql.inc.php');//Tom's sql library interface + db connection settings
+include(COMMON_DIR.'user.php');     //Class to represent a site user
+include(COMMON_DIR.'screen.php');   //Class to represent a screen in the system
+include(COMMON_DIR.'feed.php');     //Class to represent a content feed
+include(COMMON_DIR.'field.php');    //Class to represent a field in a template
+include(COMMON_DIR.'position.php'); //Class to represent a postion relationship
+include(COMMON_DIR.'content.php');  //Class to represent content items
+include(COMMON_DIR.'upload.php');   //Helps uploading
+include(COMMON_DIR.'group.php');    //Class to represent user groups
+include(COMMON_DIR.'dynamic.php');  //Functionality for dynamic content
+include(COMMON_DIR.'notification.php');  //Functionality for notifications
+include(COMMON_DIR.'newsfeed.php');  //Functionality for notifications
+include(COMMON_DIR.'template.php');  //Class to represent a template
+include(COMMON_DIR.'image.inc.php'); //Image library, used for resizing images
 
 $render_times[] = Array('Includes', microtime(true));
 
@@ -69,7 +72,7 @@ $render_times[] = Array('login', microtime(true));
 // Some of these will likely be definied in the above-included config.inc.php,
 // but we'll provide some defaults here just in case.
 if(!defined('ADMIN_BASE_URL')) {
-    define('ADMIN_BASE_URL','admin/'); //base directory for images, etc.
+    define('ADMIN_BASE_URL','/admin/'); //base directory for images, etc.
 }
 if(!defined('ADMIN_URL')) {
     //Top URL of site
@@ -108,7 +111,11 @@ if(defined('PREFERRED_DOMAIN') && PREFERRED_DOMAIN != $_SERVER['HTTP_HOST']) {
 }
 
 //parse request, go to default page if none requested
-if($_SERVER['PATH_INFO'] == '' || $_SERVER['PATH_INFO'] == '/') {
+if(!array_key_exists('PATH_INFO', $_SERVER) || 
+  $_SERVER['PATH_INFO'] == '' || $_SERVER['PATH_INFO'] == '/') {
+    //Note: if the server fails to pass PATH_INFO when we get a URL that is not the
+    //top level, we will display the defaul page (homepage) regardless of the URL.
+    //this should be okay for most configurations, but is a potential deployment hitch.
     $path_info = DEFAULT_PATH;
 } else {
     $path_info = $_SERVER['PATH_INFO'];
@@ -161,7 +168,7 @@ if(!file_exists(APP_PATH.'/'.$controller.'/controller.php')) {
 //this will be called in the template to display them to the user
 function renderMessages()
 {
-  if(is_array($_SESSION['flash']))
+  if(array_key_exists('flash',$_SESSION) && is_array($_SESSION['flash']))
      foreach($_SESSION['flash'] as $msg)
         echo renderMessage($msg[0], $msg[1]);
   //Once they've been displayed, clear them out.
@@ -263,11 +270,11 @@ class Controller
    {
       //frontpage and controller breadcrumbs
       $this->breadcrumb(HOMEPAGE, HOMEPAGE_URL);
-      if($this->controller!=DEFAULT_CONTROLLER)
+      if($this->controller!='DEFAULT_CONTROLLER')
          $this->breadcrumb($this->getName(),$this->controller);
       
       //figure out what action to use
-      if(method_exists($this,$args[0].'Action'))
+      if(array_key_exists(0,$args) && method_exists($this,$args[0].'Action'))
          $action = $args[0];
       else if(method_exists($this, $this->defaultAction.'Action'))
          $action = $this->defaultAction;
@@ -276,7 +283,7 @@ class Controller
       
       //save arguments for controller use
       $this->args=$args;
-      $this->currId=$args[1];
+      $this->currId= array_key_exists(1,$args) ? $args[1] : NULL;
       $this->action=$action;
 
       //save information about the view we want to display
@@ -286,9 +293,11 @@ class Controller
     
       //find the action's human name
       if($action != $this->defaultAction) {
-        $actionName = $this->actionNames[$action];
-        if(!isset($actionName)) 
-           $actionName = $action;
+        if(array_key_exists($action, $this->actionNames)) {
+          $actionName = $this->actionNames[$action];
+        } else {
+          $actionName = $action;
+        }
       }
 
       //figure out which template should be used by default
@@ -305,7 +314,7 @@ class Controller
       //set breadcrumbs
       if(count($this->breadcrumbs)<=2) {
          if($this->subjectName)
-            $this->breadcrumb($this->subjectName,$this->controller.'/show/'.$this->args[1]);
+            $this->breadcrumb($this->subjectName,$this->controller.'/show/'.(array_key_exists(1,$this->args) ? $this->args[1] : ''));
          if($action != $this->defaultAction && $action != 'show')
             $this->breadcrumb($actionName,$this->controller.'/'.$action);
          //I don't forsee a case where that breadcrumb URL is shown, btw.
@@ -324,8 +333,8 @@ class Controller
    function render()
    {
       $viewpath=APP_PATH.'/'.
-         $this->view[controller].'/'.
-         $this->view[view].'.php';
+         $this->view['controller'].'/'.
+         $this->view['view'].'.php';
       if(file_exists($viewpath))
          include($viewpath);
 
@@ -368,8 +377,8 @@ class Controller
    {
       if(isset($this->pageTitle))
          return htmlspecialchars($this->pageTitle);
-      if(isset($this->actionNames[$this->view[view]]))
-         return htmlspecialchars($this->actionNames[$this->view[view]]);
+      if(isset($this->actionNames[$this->view['view']]))
+         return htmlspecialchars($this->actionNames[$this->view['view']]);
       if(isset($this->controller))
          return htmlspecialchars($this->controller);
    }
@@ -427,8 +436,8 @@ class Controller
          $view = $controller;
          $controller = $this->controller;
       }
-      $this->view[controller]=$controller;
-      $this->view[view]=$view;
+      $this->view['controller']=$controller;
+      $this->view['view']=$view;
    }
    
    //display informational messages
