@@ -41,7 +41,7 @@
             var maxContentToKeep = 10;
 
             function keyup_handler(e) {
-                console.log("keystroke: %d", e.which);
+                //console.log("keystroke: %d", e.which);
 
                 clearTimeout(pauseTimeout);
                 pauseTimeout = setTimeout(run, 30000);
@@ -50,21 +50,21 @@
                     if (!paused) {
                         pause( );
                     }
-                    console.log("Going to previous content");
+                    //console.log("Going to previous content");
                     previous_content( );
                 } else if (e.which == 68 || e.which == 100) {
                     if (!paused) {
-                        console.log("Pausing");
+                        //console.log("Pausing");
                         pause( );
                     } else {
-                        console.log("Resuming");
+                        //console.log("Resuming");
                         run( );
                     }
                 } else if (e.which == 71 || e.which == 103) {
                     if (!paused) {
                         pause( );
                     }
-                    console.log("Going to next content");
+                    //console.log("Going to next content");
                     next_content( );
                 }
                     
@@ -134,11 +134,11 @@
                                         field["prevdiv"] = undefined;
                                         field["prevdivs"] = [];
                                         
-                                        console.log("field %d:", i);
+                                        //console.log("field %d:", i);
                                         //console.dir(field);
 
                                         if (field["width"] > 700) {
-                                            console.log("Using field %d\n", i);
+                                            //console.log("Using field %d\n", i);
                                             fieldToControl = i;
                                         }
 
@@ -228,11 +228,11 @@
 
             function garbage_collect() {
                 if (!paused) {
-                    console.log("Let the purging commence!");
+                    //console.log("Let the purging commence!");
                     $.each(fields, function(fieldId, field) { 
                             while (field["prevdivs"].length > maxContentToKeep) {
                                 var div = field["prevdivs"].shift();
-                                console.log("Purging an old div from field %d", fieldId);
+                                //console.log("Purging an old div from field %d", fieldId);
                                 div.remove();
                             }
                         }
@@ -244,10 +244,10 @@
             }
 
             function fetchContent(){
-                console.log("Fetching content...");
+                //console.log("Fetching content...");
                 // check if we're paused
                 if (paused && currentField == fieldToControl) {
-                    console.log("but we're paused!");
+                    //console.log("but we're paused!");
                     currentField++;
                     start( );
                     return;
@@ -290,7 +290,7 @@
                                         var img = new Image();
                                         //set onload event handler
                                         img.onload = function(){
-                                                console.log("Something looks like an image in field %d", currentField - 1);
+                                                //console.log("Something looks like an image in field %d", currentField - 1);
                                                 fieldToControl = currentField - 1;
 	                                        //create the image tag and add it to the DOM
 	                                        var div = $("<img>")
