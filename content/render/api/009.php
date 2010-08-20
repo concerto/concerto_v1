@@ -24,8 +24,8 @@
  * @version      $Revision$
  */
 //Content Rendering API
-//Version 0.08
-//Notes: You shouldn't be touching this file directly.  You should be calling through the render/index.php handler and passing the version 007
+//Version 0.09
+//Notes: You shouldn't be touching this file directly.  You should be calling through the render/index.php handler and passing the version 009
 include(COMMON_DIR.'user.php');     //Class to represent a site user
 include(COMMON_DIR.'feed.php');     //Class to represent a content feed
 include(COMMON_DIR.'content.php');  //Class to represent content items in the system
@@ -227,7 +227,7 @@ function render_rss($content_arr, $criteria){
         <description>RSS Feed from Concerto API</description>
         <language>en-us</language>
         <pubDate><?= rssdate("now") ?></pubDate>
-        <generator>Concerto API 0.08</generator>
+        <generator>Concerto API 0.09</generator>
         <webMaster><?= SYSTEM_EMAIL ?> (Concerto Digital Signage)</webMaster>
         <atom:link href="<?= 'http://' . $_SERVER['SERVER_NAME'] . htmlspecialchars($_SERVER['REQUEST_URI']) ?>" rel="self" type="application/rss+xml" />
         <image>
@@ -285,7 +285,7 @@ function render_rss($content_arr, $criteria){
             <link><?= $link ?></link>
             <description><?= $desc ?></description>
             <pubDate><?= rssdate($content->submitted) ?></pubDate>
-            <author><?= $user->username ?>@rpi.edu (<?= htmlspecialchars(utf8_encode($user->name)) ?>)</author>
+            <author><?= $user->email ?> (<?= htmlspecialchars(utf8_encode($user->name)) ?>)</author>
             <guid isPermaLink="false"><?= 'http://' . $_SERVER['SERVER_NAME'] . ADMIN_URL ?>/content/show/<?= $content->id ?></guid>
 <?          foreach($feeds as $feed_obj){
                 if($feed_obj['moderation_flag'] == 1 && $feed_obj['feed']->type != 3){
