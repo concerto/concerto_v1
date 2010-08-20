@@ -40,6 +40,9 @@ class  wallController extends Controller
                                              AND feed_content.moderation_flag = 1
                                              AND content.start_time <= NOW() AND content.end_time >= NOW() AND content.mime_type LIKE "%image%"');
       $this->content_count = array();
+      if(!is_array($this->feeds)){
+        $this->feeds = array();
+      }
       foreach($this->feeds as $id => $feed){
           $sql = "SELECT COUNT(content.id) FROM feed_content
                 LEFT JOIN content ON feed_content.content_id = content.id
