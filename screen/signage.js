@@ -193,6 +193,7 @@
         
         //function to fit text perfectly in the specified box
         fitBox: function(height, top){
+          if(/\S/.test($(this).text())){
             //define high and low bound for the font sizing
             var high = 64;
             var low = 0;
@@ -217,7 +218,16 @@
             //center the div
             $(this).css("top", top + (height - $(this).height()) / 2);
             //return current div
-            return $(this);
+          } else {
+              child = $(this).children(":first");
+              if(child){
+                $(this).css({"position": "absolute",
+                             "left": $(this).css('left') + ($(this).width() - child.width) / 2,
+                             "top": $(this).css('top') + ($(this).height() - child.height) / 2
+                           });
+              }
+          }
+          return $(this);
         }
 	});
 })(jQuery);
