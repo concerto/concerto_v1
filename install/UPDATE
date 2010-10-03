@@ -1,12 +1,11 @@
-If you are running a 1.9.1 or below version of Concerto, and would like to upgrade to Concerto 1.9.2 this may be of some help:
-0.  Backup everything.  I make a habit of cp -R concerto ~/current_concerto just to make sure I don't loose anything.
+If you are running a 1.9.2 or an earlier version of Concerto, and would like to upgrade to Concerto 1.9.3 this may be of some help:
+0.  Backup everything.  I make a habit of cp -R concerto ~/current_concerto just to make sure I don't loose anything.  A SQL dump wouldn't hurt either.
 1.  Replace all your Concerto files with the new ones, obviously nothing in your content/images or content/templates directory 
     should get overridden, neither should your config.inc.php. 
-2.  Open up config.inc.php and delete the VERSION line that say 1.9.2.  This is stored in its own file so you don't have to
+2.  [ONLY IF YOU SKIPPED VERSION 1.9.2] Open up config.inc.php and delete any line that defines a VERSION.  This is stored in its own file so you don't have to
     manually update it anymore.
-3.  If you use Info Pages a lot (specifically the categories) and have been getting errors, you'll want to set "auto increment"
+3.  [ONLY IF YOU SKIPPED VERSION 1.9.2] If you use Info Pages a lot (specifically the categories) and have been getting errors, you'll want to set "auto increment"
     on the id field of the "page_category" table.  You should probably backup your database first, and watch out for any
     categories with id=0.
-4.  If you're using memcache or do any php caching, you should restart the appropriate services.  There were a few changes to
-    image rendering and you might have bad caches for transparent PNG's.
-5.  Enjoy Concerto 1.9.2.  If you have any feedback, send it along!
+4.  If you're using memcache or do any php caching, you should restart the appropriate services.
+5.  Enjoy Concerto 1.9.3.  If you have any feedback, send it along!

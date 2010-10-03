@@ -24,6 +24,6 @@
  * @version      $Revision: 558 $
  */
 
-define('CONCERTO_VERSION', '1.9.2');
+define('CONCERTO_VERSION', '1.9.3');
 
 ?>
