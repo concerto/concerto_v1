@@ -151,7 +151,7 @@ function screen_offline_mail( ) {
     }
     $downed_screens = Array( );
     foreach ($screens as $screen) {
-        if ($screen->went_down()) {
+        if ($screen->went_down() && $screen->type == 0) {
             $downed_screens[] = $screen;
         }
     }
