@@ -10,7 +10,7 @@ INSERT INTO `page_category` (`id`, `path`, `name`, `layout`, `default_page`) VAL
 INSERT INTO `type` (`id`, `name`) VALUES (1, 'Text'), (2, 'Ticker'), (3, 'Graphics'), (4, 'Dynamic Data');
 INSERT INTO `user` (`id`, `username`, `password`, `name`, `email`, `admin_privileges`, `allow_email`) VALUES (1, 'admin', '', 'System Administrator', 'admin@yoursite.com', 1, 0);
 UPDATE `user` SET `id` = 0 WHERE `id` = 1;
-INSERT INTO `user_group` (`user_id` ,`group_id`)VALUES ('0', '1');
+INSERT INTO `user_group` (`user_id` ,`group_id`)VALUES ('0', '0');
 
 ##Optional Data....
 ## A sampling from our support center
