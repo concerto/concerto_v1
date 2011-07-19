@@ -150,11 +150,47 @@ class contentController extends Controller
       $dat = $_POST['content'];
       if($_POST['submit']!='Add another feed') {
 
-         if($dat['upload_type']=='file')
+         if($dat['upload_type']=='file'){
             $content_val = $_FILES['content_file'];
-         else
+            if( $content_val['error'] != UPLOAD_ERR_OK ){
+               switch( $content_val['error'] ){
+                  case UPLOAD_ERR_INI_SIZE:
+                     $this->flash('Your content submission failed. '.
+                                  'The uploaded file exceeds the upload_max_filesize directive in php.ini.');
+                     break;
+                  case UPLOAD_ERR_FORM_SIZE:
+                     $this->flash('Your content submission failed. '.
+                                  'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the form.');
+                     break;
+                  case UPLOAD_ERR_PARTIAL:
+                     $this->flash('Your content submission failed. '.
+                                  'The uploaded file was only partially uploaded.');
+                     break;
+                  case UPLOAD_ERR_NO_FILE:
+                     $this->flash('Your content submission failed. '.
+                                  'No file was uploaded.');
+                     break;
+                  case UPLOAD_ERR_NO_TMP_DIR:
+                     $this->flash('Your content submission failed. '.
+                                  'Missing a temporary folder.');
+                     break;
+                  case UPLOAD_ERR_CANT_WRITE:
+                     $this->flash('Your content submission failed. '.
+                                  'Failed to write file to disk.');
+                     break;
+                  case UPLOAD_ERR_EXTENSION:
+                     $this->flash('Your content submission failed. '.
+                                  'File upload stopped by extension.');
+                     break;
+                  default:
+                     $this->flash('Your content submission failed. '.
+                                  'Unknown upload error.');
+               }
+               redirect_to(ADMIN_URL.'/content/new');
+            }
+         }else
             $content_val = $dat['content'];
-         
+
          if(is_array($dat['feeds'])) $feed_ids=array_unique(array_values($dat['feeds']));
          else $feed_ids=Array();
 
