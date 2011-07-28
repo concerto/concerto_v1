@@ -1,1 +1,6 @@
 config.inc.php
+content/render/render_log
+content/images/*.*
+content/templates/*.*
+content/images/cache/*
+content/templates/cache/*
