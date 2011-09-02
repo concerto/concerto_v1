@@ -23,7 +23,7 @@
  * @license      GPLv2, see www.gnu.org/licenses/gpl-2.0.html
  * @version      $Revision$
  */
-?><h2>Select a user from the username-sorted list on the left, and click the "Add" button to add that user to your group. <a href="<?= ADMIN_URL ?>/pages/show/docs/21#s1"><img class="icon" border="0" src="<?= ADMIN_BASE_URL ?>images/help_button.gif" alt="Extra Help" title="Extra Help" /></a></h2>
+?><h2>Select a user from the RCS-sorted list on the left, and click the "Add" button to add that user to your group. <a href="<?= ADMIN_URL ?>/pages/show/docs/21#s1"><img class="icon" border="0" src="<?= ADMIN_BASE_URL ?>images/help_button.gif" alt="Extra Help" title="Extra Help" /></a></h2>
 <form method="POST" action="<?=ADMIN_URL?>/groups/subscribe/<?=$this->group->id?>">
 <select id="user" name="user">
    <option value=""> </option>
