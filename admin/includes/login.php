@@ -36,7 +36,7 @@
 
 //Get and setup the CAS client
 include('CAS/CAS.php');
-phpCAS::client(CAS_VERSION_2_0,'login.rpi.edu',443,'/cas');
+phpCAS::client(CAS_VERSION_2_0,'cas-auth.rpi.edu',443,'/cas');
 
 //the following functions are accessors to the login functionality
 //they are designed for use as "requirements" of site actions
