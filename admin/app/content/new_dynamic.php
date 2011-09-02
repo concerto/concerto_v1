@@ -154,7 +154,7 @@ foreach ($this->ndc_feeds as $arr) {
            </select> :
            <select id="dd_start_time_min" name="content[start_time_min]">
 <?php
-      for ($i = 0; $i < 60; $i ++)
+      for ($i = 0; $i < 60; $i = $i+5)
       {
          $tempi = str_pad($i, 2, "0", STR_PAD_LEFT);
          echo "<option value=\"{$tempi}\">{$tempi}</option>\n";
@@ -186,7 +186,7 @@ foreach ($this->ndc_feeds as $arr) {
            </select> :
            <select id="dd_end_time_min" name="content[end_time_min]">
 <?php
-      for ($i = 0; $i < 60; $i ++)
+      for ($i = 0; $i < 60; $i=$i+5)
       {
          $tempi = str_pad($i, 2, "0", STR_PAD_LEFT);
          echo "<option value=\"{$tempi}\">{$tempi}</option>\n";
