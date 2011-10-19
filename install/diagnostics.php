@@ -42,7 +42,7 @@
     <h1>PHP Enviroment</h1>
     <ul>
       <li>PHP Version: <?php echo php_v(); ?></li>
-      <li>Short Tag Support: <?php $t = fail("No");?><? $t = pass("Yes"); ?><?php echo $t; ?></li>
+      <li>Short Tag Support: <?php if (ini_get('short_open_tag') == 1 ) echo pass("OK"); else echo fail("Not enabled in PHP.INI");  ?></li>
       <li>MySQL Support: <?= mysql_ext();?></li>
       <li>GD Support: <?= gd_ext();?></li>
       <li>JSON Support: <?= json_test();?></li>
