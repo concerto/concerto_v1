@@ -266,6 +266,13 @@ class Dynamic{
         } else{
           $temp_text = $temp[0];
         }
+      }elseif($bailiwick['type'] == 'xml_a'){ //Sometimes it might be an attribute
+        $temp = $item->attributes();
+        if(is_numeric($bailiwick['item_num'])){
+          $temp_text = $temp[$bailiwick['value']][$bailiwick['item_num']];
+        } else{
+          $temp_text = $temp[$bailiwick['value']][0];
+        }
       }elseif($bailiwick['type'] == 'xml_ns'){ //Incase a special namespace needs to be registered first
         $item->registerXPathNamespace('ns', $bailiwick['namespace']);
         $temp = $item->xpath('ns:' . $bailiwick['value']);
@@ -338,7 +345,7 @@ class Dynamic{
       $type_id = $this->rules['type_id'];
     }
     if(isset($this->rules['mime_type'])){
-      $mimetype = $this->rules['mime_type'];
+      $mime_type = $this->rules['mime_type'];
     }
     if(isset($this->rules['start_time_str'])){
       $start_time_str = $this->rules['start_time_str'];
